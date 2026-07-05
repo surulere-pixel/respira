@@ -388,8 +388,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 }
 .respira-top{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:42px;}
 .brand-mark{display:flex;align-items:center;gap:10px;color:var(--soft);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:lowercase;}
-.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px rgba(201,163,106,.55);animation:brandPulse 3.6s ease-in-out infinite;}
-@keyframes brandPulse{0%,100%{transform:scale(1);opacity:.85;box-shadow:0 0 18px rgba(201,163,106,.5);}50%{transform:scale(1.28);opacity:1;box-shadow:0 0 30px rgba(201,163,106,.8);}}
+.brand-orb{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 38% 30%, #fdf3db 0%, #ecca8c 52%, #d3a862 80%);box-shadow:0 0 26px rgba(201,163,106,.6), inset 0 0 14px rgba(255,255,255,.65);animation:brandBreath 6.5s ease-in-out infinite;}
+@keyframes brandBreath{0%,100%{transform:scale(.8);box-shadow:0 0 14px rgba(201,163,106,.38), inset 0 0 8px rgba(255,255,255,.5);}46%{transform:scale(1.12);box-shadow:0 0 32px rgba(201,163,106,.72), inset 0 0 16px rgba(255,255,255,.75);}}
 .sound-panel{display:flex;align-items:center;gap:8px;opacity:.92;}
 .sound-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;color:var(--faint);}
 .sound-select{
@@ -962,7 +962,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
         <main class="respira-shell">
           <header class="respira-top">
             <div class="brand-mark" aria-label="respira">
-              <span class="brand-dot"></span>
+              <span class="brand-orb"></span>
             </div>
           </header>
 
@@ -1484,10 +1484,10 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     </style>
     <script>
     var ROOM_WALLPAPER={
-      airy:'linear-gradient(180deg,#f8f4ec 0%,#efe7d8 100%)',
-      vibey:'linear-gradient(180deg,#f6ead7 0%,#eed6b9 100%)',
-      flowy:'linear-gradient(180deg,#efd7c1 0%,#e0bd9f 100%)',
-      whispers:'linear-gradient(180deg,#ddbda4 0%,#c69b7d 100%)'
+      airy:'linear-gradient(165deg,#d6eae9 0%,#a6cdcb 100%)',
+      vibey:'linear-gradient(165deg,#f5d99b 0%,#e5a951 100%)',
+      flowy:'linear-gradient(165deg,#f2c2a2 0%,#db8b60 100%)',
+      whispers:'linear-gradient(165deg,#d9bed2 0%,#b088a4 100%)'
     };
     function setRoomWallpaper(cat){
       var c=(typeof radioNorm==='function')?radioNorm(cat):cat;
@@ -1890,7 +1890,7 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 </div>
 
 <!-- respira guides -->
-<div id="guides" style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
+<div id="guides" style="background:#efd6b0;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
       <div>
@@ -2105,7 +2105,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 </script>
 
 <!-- respira local -->
-<div id="local" style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
+<div id="local" style="background:#cfe3d6;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner" style="text-align:center;max-width:640px;margin:0 auto;">
     <div class="local-eyebrow">respira local</div>
     <h2 class="local-h2">a growing map.</h2>
@@ -2165,7 +2165,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 </script>
 
 <!-- studio directory -->
-<div id="directory" style="background:var(--bg);padding:0 clamp(1.5rem,5vw,5rem) clamp(3.5rem,6vw,6rem);">
+<div id="directory" style="background:#cfe3d6;padding:0 clamp(1.5rem,5vw,5rem) clamp(3.5rem,6vw,6rem);">
   <div class="inner" style="max-width:1000px;margin:0 auto;">
     <div style="text-align:center;">
       <div class="dir-eyebrow">respira 100</div>
@@ -2287,7 +2287,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 </script>
 
 <!-- blueprint -->
-<div id="blueprint" style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
+<div id="blueprint" style="background:#e0d3e8;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner" style="max-width:720px;margin:0 auto;">
     <div style="text-align:center;">
       <div class="bp-eyebrow">the blueprint</div>
@@ -2423,7 +2423,7 @@ function blueprintStart(){
 </script>
 
 <!-- respira goods -->
-<div id="goods" style="background:var(--bg-warm);border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
+<div id="goods" style="background:#f0dcb8;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
       <div>
@@ -2703,16 +2703,16 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <!-- mission + support -->
-<div style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
+<div style="background:linear-gradient(160deg,#2a1f18 0%,#4a2f20 100%);border-top:1px solid rgba(201,163,106,.25);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner" style="max-width:720px;">
-    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.1rem,2vw,1.35rem);font-weight:300;line-height:1.65;color:var(--ink);margin-bottom:2rem;">
+    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.1rem,2vw,1.35rem);font-weight:300;line-height:1.65;color:rgba(248,244,237,.9);margin-bottom:2rem;">
       respira is offered free by <a href="https://www.wearehappysunday.org/" style="color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(95,85,75,.35);">happy sunday</a>, a 501(c)(3) community wellbeing initiative of <a href="https://www.thebirthrightproject.org/" style="color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(95,85,75,.35);">the birthright project</a>. we build tools, spaces, and practices that expand access to collective care and wellbeing — across africa, latin america, the caribbean, and the diaspora.
     </p>
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--faint);line-height:1.9;margin-top:2rem;">
-      respira radio powered by <a href="https://www.themmaadd.org/" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">mmaadd soundlab</a>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.4);line-height:1.9;margin-top:2rem;">
+      respira radio powered by <a href="https://www.themmaadd.org/" style="color:rgba(201,163,106,.85);text-decoration:underline;text-underline-offset:3px;">mmaadd soundlab</a>
     </p>
-    <button onclick="openDonate()" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:14px 32px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.9);cursor:pointer;transition:all .2s ease;margin-top:2.25rem;">support the project →</button>
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--faint);margin-top:2.5rem;line-height:1.8;">
+    <button onclick="openDonate()" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:14px 32px;border-radius:999px;border:none;background:rgba(201,163,106,.96);color:#2a1f18;cursor:pointer;transition:all .2s ease;margin-top:2.25rem;">support the project →</button>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.38);margin-top:2.5rem;line-height:1.8;">
       respira · by happy sunday · a birthright labs initiative · prosperity is a human right
     </p>
   </div>
@@ -3230,7 +3230,7 @@ document.addEventListener("DOMContentLoaded", function() {
     breatheOptions.style.display = "block";
     moveOptions.style.display    = "none";
     backToStartBtn.style.display = "inline-flex";
-    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(180deg,#f8f3e9 0%,#efe4d0 100%)";
+    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(160deg,#f7d7a6 0%,#e8a05c 100%)";
   });
 
   pathMove.addEventListener("click", () => {
@@ -3239,7 +3239,7 @@ document.addEventListener("DOMContentLoaded", function() {
     moveOptions.style.display    = "block";
     breatheOptions.style.display = "none";
     backToStartBtn.style.display = "inline-flex";
-    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(180deg,#edf1e6 0%,#dbe4cf 100%)";
+    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(160deg,#cfe6b0 0%,#93c162 100%)";
   });
 
   slowmo5Btn.addEventListener("click",  () => beginWithCountdown(function(){ startSlowMo(5); }));
