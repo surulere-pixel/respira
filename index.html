@@ -538,7 +538,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .cstat{display:flex;flex-direction:column;align-items:center;}
 .cstat-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.8rem;font-weight:300;color:var(--ink);line-height:1;}
 .cstat-l{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:5px;}
-.radio-station-desc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:#9a7a3a;text-align:center;margin:2px auto 14px;max-width:400px;line-height:1.6;}
+.radio-station-desc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:#9a7a3a;text-align:center;margin:1.6rem auto 1.6rem;max-width:400px;line-height:1.6;}
 .entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:min(100%,520px);margin:0 auto;}
 .entry-tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;min-height:118px;justify-content:flex-end;}
 .entry-tile:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(55,42,29,.14);}
@@ -558,7 +558,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .st-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);}
 .st-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.5rem 0 0;}
 .st-lede{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.05rem,2.2vw,1.35rem);color:var(--soft);margin:.9rem auto 0;max-width:36ch;}
-.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0;}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:0;}
 .st-group-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(95,85,75,.6);margin:2.5rem 0 14px;text-align:center;}
 .st-group-label b{color:#9a7a3a;font-weight:500;}
 .st-group-2{margin-top:2.75rem;}
@@ -924,6 +924,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   <div class="nav-inner">
     <a href="#" class="nav-logo">res<em>pira</em></a>
     <div class="nav-links">
+      <a href="#feedback" class="beta-badge" title="building in public — tell us what to build next">v1 &middot; beta</a>
       <button id="nav-radio-btn" onclick="navRadioToggle()" style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.4rem .9rem;border-radius:999px;border:1px solid rgba(201,163,106,.3);background:#2a1f18;color:rgba(201,163,106,.8);cursor:pointer;transition:all .2s;">&#9655; play radio</button>
     </div>
   </div>
@@ -1309,18 +1310,34 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
       <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(95,85,75,.5);line-height:1.8;max-width:28ch;text-align:right;">free for studios, practices &amp; community spaces.<br>from the mmaadd soundlab.</p>
     </div>
 
-<div class="radio-hero">
-      <div class="rh-cover"><span class="station-tri"></span></div>
+<div class="radio-hero" id="radio-hero">
+      <div class="rh-cover" id="rh-cover"><span class="station-tri"></span></div>
       <div class="rh-body">
-        <div class="rh-tag">featured &middot; studio hours</div>
-        <h3 class="rh-title">studio hours 001</h3>
-        <p class="rh-desc">a warm instrumental sequence for mat work, longer holds, and quiet focus.</p>
-        <div class="rh-meta">8 tracks &middot; 42 min &middot; respira radio original</div>
-        <div class="rh-actions"><button class="rh-play" onclick="radioStartFirst()">&#9655; play</button><button class="rh-save" onclick="this.textContent=this.textContent.trim()==='save'?'saved ✓':'save';">save</button></div>
+        <div class="rh-tag">featured room</div>
+        <h3 class="rh-title" id="rh-title">flowy</h3>
+        <p class="rh-desc" id="rh-desc">wind-down &amp; slow movement.</p>
+        <div class="rh-meta" id="rh-meta">live &middot; respira radio</div>
+        <div class="rh-actions"><button class="rh-play" id="rh-play">&#9655; play</button></div>
       </div>
     </div>
+    <script>
+    (function(){
+      var rooms=[
+        {cat:'flowy', name:'flowy', desc:'wind-down & slow movement — a warm current for mat work and long holds.'},
+        {cat:'vibey', name:'vibey', desc:'focus & easy energy — grooves and low rhythm to keep you moving.'},
+        {cat:'airy',  name:'airy',  desc:'meditation & deep rest — open space, soft keys, room to breathe.'}
+      ];
+      var pick=rooms[Math.floor(Math.random()*rooms.length)];
+      var B="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/";
+      var cover=document.getElementById('rh-cover');
+      if(cover){ cover.innerHTML='<img class="cover-img" src="'+B+pick.cat+'.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span>'; }
+      var t=document.getElementById('rh-title'); if(t) t.textContent=pick.name;
+      var d=document.getElementById('rh-desc'); if(d) d.textContent=pick.desc;
+      var p=document.getElementById('rh-play'); if(p) p.onclick=function(){ if(typeof radioPlayStation==='function') radioPlayStation(pick.cat); };
+    })();
+    </script>
     <style>
-    .radio-hero{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;max-width:720px;margin:0 auto 2rem;padding:20px;background:#fbfaf4;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 34px rgba(55,42,29,.07);}
+    .radio-hero{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:center;max-width:720px;margin:0 auto 3rem;padding:20px;background:#fbfaf4;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 34px rgba(55,42,29,.07);}
     .rh-cover{aspect-ratio:1;border-radius:14px;position:relative;overflow:hidden;background:linear-gradient(145deg,#c9a36a,#7a5426);box-shadow:0 10px 26px rgba(0,0,0,.2);}
     .rh-cover::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.25),transparent 62%);}
     .rh-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;}
@@ -1358,7 +1375,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
         <button class="station-card sc-vibey" onclick="radioPlayStation('vibey')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/vibey.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">vibey</div><div class="station-cdesc">focus &amp; easy energy</div></button>
         
         <button class="station-card sc-airy" onclick="radioPlayStation('airy')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/airy.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">airy</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-whispers" onclick="radioPlayStation('whispers')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whispers.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whispers</div><div class="station-cdesc">spoken word &amp; poetry</div></button>
+        <button class="station-card sc-whispers" onclick="radioPlayStation('whispers')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whispers.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whispers</div><div class="station-cdesc">spoken word &amp; poetry &middot; coming soon</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a room to begin.</div>
 
@@ -1380,8 +1397,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
     <style>
     .radio-player{max-width:920px;margin:0 auto;}
-    .section-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#9a7a3a;margin:0 0 14px;}
-    .station-grid,.collection-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px;}
+    .section-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#9a7a3a;margin:0 0 20px;}
+    .station-grid,.collection-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px;}
     .station-card{position:relative;border:none;background:none;padding:0;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .2s ease;}
     .station-card:hover{transform:translateY(-4px);}
     .station-cover,.album-cover{aspect-ratio:1;border-radius:16px;position:relative;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.4);}
@@ -2121,7 +2138,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .dir-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;text-transform:lowercase;padding:7px 13px;border-radius:999px;border:1px solid rgba(95,85,75,.2);background:transparent;color:rgba(95,85,75,.7);cursor:pointer;transition:all .15s;}
 .dir-pill.on{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.6);color:var(--ink);}
 .dir-count{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:var(--faint);text-align:center;margin:1rem 0 1.4rem;}
-.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px;}
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:16px;}
 .dir-card{background:var(--card,#fbfaf4);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;}
 .dir-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
 .dir-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:300;color:var(--ink);line-height:1.1;}
@@ -2634,16 +2651,46 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 <!-- feedback -->
-<div style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(2rem,3vw,3rem) clamp(1.5rem,5vw,5rem);">
-  <div class="inner" style="max-width:720px;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+<div id="feedback" style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(2rem,3vw,3rem) clamp(1.5rem,5vw,5rem);scroll-margin-top:70px;">
+  <div class="inner" style="max-width:720px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
     <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,1.8vw,1.2rem);font-weight:300;color:var(--ink);flex:1;min-width:200px;">how much did respira help you pause today?</p>
     <div style="display:flex;gap:10px;">
       <button class="fb-btn" data-val="a little" onclick="rpFeedback('a little')" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;padding:10px 20px;border-radius:999px;border:1px solid rgba(95,85,75,.2);background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;">a little</button>
       <button class="fb-btn" data-val="a lot" onclick="rpFeedback('a lot')" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;padding:10px 20px;border-radius:999px;border:1px solid rgba(79,90,67,.3);background:rgba(79,90,67,.06);color:var(--sage-dark);cursor:pointer;transition:all .15s;">a lot</button>
     </div>
     <span id="feedback-thanks" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--sage-dark);">thank you ·</span>
+    </div>
+    <button class="fb-more" onclick="fbMore(this)">say more &rarr;</button>
+    <div class="fb-form" id="fb-form">
+      <textarea id="fb-text" class="fb-input" rows="3" placeholder="what worked, what didn't, what you'd want next..."></textarea>
+      <input id="fb-email" class="fb-input" placeholder="email — optional, if you'd like a reply">
+      <button class="fb-submit" onclick="fbSubmit()">send feedback</button>
+    </div>
+    <div id="fb-form-thanks" class="fb-form-thanks">thank you &mdash; this shapes what respira becomes.</div>
   </div>
 </div>
+<style>
+.beta-badge{font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:lowercase;padding:.4rem .8rem;border-radius:999px;border:1px solid rgba(95,85,75,.25);color:var(--soft);text-decoration:none;transition:all .2s;white-space:nowrap;}
+.beta-badge:hover{border-color:rgba(201,163,106,.6);color:var(--ink);}
+.fb-more{display:inline-block;margin-top:1.4rem;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:#9a7a3a;background:none;border:none;cursor:pointer;padding:0;}
+.fb-form{display:none;flex-direction:column;gap:8px;max-width:420px;margin:1rem 0 0;}
+.fb-input{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none;resize:vertical;}
+.fb-input::placeholder{color:rgba(95,85,75,.4);}
+.fb-submit{align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:11px 22px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.95);cursor:pointer;}
+.fb-form-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:#8a6a3a;margin-top:1rem;}
+</style>
+<script>
+function fbMore(btn){ var f=document.getElementById('fb-form'); if(f){ f.style.display = f.style.display==='flex' ? 'none' : 'flex'; } }
+function fbSubmit(){
+  var t=(document.getElementById('fb-text')||{value:''}).value, e=(document.getElementById('fb-email')||{value:''}).value;
+  if(!t.trim()){ var el=document.getElementById('fb-text'); if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'respira_feedback', feedback:t, email:e, _subject:'respira: feedback (say more)'})}); }catch(err){}
+  var f=document.getElementById('fb-form'); if(f) f.style.display='none';
+  var m=document.querySelector('.fb-more'); if(m) m.style.display='none';
+  var th=document.getElementById('fb-form-thanks'); if(th) th.style.display='block';
+}
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
