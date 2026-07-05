@@ -544,7 +544,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .entry-tile:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(55,42,29,.14);}
 .entry-icon{font-size:1.4rem;line-height:1;margin-bottom:auto;opacity:.85;}
 .entry-label{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6rem;font-weight:300;line-height:1;}
-.entry-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;opacity:.7;}
+.entry-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;opacity:.7;}
 .tile-breathe{background:var(--card,#fbfaf4);color:var(--ink);}
 .tile-breathe .entry-icon{color:#c9a36a;}
 .tile-move{background:rgba(79,90,67,.13);color:var(--ink);border-color:rgba(79,90,67,.2);}
@@ -1333,16 +1333,16 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     @media(max-width:560px){.radio-hero{grid-template-columns:1fr;text-align:center;}.rh-cover{max-width:200px;margin:0 auto;}.rh-actions{justify-content:center;}.rh-desc{margin-left:auto;margin-right:auto;}}
     </style>
 
-    <div id="radio-now-playing" style="display:flex;margin:0 auto 1.5rem;max-width:560px;padding:12px 16px;background:#fbfaf4;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(55,42,29,.06);align-items:center;gap:12px;">
-      <button onclick="radioPrev()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(201,163,106,.8);background:none;border:none;padding:4px 8px;cursor:pointer;transition:opacity .15s;line-height:1;" title="previous">&#9664;</button>
+    <div id="radio-now-playing" style="display:flex;margin:0 auto 1.5rem;max-width:560px;padding:12px 16px;background:#fbfaf4;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(55,42,29,.06);align-items:center;gap:10px 12px;flex-wrap:wrap;justify-content:center;">
+      <button onclick="radioPrev()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(201,163,106,.8);background:none;border:none;padding:4px 8px;cursor:pointer;transition:opacity .15s;line-height:1;" title="previous">&#9198;</button>
       <div id="radio-pulse" style="width:8px;height:8px;border-radius:50%;background:rgba(201,163,106,.3);flex-shrink:0;"></div>
-      <div style="flex:1;min-width:0;">
+      <div style="flex:1;min-width:130px;">
         <div id="radio-track-name" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.05rem;font-weight:300;color:rgba(95,85,75,.65);">
           <button onclick="radioStartFirst()" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1rem;font-weight:300;font-style:italic;color:rgba(201,163,106,.7);background:none;border:1px solid rgba(201,163,106,.25);border-radius:999px;padding:4px 18px;cursor:pointer;letter-spacing:.02em;">&#9655;</button>
         </div>
         <div id="radio-track-cat" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;color:rgba(95,85,75,.45);margin-top:2px;"></div>
       </div>
-      <button onclick="radioPlayNext()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(201,163,106,.8);background:none;border:none;padding:4px 8px;cursor:pointer;transition:opacity .15s;line-height:1;" title="next">&#9654;</button>
+      <button onclick="radioPlayNext()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(201,163,106,.8);background:none;border:none;padding:4px 8px;cursor:pointer;transition:opacity .15s;line-height:1;" title="next">&#9197;</button>
       <input type="range" id="radio-volume" min="0" max="1" step="0.01" value="0.6" style="width:70px;accent-color:rgba(201,163,106,.8);opacity:.6;cursor:pointer;">
       <button id="radio-loop-btn" onclick="radioToggleLoop()" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(201,163,106,.8);background:none;border:1px solid rgba(201,163,106,.2);border-radius:20px;padding:5px 12px;cursor:pointer;opacity:1;" title="loop on">↺ loop</button>
       <button id="radio-shuffle-btn" onclick="radioShuffle()" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(201,163,106,.8);background:none;border:1px solid rgba(201,163,106,.2);border-radius:20px;padding:5px 12px;cursor:pointer;opacity:1;" title="shuffle">⇄ shuffle</button>
@@ -1354,20 +1354,21 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     <div class="radio-player">
       <div class="section-label">the rooms</div>
       <div class="station-grid">
-        <button class="station-card sc-flowy" onclick="radioPlayStation('flowy')"><div class="station-cover"><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">flowy</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
-        <button class="station-card sc-vibey" onclick="radioPlayStation('vibey')"><div class="station-cover"><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">vibey</div><div class="station-cdesc">focus &amp; easy energy</div></button>
-        <button class="station-card sc-ire" onclick="radioPlayStation('ire')"><div class="station-cover"><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">iré</div><div class="station-cdesc">joy, light &amp; mornings</div></button>
-        <button class="station-card sc-airy" onclick="radioPlayStation('airy')"><div class="station-cover"><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">airy</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-whispers" onclick="radioPlayStation('whispers')"><div class="station-cover"><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whispers</div><div class="station-cdesc">spoken word &amp; poetry</div></button>
+        <button class="station-card sc-flowy" onclick="radioPlayStation('flowy')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/flowy.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">flowy</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
+        <button class="station-card sc-vibey" onclick="radioPlayStation('vibey')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/vibey.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">vibey</div><div class="station-cdesc">focus &amp; easy energy</div></button>
+        
+        <button class="station-card sc-airy" onclick="radioPlayStation('airy')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/airy.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">airy</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
+        <button class="station-card sc-whispers" onclick="radioPlayStation('whispers')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whispers.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whispers</div><div class="station-cdesc">spoken word &amp; poetry</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a room to begin.</div>
 
       <div class="section-label" style="margin-top:2.75rem;">collections &middot; from the soundlab</div>
       <div class="collection-row">
-        <div class="album-card ac-1"><div class="album-cover"><span class="station-tri"></span><span class="album-num">01</span></div><div class="album-title">siddartha in soweto</div><div class="album-sub">60 min &middot; coming soon</div></div>
-        <div class="album-card ac-2"><div class="album-cover"><span class="station-tri"></span><span class="album-num">02</span></div><div class="album-title">southern fried downdogs</div><div class="album-sub">90 min &middot; coming soon</div></div>
-        <div class="album-card ac-3"><div class="album-cover"><span class="station-tri"></span><span class="album-num">03</span></div><div class="album-title">slow arrival &mdash; 1pm african time</div><div class="album-sub">45 min &middot; coming soon</div></div>
-        <div class="album-card ac-4"><div class="album-cover"><span class="station-tri"></span><span class="album-num">04</span></div><div class="album-title">rasta man&rsquo;s savasana</div><div class="album-sub">75 min &middot; coming soon</div></div>
+        <div class="album-card ac-1"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/siddartha-in-soweto.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">siddartha in soweto</div><div class="album-sub">60 min &middot; coming soon</div></div>
+        <div class="album-card ac-2"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/southern-fried-downdogs.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">southern fried downdogs</div><div class="album-sub">90 min &middot; coming soon</div></div>
+        <div class="album-card ac-3"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/slow-arrival.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">slow arrival &mdash; african time</div><div class="album-sub">45 min &middot; coming soon</div></div>
+        <div class="album-card ac-4"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/rasta-savasana.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">rasta savasana</div><div class="album-sub">75 min &middot; coming soon</div></div>
+        <div class="album-card ac-5"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/sazon-con-asana.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">sazón con asana</div><div class="album-sub">65 min &middot; coming soon</div></div>
       </div>
 
       <div class="section-label" style="margin-top:2.75rem;">spotlight</div>
@@ -1384,10 +1385,11 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     .station-card{position:relative;border:none;background:none;padding:0;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .2s ease;}
     .station-card:hover{transform:translateY(-4px);}
     .station-cover,.album-cover{aspect-ratio:1;border-radius:16px;position:relative;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.4);}
+    .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
     .station-cover::after,.album-cover::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.20),transparent 62%);}
     .station-tri{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:58%;height:58%;clip-path:polygon(50% 0,100% 100%,0 100%);opacity:.20;background:rgba(255,255,255,.92);}
     .station-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:300;color:#33372a;line-height:1;}
-    .station-cdesc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.04em;color:rgba(95,85,75,.6);line-height:1.5;}
+    .station-cdesc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:rgba(95,85,75,.6);line-height:1.5;}
     .station-play{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;background:rgba(201,163,106,.96);color:#2a1f18;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transform:translateY(6px);transition:all .2s ease;box-shadow:0 6px 18px rgba(0,0,0,.45);z-index:2;}
     .station-card:hover .station-play,.station-card.active .station-play{opacity:1;transform:translateY(0);}
     .station-card.active .station-cover{outline:2px solid rgba(201,163,106,.85);outline-offset:2px;}
@@ -1401,11 +1403,12 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     .album-cover{display:flex;align-items:flex-end;padding:14px;}
     .album-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1;position:relative;z-index:2;}
     .album-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.2rem;font-weight:300;color:#33372a;line-height:1;}
-    .album-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.04em;color:rgba(95,85,75,.55);}
+    .album-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:rgba(95,85,75,.55);}
     .ac-1 .album-cover{background:linear-gradient(145deg,#c9a36a,#7a5426);}
     .ac-2 .album-cover{background:linear-gradient(145deg,#2f4a44,#152420);}
     .ac-3 .album-cover{background:linear-gradient(145deg,#8a4326,#3a1a10);}
     .ac-4 .album-cover{background:linear-gradient(145deg,#3c3c56,#1c1c2c);}
+    .ac-5 .album-cover{background:linear-gradient(145deg,#9a3a4a,#4a1824);}
     .spotlight-row{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
     .spot-head{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#9a7a3a;margin-bottom:8px;}
     .spot-track{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid rgba(95,85,75,.12);cursor:pointer;transition:opacity .15s;}
@@ -1413,8 +1416,16 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     .spot-dot{width:28px;height:28px;border-radius:7px;flex-shrink:0;background:linear-gradient(145deg,#463f2f,#221e15);position:relative;overflow:hidden;}
     .spot-dot::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(201,163,106,.5),transparent 65%);}
     .spot-tname{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.02rem;font-weight:300;color:#33372a;line-height:1.1;}
-    .spot-tcat{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;color:rgba(95,85,75,.45);text-transform:uppercase;}
-    @media(max-width:560px){.spotlight-row{grid-template-columns:1fr;gap:22px;}}
+    .spot-tcat{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(95,85,75,.45);text-transform:uppercase;}
+    @media(max-width:560px){
+      .spotlight-row{grid-template-columns:1fr;gap:22px;}
+      .station-grid,.collection-row{grid-template-columns:1fr 1fr;gap:10px;}
+      .station-card{gap:6px;}
+      .station-name,.album-title{font-size:1.15rem;}
+      .station-cdesc{font-size:9px;line-height:1.5;}
+      .radio-station-desc{margin:10px auto 8px;font-size:9.5px;}
+      .section-label{margin-bottom:10px;}
+    }
     </style>
     <script>
     function radioPlayStation(cat){
@@ -1535,15 +1546,15 @@ var radioAllTracks = [
   {slug:'township-morning-02', name:'township morning 02', cat:'vibey'},
   {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'vibey'},
   {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'vibey'},
-  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'iré'},
-  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'iré'},
-  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'iré'},
-  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'iré'},
-  {slug:'riverbend-808', name:'riverbend 808', cat:'iré'},
-  {slug:'yingi-yanga', name:'yingi yanga', cat:'iré'},
-  {slug:'coco-coconut', name:'coco coconut', cat:'iré'},
-  {slug:'rasta-savasana', name:'rasta savasana', cat:'iré'},
-  {slug:'945-in-kingston', name:'945 in kingston', cat:'iré'},
+  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'vibey'},
+  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'vibey'},
+  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'flowy'},
+  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'vibey'},
+  {slug:'riverbend-808', name:'riverbend 808', cat:'vibey'},
+  {slug:'yingi-yanga', name:'yingi yanga', cat:'vibey'},
+  {slug:'coco-coconut', name:'coco coconut', cat:'vibey'},
+  {slug:'rasta-savasana', name:'rasta savasana', cat:'flowy'},
+  {slug:'945-in-kingston', name:'945 in kingston', cat:'flowy'},
   {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'vibey'},
   {slug:'yogapiano', name:'yogapiano', cat:'vibey'},
   {slug:'zouk-asana', name:'zouk-asana', cat:'vibey'},
@@ -1553,9 +1564,9 @@ var radioAllTracks = [
   {slug:'cello-phane-again', name:'cello-phane again', cat:'flowy'},
   {slug:'sunset-no-delay', name:'sunset no delay', cat:'flowy'},
   {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'flowy'},
-  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'iré'},
+  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'flowy'},
   {slug:'yanya-yingi', name:'yanya yingi', cat:'vibey'},
-  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'iré'},
+  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'flowy'},
   {slug:'ancestor-hum', name:'ancestor hum', cat:'airy'},
   {slug:'calm-shore', name:'calm shore', cat:'airy'},
   {slug:'cartagena-breeze', name:'cartagena breeze', cat:'airy'},
@@ -2018,11 +2029,8 @@ document.addEventListener('DOMContentLoaded', renderGuides);
   <div class="inner" style="text-align:center;max-width:640px;margin:0 auto;">
     <div class="local-eyebrow">respira local</div>
     <h2 class="local-h2">a growing map.</h2>
-    <canvas id="local-globe" style="width:min(78vw,380px);height:min(78vw,380px);display:block;margin:1.5rem auto .5rem;"></canvas>
-    <div class="local-legend">
-      <span class="local-key"><i class="dot-live"></i>where we're active</span>
-      <span class="local-key"><i class="dot-plan"></i>where we're headed</span>
-    </div>
+    <div class="worldmap-wrap"><svg id="worldmap" viewBox="0 0 700 430" preserveAspectRatio="xMidYMid meet" role="img" aria-label="map of respira cities"></svg></div>
+    <div class="local-hint">tap a city to see its studios</div>
     <p class="local-sub">the practice, in person &mdash; taking root across the diaspora.<br>powered by sunday wellbeing movement.</p>
     <button class="local-join" onclick="localJoin()">bring respira to your city &rarr;</button>
   </div>
@@ -2041,81 +2049,38 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .local-join:hover{border-color:var(--sage-dark);color:var(--sage-dark);}
 </style>
 
+<style>
+.worldmap-wrap{width:100%;max-width:660px;margin:1.4rem auto .4rem;}
+#worldmap{width:100%;height:auto;display:block;}
+.wm-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;fill:var(--soft);text-transform:lowercase;pointer-events:none;}
+.wm-city{cursor:pointer;}
+.wm-city:hover .wm-label{fill:var(--ink);}
+.wm-city:hover .wm-dot{r:6.5;}
+.local-hint{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:#9a7a3a;text-align:center;margin-bottom:14px;}
+</style>
 <script>
-function localJoin(){
-  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'local_city_interest', _subject:'respira local: bring respira to a city'})}); }catch(e){}
-  var b=document.querySelector('.local-join');
-  if(b){ b.textContent="thank you \u2014 we'll be in touch \u2713"; b.disabled=true; b.style.opacity='0.6'; }
-}
 (function(){
-  var cv = document.getElementById('local-globe');
-  if(!cv) return;
-  var ctx = cv.getContext('2d');
-  var DPR = Math.min(2, window.devicePixelRatio || 1);
-  var size = 760;
-  cv.width = size*DPR; cv.height = size*DPR; ctx.scale(DPR, DPR);
-  var cx = size/2, cy = size/2, R = size*0.40, tilt = 20*Math.PI/180, lon0 = 20;
-  var places = [
-    {lat:33.7,lon:-84.4,live:1,city:'Atlanta'},{lat:29.8,lon:-95.4,live:0},{lat:18.0,lon:-76.8,live:1,city:'Kingston'},
-    {lat:10.4,lon:-75.5,live:0},{lat:-12.97,lon:-38.5,live:0},{lat:6.3,lon:-10.8,live:1},
-    {lat:5.6,lon:-0.2,live:1,city:'Accra'},{lat:6.5,lon:3.4,live:1,city:'Lagos'},{lat:9.1,lon:7.4,live:1},
-    {lat:-1.3,lon:36.8,live:1,city:'Nairobi'},{lat:-6.2,lon:39.2,live:0},{lat:-26.2,lon:28.0,live:1,city:'Johannesburg'},
-    {lat:40.71,lon:-74.01,live:1,city:'New York'},{lat:51.51,lon:-0.13,live:1,city:'London'},{lat:-23.55,lon:-46.63,live:1,city:'São Paulo'},{lat:19.43,lon:-99.13,live:1,city:'Mexico City'}
-  ];
-  function proj(lat, lon){
-    var la=lat*Math.PI/180, lo=(lon-lon0)*Math.PI/180;
-    var x=Math.cos(la)*Math.sin(lo);
-    var y=Math.cos(tilt)*Math.sin(la)-Math.sin(tilt)*Math.cos(la)*Math.cos(lo);
-    var z=Math.sin(tilt)*Math.sin(la)+Math.cos(tilt)*Math.cos(la)*Math.cos(lo);
-    return {x:cx+R*x, y:cy-R*y, z:z};
-  }
-  function graticule(){
-    ctx.strokeStyle='rgba(95,85,75,0.12)'; ctx.lineWidth=1;
-    var lat,lon,p,started;
-    for(lat=-60; lat<=60; lat+=30){ ctx.beginPath(); started=false;
-      for(lon=-180; lon<=180; lon+=4){ p=proj(lat,lon);
-        if(p.z>=0){ if(!started){ctx.moveTo(p.x,p.y);started=true;} else ctx.lineTo(p.x,p.y);} else started=false; }
-      ctx.stroke(); }
-    for(lon=-180; lon<180; lon+=30){ ctx.beginPath(); started=false;
-      for(lat=-90; lat<=90; lat+=4){ p=proj(lat,lon);
-        if(p.z>=0){ if(!started){ctx.moveTo(p.x,p.y);started=true;} else ctx.lineTo(p.x,p.y);} else started=false; }
-      ctx.stroke(); }
-  }
-  var t=0;
-  function frame(){
-    ctx.clearRect(0,0,size,size);
-    var g=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,R*0.2,cx,cy,R);
-    g.addColorStop(0,'rgba(255,250,242,0.92)'); g.addColorStop(1,'rgba(232,221,203,0.5)');
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.strokeStyle='rgba(201,163,106,0.32)'; ctx.lineWidth=1.5; ctx.stroke();
-    graticule();
-    t+=0.03;
-    places.forEach(function(pl){
-      var p=proj(pl.lat,pl.lon); if(p.z<=0.02) return;
-      var fade=Math.min(1,p.z*1.5);
-      var pulse=pl.live ? (0.55+0.45*Math.sin(t+pl.lon*0.1)) : 0.5;
-      var col=pl.live ? '201,163,106' : '95,110,86';
-      var r=pl.live?3.4:2.6;
-      var gg=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*4);
-      gg.addColorStop(0,'rgba('+col+','+(0.55*fade*pulse)+')'); gg.addColorStop(1,'rgba('+col+',0)');
-      ctx.beginPath(); ctx.fillStyle=gg; ctx.arc(p.x,p.y,r*4,0,Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.fillStyle='rgba('+col+','+fade+')'; ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
-    });
-    lon0=(lon0+0.16)%360;
-  }
-  cv.style.cursor='pointer';
-  cv.addEventListener('click', function(e){
-    var rect=cv.getBoundingClientRect(); if(!rect.width) return;
-    var sc=size/rect.width, mx=(e.clientX-rect.left)*sc, my=(e.clientY-rect.top)*sc, best=null, bd=1e9;
-    for(var i=0;i<places.length;i++){ var p=proj(places[i].lat,places[i].lon); if(p.z<=0.02) continue; var d=Math.sqrt((p.x-mx)*(p.x-mx)+(p.y-my)*(p.y-my)); if(d<28 && d<bd){ bd=d; best=places[i]; } }
-    if(best && best.city && typeof dirFilterCity==='function') dirFilterCity(best.city);
+  var svg=document.getElementById('worldmap'); if(!svg) return;
+  var COORDS={'Atlanta':[33.7,-84.4],'New York':[40.71,-74.01],'London':[51.51,-0.13],'Lagos':[6.5,3.4],'Accra':[5.6,-0.2],'Nairobi':[-1.3,36.8],'Kingston':[18.0,-76.8],'São Paulo':[-23.55,-46.63],'Mexico City':[19.43,-99.13],'Johannesburg':[-26.2,28.0]};
+  var ADJ={'Accra':{dy:20},'Lagos':{dy:-13},'Kingston':{dy:-13},'Mexico City':{dy:20}};
+  var lonMin=-112, lonMax=48, latMin=-38, latMax=60, W=700, H=430;
+  function px(lon){ return (lon-lonMin)/(lonMax-lonMin)*W; }
+  function py(lat){ return (latMax-lat)/(latMax-latMin)*H; }
+  var NS='http://www.w3.org/2000/svg';
+  function mk(tag,a){ var e=document.createElementNS(NS,tag); for(var k in a){ e.setAttribute(k,a[k]); } return e; }
+  var g=mk('g',{});
+  for(var lon=-90;lon<=30;lon+=30){ g.appendChild(mk('line',{x1:px(lon),y1:0,x2:px(lon),y2:H,stroke:'rgba(95,85,75,0.09)','stroke-width':'1'})); }
+  for(var lat=-30;lat<=60;lat+=30){ g.appendChild(mk('line',{x1:0,y1:py(lat),x2:W,y2:py(lat),stroke:'rgba(95,85,75,0.09)','stroke-width':'1'})); }
+  svg.appendChild(g);
+  Object.keys(COORDS).forEach(function(city){
+    var c=COORDS[city], x=px(c[1]), y=py(c[0]), adj=ADJ[city]||{};
+    var grp=mk('g',{'class':'wm-city'});
+    grp.appendChild(mk('circle',{cx:x,cy:y,r:'15',fill:'rgba(201,163,106,0.13)'}));
+    grp.appendChild(mk('circle',{cx:x,cy:y,r:'5','class':'wm-dot',fill:'rgba(201,163,106,0.95)'}));
+    var t=mk('text',{x:x+(adj.dx||0),y:y+(adj.dy||-12),'text-anchor':'middle','class':'wm-label'}); t.textContent=city.toLowerCase(); grp.appendChild(t);
+    grp.addEventListener('click',function(){ if(typeof dirFilterCity==='function') dirFilterCity(city); });
+    svg.appendChild(grp);
   });
-  var running=false;
-  function loop(){ if(!running) return; frame(); requestAnimationFrame(loop); }
-  try{
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ running=e.isIntersecting; if(running) loop(); }); },{threshold:0.05});
-    io.observe(cv);
-  }catch(e){ running=true; loop(); }
 })();
 </script>
 
@@ -2123,9 +2088,9 @@ function localJoin(){
 <div id="directory" style="background:var(--bg);padding:0 clamp(1.5rem,5vw,5rem) clamp(3.5rem,6vw,6rem);">
   <div class="inner" style="max-width:1000px;margin:0 auto;">
     <div style="text-align:center;">
-      <div class="dir-eyebrow">the directory</div>
-      <h3 class="dir-h">studios in the network.</h3>
-      <p class="dir-lede">women-led, black- and latina-owned spaces holding the practice around the world.</p>
+      <div class="dir-eyebrow">respira 100</div>
+      <h3 class="dir-h">the curated hundred.</h3>
+      <p class="dir-lede">ten cities, ten spaces each &mdash; women-led, black- and latina-owned studios holding the practice. growing.</p>
     </div>
     <div class="dir-filters"><div class="dir-filter-row" id="dir-cities"></div><div class="dir-filter-row" id="dir-owns"></div></div>
     <div class="dir-count" id="dir-count"></div>
@@ -2161,9 +2126,9 @@ function localJoin(){
 .dir-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
 .dir-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:300;color:var(--ink);line-height:1.1;}
 .dir-rating{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#9a7a3a;flex-shrink:0;white-space:nowrap;}
-.dir-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:lowercase;color:var(--sage-dark);background:rgba(79,90,67,.09);border-radius:999px;padding:4px 10px;align-self:flex-start;}
+.dir-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:lowercase;color:var(--sage-dark);background:rgba(79,90,67,.09);border-radius:999px;padding:4px 10px;align-self:flex-start;}
 .dir-vibe{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.02rem;color:var(--soft);line-height:1.45;}
-.dir-meta{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.03em;color:var(--faint);line-height:1.6;}
+.dir-meta{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--faint);line-height:1.6;}
 .dir-actions{display:flex;gap:4px;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;}
 .dir-actions a{color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:1px;}
 .dir-actions a:hover{color:var(--ink);}
@@ -2196,10 +2161,11 @@ function dirCard(s){
     +'<div class="dir-actions">'+acts.join(' &middot; ')+'</div>'
     +'</div>';
 }
+function dirCurated(){ var seen={},out=[]; for(var i=0;i<DIR.length;i++){ var c=DIR[i].c; seen[c]=(seen[c]||0)+1; if(seen[c]<=10) out.push(DIR[i]); } return out; }
 function dirRender(){
   var grid=document.getElementById('dir-grid'); if(!grid) return;
-  var list=DIR.filter(function(s){ return (dirCity==='all'||s.c===dirCity) && dirOwnMatch(s.o,dirOwn); });
-  var cnt=document.getElementById('dir-count'); if(cnt) cnt.textContent=list.length+' studios'+(dirCity!=='all'?(' in '+dirCity.toLowerCase()):' across 10 cities');
+  var list=dirCurated().filter(function(s){ return (dirCity==='all'||s.c===dirCity) && dirOwnMatch(s.o,dirOwn); });
+  var cnt=document.getElementById('dir-count'); if(cnt) cnt.textContent=list.length+' spaces'+(dirCity!=='all'?(' in '+dirCity.toLowerCase()):' · 10 cities');
   grid.innerHTML=list.map(dirCard).join('');
 }
 function dirFilterCity(city){
@@ -2500,7 +2466,7 @@ function blueprintStart(){
 .gf-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.9);}
 .gf-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:var(--ink);line-height:1;margin:8px 0 0;}
 .gf-tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.4rem);color:var(--soft);margin:6px 0 0;}
-.gf-incl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:var(--soft);margin:14px 0 0;text-transform:lowercase;}
+.gf-incl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--soft);margin:14px 0 0;text-transform:lowercase;}
 .gf-price{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.7rem;font-weight:400;color:var(--ink);margin:16px 0 0;}
 .gf-price span{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--faint);}
 .gf-colors{display:flex;gap:10px;margin:14px 0 0;flex-wrap:wrap;}
@@ -2520,7 +2486,7 @@ function blueprintStart(){
 .shelf-feature{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,28px);align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(14px,2.5vw,20px);margin-bottom:1.5rem;}
 .sf-media{border-radius:14px;overflow:hidden;background:#2a1f18;aspect-ratio:4/3;}
 .sf-media img{width:100%;height:100%;object-fit:cover;display:block;}
-.sf-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;}
+.sf-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;}
 .sf-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:300;color:var(--ink);line-height:1;margin:6px 0 0;}
 .sf-desc{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:var(--soft);margin:8px 0 0;line-height:1.5;}
 .sf-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:lowercase;color:#7a3a22;margin:12px 0 0;}
@@ -2530,7 +2496,7 @@ function blueprintStart(){
 .sf-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:#8a6a3a;margin-top:10px;}
 .bg-add{text-align:center;margin:3rem auto 0;max-width:520px;padding:1.9rem;background:var(--cream);border:1px dashed rgba(95,85,75,.3);border-radius:20px;}
 .bg-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:300;color:var(--ink);}
-.bg-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--soft);line-height:1.7;margin:.7rem auto 1.3rem;max-width:46ch;}
+.bg-copy{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:var(--soft);line-height:1.7;margin:.7rem auto 1.3rem;max-width:46ch;}
 .bg-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 26px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.95);cursor:pointer;}
 .bg-form{display:none;flex-direction:column;gap:8px;max-width:360px;margin:1.3rem auto 0;}
 .bg-input{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none;}
