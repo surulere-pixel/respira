@@ -1,0 +1,351 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>respira · studio — class builder</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%232a1f18%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%278%27%20fill%3D%27%23c9a36a%27%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head><style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#f7f4ec;--ink:#33372a;--soft:#5f554b;--faint:rgba(95,85,75,.5);--gold:#9a7a3a;--terra:#a5442f;--coffee:#2a1f18;--cream:#fbfaf4;--line:rgba(95,85,75,.16);}
+body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.wrap{max-width:840px;margin:0 auto;padding:clamp(1.2rem,4vw,2.5rem);}
+/* header */
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.hd-logo{font-family:'Cormorant Garamond';font-weight:300;font-size:1.5rem;}
+.hd-logo em{font-style:normal;color:var(--gold);}
+.hd-back{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--soft);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;}
+/* hero band */
+.sb-hero{background:linear-gradient(135deg,#a5442f 0%,#6a2f1f 45%,#2a1f18 100%);border-radius:22px;padding:clamp(1.8rem,4vw,2.6rem);color:#f7f4ec;position:relative;overflow:hidden;margin-bottom:1.6rem;}
+.sb-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 22% 20%,rgba(201,163,106,.2),transparent 55%);}
+.sb-hero>*{position:relative;z-index:1;}
+.sb-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.9);}
+.sb-h{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(2rem,5vw,3rem);line-height:1.02;margin:.4rem 0 0;}
+.sb-lede{font-family:'Cormorant Garamond';font-style:italic;font-size:1.05rem;color:rgba(248,244,237,.72);margin:.7rem 0 0;max-width:44ch;}
+/* setup card */
+.card{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:clamp(1.2rem,3vw,1.8rem);margin-bottom:1.4rem;}
+.lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:var(--gold);margin-bottom:.7rem;}
+.mins{font-family:'Cormorant Garamond';font-weight:300;font-size:3.4rem;line-height:1;}
+.mins small{font-size:1rem;color:var(--soft);font-style:italic;}
+input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4px;cursor:pointer;}
+.snaps{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--faint);margin-top:4px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;}
+.seg{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:lowercase;padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;}
+.seg.on{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.6);color:var(--ink);}
+.sel{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);width:100%;}
+/* timeline bar */
+.tl{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:1rem 0 .3rem;border:1px solid var(--line);}
+.tl-seg{height:100%;}
+.tl-total{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--faint);text-align:right;}
+/* blocks */
+.blk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.blk-top{display:flex;align-items:center;gap:10px;}
+.blk-move{display:flex;flex-direction:column;gap:2px;}
+.blk-move button{font-family:'IBM Plex Mono',monospace;font-size:9px;background:none;border:none;color:var(--faint);cursor:pointer;line-height:1;padding:1px;}
+.blk-name{flex:1;font-family:'Cormorant Garamond';font-weight:400;font-size:1.25rem;color:var(--ink);border:none;background:none;outline:none;min-width:0;}
+.blk-dur{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.blk-dur button{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--soft);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1;}
+.blk-min{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);min-width:34px;text-align:center;}
+.blk-x{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint);background:none;border:none;cursor:pointer;flex-shrink:0;}
+.blk-cues{width:100%;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.7;color:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);resize:vertical;min-height:52px;outline:none;}
+.blk-tools{display:flex;gap:12px;margin-top:8px;}
+.blk-gen{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;}
+.add-blk{width:100%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;color:var(--soft);background:none;border:1px dashed var(--line);border-radius:12px;padding:11px;cursor:pointer;margin-top:4px;}
+/* actions */
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:1.6rem;}
+.btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:15px 30px;border-radius:999px;border:none;cursor:pointer;}
+.btn-play{background:var(--coffee);color:rgba(201,163,106,.95);flex:1;min-width:160px;}
+.btn-pdf{background:transparent;border:1px solid var(--line);color:var(--ink);}
+.hint{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);margin-top:1rem;line-height:1.7;}
+/* runner overlay */
+#runner{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,#2a1f18,#1a130e);color:#f7f4ec;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#runner.on{display:flex;}
+.rn-block{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.85);}
+.rn-time{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(4rem,16vw,7rem);line-height:1;margin:.4rem 0;}
+.rn-cue{font-family:'Cormorant Garamond';font-style:italic;font-size:clamp(1.3rem,4vw,2rem);color:rgba(248,244,237,.9);max-width:22ch;min-height:2.4em;line-height:1.4;transition:opacity .5s;}
+.rn-next{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.4);margin-top:1.4rem;}
+.rn-ctrl{display:flex;gap:10px;margin-top:2rem;align-items:center;}
+.rn-ctrl button{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(248,244,237,.85);background:none;border:1px solid rgba(201,163,106,.4);border-radius:999px;padding:11px 20px;cursor:pointer;}
+.rn-prog{position:fixed;top:0;left:0;height:3px;background:rgba(201,163,106,.9);width:0;transition:width 1s linear;}
+.rn-x{position:fixed;top:18px;right:18px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(248,244,237,.6);background:none;border:none;cursor:pointer;}
+.rn-music{position:fixed;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:rgba(248,244,237,.4);}
+@media print{
+  body{background:#fff;}.hd-back,.acts,.sb-hero .sb-lede,.add-blk,.blk-tools,.blk-move,.blk-dur button,.blk-x,input[type=range],.snaps,.row,#runner{display:none!important;}
+  .card,.blk{border:none;background:#fff;padding:0;margin:0 0 10px;}.sb-hero{background:none;color:var(--ink);padding:0;margin-bottom:.5rem;}
+  .sb-hero::after{display:none;}.sb-eye,.sb-h{color:var(--ink);}.wrap{max-width:100%;}
+}
+</style><body>
+<div class="wrap" id="builder">
+  <div class="hd"><div class="hd-logo">res<em>pira</em> · studio</div><a class="hd-back" href="/">&larr; back to respira</a></div>
+  <div class="sb-hero">
+    <div class="sb-eye">class builder &middot; beta</div>
+    <div class="sb-h" id="pdf-title">untitled class</div>
+    <div class="sb-lede">set a length, shape the arc, drop in cues &amp; music. save it, then walk in and press play. built for flow, pilates, mobility, breathwork, meditation &amp; coaching.</div>
+  </div>
+
+  <div class="card">
+    <div class="lab">class name</div>
+    <input class="sel" id="cname" placeholder="e.g. sunday slow flow" oninput="document.getElementById('pdf-title').textContent=this.value||'untitled class'">
+  </div>
+
+  <div class="card">
+    <div class="lab">length</div>
+    <div class="mins"><span id="minsVal">60</span> <small>minutes</small></div>
+    <input type="range" id="lenRange" min="30" max="90" step="15" value="60" oninput="setLen(this.value)">
+    <div class="snaps"><span>30</span><span>45</span><span>60</span><span>75</span><span>90</span></div>
+    <div class="lab" style="margin-top:1.4rem;">discipline</div>
+    <div class="row" id="discRow"></div>
+    <div class="lab" style="margin-top:1.4rem;">music</div>
+    <select class="sel" id="music">
+      <option value="all">respira radio · shuffle (plays all the way through)</option>
+      <option value="flowy">wind-down pack · flowy</option>
+      <option value="vibey">energy pack · vibey</option>
+      <option value="airy">meditation pack · airy</option>
+    </select>
+    <div class="hint" style="margin-top:.6rem;">no song-picking &mdash; a pack matched to your length, or respira radio on shuffle. it just plays.</div>
+  </div>
+
+  <div class="card">
+    <div class="lab">the arc <span style="color:var(--faint);">&middot; drag durations, add cues</span></div>
+    <div class="tl" id="tl"></div>
+    <div class="tl-total mono" id="tlTotal"></div>
+    <div id="blocks" style="margin-top:1rem;"></div>
+    <button class="add-blk" onclick="addBlock()">+ add a section</button>
+  </div>
+
+  <div class="acts">
+    <button class="btn btn-play" onclick="startClass()">&#9655; start class</button>
+    <button class="btn btn-pdf" onclick="window.print()">download / print pdf</button>
+  </div>
+  <div class="hint">this is a beta &mdash; a teacher tool for building &amp; running a class. multilingual studio mode (students pick their language on earphones) is coming next.</div>
+</div>
+
+<div id="runner">
+  <div class="rn-prog" id="rnProg"></div>
+  <button class="rn-x" onclick="stopClass()">end &times;</button>
+  <div class="rn-block" id="rnBlock">—</div>
+  <div class="rn-time" id="rnTime">0:00</div>
+  <div class="rn-cue" id="rnCue"></div>
+  <div class="rn-next" id="rnNext"></div>
+  <div class="rn-ctrl">
+    <button onclick="rnPrev()">&#9198; prev</button>
+    <button onclick="rnPause()" id="rnPauseBtn">&#10074;&#10074; pause</button>
+    <button onclick="rnNext()">next &#9197;</button>
+  </div>
+  <div class="rn-music mono" id="rnMusic"></div>
+</div>
+<script>
+var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
+var radioUrlMap = {
+  'ancestor-hum': radioBase+'sounds/ancestor-hum.mp3',
+  'calm-shore': radioBase+'sounds/calm-shore.mp3',
+  'cartagena-breeze': radioBase+'sounds/cartagena-breeze.mp3',
+  'kingston-raindrops': radioBase+'sounds/kingston-raindrops.mp3',
+  'lagos-downpour': radioBase+'sounds/lagos-downpour.mp3',
+  'steady-rainfall': radioBase+'sounds/steady-rainfall.mp3',
+  'wakanda-waves': radioBase+'sounds/wakanda-waves.mp3',
+  'zanzibar-shallows': radioBase+'sounds/zanzibar-shallows.mp3',
+  '945-in-kingston': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/945%20in%20kingston.mp3',
+  'a-man-a-guitar-and-vuvuzela-went-to-a-bar': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/a%20man%2C%20a%20guitar%20and%20vuvuzela%20went%20to%20a%20bar.mp3',
+  'cello-phane-again': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/cello-phane%20again.mp3',
+  'cello-phane-clouds': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/cello-phane%20clouds.mp3',
+  'coco-coconut': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/coco%20coconut.mp3',
+  'kizomba-my-heart': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/kizomba%20my%20heart.mp3',
+  'lagos-quiet-hour': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/lagos%20quiet%20hour.mp3',
+  'rasta-savasana': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/rasta%20savasana.mp3',
+  'riverbend-808': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/riverbend%20808.mp3',
+  'road-trip-to-zamfara': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/road%20trip%20to%20zamfara.mp3',
+  'sunset-no-delay': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/sunset%20no%20delay.mp3',
+  'the-serpent-ate-the-treasure': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/the%20serpent%20ate%20the%20treasure.mp3',
+  'they-said-buddha-cant-run': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/they%20said%20buddha%20cant%20run.mp3',
+  'yingi-yanga': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yingi%20yanga.mp3',
+  'yogapiano': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yogapiano.mp3',
+  'zouk-asana': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/zouk-asana.mp3',
+  'rastas-nightmare': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/rastas%20nightmare.mp3',
+  'yanya-yingi': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yanya%20yingi.mp3',
+  'we-were-here-yesterday-02': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/we%20were%20here%20yesterday%2002.mp3',
+};
+var radioAllTracks = [
+  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'flowy'},
+  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'flowy'},
+  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'flowy'},
+  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'flowy'},
+  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'flowy'},
+  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'flowy'},
+  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'flowy'},
+  {slug:'still-ground-01',   name:'still ground 01',   cat:'flowy'},
+  {slug:'still-ground-02',   name:'still ground 02',   cat:'flowy'},
+  {slug:'township-morning-01', name:'township morning 01', cat:'vibey'},
+  {slug:'township-morning-02', name:'township morning 02', cat:'vibey'},
+  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'vibey'},
+  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'vibey'},
+  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'vibey'},
+  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'vibey'},
+  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'flowy'},
+  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'vibey'},
+  {slug:'riverbend-808', name:'riverbend 808', cat:'vibey'},
+  {slug:'yingi-yanga', name:'yingi yanga', cat:'vibey'},
+  {slug:'coco-coconut', name:'coco coconut', cat:'vibey'},
+  {slug:'rasta-savasana', name:'rasta savasana', cat:'flowy'},
+  {slug:'945-in-kingston', name:'945 in kingston', cat:'flowy'},
+  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'vibey'},
+  {slug:'yogapiano', name:'yogapiano', cat:'vibey'},
+  {slug:'zouk-asana', name:'zouk-asana', cat:'vibey'},
+  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'vibey'},
+  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'flowy'},
+  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'flowy'},
+  {slug:'cello-phane-again', name:'cello-phane again', cat:'flowy'},
+  {slug:'sunset-no-delay', name:'sunset no delay', cat:'flowy'},
+  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'flowy'},
+  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'flowy'},
+  {slug:'yanya-yingi', name:'yanya yingi', cat:'vibey'},
+  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'flowy'},
+  {slug:'ancestor-hum', name:'ancestor hum', cat:'airy'},
+  {slug:'calm-shore', name:'calm shore', cat:'airy'},
+  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'airy'},
+  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'airy'},
+  {slug:'lagos-downpour', name:'lagos downpour', cat:'airy'},
+  {slug:'steady-rainfall', name:'steady rainfall', cat:'airy'},
+  {slug:'wakanda-waves', name:'wakanda waves', cat:'airy'},
+  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'airy'},
+  // ── ADD NEW TRACKS HERE ──────────────────────────────────────────────────────
+  // {slug:'your-file-name', name:'display name', cat:'flowy|vibey|iré|new-category'},
+];
+
+// ---- templates: name, pct of total, cue-kind ----
+var TEMPLATES = {
+  flow: [['arrival & breath',8,'arrival'],['warm-up',14,'warm'],['sun salutations',18,'build'],['standing & peak',26,'peak'],['balance',8,'balance'],['floor & deep',14,'floor'],['wind-down',6,'wind'],['rest · savasana',6,'rest']],
+  pilates: [['breath & set-up',10,'arrival'],['core activation',22,'core'],['flowing sequence',28,'build'],['targeted work',24,'peak'],['stretch',10,'wind'],['rest',6,'rest']],
+  mobility: [['warm-up',15,'warm'],['joint prep',25,'core'],['loaded mobility',34,'peak'],['down-regulate',16,'wind'],['rest',10,'rest']],
+  breathwork: [['settle',16,'arrival'],['foundation breath',26,'breath'],['active breath',30,'peak'],['integration',18,'wind'],['rest',10,'rest']],
+  meditation: [['arrival',16,'arrival'],['settling',20,'settle'],['practice',44,'meditate'],['deepening',14,'deep'],['return',6,'return']],
+  coaching: [['check-in',16,'arrival'],['grounding',16,'settle'],['core work',44,'core'],['reflection',16,'reflect'],['close',8,'return']]
+};
+var CUES = {
+  arrival:['come to a comfortable position.','let the breath settle.','close the eyes, or soften the gaze.','arrive fully — nothing else to do.'],
+  warm:['start to move gently.','wake up the spine.','small movements, no forcing.','follow the breath as you move.'],
+  build:['find your rhythm.','link one breath to one movement.','build heat slowly.','stay smooth and steady.'],
+  peak:['this is the fullest part.','strong and steady.','breathe through the effort.','stay present with the challenge.'],
+  balance:['find one point to focus on.','root down to rise up.','it is okay to wobble.','breathe and steady.'],
+  floor:['come down to the mat.','let the body open slowly.','longer, deeper holds now.','soften into each shape.'],
+  wind:['begin to slow everything down.','let the breath lengthen.','release the effort.','prepare to rest.'],
+  rest:['lie back. let go completely.','nothing to hold, nowhere to be.','let the body get heavy.','stay as long as you need.'],
+  core:['engage from the center.','control the movement.','quality over speed.','keep the breath moving.'],
+  breath:['find a steady breath.','inhale slowly.','exhale slowly.','let the rhythm carry you.'],
+  settle:['let the mind slow.','notice the body sitting.','follow one breath at a time.','settle a little deeper.'],
+  meditate:['rest attention on the breath.','when the mind wanders, return.','no judgment, just returning.','stay soft and aware.'],
+  deep:['let stillness grow.','less effort now.','just being here.','deep and quiet.'],
+  return:['begin to come back.','notice sounds around you.','small movements return.','carry this calm with you.'],
+  reflect:['notice what came up.','let it be, without fixing.','breathe with whatever is here.','honor the work you did.']
+};
+var DISCIPLINES=[['flow','flow / vinyasa'],['pilates','pilates'],['mobility','mobility'],['breathwork','breathwork'],['meditation','meditation'],['coaching','coaching']];
+var PALETTE={arrival:'#c9a36a',warm:'#d98b5a',build:'#b5502f',peak:'#a5442f',balance:'#8a6a3a',floor:'#6a2f1f',wind:'#7a5a3a',rest:'#4f5a43',core:'#a5442f',breath:'#4f7a6a',settle:'#8a6a3a',meditate:'#4f5a43',deep:'#3a4a3f',return:'#c9a36a',reflect:'#8a6a3a'};
+
+var state={minutes:60,disc:'flow',blocks:[]};
+
+function buildDisc(){ var r=document.getElementById('discRow'); r.innerHTML=DISCIPLINES.map(function(d){return '<button class="seg'+(d[0]===state.disc?' on':'')+'" onclick="setDisc(\''+d[0]+'\')">'+d[1]+'</button>';}).join(''); }
+function setDisc(d){ state.disc=d; buildDisc(); genArc(); }
+function setLen(v){ state.minutes=+v; document.getElementById('minsVal').textContent=v; genArc(); }
+
+function genArc(){
+  var tpl=TEMPLATES[state.disc], tot=state.minutes, blocks=[], acc=0;
+  tpl.forEach(function(b,i){ var m=Math.max(1,Math.round(tot*b[1]/100)); blocks.push({name:b[0],mins:m,kind:b[2],cues:''}); acc+=m; });
+  // fix rounding drift onto the biggest block
+  var drift=tot-acc; if(drift!==0){ var bi=0; blocks.forEach(function(b,i){ if(b.mins>blocks[bi].mins) bi=i; }); blocks[bi].mins=Math.max(1,blocks[bi].mins+drift); }
+  state.blocks=blocks; renderBlocks();
+}
+function renderBlocks(){
+  var el=document.getElementById('blocks');
+  el.innerHTML=state.blocks.map(function(b,i){
+    return '<div class="blk">'
+      +'<div class="blk-top">'
+      +'<div class="blk-move"><button onclick="mv('+i+',-1)">&#9650;</button><button onclick="mv('+i+',1)">&#9660;</button></div>'
+      +'<input class="blk-name" value="'+b.name.replace(/"/g,"&quot;")+'" oninput="rename('+i+',this.value)">'
+      +'<div class="blk-dur"><button onclick="dur('+i+',-1)">&minus;</button><span class="blk-min">'+b.mins+"'"+'</span><button onclick="dur('+i+',1)">+</button></div>'
+      +'<button class="blk-x" onclick="rm('+i+')">&times;</button>'
+      +'</div>'
+      +'<textarea class="blk-cues" placeholder="cues for this section — one per line" oninput="setCues('+i+',this.value)">'+b.cues+'</textarea>'
+      +'<div class="blk-tools"><button class="blk-gen" onclick="genCues('+i+')">&#10022; generate cues</button></div>'
+      +'</div>';
+  }).join('');
+  renderTL();
+}
+function renderTL(){
+  var tot=state.blocks.reduce(function(a,b){return a+b.mins;},0)||1;
+  document.getElementById('tl').innerHTML=state.blocks.map(function(b){ return '<div class="tl-seg" style="width:'+(b.mins/tot*100)+'%;background:'+(PALETTE[b.kind]||'#c9a36a')+';" title="'+b.name+'"></div>'; }).join('');
+  document.getElementById('tlTotal').textContent=tot+' min total';
+}
+function mv(i,d){ var j=i+d; if(j<0||j>=state.blocks.length) return; var t=state.blocks[i]; state.blocks[i]=state.blocks[j]; state.blocks[j]=t; renderBlocks(); }
+function dur(i,d){ state.blocks[i].mins=Math.max(1,state.blocks[i].mins+d); renderBlocks(); }
+function rename(i,v){ state.blocks[i].name=v; renderTL(); }
+function setCues(i,v){ state.blocks[i].cues=v; }
+function rm(i){ state.blocks.splice(i,1); renderBlocks(); }
+function addBlock(){ state.blocks.push({name:'new section',mins:5,kind:'build',cues:''}); renderBlocks(); }
+function genCues(i){
+  var k=state.blocks[i].kind||'build', pool=CUES[k]||CUES.build;
+  var n=Math.min(3, pool.length), pick=pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,n);
+  state.blocks[i].cues=pick.join('\n'); renderBlocks();
+}
+
+// ---- runner ----
+var rn={idx:0,left:0,timer:null,paused:false,cueTimer:null,audio:null,queue:[],qi:0};
+function musicQueue(){
+  var m=document.getElementById('music').value;
+  var list=radioAllTracks.filter(function(t){ return m==='all' ? true : (t.cat===m); });
+  if(!list.length) list=radioAllTracks.slice();
+  for(var i=list.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=list[i]; list[i]=list[j]; list[j]=t; }
+  return list;
+}
+function trackUrl(t){ return radioUrlMap[t.slug] ? radioUrlMap[t.slug] : radioBase+t.slug+'.mp3'; }
+function playNextTrack(){
+  if(!rn.queue.length) return; rn.qi=(rn.qi+1)%rn.queue.length; playCurTrack();
+}
+function playCurTrack(){
+  var t=rn.queue[rn.qi]; if(!t) return;
+  if(rn.audio){ rn.audio.pause(); }
+  rn.audio=new Audio(trackUrl(t)); rn.audio.volume=0.7;
+  rn.audio.onended=playNextTrack; rn.audio.play().catch(function(){});
+  var mm=document.getElementById('rnMusic'); if(mm) mm.textContent='&#9834; '+t.name+' · '+(document.getElementById('music').value==='all'?'respira radio':document.getElementById('music').value);
+  document.getElementById('rnMusic').innerHTML='&#9834; '+t.name;
+}
+function startClass(){
+  if(!state.blocks.length) return;
+  rn.idx=0; rn.paused=false; rn.queue=musicQueue(); rn.qi=0;
+  document.getElementById('runner').classList.add('on');
+  playCurTrack(); enterBlock();
+  rn.timer=setInterval(tick,1000);
+}
+function enterBlock(){
+  var b=state.blocks[rn.idx]; if(!b){ stopClass(); return; }
+  rn.left=b.mins*60;
+  document.getElementById('rnBlock').textContent=(rn.idx+1)+' / '+state.blocks.length+' · '+b.name;
+  var nb=state.blocks[rn.idx+1];
+  document.getElementById('rnNext').textContent=nb?('next: '+nb.name):'last section';
+  document.getElementById('rnProg').style.width=((rn.idx)/state.blocks.length*100)+'%';
+  cueCycle(b);
+  paintTime();
+}
+function cueCycle(b){
+  if(rn.cueTimer) clearInterval(rn.cueTimer);
+  var lines=(b.cues||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
+  if(!lines.length){ document.getElementById('rnCue').textContent=''; return; }
+  var ci=0, cue=document.getElementById('rnCue');
+  function show(){ cue.style.opacity=0; setTimeout(function(){ cue.textContent=lines[ci%lines.length]; cue.style.opacity=1; ci++; },400); }
+  show();
+  var iv=Math.max(8, Math.floor((state.blocks[rn.idx].mins*60)/Math.max(lines.length,4)));
+  rn.cueTimer=setInterval(function(){ if(!rn.paused) show(); }, iv*1000);
+}
+function paintTime(){ var m=Math.floor(rn.left/60), s=rn.left%60; document.getElementById('rnTime').textContent=m+':'+(s<10?'0':'')+s; }
+function tick(){ if(rn.paused) return; rn.left--; if(rn.left<0){ rnNext(); return; } paintTime(); }
+function rnNext(){ if(rn.idx>=state.blocks.length-1){ stopClass(); return; } rn.idx++; enterBlock(); }
+function rnPrev(){ if(rn.idx>0){ rn.idx--; enterBlock(); } }
+function rnPause(){ rn.paused=!rn.paused; document.getElementById('rnPauseBtn').innerHTML=rn.paused?'&#9654; resume':'&#10074;&#10074; pause'; if(rn.audio){ rn.paused?rn.audio.pause():rn.audio.play().catch(function(){}); } }
+function stopClass(){
+  if(rn.timer) clearInterval(rn.timer); if(rn.cueTimer) clearInterval(rn.cueTimer);
+  if(rn.audio){ rn.audio.pause(); rn.audio=null; }
+  document.getElementById('runner').classList.remove('on');
+}
+
+// init
+buildDisc(); genArc();
+</script></body></html>

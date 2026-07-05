@@ -350,6 +350,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
 /* respira prototype */
 .prototype-shell{
+  transition:background 1.1s ease;
   margin-top:1rem;
   border:1px solid rgba(29,25,21,.1);
   background:
@@ -387,7 +388,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 }
 .respira-top{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:42px;}
 .brand-mark{display:flex;align-items:center;gap:10px;color:var(--soft);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:lowercase;}
-.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px rgba(201,163,106,.55);}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 20px rgba(201,163,106,.55);animation:brandPulse 3.6s ease-in-out infinite;}
+@keyframes brandPulse{0%,100%{transform:scale(1);opacity:.85;box-shadow:0 0 18px rgba(201,163,106,.5);}50%{transform:scale(1.28);opacity:1;box-shadow:0 0 30px rgba(201,163,106,.8);}}
 .sound-panel{display:flex;align-items:center;gap:8px;opacity:.92;}
 .sound-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;color:var(--faint);}
 .sound-select{
@@ -567,11 +569,13 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .sh-lede{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.1rem,2.3vw,1.45rem);color:rgba(248,244,237,.72);line-height:1.5;margin:1.2rem 0 0;max-width:46ch;}
 .sh-cta{display:inline-block;margin-top:1.7rem;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;padding:13px 28px;border-radius:999px;background:rgba(201,163,106,.96);color:#2a1f18;text-decoration:none;transition:transform .15s;}
 .sh-cta:hover{transform:translateY(-2px);}
+.sh-cta2{background:transparent;color:rgba(248,244,237,.92);border:1px solid rgba(248,244,237,.4);margin-left:10px;}
 .st-group-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(95,85,75,.6);margin:2.5rem 0 14px;text-align:center;}
 .st-group-label b{color:#9a7a3a;font-weight:500;}
 .st-group-2{margin-top:2.75rem;}
 .st-tool{display:flex;flex-direction:column;gap:6px;text-decoration:none;background:var(--card,#fbfaf4);border:1px solid var(--line);border-radius:16px;padding:20px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;}
 .st-tool:hover{transform:translateY(-3px);border-color:rgba(201,163,106,.5);box-shadow:0 16px 44px rgba(55,42,29,.1);}
+.st-new{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.9);border-radius:999px;padding:2px 7px;vertical-align:middle;margin-left:6px;}
 .st-tool-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:300;color:var(--ink);line-height:1;}
 .st-tool-desc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--soft);line-height:1.6;}
 .st-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint);margin-top:2rem;text-align:center;}
@@ -959,7 +963,6 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
           <header class="respira-top">
             <div class="brand-mark" aria-label="respira">
               <span class="brand-dot"></span>
-              <span>a breathing room</span>
             </div>
           </header>
 
@@ -1308,7 +1311,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
 
 <!-- respira radio -->
-<div id="radio" style="background:linear-gradient(180deg,#f7f4ec,#efe9dd);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);border-top:1px solid var(--line);">
+<div id="radio" style="background:linear-gradient(180deg,#f7f4ec,#efe9dd);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);border-top:1px solid var(--line);transition:background 1.1s ease;">
   <div class="inner">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
       <div>
@@ -1480,7 +1483,19 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     }
     </style>
     <script>
+    var ROOM_WALLPAPER={
+      airy:'linear-gradient(180deg,#f8f4ec 0%,#efe7d8 100%)',
+      vibey:'linear-gradient(180deg,#f6ead7 0%,#eed6b9 100%)',
+      flowy:'linear-gradient(180deg,#efd7c1 0%,#e0bd9f 100%)',
+      whispers:'linear-gradient(180deg,#ddbda4 0%,#c69b7d 100%)'
+    };
+    function setRoomWallpaper(cat){
+      var c=(typeof radioNorm==='function')?radioNorm(cat):cat;
+      var wp=ROOM_WALLPAPER[c]; var r=document.getElementById('radio');
+      if(r && wp) r.style.background=wp;
+    }
     function radioPlayStation(cat){
+      setRoomWallpaper(cat);
       var d=document.getElementById('radio-station-desc');
       if(cat==='whispers'){ if(d) d.textContent='whispers \u2014 coming soon.'; return; }
       radioCat=cat; buildQueue(radioShuffled);
@@ -1784,7 +1799,7 @@ function radioPlay(slug,name,cat){
     if(radioQueue[_qi].slug===slug){ radioQueueIdx=_qi; break; }
   }
   try{ var _pk='respira_radio_plays'; var _pl=JSON.parse(localStorage.getItem(_pk)||'{}'); _pl[slug]=(_pl[slug]||0)+1; localStorage.setItem(_pk,JSON.stringify(_pl)); if(typeof renderSpotlight==='function') renderSpotlight(); }catch(e){}
-  radioCurrentSlug=slug; if(window.miniShow) window.miniShow(name, cat);
+  radioCurrentSlug=slug; if(window.miniShow) window.miniShow(name, cat); if(typeof setRoomWallpaper==='function') setRoomWallpaper(cat);
   var bar=document.getElementById('radio-now-playing');
   if(bar){bar.style.display='flex';}
   var tn=document.getElementById('radio-track-name');
@@ -1850,12 +1865,13 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
         <div class="sh-eyebrow">for studios, coaches &amp; spaces</div>
         <h2 class="sh-title">bring respira into your practice.</h2>
         <p class="sh-lede">a free toolkit for the people holding space &mdash; audio for your rooms, your own branded app, a directory that sends you clients, and support when you need it. built by happy sunday, given freely.</p>
-        <a href="#directory" class="sh-cta">see the tools &darr;</a>
+        <a href="/studio" class="sh-cta">build a class &rarr;</a><a href="#directory" class="sh-cta sh-cta2">see the tools &darr;</a>
       </div>
     </div>
 
     <div class="st-group-label"><b>studios + coaches</b> &middot; build + grow your wellbeing venture</div>
     <div class="st-grid">
+      <a class="st-tool" href="/studio"><div class="st-tool-name">class builder <span class="st-new">beta</span></div><div class="st-tool-desc">build a class &mdash; sections, cues &amp; music, then press play</div></a>
       <a class="st-tool" href="#blueprint"><div class="st-tool-name">your own app</div><div class="st-tool-desc">build your own breathing room</div></a>
       <a class="st-tool" href="#radio"><div class="st-tool-name">respira radio</div><div class="st-tool-desc">stations for your space &amp; sessions</div></a>
       <a class="st-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><div class="st-tool-name">helpdesk &#8599;</div><div class="st-tool-desc">support, answered with warmth</div></a>
@@ -1892,7 +1908,7 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 .guides-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:0;}
 .guides-h2 em{color:var(--sage-dark);font-style:italic;}
 .guides-note{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--faint);line-height:1.8;max-width:36ch;text-align:right;}
-.guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2vw,20px);}
+.guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2vw,20px);align-items:start;}
 .guide-card{display:flex;flex-direction:column;background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:20px;}
 .guide-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
 .guide-portrait{width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
@@ -1915,6 +1931,8 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 .guide-lang{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:5px 11px;}
 /* volunteer card */
 .guide-join{display:flex;flex-direction:column;justify-content:center;background:transparent;border:1px dashed rgba(95,85,75,.28);border-radius:20px;padding:20px;}
+.lv-open{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 24px;border-radius:999px;border:1px solid rgba(201,163,106,.45);background:transparent;color:var(--soft);cursor:pointer;margin-top:12px;}
+.lv-collapse{display:none;margin-top:14px;}
 .lv-script{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.02rem;color:var(--soft);line-height:1.5;background:rgba(95,85,75,.05);border-left:2px solid rgba(201,163,106,.5);border-radius:8px;padding:12px 14px;margin:12px 0;}
 .lv-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .lv-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:10px 18px;border-radius:999px;border:1px solid rgba(201,163,106,.4);background:transparent;color:var(--soft);cursor:pointer;white-space:nowrap;}
@@ -1949,8 +1967,8 @@ var respiraGuides = [
     name:'simone floyd',
     location:'johannesburg, south africa',
     role:'voice of respira · entrepreneur in residence',
-    langs:['english','español'],
-    services:['breathwork','bodywork','language instruction'],
+    langs:['english','español','kiswahili','français'],
+    services:['breathwork','bodywork','language instruction','global travel guide','voice actor'],
     book:'',            // booking link (calendly / cal.com / their site) — shows "booking soon" until set
     contact:'',         // email or profile link
     note:'the first voice of the room — steady, unhurried, close.',
@@ -1999,7 +2017,7 @@ function guideJoinCard(){
   return '<div class="guide-join">'
     + '<div class="guide-join-title">speak a language? lend your voice.</div>'
     + '<div class="guide-join-copy">you don&rsquo;t have to be a guide. read the lines below in your language &mdash; about thirty seconds &mdash; and respira can begin to speak it.</div>'
-    + '<div class="lv-script">&ldquo;come to a comfortable seat, and let the shoulders soften. take one slow breath in, and a slower breath out. feel the ground beneath you, steady and patient. there is nothing to fix, and nowhere else to be. breathe in &mdash; two, three, four. and out &mdash; two, three, four, five, six. let the body settle. you are exactly where you need to be.&rdquo;</div>'
+    + '<button class="lv-open" onclick="lvOpen(this)">lend your voice &rarr;</button>' + '<div class="lv-collapse" id="lv-collapse">' + '<div class="lv-script">&ldquo;come to a comfortable seat, and let the shoulders soften. take one slow breath in, and a slower breath out. feel the ground beneath you, steady and patient. there is nothing to fix, and nowhere else to be. breathe in &mdash; two, three, four. and out &mdash; two, three, four, five, six. let the body settle. you are exactly where you need to be.&rdquo;</div>'
     + '<div class="lv-controls"><button id="lv-rec" class="lv-btn" onclick="lvToggle()">&#9679; record</button><audio id="lv-audio" class="lv-audio" controls style="display:none;"></audio></div>'
     + '<div class="lv-meter"><div class="lv-bar" id="lv-bar"></div></div>'
     + '<div class="lv-count" id="lv-count">read for about thirty seconds.</div>'
@@ -2009,7 +2027,7 @@ function guideJoinCard(){
     + '<div class="lv-note">we&rsquo;ll send you the final voice before anything is posted &mdash; and you can ask us to remove it anytime. contributors are always credited.</div>'
     + '<input type="email" id="guide-join-email" class="guide-join-input" placeholder="your email (so we can send it to you first)" style="margin-bottom:8px;">'
     + '<button class="guide-join-btn" onclick="lvSubmit()">send my voice</button>'
-    + '<div id="guide-join-thanks" class="guide-join-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>'
+    + '</div>' + '<div id="guide-join-thanks" class="guide-join-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>'
     + '</div>';
 }
 function renderGuides(){
@@ -2042,6 +2060,7 @@ function _lvMeterTick(){
   if(el>=LV_CAP && _lvRec && _lvRec.state==='recording'){ lvToggle(); }
 }
 function lvPhotoName(inp){ var t=document.getElementById('lv-file-text'); if(t && inp.files && inp.files[0]){ t.textContent='\u2713 '+inp.files[0].name; } }
+function lvOpen(btn){ var c=document.getElementById('lv-collapse'); if(c) c.style.display='block'; if(btn) btn.style.display='none'; }
 function lvToggle(){
   var btn=document.getElementById('lv-rec');
   if(_lvRec && _lvRec.state==='recording'){ _lvRec.stop(); return; }
@@ -3211,6 +3230,7 @@ document.addEventListener("DOMContentLoaded", function() {
     breatheOptions.style.display = "block";
     moveOptions.style.display    = "none";
     backToStartBtn.style.display = "inline-flex";
+    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(180deg,#f8f3e9 0%,#efe4d0 100%)";
   });
 
   pathMove.addEventListener("click", () => {
@@ -3219,6 +3239,7 @@ document.addEventListener("DOMContentLoaded", function() {
     moveOptions.style.display    = "block";
     breatheOptions.style.display = "none";
     backToStartBtn.style.display = "inline-flex";
+    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(180deg,#edf1e6 0%,#dbe4cf 100%)";
   });
 
   slowmo5Btn.addEventListener("click",  () => beginWithCountdown(function(){ startSlowMo(5); }));
@@ -3229,6 +3250,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function resetPathSelector(){
     pathBreathe.classList.remove("selected");
     pathMove.classList.remove("selected");
+    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="";
     breatheOptions.style.display = "none";
     moveOptions.style.display    = "none";
   }  // ── slow mo session ───────────────────────────────────────────────────────
