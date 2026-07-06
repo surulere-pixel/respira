@@ -416,7 +416,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   position:relative;
   min-height:0;
 }
-.screen.active{display:flex;}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
 body{transition:background-color .7s ease;}
 .room-card{
   width:min(100%,720px);
@@ -971,7 +971,7 @@ body{transition:background-color .7s ease;}
 
           <!-- screen: single entry -->
           <section class="screen active" id="screenStart">
-            <div style="width:min(100%,520px);padding:0 clamp(16px,4vw,28px);text-align:center;position:relative;z-index:1;">
+            <div style="width:min(100%,760px);margin:0 auto;padding:0 clamp(16px,4vw,28px);text-align:center;position:relative;z-index:1;">
 
               <div id="streak-badge" class="streak-badge"><span class="streak-dot"></span><span class="streak-n">0</span>&nbsp;day streak</div>
 
