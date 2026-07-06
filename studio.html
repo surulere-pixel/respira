@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 </head><style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#f7f4ec;--ink:#33372a;--soft:#5f554b;--faint:rgba(95,85,75,.5);--gold:#9a7a3a;--terra:#a5442f;--coffee:#2a1f18;--cream:#fbfaf4;--line:rgba(95,85,75,.16);}
+:root{--bg:#f7f4ec;--ink:#33372a;--soft:#5f554b;--faint:rgba(95,85,75,.5);--gold:#9a7a3a;--terra:#a5442f;--coffee:#2a1f18;--cream:#fbfaf4;--line:rgba(95,85,75,.16);--sage-dark:#4f5a43;}
 body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
 .mono{font-family:'IBM Plex Mono',monospace;}
 .wrap{max-width:840px;margin:0 auto;padding:clamp(1.2rem,4vw,2.5rem);}
@@ -107,7 +107,7 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
     <div class="tk-label">studios + coaches</div>
     <div class="tk-grid">
       <a class="tk-tool" href="#builder"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
-      <a class="tk-tool" href="https://openrespira.org/#blueprint"><b>your own app</b><span>a branded breathing room, built for you</span></a>
+      <a class="tk-tool" href="#blueprint"><b>your own app</b><span>a branded breathing room, built for you</span></a>
       <a class="tk-tool" href="https://openrespira.org/#radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
       <a class="tk-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><b>helpdesk &#8599;</b><span>support, answered with warmth</span></a>
       <a class="tk-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><b>pages &#8599;</b><span>happy sunday&rsquo;s directory of care</span></a>
@@ -163,6 +163,142 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
   </div>
   <div class="hint">this is a beta &mdash; a teacher tool for building &amp; running a class. multilingual studio mode (students pick their language on earphones) is coming next.</div>
 </div>
+
+<!-- blueprint -->
+<div id="blueprint" style="background:#e0d3e8;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
+  <div class="inner" style="max-width:720px;margin:0 auto;">
+    <div style="text-align:center;">
+      <div class="bp-eyebrow">the blueprint</div>
+      <h2 class="bp-h2">build your own breathing room.</h2>
+      <p class="bp-lede">switch on what you want. mix our pieces with yours, then launch under your name.</p>
+    </div>
+
+    <div class="bp-dash">
+      <div class="bp-row" data-mod="voices" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">voices</div><div class="bp-row-desc">the guiding voice</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our guides &middot; multilingual</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="soundscapes" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">soundscapes</div><div class="bp-row-desc">the ambient beds</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our library</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="sessions" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">sessions &amp; events</div><div class="bp-row-desc">what&rsquo;s on, near you</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our listings</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="network" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">global network</div><div class="bp-row-desc">the diaspora directory &amp; map</div></div>
+        <div class="bp-row-right">
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row bp-locked" data-mod="app" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">the app</div><div class="bp-row-desc">breathe &amp; flow</div></div>
+        <div class="bp-row-right"><span class="bp-always">always yours</span></div>
+      </div>
+    </div>
+
+    <div class="bp-launch">
+      <div class="bp-launch-label">then launch as</div>
+      <div class="bp-launch-domains">
+        <span class="bp-dom"><b>you</b>.openrespira.org</span>
+        <span class="bp-or">or bring your own</span>
+        <span class="bp-dom"><b>you</b>.com</span>
+      </div>
+    </div>
+
+    <div class="bp-cta-wrap">
+      <button class="bp-cta" onclick="blueprintStart()">open your room &rarr;</button>
+      <div class="bp-thanks" id="bp-thanks">thank you &mdash; we&rsquo;ll be in touch about your room.</div>
+    </div>
+    <p class="bp-foot">an open blueprint from respira &middot; built with mmaadd &middot; an initiative of the birthright project</p>
+  </div>
+</div>
+
+<style>
+.bp-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);}
+.bp-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.6rem 0 0;}
+.bp-lede{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.1rem,2.4vw,1.45rem);font-weight:300;font-style:italic;color:var(--soft);line-height:1.5;max-width:34ch;margin:1rem auto 0;}
+.bp-dash{margin:2.5rem 0 0;}
+.bp-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:16px;background:var(--cream);margin-bottom:10px;transition:opacity .2s;flex-wrap:wrap;}
+.bp-row.bp-off{opacity:.5;}
+.bp-row-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:300;color:var(--ink);line-height:1;}
+.bp-row-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:var(--faint);margin-top:5px;}
+.bp-row-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
+.bp-choice{display:flex;gap:3px;background:rgba(95,85,75,.07);border-radius:999px;padding:3px;transition:opacity .2s;}
+.bp-off .bp-choice{opacity:.35;pointer-events:none;}
+.bp-opt{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;text-transform:lowercase;padding:7px 11px;border-radius:999px;border:none;background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.bp-opt.on{background:var(--bg);color:var(--ink);box-shadow:0 1px 4px rgba(55,42,29,.12);}
+.bp-toggle{width:42px;height:24px;border-radius:999px;border:none;background:rgba(95,85,75,.22);position:relative;cursor:pointer;transition:background .2s;padding:0;flex-shrink:0;}
+.bp-toggle.on{background:var(--sage-dark);}
+.bp-toggle span{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.bp-toggle.on span{left:21px;}
+.bp-locked{background:#2a1f18;border-color:#2a1f18;}
+.bp-locked .bp-row-name{color:rgba(248,244,237,.95);}
+.bp-locked .bp-row-desc{color:rgba(201,163,106,.7);}
+.bp-always{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:rgba(201,163,106,.9);}
+.bp-launch{text-align:center;margin:2rem auto 0;padding:1.75rem;background:#2a1f18;border-radius:20px;max-width:600px;}
+.bp-launch-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:rgba(201,163,106,.7);margin-bottom:.9rem;}
+.bp-launch-domains{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;}
+.bp-dom{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.2rem,3vw,1.7rem);font-weight:300;color:rgba(248,244,237,.65);}
+.bp-dom b{font-weight:400;font-style:italic;color:rgba(201,163,106,.95);}
+.bp-or{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.45);}
+.bp-cta-wrap{text-align:center;margin-top:2rem;}
+.bp-cta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:15px 34px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:all .2s;}
+.bp-cta:hover{transform:translateY(-2px);border-color:var(--sage-dark);}
+.bp-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--sage-dark);margin-top:1rem;}
+.bp-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint);margin-top:2rem;text-align:center;line-height:1.8;}
+</style>
+
+<script>
+function bpToggle(btn){
+  var row = btn.parentNode.parentNode;
+  var on = btn.classList.toggle('on');
+  row.setAttribute('data-on', on ? '1' : '0');
+  row.classList.toggle('bp-off', !on);
+}
+function bpOpt(btn){
+  var choice = btn.parentNode;
+  var opts = choice.getElementsByClassName('bp-opt');
+  for(var i=0;i<opts.length;i++){ opts[i].classList.remove('on'); }
+  btn.classList.add('on');
+}
+function blueprintStart(){
+  var cfg = {};
+  var rows = document.querySelectorAll('#blueprint .bp-row');
+  for(var i=0;i<rows.length;i++){
+    var r = rows[i], mod = r.getAttribute('data-mod'), on = r.getAttribute('data-on')==='1';
+    var opt = r.querySelector('.bp-opt.on');
+    cfg[mod] = on ? (opt ? opt.getAttribute('data-val') : 'on') : 'off';
+  }
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'blueprint_interest', config:cfg, _subject:'respira blueprint: a guide configured their own room'})}); }catch(e){}
+  var b=document.querySelector('.bp-cta'), t=document.getElementById('bp-thanks');
+  if(b){ b.style.display='none'; }
+  if(t){ t.style.display='block'; }
+}
+</script>
 
 <div id="runner">
   <div class="rn-prog" id="rnProg"></div>
