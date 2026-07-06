@@ -1372,6 +1372,7 @@ body{transition:background-color .7s ease;}
         
         <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
         <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whisper</div><div class="station-cdesc">spoken word &amp; poetry &middot; coming soon</div></button>
+        <button class="station-card sc-diasporadique" onclick="radioPlayStation('diasporadique')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/diasporadique.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">diasporadique</div><div class="station-cdesc">sounds of the diaspora &middot; coming soon</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a station to begin.</div>
 
@@ -1412,6 +1413,7 @@ body{transition:background-color .7s ease;}
     .sc-ire .station-cover{background:linear-gradient(145deg,#b06a2c,#5c2f14);}
     .sc-dust .station-cover{background:linear-gradient(145deg,#41605655,#26332e);background-color:#2e4038;}
     .sc-whisper .station-cover{background:linear-gradient(145deg,#3d2b48,#1c1425);}
+    .sc-diasporadique .station-cover{background:linear-gradient(145deg,#a8452f,#2e1a2a);}
     .album-card{display:flex;flex-direction:column;gap:8px;}
     .album-cover{display:flex;align-items:flex-end;padding:14px;}
     .album-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1;position:relative;z-index:2;}
@@ -1445,7 +1447,8 @@ body{transition:background-color .7s ease;}
       dust:'linear-gradient(165deg,#d6eae9 0%,#a6cdcb 100%)',
       groove:'linear-gradient(165deg,#f5d99b 0%,#e5a951 100%)',
       drift:'linear-gradient(165deg,#f2c2a2 0%,#db8b60 100%)',
-      whisper:'linear-gradient(165deg,#d9bed2 0%,#b088a4 100%)'
+      whisper:'linear-gradient(165deg,#d9bed2 0%,#b088a4 100%)',
+      diasporadique:'linear-gradient(165deg,#e8b48f 0%,#c46a5a 100%)'
     };
     function setRoomWallpaper(cat){
       var c=(typeof radioNorm==='function')?radioNorm(cat):cat;
