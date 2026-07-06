@@ -21,7 +21,23 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:v
 .sb-hero>*{position:relative;z-index:1;}
 .sb-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.9);}
 .sb-h{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(2rem,5vw,3rem);line-height:1.02;margin:.4rem 0 0;}
-.sb-lede{font-family:'Cormorant Garamond';font-style:italic;font-size:1.05rem;color:rgba(248,244,237,.72);margin:.7rem 0 0;max-width:44ch;}
+.sb-lede{font-family:'Cormorant Garamond';font-style:italic;font-size:1.1rem;color:rgba(248,244,237,.75);margin:.8rem 0 0;max-width:48ch;line-height:1.5;}
+.sb-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem;}
+.sb-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:13px 26px;border-radius:999px;background:rgba(201,163,106,.96);color:#2a1f18;text-decoration:none;transition:transform .15s;}
+.sb-cta:hover{transform:translateY(-2px);}
+.sb-cta2{background:transparent;color:rgba(248,244,237,.92);border:1px solid rgba(248,244,237,.4);}
+.tk{margin-bottom:1.6rem;}
+.tk-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:lowercase;color:var(--gold);margin-bottom:.8rem;}
+.tk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+.tk-tool{display:block;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:15px 17px;text-decoration:none;transition:transform .15s,box-shadow .15s;}
+.tk-tool:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(55,42,29,.08);}
+.tk-tool b{display:block;font-family:'Cormorant Garamond';font-weight:400;font-size:1.2rem;color:var(--ink);}
+.tk-tool span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.02em;color:var(--soft);line-height:1.6;margin-top:3px;}
+.tk-new{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.9);border-radius:999px;padding:2px 7px;vertical-align:middle;}
+.tk-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--faint);margin-top:1.2rem;}
+.builder-head{margin-bottom:1.2rem;padding-top:.5rem;border-top:1px solid var(--line);padding-top:1.8rem;scroll-margin-top:20px;}
+.builder-title{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);letter-spacing:-.02em;margin:.3rem 0 0;}
+.builder-sub{font-family:'Cormorant Garamond';font-style:italic;font-size:1.05rem;color:var(--soft);margin:.4rem 0 0;}
 /* setup card */
 .card{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:clamp(1.2rem,3vw,1.8rem);margin-bottom:1.4rem;}
 .lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:var(--gold);margin-bottom:.7rem;}
@@ -75,12 +91,40 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
   .sb-hero::after{display:none;}.sb-eye,.sb-h{color:var(--ink);}.wrap{max-width:100%;}
 }
 </style><body>
-<div class="wrap" id="builder">
+<div class="wrap" id="top">
   <div class="hd"><div class="hd-logo">res<em>pira</em> · studio</div><a class="hd-back" href="/">&larr; back to respira</a></div>
   <div class="sb-hero">
-    <div class="sb-eye">class builder &middot; beta</div>
-    <div class="sb-h" id="pdf-title">untitled class</div>
-    <div class="sb-lede">set a length, shape the arc, drop in cues &amp; music. save it, then walk in and press play. built for flow, pilates, mobility, breathwork, meditation &amp; coaching.</div>
+    <div class="sb-eye">for studios &middot; coaches &middot; spaces</div>
+    <div class="sb-h">bring respira into your practice.</div>
+    <div class="sb-lede">a free toolkit for the people holding space &mdash; audio for your rooms, your own branded app, a directory that sends you clients, and a class builder you can teach from. built by happy sunday, given freely.</div>
+    <div class="sb-ctas">
+      <a href="#builder" class="sb-cta">build a class &rarr;</a>
+      <a href="/respira-for-studios.pdf" class="sb-cta sb-cta2" download>download the packet &darr;</a>
+    </div>
+  </div>
+
+  <div class="tk">
+    <div class="tk-label">studios + coaches</div>
+    <div class="tk-grid">
+      <a class="tk-tool" href="#builder"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#blueprint"><b>your own app</b><span>a branded breathing room, built for you</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
+      <a class="tk-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><b>helpdesk &#8599;</b><span>support, answered with warmth</span></a>
+      <a class="tk-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><b>pages &#8599;</b><span>happy sunday&rsquo;s directory of care</span></a>
+    </div>
+    <div class="tk-label" style="margin-top:1.4rem;">community</div>
+    <div class="tk-grid">
+      <a class="tk-tool" href="https://openrespira.org/#goods"><b>goods</b><span>the respira kit &amp; shelf</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#guides"><b>guides</b><span>find &amp; book practitioners</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#local"><b>respira 100</b><span>the curated studio directory</span></a>
+    </div>
+    <p class="tk-foot">powered by happy sunday &middot; an initiative of the birthright project</p>
+  </div>
+
+  <div class="builder-head" id="builder">
+    <div class="sb-eye" style="color:var(--gold);">the class builder &middot; beta</div>
+    <h2 class="builder-title" id="pdf-title">untitled class</h2>
+    <p class="builder-sub">set a length, shape the arc, drop in cues &amp; music. save it, then walk in and press play.</p>
   </div>
 
   <div class="card">
@@ -98,9 +142,9 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
     <div class="lab" style="margin-top:1.4rem;">music</div>
     <select class="sel" id="music">
       <option value="all">respira radio · shuffle (plays all the way through)</option>
-      <option value="flowy">wind-down pack · flowy</option>
-      <option value="vibey">energy pack · vibey</option>
-      <option value="airy">meditation pack · airy</option>
+      <option value="drift">wind-down pack · drift</option>
+      <option value="groove">energy pack · groove</option>
+      <option value="dust">meditation pack · dust</option>
     </select>
     <div class="hint" style="margin-top:.6rem;">no song-picking &mdash; a pack matched to your length, or respira radio on shuffle. it just plays.</div>
   </div>
@@ -166,50 +210,50 @@ var radioUrlMap = {
   'we-were-here-yesterday-02': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/we%20were%20here%20yesterday%2002.mp3',
 };
 var radioAllTracks = [
-  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'flowy'},
-  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'flowy'},
-  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'flowy'},
-  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'flowy'},
-  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'flowy'},
-  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'flowy'},
-  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'flowy'},
-  {slug:'still-ground-01',   name:'still ground 01',   cat:'flowy'},
-  {slug:'still-ground-02',   name:'still ground 02',   cat:'flowy'},
-  {slug:'township-morning-01', name:'township morning 01', cat:'vibey'},
-  {slug:'township-morning-02', name:'township morning 02', cat:'vibey'},
-  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'vibey'},
-  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'vibey'},
-  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'vibey'},
-  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'vibey'},
-  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'flowy'},
-  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'vibey'},
-  {slug:'riverbend-808', name:'riverbend 808', cat:'vibey'},
-  {slug:'yingi-yanga', name:'yingi yanga', cat:'vibey'},
-  {slug:'coco-coconut', name:'coco coconut', cat:'vibey'},
-  {slug:'rasta-savasana', name:'rasta savasana', cat:'flowy'},
-  {slug:'945-in-kingston', name:'945 in kingston', cat:'flowy'},
-  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'vibey'},
-  {slug:'yogapiano', name:'yogapiano', cat:'vibey'},
-  {slug:'zouk-asana', name:'zouk-asana', cat:'vibey'},
-  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'vibey'},
-  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'flowy'},
-  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'flowy'},
-  {slug:'cello-phane-again', name:'cello-phane again', cat:'flowy'},
-  {slug:'sunset-no-delay', name:'sunset no delay', cat:'flowy'},
-  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'flowy'},
-  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'flowy'},
-  {slug:'yanya-yingi', name:'yanya yingi', cat:'vibey'},
-  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'flowy'},
-  {slug:'ancestor-hum', name:'ancestor hum', cat:'airy'},
-  {slug:'calm-shore', name:'calm shore', cat:'airy'},
-  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'airy'},
-  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'airy'},
-  {slug:'lagos-downpour', name:'lagos downpour', cat:'airy'},
-  {slug:'steady-rainfall', name:'steady rainfall', cat:'airy'},
-  {slug:'wakanda-waves', name:'wakanda waves', cat:'airy'},
-  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'airy'},
+  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'drift'},
+  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'drift'},
+  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'drift'},
+  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'drift'},
+  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'drift'},
+  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'drift'},
+  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'drift'},
+  {slug:'still-ground-01',   name:'still ground 01',   cat:'drift'},
+  {slug:'still-ground-02',   name:'still ground 02',   cat:'drift'},
+  {slug:'township-morning-01', name:'township morning 01', cat:'groove'},
+  {slug:'township-morning-02', name:'township morning 02', cat:'groove'},
+  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'groove'},
+  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'groove'},
+  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'groove'},
+  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'groove'},
+  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'drift'},
+  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'groove'},
+  {slug:'riverbend-808', name:'riverbend 808', cat:'groove'},
+  {slug:'yingi-yanga', name:'yingi yanga', cat:'groove'},
+  {slug:'coco-coconut', name:'coco coconut', cat:'groove'},
+  {slug:'rasta-savasana', name:'rasta savasana', cat:'drift'},
+  {slug:'945-in-kingston', name:'945 in kingston', cat:'drift'},
+  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'groove'},
+  {slug:'yogapiano', name:'yogapiano', cat:'groove'},
+  {slug:'zouk-asana', name:'zouk-asana', cat:'groove'},
+  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'groove'},
+  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'drift'},
+  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'drift'},
+  {slug:'cello-phane-again', name:'cello-phane again', cat:'drift'},
+  {slug:'sunset-no-delay', name:'sunset no delay', cat:'drift'},
+  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'drift'},
+  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'drift'},
+  {slug:'yanya-yingi', name:'yanya yingi', cat:'groove'},
+  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'drift'},
+  {slug:'ancestor-hum', name:'ancestor hum', cat:'dust'},
+  {slug:'calm-shore', name:'calm shore', cat:'dust'},
+  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'dust'},
+  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'dust'},
+  {slug:'lagos-downpour', name:'lagos downpour', cat:'dust'},
+  {slug:'steady-rainfall', name:'steady rainfall', cat:'dust'},
+  {slug:'wakanda-waves', name:'wakanda waves', cat:'dust'},
+  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'dust'},
   // ── ADD NEW TRACKS HERE ──────────────────────────────────────────────────────
-  // {slug:'your-file-name', name:'display name', cat:'flowy|vibey|iré|new-category'},
+  // {slug:'your-file-name', name:'display name', cat:'drift|groove|iré|new-category'},
 ];
 
 // ---- templates: name, pct of total, cue-kind ----

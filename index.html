@@ -350,17 +350,11 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
 /* respira prototype */
 .prototype-shell{
-  transition:background 1.1s ease;
-  margin-top:1rem;
-  border:1px solid rgba(29,25,21,.1);
-  background:
-    radial-gradient(circle at 18% 8%, rgba(255,255,255,.9) 0, rgba(255,255,255,0) 34%),
-    radial-gradient(circle at 82% 12%, rgba(228,207,174,.28) 0, rgba(228,207,174,0) 30%),
-    linear-gradient(180deg, #f8f4ed, #f4ede3 55%, #efe7da);
-  border-radius:36px;
-  box-shadow:var(--shadow);
+  margin-top:0;
+  border:none;
+  background:transparent;
+  box-shadow:none;
   overflow:visible;
-  animation:shellPulse 7s ease-in-out infinite;
 }
 @keyframes shellPulse{
   0%,100%{background:
@@ -381,12 +375,12 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .respira-shell{
   width:min(100%,1040px);
   margin:0 auto;
-  min-height:min(82vh,780px);
-  padding:12px clamp(18px,4vw,40px);
+  min-height:auto;
+  padding:0 clamp(18px,4vw,40px);
   display:flex;
   flex-direction:column;
 }
-.respira-top{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:42px;}
+.respira-top{display:none;}
 .brand-mark{display:flex;align-items:center;gap:10px;color:var(--soft);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:lowercase;}
 .brand-orb{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 38% 30%, #fdf3db 0%, #ecca8c 52%, #d3a862 80%);box-shadow:0 0 26px rgba(201,163,106,.6), inset 0 0 14px rgba(255,255,255,.65);animation:brandBreath 6.5s ease-in-out infinite;}
 @keyframes brandBreath{0%,100%{transform:scale(.8);box-shadow:0 0 14px rgba(201,163,106,.38), inset 0 0 8px rgba(255,255,255,.5);}46%{transform:scale(1.12);box-shadow:0 0 32px rgba(201,163,106,.72), inset 0 0 16px rgba(255,255,255,.75);}}
@@ -409,8 +403,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   display:none;
   flex:1;
   align-items:center;
-  justify-content:center;
-  padding:8px 0;
+  justify-content:flex-start;
+  padding:clamp(2rem,6vh,4.5rem) 0 2rem;
   animation:screenFade .5s ease both;
   overflow:auto;
   scrollbar-gutter:stable both-edges;
@@ -418,6 +412,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   min-height:0;
 }
 .screen.active{display:flex;}
+body{transition:background-color .7s ease;}
 .room-card{
   width:min(100%,720px);
   border:1px solid rgba(95,85,75,.12);
@@ -547,15 +542,15 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .entry-icon{font-size:1.4rem;line-height:1;margin-bottom:auto;opacity:.85;}
 .entry-label{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6rem;font-weight:300;line-height:1;}
 .entry-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;opacity:.7;}
-.tile-breathe{background:var(--card,#fbfaf4);color:var(--ink);}
+.tile-breathe{background:#fbf5ea;color:var(--ink);border-color:rgba(201,163,106,.2);}
 .tile-breathe .entry-icon{color:#c9a36a;}
-.tile-move{background:rgba(79,90,67,.13);color:var(--ink);border-color:rgba(79,90,67,.2);}
+.tile-move{background:#d6e1c6;color:var(--ink);border-color:rgba(79,90,67,.25);}
 .tile-move .entry-icon{color:var(--sage-dark);}
-.tile-lounge{background:rgba(201,163,106,.14);color:var(--ink);border-color:rgba(201,163,106,.3);}
+.tile-lounge{background:#f1e0b5;color:var(--ink);border-color:rgba(201,163,106,.3);}
 .tile-lounge .entry-icon{color:#a5763a;}
 .tile-lounge .entry-label{color:var(--ink);}
 .tile-lounge .entry-sub{color:rgba(95,85,75,.6);}
-.tile-explore{background:rgba(122,58,34,.12);color:var(--ink);border-color:rgba(122,58,34,.22);}
+.tile-explore{background:#edc7a5;color:var(--ink);border-color:rgba(122,58,34,.28);}
 .tile-explore .entry-icon{color:#9a4a2a;}
 .st-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);}
 .st-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.5rem 0 0;}
@@ -936,6 +931,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   <div class="nav-inner">
     <a href="#" class="nav-logo">res<em>pira</em></a>
     <div class="nav-links">
+      <a href="/studio" class="beta-badge" title="tools for studios, coaches & spaces">for studios &rarr;</a>
       <a href="#feedback" class="beta-badge" title="building in public — tell us what to build next">v1 &middot; beta</a>
       <button id="nav-radio-btn" onclick="navRadioToggle()" style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.4rem .9rem;border-radius:999px;border:1px solid rgba(201,163,106,.3);background:#2a1f18;color:rgba(201,163,106,.8);cursor:pointer;transition:all .2s;">&#9655; play radio</button>
     </div>
@@ -962,7 +958,6 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
         <main class="respira-shell">
           <header class="respira-top">
             <div class="brand-mark" aria-label="respira">
-              <span class="brand-orb"></span>
             </div>
           </header>
 
@@ -986,7 +981,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
                 <button class="entry-tile tile-lounge" id="pathLounge">
                   <div class="entry-icon">&#9834;</div>
                   <div class="entry-label">lounge</div>
-                  <div class="entry-sub">radio · whispers</div>
+                  <div class="entry-sub">radio · whisper</div>
                 </button>
                 <button class="entry-tile tile-explore" id="pathExplore">
                   <div class="entry-icon">&#10022;</div>
@@ -1324,21 +1319,21 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 <div class="radio-hero" id="radio-hero">
       <div class="rh-cover" id="rh-cover"><span class="station-tri"></span></div>
       <div class="rh-body">
-        <div class="rh-tag">featured room</div>
-        <h3 class="rh-title" id="rh-title">flowy</h3>
+        <div class="rh-tag">featured station</div>
+        <h3 class="rh-title" id="rh-title">drift</h3>
         <p class="rh-desc" id="rh-desc">wind-down &amp; slow movement.</p>
         <div class="rh-meta" id="rh-meta">live &middot; respira radio</div>
         <div class="rh-actions"><button class="rh-play" id="rh-play" onclick="heroPlay()">&#9655; play</button></div>
       </div>
     </div>
     <script>
-    window.__heroCat='flowy';
+    window.__heroCat='drift';
     window.heroPlay=function(){ if(window.__heroCat && typeof radioPlayStation==='function') radioPlayStation(window.__heroCat); };
     (function(){
       var rooms=[
-        {cat:'flowy', name:'flowy', desc:'wind-down & slow movement — a warm current for mat work and long holds.'},
-        {cat:'vibey', name:'vibey', desc:'focus & easy energy — grooves and low rhythm to keep you moving.'},
-        {cat:'airy',  name:'airy',  desc:'meditation & deep rest — open space, soft keys, room to breathe.'}
+        {cat:'drift', name:'drift', desc:'wind-down & slow movement — a warm current for mat work and long holds.'},
+        {cat:'groove', name:'groove', desc:'focus & easy energy — grooves and low rhythm to keep you moving.'},
+        {cat:'dust',  name:'dust',  desc:'meditation & deep rest — open space, soft keys, room to breathe.'}
       ];
       var pick=rooms[Math.floor(Math.random()*rooms.length)];
       window.__heroCat=pick.cat;
@@ -1350,7 +1345,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     })();
     </script>
     <style>
-    .radio-hero{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:center;max-width:720px;margin:0 auto 3rem;padding:20px;background:#fbfaf4;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 34px rgba(55,42,29,.07);}
+    .radio-hero{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:center;max-width:720px;margin:0 auto 3rem;padding:22px;background:linear-gradient(145deg,#fdf8ef 0%,#f1e1c9 100%);border:1px solid rgba(201,163,106,.25);border-radius:20px;box-shadow:0 20px 48px rgba(55,42,29,.16);}
     .rh-cover{aspect-ratio:1;border-radius:14px;position:relative;overflow:hidden;background:linear-gradient(145deg,#c9a36a,#7a5426);box-shadow:0 10px 26px rgba(0,0,0,.2);}
     .rh-cover::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.25),transparent 62%);}
     .rh-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;}
@@ -1407,15 +1402,15 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
     <!-- station player -->
     <div class="radio-player">
-      <div class="section-label">the rooms</div>
+      <div class="section-label">stations</div>
       <div class="station-grid">
-        <button class="station-card sc-flowy" onclick="radioPlayStation('flowy')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/flowy.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">flowy</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
-        <button class="station-card sc-vibey" onclick="radioPlayStation('vibey')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/vibey.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">vibey</div><div class="station-cdesc">focus &amp; easy energy</div></button>
+        <button class="station-card sc-drift" onclick="radioPlayStation('drift')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/drift.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">drift</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
+        <button class="station-card sc-groove" onclick="radioPlayStation('groove')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/groove.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">groove</div><div class="station-cdesc">focus &amp; easy energy</div></button>
         
-        <button class="station-card sc-airy" onclick="radioPlayStation('airy')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/airy.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">airy</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-whispers" onclick="radioPlayStation('whispers')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whispers.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whispers</div><div class="station-cdesc">spoken word &amp; poetry &middot; coming soon</div></button>
+        <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
+        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whisper</div><div class="station-cdesc">spoken word &amp; poetry &middot; coming soon</div></button>
       </div>
-      <div id="radio-station-desc" class="radio-station-desc">tap a room to begin.</div>
+      <div id="radio-station-desc" class="radio-station-desc">tap a station to begin.</div>
 
       <div class="section-label" style="margin-top:2.75rem;">collections &middot; from the soundlab</div>
       <div class="collection-row">
@@ -1428,7 +1423,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
       <div class="section-label" style="margin-top:2.75rem;">spotlight</div>
       <div class="spotlight-row">
-        <div class="spot-col"><div class="spot-head">new in the room</div><div id="spot-recent"></div></div>
+        <div class="spot-col"><div class="spot-head">new on the air</div><div id="spot-recent"></div></div>
         <div class="spot-col"><div class="spot-head">most returned to</div><div id="spot-played"></div></div>
       </div>
     </div>
@@ -1449,11 +1444,11 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     .station-card:hover .station-play,.station-card.active .station-play{opacity:1;transform:translateY(0);}
     .station-card.active .station-cover{outline:2px solid rgba(201,163,106,.85);outline-offset:2px;}
     .station-soon{position:absolute;right:10px;bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);background:rgba(0,0,0,.35);padding:4px 8px;border-radius:999px;z-index:2;}
-    .sc-flowy .station-cover{background:linear-gradient(145deg,#123c3c,#081c22);}
-    .sc-vibey .station-cover{background:linear-gradient(145deg,#4a2f1a,#22140a);}
+    .sc-drift .station-cover{background:linear-gradient(145deg,#123c3c,#081c22);}
+    .sc-groove .station-cover{background:linear-gradient(145deg,#4a2f1a,#22140a);}
     .sc-ire .station-cover{background:linear-gradient(145deg,#b06a2c,#5c2f14);}
-    .sc-airy .station-cover{background:linear-gradient(145deg,#41605655,#26332e);background-color:#2e4038;}
-    .sc-whispers .station-cover{background:linear-gradient(145deg,#3d2b48,#1c1425);}
+    .sc-dust .station-cover{background:linear-gradient(145deg,#41605655,#26332e);background-color:#2e4038;}
+    .sc-whisper .station-cover{background:linear-gradient(145deg,#3d2b48,#1c1425);}
     .album-card{display:flex;flex-direction:column;gap:8px;}
     .album-cover{display:flex;align-items:flex-end;padding:14px;}
     .album-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1;position:relative;z-index:2;}
@@ -1484,10 +1479,10 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     </style>
     <script>
     var ROOM_WALLPAPER={
-      airy:'linear-gradient(165deg,#d6eae9 0%,#a6cdcb 100%)',
-      vibey:'linear-gradient(165deg,#f5d99b 0%,#e5a951 100%)',
-      flowy:'linear-gradient(165deg,#f2c2a2 0%,#db8b60 100%)',
-      whispers:'linear-gradient(165deg,#d9bed2 0%,#b088a4 100%)'
+      dust:'linear-gradient(165deg,#d6eae9 0%,#a6cdcb 100%)',
+      groove:'linear-gradient(165deg,#f5d99b 0%,#e5a951 100%)',
+      drift:'linear-gradient(165deg,#f2c2a2 0%,#db8b60 100%)',
+      whisper:'linear-gradient(165deg,#d9bed2 0%,#b088a4 100%)'
     };
     function setRoomWallpaper(cat){
       var c=(typeof radioNorm==='function')?radioNorm(cat):cat;
@@ -1497,7 +1492,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
     function radioPlayStation(cat){
       setRoomWallpaper(cat);
       var d=document.getElementById('radio-station-desc');
-      if(cat==='whispers'){ if(d) d.textContent='whispers \u2014 coming soon.'; return; }
+      if(cat==='whisper'){ if(d) d.textContent='whisper \u2014 coming soon.'; return; }
       radioCat=cat; buildQueue(radioShuffled);
       var t=radioQueue[0]; if(t) radioPlay(t.slug,t.name,t.cat);
       if(d) d.textContent=(radioStations[cat]||'');
@@ -1531,7 +1526,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
         <button class="rf-opt" data-v="post originals" onclick="rfToggle(this)">post my originals</button>
         <button class="rf-opt" data-v="remix soundscape/beat" onclick="rfToggle(this)">remix a respira soundscape / beat</button>
         <button class="rf-opt" data-v="voice-over on a track" onclick="rfToggle(this)">voice-over on one of our tracks</button>
-        <button class="rf-opt" data-v="whispers spoken word" onclick="rfToggle(this)">whispers &mdash; spoken word / poetry</button>
+        <button class="rf-opt" data-v="whisper spoken word" onclick="rfToggle(this)">whisper &mdash; spoken word / poetry</button>
         <button class="rf-opt" data-v="build a collection" onclick="rfToggle(this)">build a collection</button>
       </div>
       <div class="rf-fields">
@@ -1606,50 +1601,50 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 
 // ── radio: full track list for autoplay + shuffle ─────────────────────────
 var radioAllTracks = [
-  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'flowy'},
-  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'flowy'},
-  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'flowy'},
-  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'flowy'},
-  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'flowy'},
-  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'flowy'},
-  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'flowy'},
-  {slug:'still-ground-01',   name:'still ground 01',   cat:'flowy'},
-  {slug:'still-ground-02',   name:'still ground 02',   cat:'flowy'},
-  {slug:'township-morning-01', name:'township morning 01', cat:'vibey'},
-  {slug:'township-morning-02', name:'township morning 02', cat:'vibey'},
-  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'vibey'},
-  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'vibey'},
-  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'vibey'},
-  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'vibey'},
-  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'flowy'},
-  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'vibey'},
-  {slug:'riverbend-808', name:'riverbend 808', cat:'vibey'},
-  {slug:'yingi-yanga', name:'yingi yanga', cat:'vibey'},
-  {slug:'coco-coconut', name:'coco coconut', cat:'vibey'},
-  {slug:'rasta-savasana', name:'rasta savasana', cat:'flowy'},
-  {slug:'945-in-kingston', name:'945 in kingston', cat:'flowy'},
-  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'vibey'},
-  {slug:'yogapiano', name:'yogapiano', cat:'vibey'},
-  {slug:'zouk-asana', name:'zouk-asana', cat:'vibey'},
-  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'vibey'},
-  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'flowy'},
-  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'flowy'},
-  {slug:'cello-phane-again', name:'cello-phane again', cat:'flowy'},
-  {slug:'sunset-no-delay', name:'sunset no delay', cat:'flowy'},
-  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'flowy'},
-  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'flowy'},
-  {slug:'yanya-yingi', name:'yanya yingi', cat:'vibey'},
-  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'flowy'},
-  {slug:'ancestor-hum', name:'ancestor hum', cat:'airy'},
-  {slug:'calm-shore', name:'calm shore', cat:'airy'},
-  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'airy'},
-  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'airy'},
-  {slug:'lagos-downpour', name:'lagos downpour', cat:'airy'},
-  {slug:'steady-rainfall', name:'steady rainfall', cat:'airy'},
-  {slug:'wakanda-waves', name:'wakanda waves', cat:'airy'},
-  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'airy'},
+  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'drift'},
+  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'drift'},
+  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'drift'},
+  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'drift'},
+  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'drift'},
+  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'drift'},
+  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'drift'},
+  {slug:'still-ground-01',   name:'still ground 01',   cat:'drift'},
+  {slug:'still-ground-02',   name:'still ground 02',   cat:'drift'},
+  {slug:'township-morning-01', name:'township morning 01', cat:'groove'},
+  {slug:'township-morning-02', name:'township morning 02', cat:'groove'},
+  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'groove'},
+  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'groove'},
+  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'groove'},
+  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'groove'},
+  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'drift'},
+  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'groove'},
+  {slug:'riverbend-808', name:'riverbend 808', cat:'groove'},
+  {slug:'yingi-yanga', name:'yingi yanga', cat:'groove'},
+  {slug:'coco-coconut', name:'coco coconut', cat:'groove'},
+  {slug:'rasta-savasana', name:'rasta savasana', cat:'drift'},
+  {slug:'945-in-kingston', name:'945 in kingston', cat:'drift'},
+  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'groove'},
+  {slug:'yogapiano', name:'yogapiano', cat:'groove'},
+  {slug:'zouk-asana', name:'zouk-asana', cat:'groove'},
+  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'groove'},
+  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'drift'},
+  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'drift'},
+  {slug:'cello-phane-again', name:'cello-phane again', cat:'drift'},
+  {slug:'sunset-no-delay', name:'sunset no delay', cat:'drift'},
+  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'drift'},
+  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'drift'},
+  {slug:'yanya-yingi', name:'yanya yingi', cat:'groove'},
+  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'drift'},
+  {slug:'ancestor-hum', name:'ancestor hum', cat:'dust'},
+  {slug:'calm-shore', name:'calm shore', cat:'dust'},
+  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'dust'},
+  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'dust'},
+  {slug:'lagos-downpour', name:'lagos downpour', cat:'dust'},
+  {slug:'steady-rainfall', name:'steady rainfall', cat:'dust'},
+  {slug:'wakanda-waves', name:'wakanda waves', cat:'dust'},
+  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'dust'},
   // ── ADD NEW TRACKS HERE ──────────────────────────────────────────────────────
-  // {slug:'your-file-name', name:'display name', cat:'flowy|vibey|iré|new-category'},
+  // {slug:'your-file-name', name:'display name', cat:'drift|groove|iré|new-category'},
 ];
 var radioShuffled = true;
 var radioLoop = true;
@@ -1813,11 +1808,11 @@ function radioPlay(slug,name,cat){
   });
 }
 var radioStations = {
-  flowy: 'slow, spacious beats · for winding down & gentle movement',
-  vibey: 'warm low-key grooves · for focus & easy energy',
+  drift: 'slow, spacious beats · for winding down & gentle movement',
+  groove: 'warm low-key grooves · for focus & easy energy',
   ire:   'bright & uplifting · for joy, light & good mornings',
-  airy:  'pure soundscapes · for meditation, breathwork & deep rest',
-  whispers: 'spoken word, poetry & short talks · for reflection & stillness'
+  dust:  'pure soundscapes · for meditation, breathwork & deep rest',
+  whisper: 'spoken word, poetry & short talks · for reflection & stillness'
 };
 function radioTab(cat, btn){
   var d=document.getElementById('radio-station-desc'); if(d) d.textContent = radioStations[cat] || '';
@@ -1858,37 +1853,6 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 
 
 <!-- for studios + guides -->
-<div id="studios" style="background:var(--bg);border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
-  <div class="inner" style="max-width:820px;margin:0 auto;">
-    <div class="studio-hero">
-      <div class="studio-hero-inner">
-        <div class="sh-eyebrow">for studios, coaches &amp; spaces</div>
-        <h2 class="sh-title">bring respira into your practice.</h2>
-        <p class="sh-lede">a free toolkit for the people holding space &mdash; audio for your rooms, your own branded app, a directory that sends you clients, and support when you need it. built by happy sunday, given freely.</p>
-        <a href="/studio" class="sh-cta">build a class &rarr;</a><a href="#directory" class="sh-cta sh-cta2">see the tools &darr;</a>
-      </div>
-    </div>
-
-    <div class="st-group-label"><b>studios + coaches</b> &middot; build + grow your wellbeing venture</div>
-    <div class="st-grid">
-      <a class="st-tool" href="/studio"><div class="st-tool-name">class builder <span class="st-new">beta</span></div><div class="st-tool-desc">build a class &mdash; sections, cues &amp; music, then press play</div></a>
-      <a class="st-tool" href="#blueprint"><div class="st-tool-name">your own app</div><div class="st-tool-desc">build your own breathing room</div></a>
-      <a class="st-tool" href="#radio"><div class="st-tool-name">respira radio</div><div class="st-tool-desc">stations for your space &amp; sessions</div></a>
-      <a class="st-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><div class="st-tool-name">helpdesk &#8599;</div><div class="st-tool-desc">support, answered with warmth</div></a>
-      <a class="st-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><div class="st-tool-name">pages &#8599;</div><div class="st-tool-desc">happy sunday&rsquo;s directory of care</div></a>
-    </div>
-
-    <div class="st-group-label st-group-2"><b>community</b> &middot; expand your room</div>
-    <div class="st-grid">
-      <a class="st-tool" href="#goods"><div class="st-tool-name">goods</div><div class="st-tool-desc">the respira kit &amp; shelf</div></a>
-      <a class="st-tool" href="#guides"><div class="st-tool-name">guides</div><div class="st-tool-desc">find &amp; book practitioners</div></a>
-      <a class="st-tool" href="#local"><div class="st-tool-name">local</div><div class="st-tool-desc">where the practice is taking root</div></a>
-    </div>
-
-    <p class="st-foot">powered by happy sunday &middot; an initiative of the birthright project</p>
-  </div>
-</div>
-
 <!-- respira guides -->
 <div id="guides" style="background:#efd6b0;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner">
@@ -3224,13 +3188,21 @@ document.addEventListener("DOMContentLoaded", function() {
   const slowmo10Btn     = document.getElementById("slowmo10Btn");
   const slowmo20Btn     = document.getElementById("slowmo20Btn");
 
+  var _committedBg="";
+  var HOVER_BG={ pathBreathe:"#f2ce97", pathMove:"#c2d9a0", pathLounge:"#efd39a", pathExplore:"#e3ad8a" };
+  ["pathBreathe","pathMove","pathLounge","pathExplore"].forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    el.addEventListener("mouseenter",function(){ document.body.style.backgroundColor=HOVER_BG[id]; });
+  });
+  var _entryGrid=document.querySelector(".entry-grid");
+  if(_entryGrid) _entryGrid.addEventListener("mouseleave",function(){ document.body.style.backgroundColor=_committedBg; });
   pathBreathe.addEventListener("click", () => {
     pathBreathe.classList.add("selected");
     pathMove.classList.remove("selected");
     breatheOptions.style.display = "block";
     moveOptions.style.display    = "none";
     backToStartBtn.style.display = "inline-flex";
-    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(160deg,#f7d7a6 0%,#e8a05c 100%)";
+    document.body.style.backgroundColor="#f2ce97"; _committedBg="#f2ce97";
   });
 
   pathMove.addEventListener("click", () => {
@@ -3239,7 +3211,7 @@ document.addEventListener("DOMContentLoaded", function() {
     moveOptions.style.display    = "block";
     breatheOptions.style.display = "none";
     backToStartBtn.style.display = "inline-flex";
-    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="linear-gradient(160deg,#cfe6b0 0%,#93c162 100%)";
+    document.body.style.backgroundColor="#c2d9a0"; _committedBg="#c2d9a0";
   });
 
   slowmo5Btn.addEventListener("click",  () => beginWithCountdown(function(){ startSlowMo(5); }));
@@ -3250,7 +3222,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function resetPathSelector(){
     pathBreathe.classList.remove("selected");
     pathMove.classList.remove("selected");
-    var ps=document.querySelector(".prototype-shell"); if(ps) ps.style.background="";
+    _committedBg=""; document.body.style.backgroundColor="";
     breatheOptions.style.display = "none";
     moveOptions.style.display    = "none";
   }  // ── slow mo session ───────────────────────────────────────────────────────
@@ -4427,10 +4399,10 @@ function submitDonate(){
 .mini-controls button:hover{color:rgba(201,163,106,.95);background:rgba(255,255,255,.08);}
 #mini-playpause{color:rgba(201,163,106,.95);font-size:11px;}
 .mini-x{font-size:14px;opacity:.45;}
-.mc-flowy{background:linear-gradient(145deg,#123c3c,#081c22);}
-.mc-vibey{background:linear-gradient(145deg,#4a2f1a,#22140a);}
+.mc-drift{background:linear-gradient(145deg,#123c3c,#081c22);}
+.mc-groove{background:linear-gradient(145deg,#4a2f1a,#22140a);}
 .mc-ire{background:linear-gradient(145deg,#b06a2c,#5c2f14);}
-.mc-airy{background:linear-gradient(145deg,#2e4038,#26332e);}
+.mc-dust{background:linear-gradient(145deg,#2e4038,#26332e);}
 @media(max-width:560px){.mini-time{display:none;}.mini-cover{width:38px;height:38px;}.mini-controls button{padding:7px 6px;}}
 </style>
 <script>
