@@ -2265,34 +2265,13 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
   <div class="inner">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
       <div>
-        <div class="goods-eyebrow">the shelf</div>
+        <div class="goods-eyebrow">goods</div>
         <h2 class="goods-h2">good things<br><em>we&rsquo;d put in your hands.</em></h2>
       </div>
-      <p class="goods-note">curated, not a catalog &mdash; a couple made by respira, the rest by makers we back.<br>some links may be affiliate; we only shelf what we&rsquo;d use ourselves.</p>
+      <p class="goods-note">made by respira &mdash; printed to order, in every mother tongue.<br>plus posters, free to download and print.</p>
     </div>
-    <div class="goods-tier">made by respira</div>
-    <div class="goods-flagship">
-      <div class="gf-media"><img id="gf-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/kit-terracotta.jpg" alt="the respira kit" onerror="this.parentNode.style.display='none'"></div>
-      <div class="gf-body">
-        <div class="gf-tag">the flagship</div>
-        <h3 class="gf-name">the respira kit</h3>
-        <div class="cs-badge">coming soon</div>
-        <p class="gf-tagline">the room you can carry.</p>
-        <div class="gf-incl">foldable mat &middot; carry bag &middot; zip pouch &middot; knee pads</div>
-        <div class="gf-colors">
-          <button class="gf-swatch active" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/kit-terracotta.jpg" onclick="gfColor(this)"><span style="background:#a5542f"></span>terracotta</button>
-          <button class="gf-swatch" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/kit-ink.jpg" onclick="gfColor(this)"><span style="background:#3b2f27"></span>ink</button>
-        </div>
-        <div class="gf-price">$128 <span>&middot; mat + pads + bag</span></div>
-        <div class="gf-row" id="gf-row">
-          <input id="gf-email" type="email" placeholder="your email" class="gf-input" aria-label="your email">
-          <button class="gf-btn" onclick="gfPreorder()">reserve yours &rarr;</button>
-        </div>
-        <div class="gf-note">pre-order &middot; ships when it&rsquo;s ready</div>
-        <div id="gf-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. we&rsquo;ll email you first.</div>
-      </div>
-    </div>
-    <script>
+        <div class="goods-tier">made by respira</div>
+<script>
     function hoColor(btn){
       var img=document.getElementById('ho-img');
       if(img && btn.getAttribute('data-src')) img.src=btn.getAttribute('data-src');
@@ -2329,7 +2308,6 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       <div class="gf-body">
         <div class="gf-tag">made by respira</div>
         <h3 class="gf-name">the respira hoodie</h3>
-        <div class="cs-badge">coming soon</div>
         <p class="gf-tagline">the ethos, in every tongue.</p>
         <div class="gf-incl">movement = medicine &middot; stillness = sustenance &mdash; translated down the front &amp; back</div>
         <div class="gf-colors">
@@ -2345,40 +2323,63 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         <div id="ho-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. we&rsquo;ll email you first.</div>
       </div>
     </div>
-    <div class="goods-tier t2">the shelf &middot; goods we trust</div>
-    <div class="shelf-feature">
-      <div class="sf-media"><img src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/sunday-colab.jpg" alt="happy sunday co-lab ritual goods" onerror="this.parentNode.style.display='none'"></div>
-      <div class="sf-body">
-        <div class="sf-tag">happy sunday co-lab</div>
-        <h3 class="sf-name">the sunday ritual set</h3>
-        <p class="sf-desc">tea &middot; body butter &middot; tea lights &middot; spf 54. profits after product costs return to impact.</p>
-        <div class="sf-note">sold out &mdash; restocking soon.</div>
-        <div class="sf-row" id="sf-row"><input id="sf-email" class="sf-input" type="email" placeholder="your email"><button class="sf-btn" onclick="sundayNotify()">notify me &rarr;</button></div>
-        <div id="sf-thanks" class="sf-thanks">thank you &mdash; we&rsquo;ll email you the moment it&rsquo;s back.</div>
-      </div>
-    </div>
-    <div id="goods-grid" class="goods-grid"><!-- cards injected by js --></div>
 
-    <div class="bg-add">
-      <div class="bg-title">make something good?</div>
-      <div class="bg-copy">bring your goods to the shelf. makers, small brands, and practitioners with a product &mdash; submit to be featured. we review everything, and only shelf what we&rsquo;d use ourselves.</div>
-      <button class="bg-btn" onclick="bgOpen(this)">bring your goods &rarr;</button>
-      <div class="bg-form" id="bg-form">
-        <input id="bg-name" class="bg-input" placeholder="brand / maker name">
-        <input id="bg-product" class="bg-input" placeholder="the product">
-        <input id="bg-desc" class="bg-input" placeholder="what it is">
-        <input id="bg-link" class="bg-input" placeholder="link / where to buy (optional)">
-        <label class="bg-file"><span id="bg-file-text">add a photo &mdash; optional</span><input type="file" id="bg-photo" accept="image/*" onchange="bgPhotoName(this)"></label>
-        <input id="bg-contact" class="bg-input" placeholder="your contact (email or handle)">
-        <label class="bg-ack"><input type="checkbox" id="bg-ack"> i understand submissions are reviewed before being featured.</label>
-        <button class="bg-submit" onclick="bgSubmit()">submit to the shelf</button>
+    <div class="goods-tier t2">free to download &middot; print at home</div>
+    <p class="poster-intro">four posters, each phrase in all eight of respira&rsquo;s languages &mdash; english, espa&ntilde;ol, fran&ccedil;ais, kiswahili, العربية, yor&ugrave;b&aacute;, krey&ograve;l, igbo. 18&Prime;&times;24&Prime;, print-ready. yours, at no cost &mdash; and yours to recolor, retranslate, and make your own.</p>
+    <div class="poster-grid">
+      <div class="poster-card pp-cream">
+        <a class="pc-link" href="/poster?p=breathe" aria-label="open breathe in slowly in the poster studio">
+          <div class="pc-sheet"><span class="pc-line">breathe in slowly</span><span class="pc-hover">make it yours &rarr;</span></div>
+          <div class="pc-name">breathe in slowly</div>
+          <div class="pc-desc">the invitation, in eight mother tongues.</div>
+        </a>
+        <div class="pc-acts">
+          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-breathe-in-slowly.pdf" download>original pdf &darr;</a>
+          <a class="pc-studio" href="/poster?p=breathe">studio &rarr;</a>
+        </div>
       </div>
-      <div id="bg-thanks" class="bg-thanks">thank you &mdash; we&rsquo;ll review and be in touch.</div>
+      <div class="poster-card pp-amber">
+        <a class="pc-link" href="/poster?p=stillness" aria-label="open stillness = sustenance in the poster studio">
+          <div class="pc-sheet"><span class="pc-line">stillness = sustenance</span><span class="pc-hover">make it yours &rarr;</span></div>
+          <div class="pc-name">stillness = sustenance</div>
+          <div class="pc-desc">the breathe room, in eight mother tongues.</div>
+        </a>
+        <div class="pc-acts">
+          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-stillness.pdf" download>original pdf &darr;</a>
+          <a class="pc-studio" href="/poster?p=stillness">studio &rarr;</a>
+        </div>
+      </div>
+      <div class="poster-card pp-sage">
+        <a class="pc-link" href="/poster?p=movement" aria-label="open movement = medicine in the poster studio">
+          <div class="pc-sheet"><span class="pc-line">movement = medicine</span><span class="pc-hover">make it yours &rarr;</span></div>
+          <div class="pc-name">movement = medicine</div>
+          <div class="pc-desc">the flow room, in eight mother tongues.</div>
+        </a>
+        <div class="pc-acts">
+          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-movement.pdf" download>original pdf &darr;</a>
+          <a class="pc-studio" href="/poster?p=movement">studio &rarr;</a>
+        </div>
+      </div>
+      <div class="poster-card pp-coffee">
+        <a class="pc-link" href="/poster?p=prosperity" aria-label="open prosperity is a human right in the poster studio">
+          <div class="pc-sheet"><span class="pc-line">prosperity is a human right</span><span class="pc-hover">make it yours &rarr;</span></div>
+          <div class="pc-name">prosperity is a human right</div>
+          <div class="pc-desc">the belief, in eight mother tongues.</div>
+        </a>
+        <div class="pc-acts">
+          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-prosperity.pdf" download>original pdf &darr;</a>
+          <a class="pc-studio" href="/poster?p=prosperity">studio &rarr;</a>
+        </div>
+      </div>
     </div>
-    <div class="goods-actions">
-      <button id="goods-refresh" class="goods-refresh">&#8635; show another handful</button>
-    </div>
-    <p class="goods-foot">co-brands rotate &middot; makers across africa, latin america, the caribbean &amp; the diaspora &middot; prosperity is a human right</p>
+
+    <a class="poster-studio-cta" href="/poster">
+      <span class="psc-l">
+        <span class="psc-title">the poster studio</span>
+        <span class="psc-copy">choose a phrase, add your mother tongue, pick your colors. print it at 18&Prime;&times;24&Prime;, or send the link to someone who needs it.</span>
+      </span>
+      <span class="psc-btn">open the studio &rarr;</span>
+    </a>
   </div>
 </div>
 
@@ -2408,6 +2409,32 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .gf-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint);margin:10px 0 0;text-transform:lowercase;}
 .gf-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:var(--sage-dark);margin:12px 0 0;}
 @media(max-width:600px){ .goods-flagship{grid-template-columns:1fr;} }
+.poster-intro{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--soft);line-height:1.9;max-width:52ch;margin:0 0 1.4rem;}
+.poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;}
+.poster-card{display:block;background:none;transition:transform .18s ease;}
+.poster-card:hover{transform:translateY(-4px);}
+.pc-link{display:block;text-decoration:none;}
+.pc-sheet{position:relative;aspect-ratio:3/4;border-radius:4px;display:flex;align-items:flex-end;padding:14px;box-shadow:0 12px 30px rgba(55,42,29,.18);overflow:hidden;}
+.pc-hover{position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:#fffaf2;background:rgba(0,0,0,.42);opacity:0;transition:opacity .2s ease;}
+.poster-card:hover .pc-hover,.pc-link:focus-visible .pc-hover{opacity:1;}
+.pc-line{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.15rem;line-height:1.05;letter-spacing:-.02em;}
+.pp-cream .pc-sheet{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
+.pp-amber .pc-sheet{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
+.pp-sage .pc-sheet{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
+.pp-coffee .pc-sheet{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
+.pc-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;color:var(--ink);margin-top:12px;line-height:1.2;}
+.pc-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);line-height:1.7;margin-top:4px;}
+.pc-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;}
+.pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;text-decoration:none;transition:color .18s;}
+.pc-dl:hover{color:#a5442f;}
+.pc-studio{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:var(--sage-dark);text-decoration:none;transition:color .18s;}
+.pc-studio:hover{color:var(--ink);}
+.poster-studio-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:1.6rem;padding:1.4rem 1.6rem;background:#2a1f18;border-radius:20px;text-decoration:none;transition:transform .18s ease;}
+.poster-studio-cta:hover{transform:translateY(-2px);}
+.psc-l{display:block;max-width:56ch;}
+.psc-title{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:300;color:rgba(201,163,106,.95);line-height:1;}
+.psc-copy{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;line-height:1.9;color:rgba(255,250,242,.62);margin-top:8px;}
+.psc-btn{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#2a1f18;background:rgba(201,163,106,.95);padding:11px 20px;border-radius:999px;white-space:nowrap;}
 .goods-tier{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;margin:0 0 14px;}
 .goods-tier.t2{margin-top:2.75rem;}
 .shelf-feature{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,28px);align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(14px,2.5vw,20px);margin-bottom:1.5rem;}
@@ -4107,10 +4134,19 @@ function navRadioToggle(){
 </script>
 
 <script>
+/* service worker — always take the newest one, never serve a stale page */
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(){ console.log('respira sw registered'); })
+    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+      .then(function(reg){
+        console.log('respira sw registered');
+        reg.update();
+        // when a new worker takes over, reload once so the new html shows up
+        var reloading = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function(){
+          if(reloading) return; reloading = true; window.location.reload();
+        });
+      })
       .catch(function(e){ console.warn('sw error:', e); });
   });
 }

@@ -1,79 +1,87 @@
-const CACHE = 'respira-v2';
-const BASE = 'https://raw.githubusercontent.com/surulere-pixel/respira/main/';
+/* ══════════════════════════════════════════════════════════
+   respira · service worker
+   v4 — bump CACHE on every deploy that changes html or assets
 
-// Core app shell
-const SHELL = [
+   pages (html)  → network first, cache as fallback  (never stale)
+   assets        → cache first, refreshed in background
+   ══════════════════════════════════════════════════════════ */
+
+const CACHE = 'respira-v4';
+
+const PRECACHE = [
   '/',
   '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/poster',
+  '/poster.html',
+  '/manifest.json'
 ];
 
-// Pose images to pre-cache
-const POSES = Array.from({length: 24}, (_, i) => {
-  const names = [
-    '01_seated_meditation','02_seated_breath','03_cat_flat','04_cow',
-    '05_cat_cow_side','06_downdog','07_lunge','08_forward_fold',
-    '09_standing_reach','10_warrior2','11_triangle','12_childs_pose',
-    '13_tree','14_chair','15_plank','16_side_angle','17_upward_dog',
-    '18_bridge','19_boat','20_pigeon_pose','21_easy_seat','22_camel',
-    '23_half_moon','24_happy_baby'
-  ];
-  return BASE + names[i] + '.png';
-});
-
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache => {
-      // Cache shell immediately
-      cache.addAll(SHELL);
-      // Cache poses in background (don't block install)
-      cache.addAll(POSES).catch(() => {});
-      return cache;
-    })
-  );
+/* install: take over immediately */
+self.addEventListener('install', event => {
   self.skipWaiting();
-});
-
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+  event.waitUntil(
+    caches.open(CACHE).then(c => Promise.allSettled(PRECACHE.map(u => c.add(u))))
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', e => {
-  // Network first for HTML, cache first for assets
-  const url = new URL(e.request.url);
-  const isShell = url.pathname === '/' || url.pathname === '/index.html';
+/* activate: drop every older cache, claim open tabs */
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
+});
 
-  if (isShell) {
-    // Network first — always get latest app
-    e.respondWith(
-      fetch(e.request)
-        .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-          return res;
-        })
-        .catch(() => caches.match(e.request))
-    );
-  } else {
-    // Cache first — images, audio, fonts
-    e.respondWith(
-      caches.match(e.request).then(cached => {
-        if (cached) return cached;
-        return fetch(e.request).then(res => {
-          if (res.ok) {
-            const clone = res.clone();
-            caches.open(CACHE).then(c => c.put(e.request, clone));
-          }
-          return res;
-        }).catch(() => cached);
-      })
-    );
+/* an escape hatch: page can post {type:'RESET'} to wipe everything */
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'RESET') {
+    event.waitUntil((async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+      await self.registration.unregister();
+      const clients = await self.clients.matchAll({ type: 'window' });
+      clients.forEach(c => c.navigate(c.url));
+    })());
   }
+});
+
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;   // let fonts, github, formspree pass through
+
+  const isPage = req.mode === 'navigate' ||
+                 (req.headers.get('accept') || '').includes('text/html');
+
+  if (isPage) {
+    // network first — a deploy is visible on the next load
+    event.respondWith((async () => {
+      try {
+        const fresh = await fetch(req);
+        const cache = await caches.open(CACHE);
+        cache.put(req, fresh.clone());
+        return fresh;
+      } catch (e) {
+        const hit = await caches.match(req);
+        return hit || await caches.match('/index.html') ||
+               new Response('offline', { status: 503, headers: { 'Content-Type': 'text/plain' } });
+      }
+    })());
+    return;
+  }
+
+  // assets: cache first, quietly refresh behind the scenes
+  event.respondWith((async () => {
+    const hit = await caches.match(req);
+    const network = fetch(req).then(res => {
+      if (res && res.status === 200 && res.type === 'basic') {
+        caches.open(CACHE).then(c => c.put(req, res.clone()));
+      }
+      return res;
+    }).catch(() => hit);
+    return hit || network;
+  })());
 });

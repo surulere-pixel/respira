@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>poster studio · respira</title>
+<meta name="description" content="make your own respira poster. four phrases, eight mother tongues, your colors. 18″×24″, print-ready, free.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%232a1f18%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%278%27%20fill%3D%27%23c9a36a%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2713%27%20r%3D%273%27%20fill%3D%27%23e6d3ac%27%20opacity%3D%270.55%27%2F%3E%3C%2Fsvg%3E">
+<meta name="theme-color" content="#f8f4ed">
+<meta property="og:title" content="poster studio · respira">
+<meta property="og:description" content="four phrases, eight mother tongues, your colors. 18″×24″, print-ready, free.">
+<meta property="og:url" content="https://openrespira.org/poster">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f8f4ed; --bg-warm:#efe7da; --ink:#1b1814; --soft:#5f554b; --faint:#8f8276;
+  --line:rgba(29,25,21,.12); --cream:#fffaf2; --sage:#8f9a7a; --sage-dark:#4f5a43;
+  --gold:#c9a36a; --clay:#a5442f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.75;overflow-x:hidden;}
+button,input,select,textarea{font:inherit;color:inherit;}
+button{cursor:pointer;background:none;border:none;}
+:focus-visible{outline:2px solid var(--sage-dark);outline-offset:2px;}
+a{color:inherit;}
+
+/* ── nav ─────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(248,244,237,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 clamp(1rem,4vw,2.5rem);}
+.nav-inner{max-width:1400px;margin:0 auto;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{font-family:var(--serif);font-size:1.55rem;font-weight:300;text-decoration:none;letter-spacing:-.03em;}
+.nav-logo em{font-style:italic;color:var(--sage-dark);}
+.nav-badge{font-size:.52rem;letter-spacing:.12em;color:var(--faint);border:1px solid var(--line);padding:.3rem .7rem;border-radius:999px;white-space:nowrap;}
+.nav-back{font-size:.6rem;letter-spacing:.06em;color:var(--soft);text-decoration:none;padding:.4rem .7rem;border-radius:999px;}
+.nav-back:hover{background:var(--line);color:var(--ink);}
+
+/* ── shell ───────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:minmax(320px,380px) 1fr;min-height:calc(100vh - 62px);max-width:1400px;margin:0 auto;}
+@media(max-width:900px){.shell{grid-template-columns:1fr;}}
+
+/* ── rail ────────────────────────────────────────── */
+.rail{border-right:1px solid var(--line);padding:clamp(1.4rem,3vw,2.2rem) clamp(1.2rem,2.6vw,1.8rem) 4rem;max-height:calc(100vh - 62px);overflow-y:auto;}
+@media(max-width:900px){.rail{max-height:none;border-right:none;border-top:1px solid var(--line);order:2;}}
+.rail-head{margin-bottom:2rem;}
+.rail-eyebrow{font-size:.55rem;letter-spacing:.16em;color:var(--sage-dark);margin-bottom:.7rem;}
+.rail-title{font-family:var(--serif);font-weight:300;font-size:2.1rem;line-height:1;letter-spacing:-.03em;}
+.rail-title em{font-style:italic;color:var(--sage-dark);}
+.rail-sub{font-size:.62rem;letter-spacing:.03em;color:var(--faint);line-height:1.9;margin-top:.7rem;max-width:38ch;}
+
+.grp{border-top:1px solid var(--line);padding:1.4rem 0 .3rem;}
+.grp-label{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;font-size:.55rem;letter-spacing:.16em;color:var(--sage-dark);margin-bottom:1rem;}
+.grp-hint{font-size:.5rem;letter-spacing:.06em;color:var(--faint);text-transform:none;}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{font-size:.58rem;letter-spacing:.05em;color:var(--soft);border:1px solid var(--line);background:transparent;border-radius:999px;padding:.42rem .8rem;transition:all .15s;}
+.chip:hover{border-color:var(--faint);color:var(--ink);}
+.chip[aria-pressed="true"]{background:#2a1f18;border-color:#2a1f18;color:rgba(201,163,106,.95);}
+
+.lines{display:flex;flex-direction:column;gap:6px;}
+.lrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:7px 9px;background:var(--cream);}
+.lrow[data-off="1"]{opacity:.45;}
+.ltick{width:17px;height:17px;border-radius:5px;border:1px solid var(--faint);display:grid;place-items:center;flex:none;}
+.ltick[aria-pressed="true"]{background:var(--sage-dark);border-color:var(--sage-dark);}
+.ltick svg{width:10px;height:10px;stroke:var(--cream);stroke-width:2.4;fill:none;opacity:0;}
+.ltick[aria-pressed="true"] svg{opacity:1;}
+.lbody{min-width:0;}
+.lname{font-size:.5rem;letter-spacing:.13em;color:var(--faint);}
+.ltext{width:100%;border:none;background:transparent;font-family:var(--serif);font-size:1.02rem;font-weight:400;line-height:1.3;padding:1px 0 0;outline:none;}
+.ltext:focus{color:var(--clay);}
+.ldel{font-size:.7rem;color:var(--faint);padding:2px 4px;line-height:1;}
+.ldel:hover{color:var(--clay);}
+
+.addrow{display:grid;grid-template-columns:1fr 1.5fr auto;gap:6px;margin-top:9px;}
+.inp{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 11px;font-size:.62rem;outline:none;min-width:0;}
+.inp:focus{border-color:var(--sage-dark);}
+.btn-s{font-size:.55rem;letter-spacing:.1em;border:1px solid var(--line);border-radius:10px;padding:0 13px;color:var(--soft);}
+.btn-s:hover{border-color:var(--ink);color:var(--ink);}
+
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.sw{aspect-ratio:3/4;border-radius:6px;border:1px solid rgba(0,0,0,.12);position:relative;display:grid;place-items:end center;padding-bottom:8px;transition:transform .16s;}
+.sw:hover{transform:translateY(-2px);}
+.sw span{font-family:var(--serif);font-size:.72rem;line-height:1;}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--ink);}
+.pickers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.pick{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:var(--cream);}
+.pick input[type=color]{width:26px;height:26px;border:none;border-radius:6px;background:none;padding:0;cursor:pointer;flex:none;}
+.pick input[type=color]::-webkit-color-swatch{border:1px solid rgba(0,0,0,.15);border-radius:5px;}
+.pick input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
+.pick label{font-size:.5rem;letter-spacing:.1em;color:var(--faint);}
+
+.slider{margin-bottom:14px;}
+.slider-top{display:flex;justify-content:space-between;font-size:.52rem;letter-spacing:.11em;color:var(--faint);margin-bottom:5px;}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:1px;background:var(--line);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--sage-dark);cursor:pointer;border:none;}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--sage-dark);cursor:pointer;border:none;}
+
+.toggles{display:flex;flex-direction:column;gap:9px;}
+.tg{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.58rem;letter-spacing:.05em;color:var(--soft);}
+.tg-sw{width:34px;height:19px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .18s;}
+.tg-sw::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--cream);box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .18s;}
+.tg-sw[aria-pressed="true"]{background:var(--sage-dark);}
+.tg-sw[aria-pressed="true"]::after{transform:translateX(15px);}
+.tg-field{margin-top:9px;}
+
+.acts{display:flex;flex-direction:column;gap:8px;}
+.btn{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.6rem;letter-spacing:.09em;padding:13px 17px;border-radius:999px;border:1px solid var(--line);color:var(--soft);transition:all .16s;text-decoration:none;}
+.btn:hover{border-color:var(--ink);color:var(--ink);}
+.btn-dk{background:#2a1f18;border-color:#2a1f18;color:rgba(201,163,106,.95);}
+.btn-dk:hover{background:#1b1814;border-color:#1b1814;color:var(--gold);}
+.btn i{font-style:normal;opacity:.6;}
+.acts-note{font-size:.5rem;letter-spacing:.06em;color:var(--faint);line-height:1.8;margin-top:11px;}
+
+/* ── stage ───────────────────────────────────────── */
+.stage{position:relative;display:grid;place-items:center;padding:clamp(1.5rem,4vw,3.5rem);background:
+  radial-gradient(circle at 50% 40%,rgba(255,250,242,.9),transparent 60%),var(--bg-warm);}
+@media(max-width:900px){.stage{order:1;min-height:70vh;}}
+.stage-meta{position:absolute;top:14px;right:16px;display:flex;gap:9px;align-items:center;font-size:.5rem;letter-spacing:.1em;color:var(--faint);}
+.stage-meta span{border:1px solid var(--line);border-radius:999px;padding:.3rem .65rem;background:rgba(255,250,242,.7);}
+.frame{width:100%;max-width:min(560px,62vh*0.75);}
+.poster-wrap{position:relative;width:100%;box-shadow:0 30px 90px rgba(55,42,29,.22);}
+
+#poster{
+  --s:1;
+  position:relative;
+  width:calc(var(--s) * 1296px);
+  height:calc(var(--s) * 1728px);
+  overflow:hidden;
+  transition:background-color .35s ease;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+#glow{position:absolute;inset:0;pointer-events:none;}
+.pline{position:absolute;left:0;right:0;text-align:center;font-family:var(--serif);font-weight:300;line-height:1;white-space:nowrap;}
+.pline.ar{font-family:'Noto Naskh Arabic',var(--serif);font-weight:400;}
+#pEyebrow,#pFooter{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-weight:300;line-height:1;white-space:nowrap;}
+#pRule{position:absolute;left:50%;transform:translateX(-50%);}
+
+/* ── toast ───────────────────────────────────────── */
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-size:.58rem;letter-spacing:.08em;padding:12px 20px;border-radius:999px;z-index:200;transition:all .3s;}
+#toast.on{opacity:1;transform:translate(-50%,0);}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+
+/* ── print: the whole point ──────────────────────── */
+@page{size:18in 24in;margin:0;}
+@media print{
+  .nav,.rail,.stage-meta,#toast{display:none!important;}
+  body,.shell,.stage,.frame,.poster-wrap{display:block!important;background:none!important;box-shadow:none!important;padding:0!important;margin:0!important;max-width:none!important;width:auto!important;min-height:0!important;}
+  #poster{--s:1.33333333;box-shadow:none!important;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">resp<em>i</em>ra</a>
+    <span class="nav-badge">poster studio · 18″ × 24″</span>
+    <a class="nav-back" href="/#goods">← back to goods</a>
+  </div>
+</nav>
+
+<div class="shell">
+
+  <!-- ─────────── controls ─────────── -->
+  <aside class="rail">
+    <div class="rail-head">
+      <div class="rail-eyebrow">free to download · print at home</div>
+      <h1 class="rail-title">make it <em>yours</em></h1>
+      <p class="rail-sub">four phrases, eight mother tongues, your colors. everything prints at 18″×24″, sharp as the original.</p>
+    </div>
+
+    <section class="grp">
+      <div class="grp-label"><span>the phrase</span><span class="grp-hint" id="phraseHint">the breathe room</span></div>
+      <div class="chips" id="phraseChips"></div>
+    </section>
+
+    <section class="grp">
+      <div class="grp-label"><span>the tongues</span><span class="grp-hint">tap to include · type to edit</span></div>
+      <div class="lines" id="lineList"></div>
+      <div class="addrow">
+        <input class="inp" id="newLang" placeholder="language" aria-label="language name">
+        <input class="inp" id="newText" placeholder="your translation" aria-label="translation">
+        <button class="btn-s" id="addLine">add</button>
+      </div>
+    </section>
+
+    <section class="grp">
+      <div class="grp-label"><span>the color</span><button class="grp-hint" id="flip" style="border:none;background:none;cursor:pointer;text-decoration:underline;">flip paper &amp; ink</button></div>
+      <div class="swatches" id="swatches"></div>
+      <div class="pickers">
+        <div class="pick"><input type="color" id="cBg" aria-label="paper color"><label for="cBg">paper</label></div>
+        <div class="pick"><input type="color" id="cText" aria-label="ink color"><label for="cText">ink</label></div>
+        <div class="pick"><input type="color" id="cMuted" aria-label="rule color"><label for="cMuted">rule</label></div>
+      </div>
+    </section>
+
+    <section class="grp">
+      <div class="grp-label"><span>the setting</span></div>
+      <div class="slider">
+        <div class="slider-top"><span>type size</span><span id="vSize">100%</span></div>
+        <input type="range" id="rSize" min="70" max="135" value="100" aria-label="type size">
+      </div>
+      <div class="slider">
+        <div class="slider-top"><span>breathing room</span><span id="vGap">100%</span></div>
+        <input type="range" id="rGap" min="70" max="150" value="100" aria-label="line spacing">
+      </div>
+      <div class="toggles">
+        <div class="tg"><span>ambient glow</span><button class="tg-sw" id="tGlow" aria-pressed="true" aria-label="ambient glow"></button></div>
+        <div class="tg"><span>hairline rule</span><button class="tg-sw" id="tRule" aria-pressed="true" aria-label="hairline rule"></button></div>
+        <div class="tg"><span>eyebrow</span><button class="tg-sw" id="tEyebrow" aria-pressed="true" aria-label="eyebrow"></button></div>
+        <input class="inp tg-field" id="eyebrowText" aria-label="eyebrow text" style="width:100%">
+        <div class="tg" style="margin-top:4px;"><span>footer</span><button class="tg-sw" id="tFooter" aria-pressed="true" aria-label="footer"></button></div>
+        <input class="inp tg-field" id="footerText" aria-label="footer text" style="width:100%">
+      </div>
+    </section>
+
+    <section class="grp">
+      <div class="grp-label"><span>take it with you</span></div>
+      <div class="acts">
+        <button class="btn btn-dk" id="doPrint">print · save as pdf <i>18″×24″ vector</i></button>
+        <button class="btn" id="doPng">download png <i>2700×3600</i></button>
+        <button class="btn" id="doSvg">download svg <i>editable</i></button>
+        <button class="btn" id="doShare">copy a link to this poster <i>↗</i></button>
+        <a class="btn" id="doOriginal" href="#" download>the original pdf <i>↓</i></a>
+        <button class="btn" id="doReset">start over <i>↺</i></button>
+      </div>
+      <p class="acts-note">printing gives you the sharpest file — choose “save as pdf,” paper size 18×24, margins none, background graphics on. png is ready for any print shop at 150dpi.</p>
+    </section>
+  </aside>
+
+  <!-- ─────────── stage ─────────── -->
+  <main class="stage">
+    <div class="stage-meta"><span id="metaLines">8 tongues</span><span>18″ × 24″</span></div>
+    <div class="frame">
+      <div class="poster-wrap">
+        <div id="poster">
+          <div id="glow"></div>
+          <div id="pEyebrow"></div>
+          <div id="pLines"></div>
+          <div id="pRule"></div>
+          <div id="pFooter"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   respira poster studio
+   one layout engine → preview, print, png, svg.
+   poster units: 1296 × 1728 (18″×24″ at 72dpi)
+   ══════════════════════════════════════════════════ */
+
+const W = 1296, H = 1728;
+const SPEC = {
+  padX: 122,
+  eyebrowY: 200, eyebrowSize: 26, eyebrowLS: .40,
+  topBound: 340, ruleY: 1452,
+  lineSize: 62, lineAdvance: 2.0,
+  ruleW: 132, ruleH: 2,
+  footerY: 1600, footerSize: 25, footerLS: .20
+};
+const SERIF = '"Cormorant Garamond", Georgia, serif';
+const ARABIC = '"Noto Naskh Arabic", "Cormorant Garamond", serif';
+const MONO   = '"IBM Plex Mono", monospace';
+const isArabic = s => /[\u0600-\u06FF\u0750-\u077F]/.test(s);
+
+/* ── the four posters, in eight mother tongues ── */
+const L = (lang, text) => ({ lang, text, on: true });
+const PHRASES = {
+  breathe: {
+    name: 'breathe in slowly', eyebrow: 'r e s p i r a',
+    file: 'respira-poster-breathe-in-slowly.pdf',
+    preset: 'clay',
+    lines: [
+      L('english','breathe in slowly'), L('español','inhala despacio'),
+      L('français','inspire lentement'), L('kiswahili','vuta pumzi polepole'),
+      L('العربية','تنفّس ببطء'), L('yorùbá','mí kẹ́lẹ́kẹ́lẹ́'),
+      L('kreyòl','respire dousman'), L('igbo','kubata ume nwayọ')
+    ]
+  },
+  stillness: {
+    name: 'stillness = sustenance', eyebrow: 't h e   b r e a t h e   r o o m',
+    file: 'respira-poster-stillness.pdf',
+    preset: 'cocoa',
+    lines: [
+      L('english','stillness = sustenance'), L('español','quietud = sustento'),
+      L('français','quiétude = subsistance'), L('kiswahili','utulivu = lishe'),
+      L('العربية','السكون = غذاء'), L('yorùbá','ìdákẹ́jẹ́ẹ́ = oúnjẹ'),
+      L('kreyòl','kalmi = manje'), L('igbo','jụụ = nri')
+    ]
+  },
+  movement: {
+    name: 'movement = medicine', eyebrow: 't h e   f l o w   r o o m',
+    file: 'respira-poster-movement.pdf',
+    preset: 'olive',
+    lines: [
+      L('english','movement = medicine'), L('español','movimiento = medicina'),
+      L('français','mouvement = médecine'), L('kiswahili','mwendo = dawa'),
+      L('العربية','الحركة = دواء'), L('yorùbá','ìṣíkiri = oògùn'),
+      L('kreyòl','mouvman = remèd'), L('igbo','mmegharị = ọgwụ')
+    ]
+  },
+  prosperity: {
+    name: 'prosperity is a human right', eyebrow: 'a   b e l i e f',
+    file: 'respira-poster-prosperity.pdf',
+    preset: 'onyx',
+    lines: [
+      L('english','prosperity is a human right'), L('español','la prosperidad es un derecho humano'),
+      L('français','la prospérité est un droit humain'), L('kiswahili','ustawi ni haki ya binadamu'),
+      L('العربية','الازدهار حق إنساني'), L('yorùbá','ìṣúnwọ̀n jẹ́ ẹ̀tọ́ ọmọnìyàn'),
+      L('kreyòl','pwosperite se yon dwa moun'), L('igbo','ọganihu bụ ikike mmadụ')
+    ]
+  }
+};
+
+const PRESETS = [
+  { id:'cocoa',  name:'deep cocoa',   bg:'#24170f', text:'#c9a06f', muted:'#7b6045' },
+  { id:'clay',   name:'burnt clay',   bg:'#8f4a2d', text:'#f1c98f', muted:'#60311f' },
+  { id:'olive',  name:'olive night',  bg:'#263025', text:'#d2b98a', muted:'#6c765e' },
+  { id:'onyx',   name:'onyx',         bg:'#11100e', text:'#b99664', muted:'#504336' },
+  { id:'oat',    name:'oat',          bg:'#c9b9a2', text:'#3a2a20', muted:'#8d7c67' },
+  { id:'sage',   name:'sage',         bg:'#3e4d41', text:'#f3ece0', muted:'#5f7363' },
+  { id:'mineral',name:'mineral',      bg:'#212932', text:'#e49b7a', muted:'#455566' },
+  { id:'coral',  name:'coral chalk',  bg:'#b85a4b', text:'#faebd7', muted:'#833d31' }
+];
+const PRESET_OF = id => PRESETS.find(p => p.id === id) || PRESETS[0];
+
+/* ── state ── */
+const DEFAULT_PHRASE = 'stillness';
+let S = null;
+function freshState(key = DEFAULT_PHRASE){
+  const p = PHRASES[key], c = PRESET_OF(p.preset);
+  return {
+    phrase: key,
+    lines: p.lines.map(l => ({...l})),
+    eyebrow: p.eyebrow, footer: 'openrespira.org',
+    bg: c.bg, text: c.text, muted: c.muted,
+    size: 100, gap: 100,
+    glow: true, rule: true, showEyebrow: true, showFooter: true
+  };
+}
+
+/* ══ layout engine (poster units) ══════════════════ */
+const measurer = document.createElement('canvas').getContext('2d');
+function fontFor(text, size, weight){
+  return `${weight} ${size}px ${isArabic(text) ? ARABIC : SERIF}`;
+}
+function layout(st){
+  const active = st.lines.filter(l => l.on && l.text.trim());
+  const maxW = W - SPEC.padX * 2;
+  const base = SPEC.lineSize * (st.size / 100);
+  const advance = base * SPEC.lineAdvance * (st.gap / 100);
+
+  const items = active.map(l => {
+    const weight = isArabic(l.text) ? 400 : 300;
+    measurer.font = fontFor(l.text, base, weight);
+    const w = measurer.measureText(l.text).width || 1;
+    const size = w > maxW ? base * (maxW / w) : base;
+    measurer.font = fontFor(l.text, size, weight);
+    const m = measurer.measureText(l.text);
+    return {
+      text: l.text, size, weight,
+      arabic: isArabic(l.text),
+      ascent: m.fontBoundingBoxAscent || size * .88,
+      descent: m.fontBoundingBoxDescent || size * .3
+    };
+  });
+
+  const blockH = items.length > 1 ? (items.length - 1) * advance : 0;
+  const center = (SPEC.topBound + SPEC.ruleY) / 2;
+  const firstBaseline = center - blockH / 2;
+  items.forEach((it, i) => { it.baseline = firstBaseline + i * advance; });
+
+  return { items, ruleY: SPEC.ruleY };
+}
+
+/* ══ preview render ════════════════════════════════ */
+const $ = id => document.getElementById(id);
+const poster = $('poster');
+
+function render(){
+  const st = S, lay = layout(st);
+
+  poster.style.background = st.bg;
+  $('glow').style.background = st.glow
+    ? 'radial-gradient(circle at 50% 42%, rgba(255,255,255,.06) 0%, transparent 42%), radial-gradient(circle at 22% 20%, rgba(255,255,255,.03) 0%, transparent 36%)'
+    : 'none';
+
+  // eyebrow
+  const eb = $('pEyebrow');
+  eb.style.display = st.showEyebrow && st.eyebrow.trim() ? 'block' : 'none';
+  eb.textContent = st.eyebrow;
+  eb.style.color = st.muted;
+  eb.style.fontSize = `calc(var(--s) * ${SPEC.eyebrowSize}px)`;
+  eb.style.letterSpacing = `${SPEC.eyebrowLS}em`;
+  eb.style.top = `calc(var(--s) * ${SPEC.eyebrowY - SPEC.eyebrowSize * .8}px)`;
+  eb.style.paddingLeft = `${SPEC.eyebrowLS}em`;
+
+  // lines
+  const box = $('pLines');
+  box.innerHTML = '';
+  lay.items.forEach(it => {
+    const d = document.createElement('div');
+    d.className = 'pline' + (it.arabic ? ' ar' : '');
+    d.textContent = it.text;
+    d.style.color = st.text;
+    d.style.fontWeight = it.weight;
+    d.style.fontSize = `calc(var(--s) * ${it.size}px)`;
+    // line-height:1 → baseline sits at top + halfLeading + ascent
+    const halfLeading = (it.size - (it.ascent + it.descent)) / 2;
+    d.style.top = `calc(var(--s) * ${it.baseline - it.ascent - halfLeading}px)`;
+    box.appendChild(d);
+  });
+
+  // rule
+  const r = $('pRule');
+  r.style.display = st.rule && lay.items.length ? 'block' : 'none';
+  r.style.background = st.muted;
+  r.style.width = `calc(var(--s) * ${SPEC.ruleW}px)`;
+  r.style.height = `calc(var(--s) * ${SPEC.ruleH}px)`;
+  r.style.top = `calc(var(--s) * ${lay.ruleY}px)`;
+
+  // footer
+  const f = $('pFooter');
+  f.style.display = st.showFooter && st.footer.trim() ? 'block' : 'none';
+  f.textContent = st.footer;
+  f.style.color = st.text;
+  f.style.opacity = .9;
+  f.style.fontSize = `calc(var(--s) * ${SPEC.footerSize}px)`;
+  f.style.letterSpacing = `${SPEC.footerLS}em`;
+  f.style.top = `calc(var(--s) * ${SPEC.footerY - SPEC.footerSize * .8}px)`;
+  f.style.paddingLeft = `${SPEC.footerLS}em`;
+
+  const n = lay.items.length;
+  $('metaLines').textContent = n + (n === 1 ? ' tongue' : ' tongues');
+}
+
+/* fit the poster to its frame */
+const frame = document.querySelector('.frame');
+function fit(){
+  const w = frame.clientWidth;
+  poster.style.setProperty('--s', (w / W).toFixed(5));
+}
+new ResizeObserver(fit).observe(frame);
+
+/* ══ controls ══════════════════════════════════════ */
+function buildPhraseChips(){
+  const wrap = $('phraseChips');
+  wrap.innerHTML = '';
+  Object.entries(PHRASES).forEach(([k, p]) => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.textContent = p.name;
+    b.setAttribute('aria-pressed', String(S.phrase === k));
+    b.onclick = () => { S = freshState(k); syncAll(); toast('loaded — ' + p.name); };
+    wrap.appendChild(b);
+  });
+  $('phraseHint').textContent = PHRASES[S.phrase] ? PHRASES[S.phrase].eyebrow.replace(/\s+/g,' ') : 'your own words';
+  const o = $('doOriginal');
+  if (PHRASES[S.phrase]) { o.style.display = ''; o.href = 'posters/' + PHRASES[S.phrase].file; }
+  else o.style.display = 'none';
+}
+
+function buildLines(){
+  const list = $('lineList');
+  list.innerHTML = '';
+  S.lines.forEach((l, i) => {
+    const row = document.createElement('div');
+    row.className = 'lrow';
+    row.dataset.off = l.on ? '0' : '1';
+
+    const tick = document.createElement('button');
+    tick.className = 'ltick';
+    tick.setAttribute('aria-pressed', String(l.on));
+    tick.setAttribute('aria-label', (l.on ? 'hide ' : 'show ') + l.lang);
+    tick.innerHTML = '<svg viewBox="0 0 12 12"><path d="M2 6.4 4.6 9 10 3.2"/></svg>';
+    tick.onclick = () => { l.on = !l.on; buildLines(); render(); };
+
+    const body = document.createElement('div');
+    body.className = 'lbody';
+    const nm = document.createElement('div');
+    nm.className = 'lname'; nm.textContent = l.lang;
+    const tx = document.createElement('input');
+    tx.className = 'ltext'; tx.value = l.text;
+    tx.setAttribute('aria-label', l.lang + ' line');
+    if (isArabic(l.text)) { tx.dir = 'rtl'; tx.style.fontFamily = ARABIC; }
+    tx.oninput = () => { l.text = tx.value; markCustom(); render(); };
+    body.append(nm, tx);
+
+    const del = document.createElement('button');
+    del.className = 'ldel'; del.textContent = '✕';
+    del.setAttribute('aria-label', 'remove ' + l.lang);
+    del.onclick = () => { S.lines.splice(i, 1); buildLines(); render(); };
+
+    row.append(tick, body, del);
+    list.appendChild(row);
+  });
+}
+
+function markCustom(){
+  if (PHRASES[S.phrase]) { S.phrase = 'custom'; buildPhraseChips(); }
+}
+
+function buildSwatches(){
+  const wrap = $('swatches');
+  wrap.innerHTML = '';
+  PRESETS.forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'sw';
+    b.style.background = p.bg;
+    b.title = p.name;
+    b.setAttribute('aria-label', p.name);
+    b.setAttribute('aria-pressed', String(S.bg === p.bg && S.text === p.text));
+    b.innerHTML = `<span style="color:${p.text}">aa</span>`;
+    b.onclick = () => { S.bg = p.bg; S.text = p.text; S.muted = p.muted; syncColors(); render(); };
+    wrap.appendChild(b);
+  });
+}
+
+function syncColors(){
+  $('cBg').value = S.bg; $('cText').value = S.text; $('cMuted').value = S.muted;
+  buildSwatches();
+}
+
+function press(el, on){ el.setAttribute('aria-pressed', String(on)); }
+
+function syncAll(){
+  buildPhraseChips(); buildLines(); syncColors();
+  $('eyebrowText').value = S.eyebrow;
+  $('footerText').value = S.footer;
+  $('rSize').value = S.size; $('vSize').textContent = S.size + '%';
+  $('rGap').value = S.gap;   $('vGap').textContent  = S.gap + '%';
+  press($('tGlow'), S.glow); press($('tRule'), S.rule);
+  press($('tEyebrow'), S.showEyebrow); press($('tFooter'), S.showFooter);
+  render(); fit();
+}
+
+/* wire it up */
+$('addLine').onclick = () => {
+  const lang = $('newLang').value.trim(), text = $('newText').value.trim();
+  if (!text) { toast('add the words first'); return; }
+  S.lines.push({ lang: lang || 'your tongue', text, on: true });
+  $('newLang').value = ''; $('newText').value = '';
+  markCustom(); buildLines(); render();
+};
+$('newText').addEventListener('keydown', e => { if (e.key === 'Enter') $('addLine').click(); });
+
+$('flip').onclick = () => { const b = S.bg; S.bg = S.text; S.text = b; syncColors(); render(); };
+$('cBg').oninput    = e => { S.bg = e.target.value; buildSwatches(); render(); };
+$('cText').oninput  = e => { S.text = e.target.value; buildSwatches(); render(); };
+$('cMuted').oninput = e => { S.muted = e.target.value; render(); };
+
+$('rSize').oninput = e => { S.size = +e.target.value; $('vSize').textContent = S.size + '%'; render(); };
+$('rGap').oninput  = e => { S.gap  = +e.target.value; $('vGap').textContent  = S.gap  + '%'; render(); };
+
+$('tGlow').onclick     = e => { S.glow = !S.glow; press(e.currentTarget, S.glow); render(); };
+$('tRule').onclick     = e => { S.rule = !S.rule; press(e.currentTarget, S.rule); render(); };
+$('tEyebrow').onclick  = e => { S.showEyebrow = !S.showEyebrow; press(e.currentTarget, S.showEyebrow); render(); };
+$('tFooter').onclick   = e => { S.showFooter = !S.showFooter; press(e.currentTarget, S.showFooter); render(); };
+$('eyebrowText').oninput = e => { S.eyebrow = e.target.value; render(); };
+$('footerText').oninput  = e => { S.footer  = e.target.value; render(); };
+
+$('doReset').onclick = () => { S = freshState(PHRASES[S.phrase] ? S.phrase : DEFAULT_PHRASE); history.replaceState(null,'',location.pathname); syncAll(); toast('back to the original'); };
+$('doPrint').onclick = () => window.print();
+
+/* ══ png export — same layout, drawn to canvas ═════ */
+async function exportPng(){
+  const DPI = 150, k = (18 * DPI) / W;          // 2700 × 3600
+  const c = document.createElement('canvas');
+  c.width = Math.round(W * k); c.height = Math.round(H * k);
+  const x = c.getContext('2d');
+  x.scale(k, k);
+
+  x.fillStyle = S.bg; x.fillRect(0, 0, W, H);
+  if (S.glow){
+    const g = x.createRadialGradient(W*.5, H*.42, 0, W*.5, H*.42, W*.62);
+    g.addColorStop(0,'rgba(255,255,255,.06)'); g.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle = g; x.fillRect(0,0,W,H);
+    const g2 = x.createRadialGradient(W*.22, H*.20, 0, W*.22, H*.20, W*.5);
+    g2.addColorStop(0,'rgba(255,255,255,.03)'); g2.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle = g2; x.fillRect(0,0,W,H);
+  }
+
+  const lay = layout(S);
+  x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+
+  if (S.showEyebrow && S.eyebrow.trim()){
+    x.fillStyle = S.muted;
+    tracked(x, S.eyebrow, W/2, SPEC.eyebrowY, `300 ${SPEC.eyebrowSize}px ${MONO}`, SPEC.eyebrowSize * SPEC.eyebrowLS);
+  }
+  x.fillStyle = S.text;
+  lay.items.forEach(it => {
+    x.font = fontFor(it.text, it.size, it.weight);
+    x.direction = it.arabic ? 'rtl' : 'ltr';
+    x.fillText(it.text, W/2, it.baseline);
+  });
+  x.direction = 'ltr';
+  if (S.rule && lay.items.length){
+    x.fillStyle = S.muted;
+    x.fillRect(W/2 - SPEC.ruleW/2, lay.ruleY, SPEC.ruleW, SPEC.ruleH);
+  }
+  if (S.showFooter && S.footer.trim()){
+    x.globalAlpha = .9; x.fillStyle = S.text;
+    tracked(x, S.footer, W/2, SPEC.footerY, `300 ${SPEC.footerSize}px ${MONO}`, SPEC.footerSize * SPEC.footerLS);
+    x.globalAlpha = 1;
+  }
+
+  c.toBlob(b => download(b, fileName('png')), 'image/png');
+}
+// letter-spaced, centered text that works everywhere
+function tracked(x, str, cx, y, font, ls){
+  x.font = font;
+  if (isArabic(str)){ x.fillText(str, cx, y); return; }
+  const chars = [...str];
+  const widths = chars.map(ch => x.measureText(ch).width);
+  const total = widths.reduce((a,b) => a+b, 0) + ls * (chars.length - 1);
+  let px = cx - total/2;
+  const saved = x.textAlign; x.textAlign = 'left';
+  chars.forEach((ch,i) => { x.fillText(ch, px, y); px += widths[i] + ls; });
+  x.textAlign = saved;
+}
+
+/* ══ svg export ════════════════════════════════════ */
+function exportSvg(){
+  const lay = layout(S), esc = s => s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+  const parts = [];
+  parts.push(`<rect width="${W}" height="${H}" fill="${S.bg}"/>`);
+  if (S.showEyebrow && S.eyebrow.trim())
+    parts.push(`<text x="${W/2}" y="${SPEC.eyebrowY}" fill="${S.muted}" font-family="IBM Plex Mono, monospace" font-weight="300" font-size="${SPEC.eyebrowSize}" letter-spacing="${(SPEC.eyebrowSize*SPEC.eyebrowLS).toFixed(2)}" text-anchor="middle">${esc(S.eyebrow)}</text>`);
+  lay.items.forEach(it => {
+    const fam = it.arabic ? 'Noto Naskh Arabic, serif' : 'Cormorant Garamond, Georgia, serif';
+    parts.push(`<text x="${W/2}" y="${it.baseline.toFixed(1)}" fill="${S.text}" font-family="${fam}" font-weight="${it.weight}" font-size="${it.size.toFixed(1)}" text-anchor="middle"${it.arabic ? ' direction="rtl"' : ''}>${esc(it.text)}</text>`);
+  });
+  if (S.rule && lay.items.length)
+    parts.push(`<rect x="${W/2 - SPEC.ruleW/2}" y="${lay.ruleY}" width="${SPEC.ruleW}" height="${SPEC.ruleH}" fill="${S.muted}"/>`);
+  if (S.showFooter && S.footer.trim())
+    parts.push(`<text x="${W/2}" y="${SPEC.footerY}" fill="${S.text}" fill-opacity="0.9" font-family="IBM Plex Mono, monospace" font-weight="300" font-size="${SPEC.footerSize}" letter-spacing="${(SPEC.footerSize*SPEC.footerLS).toFixed(2)}" text-anchor="middle">${esc(S.footer)}</text>`);
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="18in" height="24in" viewBox="0 0 ${W} ${H}">\n<!-- respira · openrespira.org · fonts: cormorant garamond + ibm plex mono -->\n${parts.join('\n')}\n</svg>`;
+  download(new Blob([svg], { type: 'image/svg+xml' }), fileName('svg'));
+}
+
+/* ══ share link ════════════════════════════════════ */
+const encode = () => btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+function decode(h){ try { return JSON.parse(decodeURIComponent(escape(atob(h)))); } catch(e){ return null; } }
+
+$('doShare').onclick = async () => {
+  const url = location.origin + location.pathname + '#' + encode();
+  history.replaceState(null, '', url);
+  try { await navigator.clipboard.writeText(url); toast('link copied — your poster travels with it'); }
+  catch(e){ toast('copy the address bar — your poster lives in it'); }
+};
+$('doPng').onclick = async () => { toast('rendering 2700×3600…'); await fontsReady(); exportPng(); };
+$('doSvg').onclick = exportSvg;
+
+/* ══ helpers ═══════════════════════════════════════ */
+function fileName(ext){
+  const base = (PHRASES[S.phrase] ? PHRASES[S.phrase].name : (S.lines.find(l=>l.on)||{text:'poster'}).text)
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+  return `respira-poster-${base || 'custom'}.${ext}`;
+}
+function download(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+let toastT;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600);
+}
+async function fontsReady(){
+  try {
+    await Promise.all([
+      document.fonts.load('300 62px "Cormorant Garamond"'),
+      document.fonts.load('400 62px "Noto Naskh Arabic"'),
+      document.fonts.load('300 26px "IBM Plex Mono"'),
+      document.fonts.ready
+    ]);
+  } catch(e){}
+}
+
+/* ══ boot ══════════════════════════════════════════ */
+(async function init(){
+  const hash = location.hash.slice(1);
+  const params = new URLSearchParams(location.search);
+  const p = params.get('p');
+  const restored = hash.length > 8 ? decode(hash) : null;
+
+  S = restored && restored.lines ? Object.assign(freshState(), restored)
+    : freshState(p && PHRASES[p] ? p : DEFAULT_PHRASE);
+
+  syncAll();
+  await fontsReady();
+  render(); fit();                       // re-measure once real fonts land
+  if (restored) toast('someone made this for you');
+})();
+</script>
+</body>
+</html>
