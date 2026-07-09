@@ -2073,81 +2073,21 @@ function lvSubmit(){
 document.addEventListener('DOMContentLoaded', renderGuides);
 </script>
 
-<!-- respira local -->
-<div id="local" style="background:#cfe3d6;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
-  <div class="inner" style="text-align:center;max-width:640px;margin:0 auto;">
-    <div class="local-eyebrow">respira local</div>
-    <h2 class="local-h2">a growing map.</h2>
-    <div class="worldmap-wrap"><svg id="worldmap" viewBox="0 0 700 430" preserveAspectRatio="xMidYMid meet" role="img" aria-label="map of respira cities"></svg></div>
-    <div class="local-hint">tap a city to see its studios</div>
-    <p class="local-sub">the practice, in person &mdash; taking root across the diaspora.<br>powered by sunday wellbeing movement.</p>
-    <button class="local-join" onclick="localJoin()">bring respira to your city &rarr;</button>
-  </div>
-</div>
-
-<style>
-.local-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);}
-.local-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.5rem 0 0;}
-.local-legend{display:flex;gap:20px;justify-content:center;margin:.25rem 0 0;}
-.local-key{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);display:flex;align-items:center;gap:6px;}
-.local-key i{width:7px;height:7px;border-radius:50%;display:inline-block;}
-.dot-live{background:rgba(201,163,106,.95);box-shadow:0 0 6px rgba(201,163,106,.7);}
-.dot-plan{background:rgba(79,90,67,.8);}
-.local-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--faint);line-height:1.9;margin:1.1rem 0 0;}
-.local-join{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;padding:11px 22px;border-radius:999px;border:1px dashed rgba(95,85,75,.3);background:transparent;color:var(--soft);cursor:pointer;transition:all .2s;margin-top:1.5rem;}
-.local-join:hover{border-color:var(--sage-dark);color:var(--sage-dark);}
-</style>
-
-<style>
-.worldmap-wrap{width:100%;max-width:660px;margin:1.4rem auto .4rem;}
-#worldmap{width:100%;height:auto;display:block;}
-.wm-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;fill:var(--soft);text-transform:lowercase;pointer-events:none;}
-.wm-city{cursor:pointer;}
-.wm-city:hover .wm-label{fill:var(--ink);}
-.wm-city:hover .wm-dot{r:6.5;}
-.local-hint{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:#9a7a3a;text-align:center;margin-bottom:14px;}
-</style>
-<script>
-(function(){
-  var svg=document.getElementById('worldmap'); if(!svg) return;
-  var COORDS={'Atlanta':[33.7,-84.4],'New York':[40.71,-74.01],'London':[51.51,-0.13],'Lagos':[6.5,3.4],'Accra':[5.6,-0.2],'Nairobi':[-1.3,36.8],'Kingston':[18.0,-76.8],'São Paulo':[-23.55,-46.63],'Mexico City':[19.43,-99.13],'Johannesburg':[-26.2,28.0]};
-  var ADJ={'Accra':{dy:20},'Lagos':{dy:-13},'Kingston':{dy:-13},'Mexico City':{dy:20}};
-  var lonMin=-112, lonMax=48, latMin=-38, latMax=60, W=700, H=430;
-  function px(lon){ return (lon-lonMin)/(lonMax-lonMin)*W; }
-  function py(lat){ return (latMax-lat)/(latMax-latMin)*H; }
-  var NS='http://www.w3.org/2000/svg';
-  function mk(tag,a){ var e=document.createElementNS(NS,tag); for(var k in a){ e.setAttribute(k,a[k]); } return e; }
-  var g=mk('g',{});
-  for(var lon=-90;lon<=30;lon+=30){ g.appendChild(mk('line',{x1:px(lon),y1:0,x2:px(lon),y2:H,stroke:'rgba(95,85,75,0.09)','stroke-width':'1'})); }
-  for(var lat=-30;lat<=60;lat+=30){ g.appendChild(mk('line',{x1:0,y1:py(lat),x2:W,y2:py(lat),stroke:'rgba(95,85,75,0.09)','stroke-width':'1'})); }
-  svg.appendChild(g);
-  Object.keys(COORDS).forEach(function(city){
-    var c=COORDS[city], x=px(c[1]), y=py(c[0]), adj=ADJ[city]||{};
-    var grp=mk('g',{'class':'wm-city'});
-    grp.appendChild(mk('circle',{cx:x,cy:y,r:'15',fill:'rgba(201,163,106,0.13)'}));
-    grp.appendChild(mk('circle',{cx:x,cy:y,r:'5','class':'wm-dot',fill:'rgba(201,163,106,0.95)'}));
-    var t=mk('text',{x:x+(adj.dx||0),y:y+(adj.dy||-12),'text-anchor':'middle','class':'wm-label'}); t.textContent=city.toLowerCase(); grp.appendChild(t);
-    grp.addEventListener('click',function(){ if(typeof dirFilterCity==='function') dirFilterCity(city); });
-    svg.appendChild(grp);
-  });
-})();
-</script>
-
 <!-- studio directory -->
-<div id="directory" style="background:#cfe3d6;padding:0 clamp(1.5rem,5vw,5rem) clamp(3.5rem,6vw,6rem);">
+<div id="directory" style="background:#cfe3d6;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner" style="max-width:1000px;margin:0 auto;">
     <div style="text-align:center;">
       <div class="dir-eyebrow">respira 100</div>
-      <h3 class="dir-h">the breathing hundred.</h3>
-      <p class="dir-lede">a hundred vetted spaces &mdash; women-led, black- and latina-owned studios holding the practice. the list reshuffles fresh each visit, so everyone in the mix gets seen. real spaces, real ratings.</p>
+      <h3 class="dir-h">find a room near you.</h3>
+      <p class="dir-lede">a rotating directory of vetted studios, coaches, and care spaces across ten cities. filter by city or ownership, then choose the room that fits your day.</p>
     </div>
     <div class="dir-filters"><div class="dir-filter-row" id="dir-cities"></div><div class="dir-filter-row" id="dir-owns"></div></div>
     <div class="dir-count" id="dir-count"></div>
     <div class="dir-grid" id="dir-grid"></div>
     <div class="dir-add">
       <div class="dir-add-title">run a studio, or coach?</div>
-      <div class="dir-add-copy">get vetted and you&rsquo;re in the mix &mdash; free. the hundred rotates and reshuffles, so being listed means real rotation in front of people seeking care, never a waitlist. women-led, black-, latina-, and diaspora-owned spaces especially welcome.</div>
-      <button class="dir-add-btn" onclick="dirAddOpen(this)">get on the map &rarr;</button>
+      <div class="dir-add-copy">submit your space for review. the directory rotates, so listed studios get real visibility without paying for placement. women-led, black-, latina-, and diaspora-owned spaces especially welcome.</div>
+      <button class="dir-add-btn" onclick="dirAddOpen(this)">join the directory &rarr;</button>
       <div class="dir-add-form" id="dir-add-form">
         <input id="da-name" class="dir-add-input" placeholder="studio / coach name">
         <input id="da-city" class="dir-add-input" placeholder="city">
@@ -2157,20 +2097,20 @@ document.addEventListener('DOMContentLoaded', renderGuides);
         <input id="da-vibe" class="dir-add-input" placeholder="a one-line vibe">
         <button class="dir-add-submit" onclick="dirAddSubmit()">submit to the directory</button>
       </div>
-      <div id="dir-add-thanks" class="dir-add-thanks">thank you &mdash; we&rsquo;ll review and add you to the map soon.</div>
+      <div id="dir-add-thanks" class="dir-add-thanks">thank you &mdash; we&rsquo;ll review and add you to the directory soon.</div>
     </div>
   </div>
 </div>
 <style>
 .dir-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#9a7a3a;}
 .dir-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.5rem 0 0;}
-.dir-lede{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--soft);margin:.9rem auto 0;max-width:42ch;}
-.dir-filters{margin:2rem 0 0;}
+.dir-lede{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1.12rem,2.4vw,1.42rem);color:var(--soft);margin:1rem auto 0;max-width:48ch;line-height:1.45;}
+.dir-filters{margin:2.2rem 0 0;position:sticky;top:66px;z-index:6;background:rgba(207,227,214,.92);backdrop-filter:blur(12px);padding:10px 0 2px;border-radius:0 0 18px 18px;}
 .dir-filter-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:8px;}
 .dir-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;text-transform:lowercase;padding:7px 13px;border-radius:999px;border:1px solid rgba(95,85,75,.2);background:transparent;color:rgba(95,85,75,.7);cursor:pointer;transition:all .15s;}
 .dir-pill.on{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.6);color:var(--ink);}
 .dir-count{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:var(--faint);text-align:center;margin:1rem 0 1.4rem;}
-.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:820px){.dir-grid{grid-template-columns:repeat(2,1fr);}}
 .dir-card{background:var(--card,#fbfaf4);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;}
 .dir-head{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;}
@@ -2190,7 +2130,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .dir-add{text-align:center;margin:3rem auto 0;max-width:520px;padding:1.9rem;background:var(--card,#fbfaf4);border:1px solid var(--line);border-radius:20px;}
 .dir-add-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:300;color:var(--ink);}
 .dir-add-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--soft);line-height:1.7;margin:.7rem auto 1.3rem;max-width:44ch;}
-.dir-add-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 26px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.95);cursor:pointer;}
+.dir-add-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 26px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.95);cursor:pointer;transition:transform .15s ease,opacity .15s ease;}.dir-add-btn:hover{transform:translateY(-1px);opacity:.92;}
 .dir-add-form{display:none;flex-direction:column;gap:8px;max-width:360px;margin:1.3rem auto 0;}
 .dir-add-input{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none;}
 .dir-add-input::placeholder{color:rgba(95,85,75,.4);}
@@ -2198,7 +2138,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .dir-add-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:#8a6a3a;margin-top:1rem;}
 </style>
 <script>
-var DIR = [{"c": "Atlanta", "n": "Sati Yoga & Wellness", "r": "5", "o": "Black & Woman-Owned", "a": "Kirkwood", "ad": "1996 Hosea L Williams Dr NE", "ct": "(404) 907-4279", "v": "Trauma-informed Yin yoga and deep mindfulness.", "w": "https://satiyogawellness.com"}, {"c": "Atlanta", "n": "Highland Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Buckhead / Inman Park", "ad": "3720 Roswell Rd NE", "ct": "(404) 343-2311", "v": "Intense and creative athletic hot power vinyasa.", "w": "https://highland-yoga.com"}, {"c": "Atlanta", "n": "Sacred Chill West", "r": "4.9", "o": "Black-Woman-Owned", "a": "Westside", "ad": "2033 Hosea L Williams Dr NE", "ct": "(404) 343-4217", "v": "Radical rest and restorative yoga.", "w": "https://sacredchillwest.com"}, {"c": "Atlanta", "n": "FORM Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Decatur", "ad": "533 W Howard Ave (Unit D)", "ct": "(404) 343-4954", "v": "Anti-pretentious body-positive accessible space.", "w": "https://formyoga.com"}, {"c": "Atlanta", "n": "Grounded Wellness & Yoga", "r": "5", "o": "Black & Woman-Owned", "a": "Virtual / Private", "ad": "Mobile Concierge Base", "ct": "groundedwellnessyoga.com", "v": "Functional Hatha and prenatal yoga concierge.", "w": "https://groundedwellnessyoga.com"}, {"c": "Atlanta", "n": "Nirvana Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Grant Park", "ad": "464 Cherokee Ave SE", "ct": "(404) 420-0018", "v": "Accessible alignment-focused flow and sound healing.", "w": "https://nirvanayogaatlanta.com"}, {"c": "Atlanta", "n": "Tough Love Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Candler Park", "ad": "1530 Dekalb Ave NE", "ct": "(404) 310-7456", "v": "Alignment-driven Hatha and fierce flows.", "w": "https://toughloveyoga.com"}, {"c": "Atlanta", "n": "Springs Yoga Studio", "r": "4.8", "o": "Woman-Owned", "a": "Sandy Springs", "ad": "4920 Roswell Rd", "ct": "(404) 255-7077", "v": "Classical Iyengar-influenced Hatha and therapeutic back-care.", "w": "https://springsyoga.com"}, {"c": "Atlanta", "n": "All Life is Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Inman Park", "ad": "245 N Highland Ave NE", "ct": "(404) 521-1002", "v": "Traditional lineage-based Hatha and Ashtanga.", "w": "https://alllifeisyoga.com"}, {"c": "Atlanta", "n": "Vibe Ride", "r": "4.7", "o": "Black-Woman-Owned", "a": "Midtown", "ad": "950 W Peachtree St NW", "ct": "(404) 474-7221", "v": "High-energy yoga sculpt and deep restorative stretching.", "w": "https://theviberide.com"}, {"c": "New York", "n": "LoveisWise Yoga", "r": "5", "o": "Latina-Owned", "a": "Digital Network", "ad": "Online & Privates Collective", "ct": "loveiswiseyoga.com", "v": "Somatic healing and gentle flow for women of color.", "w": "https://loveiswiseyoga.com"}, {"c": "New York", "n": "Urban Asanas", "r": "4.9", "o": "Black & Woman-Owned", "a": "Crown Heights", "ad": "843 Sterling Pl (2nd Floor)", "ct": "(347) 305-3558", "v": "Soulful Vinyasa set to hip-hop and reggae.", "w": "https://urbanasanas.com"}, {"c": "New York", "n": "I Am Yogi Studios", "r": "4.9", "o": "Black & Woman-Owned", "a": "Queens", "ad": "Mobile / Community Pop-ups", "ct": "iamyomistudios.com", "v": "Maternal wellness and culturally inclusive vinyasa.", "w": "https://iamyomistudios.com"}, {"c": "New York", "n": "Lucent Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Greenpoint", "ad": "172 Greenpoint Ave", "ct": "(718) 383-3600", "v": "Intentional fluid and expertly aligned Vinyasa.", "w": "https://lucentyoga.com"}, {"c": "New York", "n": "Third Root Health Center", "r": "4.9", "o": "Women & BIPOC Co-op", "a": "Ditmas Park", "ad": "380 Marlborough Rd", "ct": "(718) 940-9346", "v": "Trauma-informed yoga and collective healing.", "w": "https://thirdroot.org"}, {"c": "New York", "n": "HealHaus", "r": "4.8", "o": "Black-Woman Co-Owned", "a": "Clinton Hill", "ad": "1082 Fulton St", "ct": "(347) 413-7774", "v": "Breathtaking wellness café and diverse practice rooms.", "w": "https://healhaus.com"}, {"c": "New York", "n": "Shambhala Yoga & Dance", "r": "4.8", "o": "Black-Woman-Owned", "a": "Prospect Heights", "ad": "691 Washington Ave", "ct": "(718) 636-0425", "v": "Social justice oriented deep body inclusivity.", "w": "https://shambhalayogadance.com"}, {"c": "New York", "n": "Sweet Science of Yoga", "r": "4.8", "o": "Black-Woman-Owned", "a": "Harlem", "ad": "Pop-up Baseline Collective", "ct": "sweetscienceofyoga.com", "v": "Slow-burn flows and community wellness workshops.", "w": "https://sweetscienceofyoga.com"}, {"c": "New York", "n": "New York Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Upper East Side", "ad": "1629 York Ave", "ct": "(212) 717-9642", "v": "Structured hot power flows and quiet alignment Hatha.", "w": "https://newyorkyoga.com"}, {"c": "New York", "n": "Sky Ting Yoga", "r": "4.6", "o": "Women-Owned", "a": "Chinatown", "ad": "17 Allen St", "ct": "(212) 203-5786", "v": "Minimalist oasis blending Taoist theory and Katonah yoga.", "w": "https://skyting.com"}, {"c": "London", "n": "Sāmya Studios", "r": "5", "o": "Woman-Owned", "a": "Islington", "ad": "28 Camden Passage", "ct": "+44 20 7354 1234", "v": "Nervous system regulation and slow syrup-like flows.", "w": "https://samyastudios.com"}, {"c": "London", "n": "Fly Girl Collective", "r": "4.9", "o": "Black-Woman-Owned", "a": "East / South London", "ad": "Pop-up Events / Running Hubs", "ct": "flygirlcollective.co.uk", "v": "Wellness lifestyle events and running clubs for WOC.", "w": "https://flygirlcollective.co.uk"}, {"c": "London", "n": "Sisters of Reggae Yoga", "r": "4.9", "o": "Black-Woman-Owned", "a": "Digital / Pop-up", "ad": "Mobile Events Across London", "ct": "sistersofreggaeyoga.com", "v": "Restorative stretching paired with roots reggae and dub.", "w": "https://sistersofreggaeyoga.com"}, {"c": "London", "n": "The Yard", "r": "4.8", "o": "Woman-Owned", "a": "Finsbury Park", "ad": "11 Main Yard", "ct": "+44 20 8800 5678", "v": "Acoustic meditation and hidden courtyard slow flows.", "w": "https://theyardfinsburypark.com"}, {"c": "London", "n": "Level Six", "r": "4.8", "o": "Women-Co-Owned", "a": "Peckham", "ad": "Peckham Levels, 95A Rye Ln", "ct": "+44 20 3846 1234", "v": "Creative Vinyasa coupled with organic dining.", "w": "https://levelsixpeckham.co.uk"}, {"c": "London", "n": "Lumi Power Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Hammersmith", "ad": "121 King St", "ct": "+44 20 8741 5132", "v": "Sweaty Baptiste Power Yoga and alignment coaching.", "w": "https://lumipoweryoga.com"}, {"c": "London", "n": "Chroma Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Shoreditch", "ad": "45 Charlotte Rd", "ct": "+44 20 7729 4444", "v": "Multi-sensory color therapy and soundscape breathwork.", "w": "https://chromayoga.co.uk"}, {"c": "London", "n": "Yoga Rise", "r": "4.7", "o": "Women-Led", "a": "Peckham", "ad": "133 Rye Ln", "ct": "+44 20 7732 2122", "v": "Energetic Rocket yoga to relaxing Yin and prenatal.", "w": "https://yogarise.london"}, {"c": "London", "n": "Triyoga", "r": "4.6", "o": "Women-Led", "a": "Chelsea", "ad": "372 King's Rd", "ct": "+44 20 7483 3344", "v": "London's gold standard for expansive holistic wellness.", "w": "https://triyoga.co.uk"}, {"c": "London", "n": "Frame", "r": "4.5", "o": "Women-Owned", "a": "Shoreditch", "ad": "29 New Inn Yard", "ct": "+44 20 7033 1855", "v": "Playful yoga and cardio pilates designed like a party.", "w": "https://moveyourframe.com"}, {"c": "Lagos", "n": "The Happiness Center", "r": "4.8", "o": "Women-Led Hub", "a": "Victoria Island", "ad": "320 Akin Ogunlewe St", "ct": "", "v": "a women-led wellness hub for calm, care, and community.", "w": "https://engage.thehappinesscenter.ng/"}, {"c": "Lagos", "n": "The DEW Centre", "r": "4.9", "o": "Black & Woman-Owned", "a": "Lekki Phase 1", "ad": "31b Adebayo Doherty Rd", "ct": "0802 511 9405", "v": "Integrated lifestyle oasis and restorative therapies.", "w": "https://thedewcentre.com"}, {"c": "Lagos", "n": "Sweat & Spirituality", "r": "4.9", "o": "Black-Woman-Owned", "a": "Private Practice", "ad": "Private Somatic Base", "ct": "sweatandspirituality.com", "v": "Private somatic release and holistic mental health coaching.", "w": "https://sweatandspirituality.com"}, {"c": "Lagos", "n": "The Yoga Spot Lagos", "r": "4.8", "o": "Black-Woman-Owned", "a": "Waterfront Pop-up", "ad": "Varies via Coastal Areas", "ct": "theyogaspotlagos.com", "v": "Oceanfront yoga pop-ups and sunset meditations.", "w": "https://theyogaspotlagos.com"}, {"c": "Lagos", "n": "Shanti Wellness Lounge", "r": "4.8", "o": "Woman-Owned", "a": "Victoria Island", "ad": "5B Water Corporation Rd", "ct": "0814 900 2211", "v": "Therapeutic massage and restorative Hatha flows.", "w": "https://shantiwellnesslounge.com"}, {"c": "Lagos", "n": "The Wellness Bar", "r": "4.7", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "23 Karimu Kotun St", "ct": "0906 000 7171", "v": "Slow Vinyasa paired with an adaptogenic juice bar.", "w": "https://thewellnessbar.ng"}, {"c": "Lagos", "n": "Apples & Oranges Total Body", "r": "4.7", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "10 Balarabe Musa Cres", "ct": "0817 109 9968", "v": "Luxury spa integrating deep mindfulness rooms.", "w": "https://applesandorangesng.com"}, {"c": "Lagos", "n": "Elite Wellness Africa", "r": "4.6", "o": "Women-Led", "a": "Lekki", "ad": "Block 12, Plot 4 Lekki", "ct": "elitewellnessafrica.com", "v": "Low-impact sculpt and corporate wellness retreats.", "w": "https://elitewellnessafrica.com"}, {"c": "Lagos", "n": "Oxygen Wellness Studio", "r": "4.6", "o": "Woman-Owned", "a": "Lekki Phase 1", "ad": "14 Plot 9, Adelabu St", "ct": "0809 111 2233", "v": "Sunlit space specializing in prenatal and alignment.", "w": "https://oxygenwellness.ng"}, {"c": "Lagos", "n": "Oríki Spa & Wellness", "r": "4.6", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "Oriental Hotel, 3 Lekki-Epe Expy", "ct": "0807 771 9360", "v": "Farm-to-skin treatments with mind-calming spaces.", "w": "https://orikigroup.com"}, {"c": "Accra", "n": "Sankofa Yoga Travel", "r": "5", "o": "Black-Woman-Owned", "a": "Retreat / Base", "ad": "Accra Regional Framework", "ct": "sankofayogatravel.com", "v": "Premium getaways focused on historical grounding.", "w": "https://sankofayogatravel.com"}, {"c": "Accra", "n": "Accra Yoga Collective", "r": "4.9", "o": "Women-Led Network", "a": "Labadi / Labone", "ad": "Beachfront Pop-ups", "ct": "accrayogacollective.com", "v": "Sustainable living and deep coastal breathing pop-ups.", "w": "https://accrayogacollective.com"}, {"c": "Accra", "n": "Bliss Yoga Accra", "r": "4.8", "o": "Women-Owned", "a": "East Legon", "ad": "369 Gym & Wellness Center", "ct": "050 935 2265", "v": "Accra's gold standard for masterful Vinyasa and Yin.", "w": "https://blissyogaaccra.com"}, {"c": "Accra", "n": "Niche Wellness & Spa", "r": "4.8", "o": "Black & Woman-Owned", "a": "Cantonments", "ad": "6 Fifth Circular Rd", "ct": "024 243 7890", "v": "Luxury boutique escape and meditative stretching.", "w": "https://nichewellnessspa.com"}, {"c": "Accra", "n": "Elle Lokko Wellness", "r": "4.8", "o": "Black & Woman-Owned", "a": "Osu", "ad": "F604/1 Lokko Rd", "ct": "030 278 6542", "v": "Creative concept store hosting women's circles.", "w": "https://ellelokko.com"}, {"c": "Accra", "n": "The Mix Design Hub", "r": "4.7", "o": "Woman-Owned", "a": "Osu", "ad": "27 Osu Avenue Extension", "ct": "050 161 7943", "v": "Ultra-calm rooftop dedicated to sunrise yoga.", "w": "https://themixdesignhub.com"}, {"c": "Accra", "n": "Healing Earth Africa Studio", "r": "4.7", "o": "Women-Led", "a": "Cantonments", "ad": "12 Rangoon Ln", "ct": "healingearthafrica.com", "v": "Plant-based healing and alignment-based yoga.", "w": "https://healingearthafrica.com"}, {"c": "Accra", "n": "Roots Health & Soul Studio", "r": "4.7", "o": "Women-Co-Owned", "a": "Airport Residential", "ad": "Boutique Collective Base", "ct": "rootshealthsoul.com", "v": "Natural lifestyle integration and rhythmic flows.", "w": "https://rootshealthsoul.com"}, {"c": "Accra", "n": "Vitality Wellness Center", "r": "4.6", "o": "Woman-Owned", "a": "Labone", "ad": "34 Ndabaningi Sithole Rd", "ct": "030 277 8899", "v": "Low-impact mobility training and hydrotherapy.", "w": "https://vitalitywellnessgh.com"}, {"c": "Accra", "n": "Asantewaa Wellness", "r": "4.9", "o": "Black & Woman-Owned", "a": "East Legon", "ad": "Mobile / Maternal Deliveries", "ct": "asantewaawellness.com", "v": "Divine feminine energy and maternal health yoga.", "w": "https://asantewaawellness.com"}, {"c": "Nairobi", "n": "Amara Wellness & Reiki", "r": "5", "o": "Woman-Owned", "a": "Kilimani", "ad": "Wood Ave Towers, Chaka Rd", "ct": "0722 000 111", "v": "Intuitive energy healing and private restorative yoga.", "w": "https://amarawellnessreiki.com"}, {"c": "Nairobi", "n": "Wellness with Mwende", "r": "5", "o": "Black & Woman-Owned", "a": "Kilimani / Online", "ad": "Therapeutic Flow Baseline", "ct": "wellnesswithmwende.com", "v": "Intersectional healing and trauma-informed flow.", "w": "https://wellnesswithmwende.com"}, {"c": "Nairobi", "n": "Shanti Aura Wellness", "r": "4.9", "o": "Woman-Owned", "a": "Karen", "ad": "Dagoretti Rd, Karen", "ct": "0711 222 333", "v": "Lush green oasis for Reiki and soft Yin yoga.", "w": "https://shantiaurawellness.com"}, {"c": "Nairobi", "n": "The Wellness Collective EA", "r": "4.9", "o": "Black-Woman-Owned", "a": "Westlands", "ad": "Delta Corner Tower A", "ct": "thewellnesscollective.co.ke", "v": "Somatic stress release and private breathwork.", "w": "https://thewellnesscollective.co.ke"}, {"c": "Nairobi", "n": "Kilifi Wellness (Nairobi Base)", "r": "4.9", "o": "Women-Owned", "a": "Corporate / Sites", "ad": "Urban Framework Pop-ups", "ct": "kilifiwellness.com", "v": "Top-tier corporate mindfulness pop-ups.", "w": "https://kilifiwellness.com"}, {"c": "Nairobi", "n": "Africa Yoga Project", "r": "4.8", "o": "Women-Led Center", "a": "Parklands", "ad": "Diamond Plaza, 4th Floor", "ct": "0726 166 454", "v": "High-energy community-driven Baptiste Yoga.", "w": "https://africayogaproject.org"}, {"c": "Nairobi", "n": "Yoga Heart Kenya", "r": "4.8", "o": "Women-Led", "a": "Public Gardens", "ad": "Karura Forest & Jeevanjee", "ct": "yogaheartkenya.org", "v": "Accessible Hatha and Vinyasa in green public parks.", "w": "https://yogaheartkenya.org"}, {"c": "Nairobi", "n": "Acacia Studios", "r": "4.7", "o": "Woman-Owned", "a": "Westlands", "ad": "Graffins College Campus", "ct": "0721 345 678", "v": "Boutique destination for Vinyasa and Mat Pilates.", "w": "https://acaciastudios.co.ke"}, {"c": "Nairobi", "n": "Salamba Yoga Studio", "r": "4.7", "o": "Women-Led", "a": "Kilimani", "ad": "Wood Avenue", "ct": "0733 999 888", "v": "Iyengar prop-based yoga for physical rehabilitation.", "w": "https://salambayogastudio.com"}, {"c": "Nairobi", "n": "Bikram Yoga Nairobi", "r": "4.6", "o": "Women-Led", "a": "Lavington", "ad": "Lavington Mall, 2nd Floor", "ct": "0700 334 455", "v": "State-of-the-art heated studio for classic hot yoga.", "w": "https://bikramyoganairobi.com"}, {"c": "Kingston", "n": "Yoga with Kareena", "r": "5", "o": "Woman-Owned", "a": "Private / Estates", "ad": "Private Residential Sessions", "ct": "yogawithkareena.com", "v": "Elite private trauma-informed custom sessions.", "w": "https://yogawithkareena.com"}, {"c": "Kingston", "n": "Chai Studio & Wellness", "r": "4.9", "o": "Woman-Owned", "a": "Boutique Hub", "ad": "8 South Ave", "ct": "(876) 665-4235", "v": "Upscale boutique blending mindfulness with core work.", "w": "https://chaistudiowellness.com"}, {"c": "Kingston", "n": "Yoga Angels Jamaica", "r": "4.9", "o": "Black-Woman-Owned", "a": "Kingston 8", "ad": "Long Lane", "ct": "(876) 381-3444", "v": "Lineage-based internationally certified teacher trainings.", "w": "https://yogaangels.com"}, {"c": "Kingston", "n": "The Wellness Pathway", "r": "4.9", "o": "Woman-Owned", "a": "Kingston 6", "ad": "24 Charlemont Ave", "ct": "(876) 927-4455", "v": "Acupuncture paired with individual yoga therapy.", "w": "https://thewellnesspathwayjm.com"}, {"c": "Kingston", "n": "Blue Mountain Wellness", "r": "4.9", "o": "Women-Led", "a": "Eco-Retreat", "ad": "Irish Town, Blue Mountains", "ct": "bluemountainwellness.jm", "v": "High-altitude meditation and farm-to-table dining.", "w": "https://bluemountainwellness.jm"}, {"c": "Kingston", "n": "Afya Holistic & Yoga Center", "r": "4.8", "o": "Women-Owned", "a": "Garden Setting", "ad": "2e Corner Close", "ct": "(876) 977-6969", "v": "Open-air Hatha and African dance wellness.", "w": "https://afyajamaica.com"}, {"c": "Kingston", "n": "True Self Centre", "r": "4.8", "o": "Woman-Owned", "a": "Lady Musgrave", "ad": "14 Lady Musgrave Rd", "ct": "(876) 927-3754", "v": "Non-profit sanctuary for deep meditation and Qi Gong.", "w": "https://trueselfcentreholistic.com"}, {"c": "Kingston", "n": "Livity Wellness Collective", "r": "4.8", "o": "Black-Woman-Owned", "a": "Bull Bay Beach", "ad": "Ital Living Network", "ct": "livitycollective.com", "v": "Ital/Rastafari aligned high-vibration beach flows.", "w": "https://livitycollective.com"}, {"c": "Kingston", "n": "Innergy Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Barbican", "ad": "30 Barbican Rd", "ct": "(876) 456-7890", "v": "Dynamic power flows and family-oriented yoga.", "w": "https://innergyyogajamaica.com"}, {"c": "Kingston", "n": "J运动 Yoga & Fitness Boutique", "r": "4.7", "o": "Woman-Owned", "a": "Waterloo", "ad": "12 Waterloo Rd", "ct": "(876) 332-1122", "v": "High-intensity intervals paired with deep Yin.", "w": "https://jmovementstudio.com"}, {"c": "São Paulo", "n": "Preta Yoga", "r": "5", "o": "Afro-Latina / Woman", "a": "Zona Sul / Digital", "ad": "Somatic Pop-ups Hub", "ct": "pretayoga.com.br", "v": "Somatic healing and culturally relevant care for WOC.", "w": "https://pretayoga.com.br"}, {"c": "São Paulo", "n": "Yoga Para Corpos Reais", "r": "5", "o": "Latina & Woman-Owned", "a": "Av. Paulista Axis", "ad": "Body-Positive Studio Setup", "ct": "yogaparacorposreais.com.br", "v": "Radically inclusive body-positive Hatha yoga.", "w": "https://yogaparacorposreais.com.br"}, {"c": "São Paulo", "n": "Studio Yoga Integral", "r": "4.9", "o": "Latina-Women Owned", "a": "Vila Madalena", "ad": "R. Wisard, 320", "ct": "+55 11 3814-9988", "v": "Comprehensive Purna Yoga and precise alignment.", "w": "https://yogaintegralsp.com.br"}, {"c": "São Paulo", "n": "Instituto de Yoga Somática", "r": "4.9", "o": "Woman-Owned", "a": "Pinheiros", "ad": "R. Fradique Coutinho, 980", "ct": "+55 11 2365-1234", "v": "Yoga blended with Feldenkrais and body centering.", "w": "https://yogasomaticasp.com.br"}, {"c": "São Paulo", "n": "Simplesmente Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Vila Madalena", "ad": "R. Mourato Coelho, 1240", "ct": "+55 11 3034-4556", "v": "Vedanta study meditation and pure traditional Hatha.", "w": "https://simplesmenteyoga.com.br"}, {"c": "São Paulo", "n": "Casa Moara", "r": "4.8", "o": "Women-Owned", "a": "Pinheiros", "ad": "R. Paraíba, 45", "ct": "+55 11 3085-6453", "v": "Maternal health focus and prenatal yoga support.", "w": "https://casamoara.com.br"}, {"c": "São Paulo", "n": "Una Yoga", "r": "4.8", "o": "Latina-Women Owned", "a": "Paraíso", "ad": "R. Tomás Carvalhal, 542", "ct": "+55 11 3887-2233", "v": "Mindful movement and therapeutic alignment near park.", "w": "https://unayoga.com.br"}, {"c": "São Paulo", "n": "Ganesha Yoga", "r": "4.8", "o": "Latina-Woman Owned", "a": "Moema", "ad": "Av. Moema, 245", "ct": "+55 11 5051-8765", "v": "Welcoming family atmosphere and children's yoga.", "w": "https://ganeshayoga.com.br"}, {"c": "São Paulo", "n": "My Yoga", "r": "4.7", "o": "Women-Led", "a": "Jardins", "ad": "Alameda Franca, 1600", "ct": "+55 11 3062-2001", "v": "Elegant luxury studio for hot vinyasa and Ashtanga.", "w": "https://myyoga.com.br"}, {"c": "São Paulo", "n": "Santosha Wellness Studio", "r": "4.7", "o": "Women-Led", "a": "Moema", "ad": "R. Inhambu, 1200", "ct": "+55 11 5093-4433", "v": "Dynamic Mat Pilates and energetic Vinyasa flow.", "w": "https://santoshawellness.com.br"}, {"c": "Mexico City", "n": "Yoga Con Gracia", "r": "4.9", "o": "Woman-Owned", "a": "Roma Norte", "ad": "Calle de Chiapas 184", "ct": "+52 55 5264 6835", "v": "Creative Vinyasa and feminine hormone yoga.", "w": "https://yogacongracia.com"}, {"c": "Mexico City", "n": "Light On Studios", "r": "4.9", "o": "Woman-Owned", "a": "Polanco", "ad": "Campos Elíseos 169", "ct": "+52 55 8434 0022", "v": "Curated yoga barre and sound healing sanctuary.", "w": "https://lightonstudios.mx"}, {"c": "Mexico City", "n": "Casa Inbound", "r": "4.9", "o": "Women-Led Collective", "a": "San Ángel", "ad": "Amargura 4", "ct": "+52 55 5616 1234", "v": "Bhakti-yoga and conscious vegan culinary workshops.", "w": ""}, {"c": "Mexico City", "n": "Luv Collective CDMX", "r": "4.9", "o": "Women-Owned", "a": "Concierge Service", "ad": "Mobile Throughout Roma/Condesa", "ct": "luvcollective.com", "v": "Elite private custom group yoga and sound baths.", "w": "https://luvcollective.com"}, {"c": "Mexico City", "n": "AgoraLucis", "r": "4.8", "o": "Women-Led", "a": "Polanco", "ad": "LaFontaine 78", "ct": "+52 55 5281 7555", "v": "Legendary holistic center with traditional temazcal.", "w": "https://agoralucis.com"}, {"c": "Mexico City", "n": "Mukta Yoga", "r": "4.8", "o": "Latina-Woman Owned", "a": "Condesa", "ad": "Amsterdam 171", "ct": "+52 55 5211 6036", "v": "Expert alignment teachings and warm community feel.", "w": "https://muktayoga.com.mx"}, {"c": "Mexico City", "n": "Savyya Yoga", "r": "4.8", "o": "Latina-Women Owned", "a": "Coyoacán", "ad": "Av. Francisco Sosa 240", "ct": "+52 55 5554 9988", "v": "Spiritual Hatha yoga and historic tree-lined meditation.", "w": "https://savvyayoga.mx"}, {"c": "Mexico City", "n": "Yoga Espacio", "r": "4.8", "o": "Women-Led", "a": "Del Valle", "ad": "Patricio Sanz 434", "ct": "+52 55 5524 3814", "v": "Buddhist meditation and stress reduction (MBSR).", "w": "https://yogaespacio.com"}, {"c": "Mexico City", "n": "O2 Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Lomas", "ad": "Monte Athos 385", "ct": "+52 55 5202 3456", "v": "Premium athletic fast-paced power flows.", "w": "https://o2yoga.com.mx"}, {"c": "Mexico City", "n": "Zikhara Yoga", "r": "4.7", "o": "Latina-Woman Owned", "a": "Juárez", "ad": "Havre 64", "ct": "+52 55 6385 1122", "v": "Minimalist space for nervous system decompression.", "w": "https://zikharayoga.com"}, {"c": "Johannesburg", "n": "Inner Peace JHB", "r": "4.9", "o": "Black-Woman-Owned", "a": "Soweto Base", "ad": "Zone 3 Meadowlands", "ct": "innerpeacesoweto.org", "v": "Grassroots mindfulness and township Hatha yoga.", "w": "https://innerpeacesoweto.org"}, {"c": "Johannesburg", "n": "The Nest Wellness Hub", "r": "4.9", "o": "Black-Woman-Owned", "a": "Maternal Space", "ad": "Diepkloof Extension", "ct": "thenestsoweto.za", "v": "Prenatal yoga and doula support for mothers.", "w": "https://thenestsoweto.za"}, {"c": "Johannesburg", "n": "Soweto Yoga Project", "r": "4.6", "o": "Black-Woman-Owned", "a": "Soweto", "ad": "Vilakazi St, Orlando West", "ct": "sowetoyoga.co.za", "v": "Accessible free-to-low cost neighborhood healing.", "w": "https://sowetoyoga.co.za"}, {"c": "Johannesburg", "n": "Soul Sanctuary", "r": "4.9", "o": "Women-Led Collective", "a": "Melville", "ad": "41 4th Ave", "ct": "+27 11 482 1122", "v": "Bohemian space for crystal sound bowl healing.", "w": "https://soulsanctuarymelville.co.za"}, {"c": "Johannesburg", "n": "The Yoga Room JHB", "r": "4.8", "o": "Women-Led", "a": "Rosebank", "ad": "12 Tyrwhitt Ave", "ct": "+27 11 447 0123", "v": "Precise athletic Vinyasa and corporate yoga packages.", "w": "https://theyogaroomjhb.co.za"}, {"c": "Johannesburg", "n": "Yoga Works", "r": "4.8", "o": "Women-Co-Led", "a": "Maboneng / Pop-ups", "ad": "Rooftop and Park Settings", "ct": "yogaworks.co.za", "v": "Rooftop yoga sessions and local urban festivals.", "w": "https://yogaworks.co.za"}, {"c": "Johannesburg", "n": "Earth Yoga Studio", "r": "4.8", "o": "Woman-Owned", "a": "Kyalami", "ad": "9 Main Rd", "ct": "+27 11 468 1234", "v": "Multi-level Vinyasa and warm local community feel.", "w": "https://earthyogastudio.co.za"}, {"c": "Johannesburg", "n": "The Wellness Emporium", "r": "4.8", "o": "Women-Led Hub", "a": "Bryanston", "ad": "23 Post Office Rd", "ct": "+27 11 706 4321", "v": "Functional medicine paired with private yoga coaching.", "w": "https://thewellnessemporium.co.za"}, {"c": "Johannesburg", "n": "Conscious 108 Wellness", "r": "4.7", "o": "Woman-Owned", "a": "Greenside", "ad": "108 Greenway", "ct": "+27 11 646 0108", "v": "Plant-based conscious eating and study circles.", "w": "https://conscious108.com"}, {"c": "Johannesburg", "n": "Movement Wellness Studio", "r": "4.7", "o": "Woman-Owned", "a": "Sandton", "ad": "135 Rivonia Rd", "ct": "+27 11 784 5566", "v": "Upscale fusion of Pilates reformer and Vinyasa.", "w": "https://movementwellness.co.za"}];
+var DIR = [{"c": "Atlanta", "n": "Sati Yoga & Wellness", "r": "5", "o": "Black & Woman-Owned", "a": "Kirkwood", "ad": "1996 Hosea L Williams Dr NE", "ct": "(404) 907-4279", "v": "Trauma-informed Yin yoga and deep mindfulness.", "w": "https://satiyogawellness.com"}, {"c": "Atlanta", "n": "Highland Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Buckhead / Inman Park", "ad": "3720 Roswell Rd NE", "ct": "(404) 343-2311", "v": "Intense and creative athletic hot power vinyasa.", "w": "https://highland-yoga.com"}, {"c": "Atlanta", "n": "Sacred Chill West", "r": "4.9", "o": "Black-Woman-Owned", "a": "Westside", "ad": "2033 Hosea L Williams Dr NE", "ct": "(404) 343-4217", "v": "Restorative yoga and deep reset sessions.", "w": "https://sacredchillwest.com"}, {"c": "Atlanta", "n": "FORM Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Decatur", "ad": "533 W Howard Ave (Unit D)", "ct": "(404) 343-4954", "v": "Anti-pretentious body-positive accessible space.", "w": "https://formyoga.com"}, {"c": "Atlanta", "n": "Grounded Wellness & Yoga", "r": "5", "o": "Black & Woman-Owned", "a": "Virtual / Private", "ad": "Mobile Concierge Base", "ct": "groundedwellnessyoga.com", "v": "Functional Hatha and prenatal yoga concierge.", "w": "https://groundedwellnessyoga.com"}, {"c": "Atlanta", "n": "Nirvana Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Grant Park", "ad": "464 Cherokee Ave SE", "ct": "(404) 420-0018", "v": "Accessible alignment-focused flow and sound healing.", "w": "https://nirvanayogaatlanta.com"}, {"c": "Atlanta", "n": "Tough Love Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Candler Park", "ad": "1530 Dekalb Ave NE", "ct": "(404) 310-7456", "v": "Alignment-driven Hatha and fierce flows.", "w": "https://toughloveyoga.com"}, {"c": "Atlanta", "n": "Springs Yoga Studio", "r": "4.8", "o": "Woman-Owned", "a": "Sandy Springs", "ad": "4920 Roswell Rd", "ct": "(404) 255-7077", "v": "Classical Iyengar-influenced Hatha and therapeutic back-care.", "w": "https://springsyoga.com"}, {"c": "Atlanta", "n": "All Life is Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Inman Park", "ad": "245 N Highland Ave NE", "ct": "(404) 521-1002", "v": "Traditional lineage-based Hatha and Ashtanga.", "w": "https://alllifeisyoga.com"}, {"c": "Atlanta", "n": "Vibe Ride", "r": "4.7", "o": "Black-Woman-Owned", "a": "Midtown", "ad": "950 W Peachtree St NW", "ct": "(404) 474-7221", "v": "High-energy yoga sculpt and deep restorative stretching.", "w": "https://theviberide.com"}, {"c": "New York", "n": "LoveisWise Yoga", "r": "5", "o": "Latina-Owned", "a": "Digital Network", "ad": "Online & Privates Collective", "ct": "loveiswiseyoga.com", "v": "Somatic healing and gentle flow for women of color.", "w": "https://loveiswiseyoga.com"}, {"c": "New York", "n": "Urban Asanas", "r": "4.9", "o": "Black & Woman-Owned", "a": "Crown Heights", "ad": "843 Sterling Pl (2nd Floor)", "ct": "(347) 305-3558", "v": "Soulful Vinyasa set to hip-hop and reggae.", "w": "https://urbanasanas.com"}, {"c": "New York", "n": "I Am Yogi Studios", "r": "4.9", "o": "Black & Woman-Owned", "a": "Queens", "ad": "Mobile / Community Pop-ups", "ct": "iamyomistudios.com", "v": "Maternal wellness and culturally inclusive vinyasa.", "w": "https://iamyomistudios.com"}, {"c": "New York", "n": "Lucent Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Greenpoint", "ad": "172 Greenpoint Ave", "ct": "(718) 383-3600", "v": "Intentional fluid and expertly aligned Vinyasa.", "w": "https://lucentyoga.com"}, {"c": "New York", "n": "Third Root Health Center", "r": "4.9", "o": "Women & BIPOC Co-op", "a": "Ditmas Park", "ad": "380 Marlborough Rd", "ct": "(718) 940-9346", "v": "Trauma-informed yoga and collective healing.", "w": "https://thirdroot.org"}, {"c": "New York", "n": "HealHaus", "r": "4.8", "o": "Black-Woman Co-Owned", "a": "Clinton Hill", "ad": "1082 Fulton St", "ct": "(347) 413-7774", "v": "Breathtaking wellness café and diverse practice rooms.", "w": "https://healhaus.com"}, {"c": "New York", "n": "Shambhala Yoga & Dance", "r": "4.8", "o": "Black-Woman-Owned", "a": "Prospect Heights", "ad": "691 Washington Ave", "ct": "(718) 636-0425", "v": "Social justice oriented deep body inclusivity.", "w": "https://shambhalayogadance.com"}, {"c": "New York", "n": "Sweet Science of Yoga", "r": "4.8", "o": "Black-Woman-Owned", "a": "Harlem", "ad": "Pop-up Baseline Collective", "ct": "sweetscienceofyoga.com", "v": "Slow-burn flows and community wellness workshops.", "w": "https://sweetscienceofyoga.com"}, {"c": "New York", "n": "New York Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Upper East Side", "ad": "1629 York Ave", "ct": "(212) 717-9642", "v": "Structured hot power flows and quiet alignment Hatha.", "w": "https://newyorkyoga.com"}, {"c": "New York", "n": "Sky Ting Yoga", "r": "4.6", "o": "Women-Owned", "a": "Chinatown", "ad": "17 Allen St", "ct": "(212) 203-5786", "v": "Minimalist oasis blending Taoist theory and Katonah yoga.", "w": "https://skyting.com"}, {"c": "London", "n": "Sāmya Studios", "r": "5", "o": "Woman-Owned", "a": "Islington", "ad": "28 Camden Passage", "ct": "+44 20 7354 1234", "v": "Nervous system regulation and slow syrup-like flows.", "w": "https://samyastudios.com"}, {"c": "London", "n": "Fly Girl Collective", "r": "4.9", "o": "Black-Woman-Owned", "a": "East / South London", "ad": "Pop-up Events / Running Hubs", "ct": "flygirlcollective.co.uk", "v": "Wellness lifestyle events and running clubs for WOC.", "w": "https://flygirlcollective.co.uk"}, {"c": "London", "n": "Sisters of Reggae Yoga", "r": "4.9", "o": "Black-Woman-Owned", "a": "Digital / Pop-up", "ad": "Mobile Events Across London", "ct": "sistersofreggaeyoga.com", "v": "Restorative stretching paired with roots reggae and dub.", "w": "https://sistersofreggaeyoga.com"}, {"c": "London", "n": "The Yard", "r": "4.8", "o": "Woman-Owned", "a": "Finsbury Park", "ad": "11 Main Yard", "ct": "+44 20 8800 5678", "v": "Acoustic meditation and hidden courtyard slow flows.", "w": "https://theyardfinsburypark.com"}, {"c": "London", "n": "Level Six", "r": "4.8", "o": "Women-Co-Owned", "a": "Peckham", "ad": "Peckham Levels, 95A Rye Ln", "ct": "+44 20 3846 1234", "v": "Creative Vinyasa coupled with organic dining.", "w": "https://levelsixpeckham.co.uk"}, {"c": "London", "n": "Lumi Power Yoga", "r": "4.8", "o": "Woman-Owned", "a": "Hammersmith", "ad": "121 King St", "ct": "+44 20 8741 5132", "v": "Sweaty Baptiste Power Yoga and alignment coaching.", "w": "https://lumipoweryoga.com"}, {"c": "London", "n": "Chroma Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Shoreditch", "ad": "45 Charlotte Rd", "ct": "+44 20 7729 4444", "v": "Multi-sensory color therapy and soundscape breathwork.", "w": "https://chromayoga.co.uk"}, {"c": "London", "n": "Yoga Rise", "r": "4.7", "o": "Women-Led", "a": "Peckham", "ad": "133 Rye Ln", "ct": "+44 20 7732 2122", "v": "Energetic Rocket yoga to relaxing Yin and prenatal.", "w": "https://yogarise.london"}, {"c": "London", "n": "Triyoga", "r": "4.6", "o": "Women-Led", "a": "Chelsea", "ad": "372 King's Rd", "ct": "+44 20 7483 3344", "v": "London's gold standard for expansive holistic wellness.", "w": "https://triyoga.co.uk"}, {"c": "London", "n": "Frame", "r": "4.5", "o": "Women-Owned", "a": "Shoreditch", "ad": "29 New Inn Yard", "ct": "+44 20 7033 1855", "v": "Playful yoga and cardio pilates designed like a party.", "w": "https://moveyourframe.com"}, {"c": "Lagos", "n": "The Happiness Center", "r": "4.8", "o": "Women-Led Hub", "a": "Victoria Island", "ad": "320 Akin Ogunlewe St", "ct": "", "v": "a women-led wellness hub for calm, care, and community.", "w": "https://engage.thehappinesscenter.ng/"}, {"c": "Lagos", "n": "The DEW Centre", "r": "4.9", "o": "Black & Woman-Owned", "a": "Lekki Phase 1", "ad": "31b Adebayo Doherty Rd", "ct": "0802 511 9405", "v": "Integrated lifestyle oasis and restorative therapies.", "w": "https://thedewcentre.com"}, {"c": "Lagos", "n": "Sweat & Spirituality", "r": "4.9", "o": "Black-Woman-Owned", "a": "Private Practice", "ad": "Private Somatic Base", "ct": "sweatandspirituality.com", "v": "Private somatic release and holistic mental health coaching.", "w": "https://sweatandspirituality.com"}, {"c": "Lagos", "n": "The Yoga Spot Lagos", "r": "4.8", "o": "Black-Woman-Owned", "a": "Waterfront Pop-up", "ad": "Varies via Coastal Areas", "ct": "theyogaspotlagos.com", "v": "Oceanfront yoga pop-ups and sunset meditations.", "w": "https://theyogaspotlagos.com"}, {"c": "Lagos", "n": "Shanti Wellness Lounge", "r": "4.8", "o": "Woman-Owned", "a": "Victoria Island", "ad": "5B Water Corporation Rd", "ct": "0814 900 2211", "v": "Therapeutic massage and restorative Hatha flows.", "w": "https://shantiwellnesslounge.com"}, {"c": "Lagos", "n": "The Wellness Bar", "r": "4.7", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "23 Karimu Kotun St", "ct": "0906 000 7171", "v": "Slow Vinyasa paired with an adaptogenic juice bar.", "w": "https://thewellnessbar.ng"}, {"c": "Lagos", "n": "Apples & Oranges Total Body", "r": "4.7", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "10 Balarabe Musa Cres", "ct": "0817 109 9968", "v": "Luxury spa integrating deep mindfulness rooms.", "w": "https://applesandorangesng.com"}, {"c": "Lagos", "n": "Elite Wellness Africa", "r": "4.6", "o": "Women-Led", "a": "Lekki", "ad": "Block 12, Plot 4 Lekki", "ct": "elitewellnessafrica.com", "v": "Low-impact sculpt and corporate wellness retreats.", "w": "https://elitewellnessafrica.com"}, {"c": "Lagos", "n": "Oxygen Wellness Studio", "r": "4.6", "o": "Woman-Owned", "a": "Lekki Phase 1", "ad": "14 Plot 9, Adelabu St", "ct": "0809 111 2233", "v": "Sunlit space specializing in prenatal and alignment.", "w": "https://oxygenwellness.ng"}, {"c": "Lagos", "n": "Oríki Spa & Wellness", "r": "4.6", "o": "Black & Woman-Owned", "a": "Victoria Island", "ad": "Oriental Hotel, 3 Lekki-Epe Expy", "ct": "0807 771 9360", "v": "Farm-to-skin treatments with mind-calming spaces.", "w": "https://orikigroup.com"}, {"c": "Accra", "n": "Sankofa Yoga Travel", "r": "5", "o": "Black-Woman-Owned", "a": "Retreat / Base", "ad": "Accra Regional Framework", "ct": "sankofayogatravel.com", "v": "Premium getaways focused on historical grounding.", "w": "https://sankofayogatravel.com"}, {"c": "Accra", "n": "Accra Yoga Collective", "r": "4.9", "o": "Women-Led Network", "a": "Labadi / Labone", "ad": "Beachfront Pop-ups", "ct": "accrayogacollective.com", "v": "Sustainable living and deep coastal breathing pop-ups.", "w": "https://accrayogacollective.com"}, {"c": "Accra", "n": "Bliss Yoga Accra", "r": "4.8", "o": "Women-Owned", "a": "East Legon", "ad": "369 Gym & Wellness Center", "ct": "050 935 2265", "v": "Accra's gold standard for masterful Vinyasa and Yin.", "w": "https://blissyogaaccra.com"}, {"c": "Accra", "n": "Niche Wellness & Spa", "r": "4.8", "o": "Black & Woman-Owned", "a": "Cantonments", "ad": "6 Fifth Circular Rd", "ct": "024 243 7890", "v": "Luxury boutique escape and meditative stretching.", "w": "https://nichewellnessspa.com"}, {"c": "Accra", "n": "Elle Lokko Wellness", "r": "4.8", "o": "Black & Woman-Owned", "a": "Osu", "ad": "F604/1 Lokko Rd", "ct": "030 278 6542", "v": "Creative concept store hosting women's circles.", "w": "https://ellelokko.com"}, {"c": "Accra", "n": "The Mix Design Hub", "r": "4.7", "o": "Woman-Owned", "a": "Osu", "ad": "27 Osu Avenue Extension", "ct": "050 161 7943", "v": "Ultra-calm rooftop dedicated to sunrise yoga.", "w": "https://themixdesignhub.com"}, {"c": "Accra", "n": "Healing Earth Africa Studio", "r": "4.7", "o": "Women-Led", "a": "Cantonments", "ad": "12 Rangoon Ln", "ct": "healingearthafrica.com", "v": "Plant-based healing and alignment-based yoga.", "w": "https://healingearthafrica.com"}, {"c": "Accra", "n": "Roots Health & Soul Studio", "r": "4.7", "o": "Women-Co-Owned", "a": "Airport Residential", "ad": "Boutique Collective Base", "ct": "rootshealthsoul.com", "v": "Natural lifestyle integration and rhythmic flows.", "w": "https://rootshealthsoul.com"}, {"c": "Accra", "n": "Vitality Wellness Center", "r": "4.6", "o": "Woman-Owned", "a": "Labone", "ad": "34 Ndabaningi Sithole Rd", "ct": "030 277 8899", "v": "Low-impact mobility training and hydrotherapy.", "w": "https://vitalitywellnessgh.com"}, {"c": "Accra", "n": "Asantewaa Wellness", "r": "4.9", "o": "Black & Woman-Owned", "a": "East Legon", "ad": "Mobile / Maternal Deliveries", "ct": "asantewaawellness.com", "v": "Divine feminine energy and maternal health yoga.", "w": "https://asantewaawellness.com"}, {"c": "Nairobi", "n": "Amara Wellness & Reiki", "r": "5", "o": "Woman-Owned", "a": "Kilimani", "ad": "Wood Ave Towers, Chaka Rd", "ct": "0722 000 111", "v": "Intuitive energy healing and private restorative yoga.", "w": "https://amarawellnessreiki.com"}, {"c": "Nairobi", "n": "Wellness with Mwende", "r": "5", "o": "Black & Woman-Owned", "a": "Kilimani / Online", "ad": "Therapeutic Flow Baseline", "ct": "wellnesswithmwende.com", "v": "Intersectional healing and trauma-informed flow.", "w": "https://wellnesswithmwende.com"}, {"c": "Nairobi", "n": "Shanti Aura Wellness", "r": "4.9", "o": "Woman-Owned", "a": "Karen", "ad": "Dagoretti Rd, Karen", "ct": "0711 222 333", "v": "Lush green oasis for Reiki and soft Yin yoga.", "w": "https://shantiaurawellness.com"}, {"c": "Nairobi", "n": "The Wellness Collective EA", "r": "4.9", "o": "Black-Woman-Owned", "a": "Westlands", "ad": "Delta Corner Tower A", "ct": "thewellnesscollective.co.ke", "v": "Somatic stress release and private breathwork.", "w": "https://thewellnesscollective.co.ke"}, {"c": "Nairobi", "n": "Kilifi Wellness (Nairobi Base)", "r": "4.9", "o": "Women-Owned", "a": "Corporate / Sites", "ad": "Urban Framework Pop-ups", "ct": "kilifiwellness.com", "v": "Top-tier corporate mindfulness pop-ups.", "w": "https://kilifiwellness.com"}, {"c": "Nairobi", "n": "Africa Yoga Project", "r": "4.8", "o": "Women-Led Center", "a": "Parklands", "ad": "Diamond Plaza, 4th Floor", "ct": "0726 166 454", "v": "High-energy community-driven Baptiste Yoga.", "w": "https://africayogaproject.org"}, {"c": "Nairobi", "n": "Yoga Heart Kenya", "r": "4.8", "o": "Women-Led", "a": "Public Gardens", "ad": "Karura Forest & Jeevanjee", "ct": "yogaheartkenya.org", "v": "Accessible Hatha and Vinyasa in green public parks.", "w": "https://yogaheartkenya.org"}, {"c": "Nairobi", "n": "Acacia Studios", "r": "4.7", "o": "Woman-Owned", "a": "Westlands", "ad": "Graffins College Campus", "ct": "0721 345 678", "v": "Boutique destination for Vinyasa and Mat Pilates.", "w": "https://acaciastudios.co.ke"}, {"c": "Nairobi", "n": "Salamba Yoga Studio", "r": "4.7", "o": "Women-Led", "a": "Kilimani", "ad": "Wood Avenue", "ct": "0733 999 888", "v": "Iyengar prop-based yoga for physical rehabilitation.", "w": "https://salambayogastudio.com"}, {"c": "Nairobi", "n": "Bikram Yoga Nairobi", "r": "4.6", "o": "Women-Led", "a": "Lavington", "ad": "Lavington Mall, 2nd Floor", "ct": "0700 334 455", "v": "State-of-the-art heated studio for classic hot yoga.", "w": "https://bikramyoganairobi.com"}, {"c": "Kingston", "n": "Yoga with Kareena", "r": "5", "o": "Woman-Owned", "a": "Private / Estates", "ad": "Private Residential Sessions", "ct": "yogawithkareena.com", "v": "Elite private trauma-informed custom sessions.", "w": "https://yogawithkareena.com"}, {"c": "Kingston", "n": "Chai Studio & Wellness", "r": "4.9", "o": "Woman-Owned", "a": "Boutique Hub", "ad": "8 South Ave", "ct": "(876) 665-4235", "v": "Upscale boutique blending mindfulness with core work.", "w": "https://chaistudiowellness.com"}, {"c": "Kingston", "n": "Yoga Angels Jamaica", "r": "4.9", "o": "Black-Woman-Owned", "a": "Kingston 8", "ad": "Long Lane", "ct": "(876) 381-3444", "v": "Lineage-based internationally certified teacher trainings.", "w": "https://yogaangels.com"}, {"c": "Kingston", "n": "The Wellness Pathway", "r": "4.9", "o": "Woman-Owned", "a": "Kingston 6", "ad": "24 Charlemont Ave", "ct": "(876) 927-4455", "v": "Acupuncture paired with individual yoga therapy.", "w": "https://thewellnesspathwayjm.com"}, {"c": "Kingston", "n": "Blue Mountain Wellness", "r": "4.9", "o": "Women-Led", "a": "Eco-Retreat", "ad": "Irish Town, Blue Mountains", "ct": "bluemountainwellness.jm", "v": "High-altitude meditation and farm-to-table dining.", "w": "https://bluemountainwellness.jm"}, {"c": "Kingston", "n": "Afya Holistic & Yoga Center", "r": "4.8", "o": "Women-Owned", "a": "Garden Setting", "ad": "2e Corner Close", "ct": "(876) 977-6969", "v": "Open-air Hatha and African dance wellness.", "w": "https://afyajamaica.com"}, {"c": "Kingston", "n": "True Self Centre", "r": "4.8", "o": "Woman-Owned", "a": "Lady Musgrave", "ad": "14 Lady Musgrave Rd", "ct": "(876) 927-3754", "v": "Non-profit sanctuary for deep meditation and Qi Gong.", "w": "https://trueselfcentreholistic.com"}, {"c": "Kingston", "n": "Livity Wellness Collective", "r": "4.8", "o": "Black-Woman-Owned", "a": "Bull Bay Beach", "ad": "Ital Living Network", "ct": "livitycollective.com", "v": "Ital/Rastafari aligned high-vibration beach flows.", "w": "https://livitycollective.com"}, {"c": "Kingston", "n": "Innergy Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Barbican", "ad": "30 Barbican Rd", "ct": "(876) 456-7890", "v": "Dynamic power flows and family-oriented yoga.", "w": "https://innergyyogajamaica.com"}, {"c": "Kingston", "n": "J运动 Yoga & Fitness Boutique", "r": "4.7", "o": "Woman-Owned", "a": "Waterloo", "ad": "12 Waterloo Rd", "ct": "(876) 332-1122", "v": "High-intensity intervals paired with deep Yin.", "w": "https://jmovementstudio.com"}, {"c": "São Paulo", "n": "Preta Yoga", "r": "5", "o": "Afro-Latina / Woman", "a": "Zona Sul / Digital", "ad": "Somatic Pop-ups Hub", "ct": "pretayoga.com.br", "v": "Somatic healing and culturally relevant care for WOC.", "w": "https://pretayoga.com.br"}, {"c": "São Paulo", "n": "Yoga Para Corpos Reais", "r": "5", "o": "Latina & Woman-Owned", "a": "Av. Paulista Axis", "ad": "Body-Positive Studio Setup", "ct": "yogaparacorposreais.com.br", "v": "Radically inclusive body-positive Hatha yoga.", "w": "https://yogaparacorposreais.com.br"}, {"c": "São Paulo", "n": "Studio Yoga Integral", "r": "4.9", "o": "Latina-Women Owned", "a": "Vila Madalena", "ad": "R. Wisard, 320", "ct": "+55 11 3814-9988", "v": "Comprehensive Purna Yoga and precise alignment.", "w": "https://yogaintegralsp.com.br"}, {"c": "São Paulo", "n": "Instituto de Yoga Somática", "r": "4.9", "o": "Woman-Owned", "a": "Pinheiros", "ad": "R. Fradique Coutinho, 980", "ct": "+55 11 2365-1234", "v": "Yoga blended with Feldenkrais and body centering.", "w": "https://yogasomaticasp.com.br"}, {"c": "São Paulo", "n": "Simplesmente Yoga", "r": "4.9", "o": "Woman-Owned", "a": "Vila Madalena", "ad": "R. Mourato Coelho, 1240", "ct": "+55 11 3034-4556", "v": "Vedanta study meditation and pure traditional Hatha.", "w": "https://simplesmenteyoga.com.br"}, {"c": "São Paulo", "n": "Casa Moara", "r": "4.8", "o": "Women-Owned", "a": "Pinheiros", "ad": "R. Paraíba, 45", "ct": "+55 11 3085-6453", "v": "Maternal health focus and prenatal yoga support.", "w": "https://casamoara.com.br"}, {"c": "São Paulo", "n": "Una Yoga", "r": "4.8", "o": "Latina-Women Owned", "a": "Paraíso", "ad": "R. Tomás Carvalhal, 542", "ct": "+55 11 3887-2233", "v": "Mindful movement and therapeutic alignment near park.", "w": "https://unayoga.com.br"}, {"c": "São Paulo", "n": "Ganesha Yoga", "r": "4.8", "o": "Latina-Woman Owned", "a": "Moema", "ad": "Av. Moema, 245", "ct": "+55 11 5051-8765", "v": "Welcoming family atmosphere and children's yoga.", "w": "https://ganeshayoga.com.br"}, {"c": "São Paulo", "n": "My Yoga", "r": "4.7", "o": "Women-Led", "a": "Jardins", "ad": "Alameda Franca, 1600", "ct": "+55 11 3062-2001", "v": "Elegant luxury studio for hot vinyasa and Ashtanga.", "w": "https://myyoga.com.br"}, {"c": "São Paulo", "n": "Santosha Wellness Studio", "r": "4.7", "o": "Women-Led", "a": "Moema", "ad": "R. Inhambu, 1200", "ct": "+55 11 5093-4433", "v": "Dynamic Mat Pilates and energetic Vinyasa flow.", "w": "https://santoshawellness.com.br"}, {"c": "Mexico City", "n": "Yoga Con Gracia", "r": "4.9", "o": "Woman-Owned", "a": "Roma Norte", "ad": "Calle de Chiapas 184", "ct": "+52 55 5264 6835", "v": "Creative Vinyasa and feminine hormone yoga.", "w": "https://yogacongracia.com"}, {"c": "Mexico City", "n": "Light On Studios", "r": "4.9", "o": "Woman-Owned", "a": "Polanco", "ad": "Campos Elíseos 169", "ct": "+52 55 8434 0022", "v": "Curated yoga barre and sound healing sanctuary.", "w": "https://lightonstudios.mx"}, {"c": "Mexico City", "n": "Casa Inbound", "r": "4.9", "o": "Women-Led Collective", "a": "San Ángel", "ad": "Amargura 4", "ct": "+52 55 5616 1234", "v": "Bhakti-yoga and conscious vegan culinary workshops.", "w": ""}, {"c": "Mexico City", "n": "Luv Collective CDMX", "r": "4.9", "o": "Women-Owned", "a": "Concierge Service", "ad": "Mobile Throughout Roma/Condesa", "ct": "luvcollective.com", "v": "Elite private custom group yoga and sound baths.", "w": "https://luvcollective.com"}, {"c": "Mexico City", "n": "AgoraLucis", "r": "4.8", "o": "Women-Led", "a": "Polanco", "ad": "LaFontaine 78", "ct": "+52 55 5281 7555", "v": "Legendary holistic center with traditional temazcal.", "w": "https://agoralucis.com"}, {"c": "Mexico City", "n": "Mukta Yoga", "r": "4.8", "o": "Latina-Woman Owned", "a": "Condesa", "ad": "Amsterdam 171", "ct": "+52 55 5211 6036", "v": "Expert alignment teachings and warm community feel.", "w": "https://muktayoga.com.mx"}, {"c": "Mexico City", "n": "Savyya Yoga", "r": "4.8", "o": "Latina-Women Owned", "a": "Coyoacán", "ad": "Av. Francisco Sosa 240", "ct": "+52 55 5554 9988", "v": "Spiritual Hatha yoga and historic tree-lined meditation.", "w": "https://savvyayoga.mx"}, {"c": "Mexico City", "n": "Yoga Espacio", "r": "4.8", "o": "Women-Led", "a": "Del Valle", "ad": "Patricio Sanz 434", "ct": "+52 55 5524 3814", "v": "Buddhist meditation and stress reduction (MBSR).", "w": "https://yogaespacio.com"}, {"c": "Mexico City", "n": "O2 Yoga", "r": "4.7", "o": "Woman-Owned", "a": "Lomas", "ad": "Monte Athos 385", "ct": "+52 55 5202 3456", "v": "Premium athletic fast-paced power flows.", "w": "https://o2yoga.com.mx"}, {"c": "Mexico City", "n": "Zikhara Yoga", "r": "4.7", "o": "Latina-Woman Owned", "a": "Juárez", "ad": "Havre 64", "ct": "+52 55 6385 1122", "v": "Minimalist space for nervous system decompression.", "w": "https://zikharayoga.com"}, {"c": "Johannesburg", "n": "Inner Peace JHB", "r": "4.9", "o": "Black-Woman-Owned", "a": "Soweto Base", "ad": "Zone 3 Meadowlands", "ct": "innerpeacesoweto.org", "v": "Grassroots mindfulness and township Hatha yoga.", "w": "https://innerpeacesoweto.org"}, {"c": "Johannesburg", "n": "The Nest Wellness Hub", "r": "4.9", "o": "Black-Woman-Owned", "a": "Maternal Space", "ad": "Diepkloof Extension", "ct": "thenestsoweto.za", "v": "Prenatal yoga and doula support for mothers.", "w": "https://thenestsoweto.za"}, {"c": "Johannesburg", "n": "Soweto Yoga Project", "r": "4.6", "o": "Black-Woman-Owned", "a": "Soweto", "ad": "Vilakazi St, Orlando West", "ct": "sowetoyoga.co.za", "v": "Accessible free-to-low cost neighborhood healing.", "w": "https://sowetoyoga.co.za"}, {"c": "Johannesburg", "n": "Soul Sanctuary", "r": "4.9", "o": "Women-Led Collective", "a": "Melville", "ad": "41 4th Ave", "ct": "+27 11 482 1122", "v": "Bohemian space for crystal sound bowl healing.", "w": "https://soulsanctuarymelville.co.za"}, {"c": "Johannesburg", "n": "The Yoga Room JHB", "r": "4.8", "o": "Women-Led", "a": "Rosebank", "ad": "12 Tyrwhitt Ave", "ct": "+27 11 447 0123", "v": "Precise athletic Vinyasa and corporate yoga packages.", "w": "https://theyogaroomjhb.co.za"}, {"c": "Johannesburg", "n": "Yoga Works", "r": "4.8", "o": "Women-Co-Led", "a": "Maboneng / Pop-ups", "ad": "Rooftop and Park Settings", "ct": "yogaworks.co.za", "v": "Rooftop yoga sessions and local urban festivals.", "w": "https://yogaworks.co.za"}, {"c": "Johannesburg", "n": "Earth Yoga Studio", "r": "4.8", "o": "Woman-Owned", "a": "Kyalami", "ad": "9 Main Rd", "ct": "+27 11 468 1234", "v": "Multi-level Vinyasa and warm local community feel.", "w": "https://earthyogastudio.co.za"}, {"c": "Johannesburg", "n": "The Wellness Emporium", "r": "4.8", "o": "Women-Led Hub", "a": "Bryanston", "ad": "23 Post Office Rd", "ct": "+27 11 706 4321", "v": "Functional medicine paired with private yoga coaching.", "w": "https://thewellnessemporium.co.za"}, {"c": "Johannesburg", "n": "Conscious 108 Wellness", "r": "4.7", "o": "Woman-Owned", "a": "Greenside", "ad": "108 Greenway", "ct": "+27 11 646 0108", "v": "Plant-based conscious eating and study circles.", "w": "https://conscious108.com"}, {"c": "Johannesburg", "n": "Movement Wellness Studio", "r": "4.7", "o": "Woman-Owned", "a": "Sandton", "ad": "135 Rivonia Rd", "ct": "+27 11 784 5566", "v": "Upscale fusion of Pilates reformer and Vinyasa.", "w": "https://movementwellness.co.za"}];
 var dirCity='Atlanta', dirOwn='all';
 function dirOwnMatch(o,f){ o=(o||'').toLowerCase(); if(f==='all') return true; if(f==='black') return o.indexOf('black')>=0||o.indexOf('afro')>=0; if(f==='latina') return o.indexOf('latina')>=0; if(f==='women') return o.indexOf('woman')>=0||o.indexOf('women')>=0; return true; }
 function dirCard(s){
@@ -2228,15 +2168,6 @@ function dirRender(){
   var cnt=document.getElementById('dir-count'); if(cnt) cnt.textContent=list.length+' spaces'+(dirCity!=='all'?(' in '+dirCity.toLowerCase()):' · 10 cities');
   grid.innerHTML=list.map(dirCard).join('');
 }
-function dirFilterCity(city){
-  dirCity=city; dirOwn='all';
-  var ps=document.querySelectorAll('#dir-cities .dir-pill');
-  for(var i=0;i<ps.length;i++){ ps[i].classList.toggle('on', ps[i].textContent.trim()===city.toLowerCase()); }
-  var os=document.querySelectorAll('#dir-owns .dir-pill');
-  for(var j=0;j<os.length;j++){ os[j].classList.toggle('on', os[j].textContent.trim()==='all'); }
-  dirRender();
-  var d=document.getElementById('directory'); if(d) d.scrollIntoView({behavior:'smooth',block:'start'});
-}
 function dirToggle(head){ if(head&&head.parentNode) head.parentNode.classList.toggle('open'); }
 function dirSetCity(c,btn){ dirCity=c; var ps=document.querySelectorAll('#dir-cities .dir-pill'); for(var i=0;i<ps.length;i++) ps[i].classList.remove('on'); btn.classList.add('on'); dirRender(); }
 function dirAddOpen(btn){ var f=document.getElementById('dir-add-form'); if(f) f.style.display='flex'; if(btn) btn.style.display='none'; }
@@ -2244,7 +2175,7 @@ function dirAddSubmit(){
   var g=function(id){ var el=document.getElementById(id); return el?el.value:''; };
   var name=g('da-name'), city=g('da-city');
   if(!name || !city){ ['da-name','da-city'].forEach(function(id){ var el=document.getElementById(id); if(el&&!el.value) el.style.borderColor='#b5502f'; }); return; }
-  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'studio_submission', studio:name, city:city, area:g('da-area'), ownership:g('da-own'), contact:g('da-contact'), vibe:g('da-vibe'), _subject:'respira: a studio wants on the map'})}); }catch(e){}
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'studio_submission', studio:name, city:city, area:g('da-area'), ownership:g('da-own'), contact:g('da-contact'), vibe:g('da-vibe'), _subject:'respira: a studio wants to join the directory'})}); }catch(e){}
   var f=document.getElementById('dir-add-form'); if(f) f.style.display='none';
   var t=document.getElementById('dir-add-thanks'); if(t) t.style.display='block';
 }
@@ -2268,7 +2199,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         <div class="goods-eyebrow">goods</div>
         <h2 class="goods-h2">good things<br><em>we&rsquo;d put in your hands.</em></h2>
       </div>
-      <p class="goods-note">made by respira &mdash; printed to order, in every mother tongue.<br>plus posters, free to download and print.</p>
+      <p class="goods-note">made by respira &mdash; printed to order, in every mother tongue.<br>downloadable posters for rooms, studios, and quiet corners.</p>
     </div>
         <div class="goods-tier">made by respira</div>
 <script>
@@ -2324,62 +2255,126 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       </div>
     </div>
 
-    <div class="goods-tier t2">free to download &middot; print at home</div>
-    <p class="poster-intro">four posters, each phrase in all eight of respira&rsquo;s languages &mdash; english, espa&ntilde;ol, fran&ccedil;ais, kiswahili, العربية, yor&ugrave;b&aacute;, krey&ograve;l, igbo. 18&Prime;&times;24&Prime;, print-ready. yours, at no cost &mdash; and yours to recolor, retranslate, and make your own.</p>
-    <div class="poster-grid">
-      <div class="poster-card pp-cream">
-        <a class="pc-link" href="/poster?p=breathe" aria-label="open breathe in slowly in the poster studio">
-          <div class="pc-sheet"><span class="pc-line">breathe in slowly</span><span class="pc-hover">make it yours &rarr;</span></div>
-          <div class="pc-name">breathe in slowly</div>
-          <div class="pc-desc">the invitation, in eight mother tongues.</div>
-        </a>
-        <div class="pc-acts">
-          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-breathe-in-slowly.pdf" download>original pdf &darr;</a>
-          <a class="pc-studio" href="/poster?p=breathe">studio &rarr;</a>
+    <script>
+    function rnColor(btn){
+      var img=document.getElementById('rn-img');
+      if(img && btn.getAttribute('data-src')) img.src=btn.getAttribute('data-src');
+      var sw=document.getElementsByClassName('rn-swatch');
+      for(var i=0;i<sw.length;i++){ sw[i].classList.remove('active'); }
+      btn.classList.add('active');
+    }
+    function rnPreorder(){
+      var el=document.getElementById('rn-email'), email=el?el.value.trim():'';
+      if(!email || email.indexOf('@')===-1){ if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
+      var active=document.querySelector('.rn-swatch.active');
+      var color=active?active.getAttribute('data-color'):'';
+      try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'reunion_mat_preorder', email:email, colorway:color, _subject:'reunion mat \u2014 pre-order interest'})}); }catch(e){}
+      var row=document.getElementById('rn-row'), t=document.getElementById('rn-thanks');
+      if(row) row.style.display='none';
+      if(t) t.style.display='block';
+    }
+    </script>
+    <div class="goods-tier t2">made with <span class="gt-partner">reunion</span></div>
+    <div class="goods-flagship gf-reunion">
+      <div class="gf-media gf-media-wide"><img id="rn-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/reunion-terracotta.jpg" alt="the reunion mat kit — tri-fold mat, cushion, and carry bag" onerror="this.parentNode.style.display='none'"></div>
+      <div class="gf-body">
+        <div class="gf-tag">reunion &middot; a respira co-lab</div>
+        <h3 class="gf-name">the reunion mat</h3>
+        <p class="gf-tagline">a room you can carry.</p>
+        <div class="gf-incl">tri-fold vegan suede mat &middot; matching cushion &middot; shoulder carry bag</div>
+        <div class="gf-colors">
+          <button class="rn-swatch active" data-color="terracotta" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/reunion-terracotta.jpg" onclick="rnColor(this)"><span style="background:#b0613a"></span>terracotta</button>
+          <button class="rn-swatch" data-color="dune" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/reunion-dune.jpg" onclick="rnColor(this)"><span style="background:linear-gradient(135deg,#c7ab8d 0%,#6f5748 100%)"></span>dune</button>
+          <button class="rn-swatch" data-color="stone" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/reunion-stone.jpg" onclick="rnColor(this)"><span style="background:#a9a29a"></span>stone</button>
         </div>
-      </div>
-      <div class="poster-card pp-amber">
-        <a class="pc-link" href="/poster?p=stillness" aria-label="open stillness = sustenance in the poster studio">
-          <div class="pc-sheet"><span class="pc-line">stillness = sustenance</span><span class="pc-hover">make it yours &rarr;</span></div>
-          <div class="pc-name">stillness = sustenance</div>
-          <div class="pc-desc">the breathe room, in eight mother tongues.</div>
-        </a>
-        <div class="pc-acts">
-          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-stillness.pdf" download>original pdf &darr;</a>
-          <a class="pc-studio" href="/poster?p=stillness">studio &rarr;</a>
+        <div class="gf-price">$145 <span>&middot; mat, cushion &amp; bag</span></div>
+        <div class="gf-row" id="rn-row">
+          <input id="rn-email" type="email" placeholder="your email" class="gf-input" aria-label="your email">
+          <button class="gf-btn" onclick="rnPreorder()">reserve yours &rarr;</button>
         </div>
-      </div>
-      <div class="poster-card pp-sage">
-        <a class="pc-link" href="/poster?p=movement" aria-label="open movement = medicine in the poster studio">
-          <div class="pc-sheet"><span class="pc-line">movement = medicine</span><span class="pc-hover">make it yours &rarr;</span></div>
-          <div class="pc-name">movement = medicine</div>
-          <div class="pc-desc">the flow room, in eight mother tongues.</div>
-        </a>
-        <div class="pc-acts">
-          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-movement.pdf" download>original pdf &darr;</a>
-          <a class="pc-studio" href="/poster?p=movement">studio &rarr;</a>
-        </div>
-      </div>
-      <div class="poster-card pp-coffee">
-        <a class="pc-link" href="/poster?p=prosperity" aria-label="open prosperity is a human right in the poster studio">
-          <div class="pc-sheet"><span class="pc-line">prosperity is a human right</span><span class="pc-hover">make it yours &rarr;</span></div>
-          <div class="pc-name">prosperity is a human right</div>
-          <div class="pc-desc">the belief, in eight mother tongues.</div>
-        </a>
-        <div class="pc-acts">
-          <a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-prosperity.pdf" download>original pdf &darr;</a>
-          <a class="pc-studio" href="/poster?p=prosperity">studio &rarr;</a>
-        </div>
+        <div class="gf-note">by reunion &middot; pre-order &middot; ships when it&rsquo;s ready</div>
+        <div id="rn-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. reunion will email you first.</div>
       </div>
     </div>
 
-    <a class="poster-studio-cta" href="/poster">
-      <span class="psc-l">
-        <span class="psc-title">the poster studio</span>
-        <span class="psc-copy">choose a phrase, add your mother tongue, pick your colors. print it at 18&Prime;&times;24&Prime;, or send the link to someone who needs it.</span>
-      </span>
-      <span class="psc-btn">open the studio &rarr;</span>
-    </a>
+
+    <div class="poster-maker-head">
+      <div>
+        <div class="goods-tier t2">poster maker</div>
+        <p class="poster-intro">choose a phrase. the first line leads; each translation steps down so the print reads clearly from across the room.</p>
+      </div>
+      <div class="poster-spec">18&Prime;&times;24&Prime; pdf · print-ready</div>
+    </div>
+    <div class="poster-grid">
+      <a class="poster-card pp-cream" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-breathe-in-slowly.pdf" download target="_blank" rel="noopener">
+        <div class="pc-sheet">
+          <div class="pc-stack" aria-label="breathe in slowly poster preview">
+            <span class="pc-line pc-line-1">breathe in slowly</span>
+            <span class="pc-line pc-line-2">respira lentamente</span>
+            <span class="pc-line pc-line-3">respire lentement</span>
+            <span class="pc-line pc-line-4">pumua polepole</span>
+            <span class="pc-line pc-line-5" lang="ar" dir="rtl">تنفّس ببطء</span>
+            <span class="pc-line pc-line-6">mí sínú lọ́ra</span>
+            <span class="pc-line pc-line-7">respire dousman</span>
+            <span class="pc-line pc-line-8">kuo ume nwayọọ</span>
+          </div>
+        </div>
+        <div class="pc-name">breathe in slowly</div>
+        <div class="pc-desc">the invitation, in eight mother tongues.</div>
+        <div class="pc-dl">open / download &rarr;</div>
+      </a>
+      <a class="poster-card pp-amber" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-stillness.pdf" download target="_blank" rel="noopener">
+        <div class="pc-sheet">
+          <div class="pc-stack" aria-label="stillness equals sustenance poster preview">
+            <span class="pc-line pc-line-1">stillness = sustenance</span>
+            <span class="pc-line pc-line-2">quietud = sustento</span>
+            <span class="pc-line pc-line-3">le calme nourrit</span>
+            <span class="pc-line pc-line-4">utulivu = riziki</span>
+            <span class="pc-line pc-line-5" lang="ar" dir="rtl">السكون = القوت</span>
+            <span class="pc-line pc-line-6">ìdákẹ́jẹ́ = ìtọ́jú</span>
+            <span class="pc-line pc-line-7">trankilite = soutyen</span>
+            <span class="pc-line pc-line-8">udo = nri ndụ</span>
+          </div>
+        </div>
+        <div class="pc-name">stillness = sustenance</div>
+        <div class="pc-desc">the breathing room, in eight mother tongues.</div>
+        <div class="pc-dl">open / download &rarr;</div>
+      </a>
+      <a class="poster-card pp-sage" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-movement.pdf" download target="_blank" rel="noopener">
+        <div class="pc-sheet">
+          <div class="pc-stack" aria-label="movement equals medicine poster preview">
+            <span class="pc-line pc-line-1">movement = medicine</span>
+            <span class="pc-line pc-line-2">movimiento = medicina</span>
+            <span class="pc-line pc-line-3">mouvement = médecine</span>
+            <span class="pc-line pc-line-4">mwendo = dawa</span>
+            <span class="pc-line pc-line-5" lang="ar" dir="rtl">الحركة = دواء</span>
+            <span class="pc-line pc-line-6">ìgbésẹ̀ = òògùn</span>
+            <span class="pc-line pc-line-7">mouvman = medikaman</span>
+            <span class="pc-line pc-line-8">mmegharị = ọgwụ</span>
+          </div>
+        </div>
+        <div class="pc-name">movement = medicine</div>
+        <div class="pc-desc">the flow room, in eight mother tongues.</div>
+        <div class="pc-dl">open / download &rarr;</div>
+      </a>
+      <a class="poster-card pp-coffee" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-prosperity.pdf" download target="_blank" rel="noopener">
+        <div class="pc-sheet">
+          <div class="pc-stack" aria-label="prosperity is a human right poster preview">
+            <span class="pc-line pc-line-1">prosperity is a human right</span>
+            <span class="pc-line pc-line-2">la prosperidad es un derecho humano</span>
+            <span class="pc-line pc-line-3">la prospérité est un droit humain</span>
+            <span class="pc-line pc-line-4">ustawi ni haki ya binadamu</span>
+            <span class="pc-line pc-line-5" lang="ar" dir="rtl">الازدهار حق إنساني</span>
+            <span class="pc-line pc-line-6">aásìkí jẹ́ ẹ̀tọ́ ènìyàn</span>
+            <span class="pc-line pc-line-7">pwosperite se yon dwa moun</span>
+            <span class="pc-line pc-line-8">ọganihu bụ ikike mmadụ</span>
+          </div>
+        </div>
+        <div class="pc-name">prosperity is a human right</div>
+        <div class="pc-desc">the belief, in eight mother tongues.</div>
+        <div class="pc-dl">open / download &rarr;</div>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -2408,33 +2403,39 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .gf-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 20px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.95);cursor:pointer;white-space:nowrap;}
 .gf-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint);margin:10px 0 0;text-transform:lowercase;}
 .gf-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:var(--sage-dark);margin:12px 0 0;}
+.gt-partner{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.15rem;letter-spacing:-.01em;text-transform:none;color:var(--ink);vertical-align:-1px;}
+.gf-reunion{grid-template-columns:1.25fr 1fr;}
+.gf-media-wide{background:#f2ede4;aspect-ratio:3/2;}
+.gf-media-wide img{object-fit:cover;}
+.rn-swatch{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:lowercase;color:var(--soft);background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 13px 5px 5px;cursor:pointer;transition:all .15s;}
+.rn-swatch span{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}
+.rn-swatch.active{border-color:var(--ink);color:var(--ink);}
+@media(max-width:600px){ .gf-reunion{grid-template-columns:1fr;} }
 @media(max-width:600px){ .goods-flagship{grid-template-columns:1fr;} }
-.poster-intro{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--soft);line-height:1.9;max-width:52ch;margin:0 0 1.4rem;}
-.poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;}
-.poster-card{display:block;background:none;transition:transform .18s ease;}
-.poster-card:hover{transform:translateY(-4px);}
-.pc-link{display:block;text-decoration:none;}
-.pc-sheet{position:relative;aspect-ratio:3/4;border-radius:4px;display:flex;align-items:flex-end;padding:14px;box-shadow:0 12px 30px rgba(55,42,29,.18);overflow:hidden;}
-.pc-hover{position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:#fffaf2;background:rgba(0,0,0,.42);opacity:0;transition:opacity .2s ease;}
-.poster-card:hover .pc-hover,.pc-link:focus-visible .pc-hover{opacity:1;}
-.pc-line{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.15rem;line-height:1.05;letter-spacing:-.02em;}
-.pp-cream .pc-sheet{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
-.pp-amber .pc-sheet{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
-.pp-sage .pc-sheet{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
-.pp-coffee .pc-sheet{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
+.poster-maker-head{display:flex;align-items:end;justify-content:space-between;gap:1.2rem;margin:2.75rem 0 1.4rem;flex-wrap:wrap;}.poster-intro{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--soft);line-height:1.9;max-width:50ch;margin:0;}.poster-spec{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:#7a3a22;border:1px solid rgba(122,58,34,.18);border-radius:999px;padding:8px 13px;background:rgba(255,250,242,.36);white-space:nowrap;}
+.poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.poster-card{display:block;text-decoration:none;transition:transform .18s ease,filter .18s ease;outline:none;}
+.poster-card:hover,.poster-card:focus-visible{transform:translateY(-4px);filter:saturate(1.04);}.poster-card:focus-visible .pc-sheet{outline:2px solid rgba(42,31,24,.45);outline-offset:4px;}
+.poster-card:hover .pc-dl{color:#a5442f;}
+.pc-sheet{aspect-ratio:3/4;border-radius:6px;display:flex;align-items:flex-end;padding:clamp(18px,2.4vw,28px);box-shadow:0 18px 44px rgba(55,42,29,.22);overflow:hidden;min-height:310px;position:relative;}
+.pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
+.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
+.pc-line-1{font-size:clamp(2.45rem,5.2vw,4.85rem);font-weight:600;line-height:.78;letter-spacing:-.065em;margin-bottom:.22em;}
+.pc-line-2{font-size:clamp(1.28rem,2.45vw,2rem);font-weight:420;opacity:.95;}
+.pc-line-3{font-size:clamp(1.08rem,2.05vw,1.64rem);font-weight:390;opacity:.88;}
+.pc-line-4{font-size:clamp(.96rem,1.75vw,1.38rem);font-weight:360;opacity:.82;}
+.pc-line-5{font-size:clamp(.88rem,1.52vw,1.18rem);font-weight:340;opacity:.76;}
+.pc-line-6{font-size:clamp(.8rem,1.3vw,1.02rem);font-weight:320;opacity:.70;}
+.pc-line-7{font-size:clamp(.74rem,1.16vw,.92rem);font-weight:310;opacity:.64;}
+.pc-line-8{font-size:clamp(.68rem,1vw,.84rem);font-weight:300;opacity:.58;}
+.pp-cream{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
+.pp-amber{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
+.pp-sage{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
+.pp-coffee{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
 .pc-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;color:var(--ink);margin-top:12px;line-height:1.2;}
 .pc-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);line-height:1.7;margin-top:4px;}
-.pc-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;}
-.pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;text-decoration:none;transition:color .18s;}
-.pc-dl:hover{color:#a5442f;}
-.pc-studio{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:var(--sage-dark);text-decoration:none;transition:color .18s;}
-.pc-studio:hover{color:var(--ink);}
-.poster-studio-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:1.6rem;padding:1.4rem 1.6rem;background:#2a1f18;border-radius:20px;text-decoration:none;transition:transform .18s ease;}
-.poster-studio-cta:hover{transform:translateY(-2px);}
-.psc-l{display:block;max-width:56ch;}
-.psc-title{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:300;color:rgba(201,163,106,.95);line-height:1;}
-.psc-copy{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;line-height:1.9;color:rgba(255,250,242,.62);margin-top:8px;}
-.psc-btn{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#2a1f18;background:rgba(201,163,106,.95);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+.pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;margin-top:8px;transition:color .18s;}
+@media(max-width:560px){.poster-maker-head{align-items:flex-start;}.poster-spec{white-space:normal;}.poster-grid{grid-template-columns:1fr;}.pc-sheet{min-height:390px;padding:26px;}.pc-line-1{font-size:clamp(3rem,13vw,4.7rem);}.pc-line-2{font-size:clamp(1.45rem,7vw,2.2rem);}}
 .goods-tier{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:#9a7a3a;margin:0 0 14px;}
 .goods-tier.t2{margin-top:2.75rem;}
 .shelf-feature{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,28px);align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(14px,2.5vw,20px);margin-bottom:1.5rem;}
@@ -4134,19 +4135,10 @@ function navRadioToggle(){
 </script>
 
 <script>
-/* service worker — always take the newest one, never serve a stale page */
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
-      .then(function(reg){
-        console.log('respira sw registered');
-        reg.update();
-        // when a new worker takes over, reload once so the new html shows up
-        var reloading = false;
-        navigator.serviceWorker.addEventListener('controllerchange', function(){
-          if(reloading) return; reloading = true; window.location.reload();
-        });
-      })
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(){ console.log('respira sw registered'); })
       .catch(function(e){ console.warn('sw error:', e); });
   });
 }
