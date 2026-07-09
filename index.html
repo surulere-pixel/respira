@@ -1381,7 +1381,7 @@ body{transition:background-color .7s ease;}
         <button class="station-card sc-groove" onclick="radioPlayStation('groove')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/groove.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">groove</div><div class="station-cdesc">focus &amp; easy energy</div></button>
         
         <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whisper</div><div class="station-cdesc">spoken word &amp; poetry &middot; coming soon</div></button>
+        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whisper</div><div class="station-cdesc">whispers weekly &middot; with dr. earl &middot; coming soon</div></button>
         <button class="station-card sc-diasporadique" onclick="radioPlayStation('diasporadique')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/diasporadique.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">diasporadique</div><div class="station-cdesc">sounds of the diaspora &middot; coming soon</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a station to begin.</div>
@@ -1680,13 +1680,11 @@ function radioPlayNext(){
   radioQueueIdx++;
   if(radioQueueIdx >= radioQueue.length){
     if(!radioLoop){ radioStop(); return; }
-    buildQueue(radioShuffled);
+    buildQueue(radioShuffled); radioQueueIdx = 0;
   }
   var t = radioQueue[radioQueueIdx];
   if(!t) return;
-  _radioTrackCount++;
-  if(_radioTrackCount % 4 === 0){ radioPlayIdent(function(){ radioPlay(t.slug, t.name, t.cat); }); }
-  else { radioPlay(t.slug, t.name, t.cat); }
+  radioPlay(t.slug, t.name, t.cat);
 }
 
 function radioToggleLoop(){
@@ -1705,6 +1703,7 @@ function radioShuffle(){
   if(t) radioPlay(t.slug, t.name, t.cat);
 }
 var radioAudio=null,radioCurrentSlug=null;
+var _radioNextPre=null,_xfTimer=null,_radioAdvancing=false,CROSSFADE_MS=3200;
 var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
 buildQueue(true);
 
@@ -1737,58 +1736,96 @@ var radioUrlMap = {
   'yanya-yingi': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yanya%20yingi.mp3',
   'we-were-here-yesterday-02': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/we%20were%20here%20yesterday%2002.mp3',
 };
+function _radioTargetVol(){ var v=document.getElementById('radio-volume'); return v?parseFloat(v.value):0.6; }
+function _rampVol(a,to,ms,done){
+  if(!a){ if(done) done(); return; }
+  var from=a.volume, steps=Math.max(8,Math.round(ms/55)), i=0, iv=ms/steps;
+  var t=setInterval(function(){ i++; try{ a.volume=Math.max(0,Math.min(1, from+(to-from)*(i/steps))); }catch(e){} if(i>=steps){ clearInterval(t); if(done) done(); } }, iv);
+  return t;
+}
+function _peekNext(){ var ni=radioQueueIdx+1; if(ni>=radioQueue.length){ ni = radioLoop ? 0 : -1; } return ni>=0 ? radioQueue[ni] : null; }
+function _preloadNext(){
+  var t=_peekNext(); if(!t){ _radioNextPre=null; return; }
+  var url=radioUrlMap[t.slug]?radioUrlMap[t.slug]:radioBase+t.slug+'.mp3';
+  var a=new Audio(); a.preload='auto'; a.src=url; a.volume=0;
+  _radioNextPre={slug:t.slug, audio:a};
+}
+function _xfWatch(){
+  var a=radioAudio; if(!a||!a.duration||isNaN(a.duration)||!isFinite(a.duration)) return;
+  var xf=CROSSFADE_MS/1000;
+  if(a.duration > xf+1.5 && a.currentTime >= a.duration - xf && !_radioAdvancing){
+    _radioAdvancing=true;
+    try{ a.removeEventListener('timeupdate', _xfWatch); }catch(e){}
+    radioPlayNext();
+  }
+}
+function radioDuckVoice(){
+  if(!radioAudio) return;
+  try{
+    var slug=RADIO_IDENTS[Math.floor(Math.random()*RADIO_IDENTS.length)];
+    var v=new Audio(radioBase+'cue/en/'+slug+'.mp3'); v.volume=0.0;
+    var target=_radioTargetVol(), duckTo=Math.max(0.12, target*0.3), music=radioAudio;
+    _rampVol(music, duckTo, 700);
+    var pv=v.play(); if(pv&&pv.catch) pv.catch(function(){ _rampVol(music, _radioTargetVol(), 500); });
+    _rampVol(v, 0.92, 500);
+    v.addEventListener('ended', function(){ _rampVol(v,0,250); if(radioAudio) _rampVol(radioAudio, _radioTargetVol(), 1000); });
+    v.addEventListener('error', function(){ if(radioAudio) _rampVol(radioAudio, _radioTargetVol(), 300); });
+  }catch(e){}
+}
 function radioPlay(slug,name,cat){
   var _nc = radioNorm(cat);
   if(_nc && _nc !== radioCat){ radioCat = _nc; buildQueue(radioShuffled); }
-  if(radioAudio){
-    radioAudio.pause();
-    radioAudio.src='';
-    radioAudio = null;
-  }
-  document.querySelectorAll('.radio-track').forEach(function(t){t.classList.remove('playing');t.querySelector('.radio-play-icon').innerHTML='&#9655;';});
   var url = radioUrlMap[slug] ? radioUrlMap[slug] : radioBase+slug+'.mp3';
-  var audio = document.createElement('audio');
-  audio.loop = false; // we handle looping via radioPlayNext
-  var src = document.createElement('source');
-  src.src = url;
-  src.type = 'audio/mpeg';
-  audio.appendChild(src);
-  var vol = document.getElementById('radio-volume');
-  audio.volume = vol ? parseFloat(vol.value) : 0.6;
-  audio.addEventListener('ended', function(){ radioPlayNext(); });
+  var target = _radioTargetVol();
+
+  // reuse the preloaded next track if it matches (already buffered = no gap)
+  var audio;
+  if(_radioNextPre && _radioNextPre.slug===slug){ audio=_radioNextPre.audio; _radioNextPre=null; }
+  else { audio=new Audio(); audio.src=url; }
+  audio.loop=false; audio.volume=0;
+  _radioAdvancing=false;
+
+  var outgoing = radioAudio;
   radioAudio = audio;
-  // Small delay avoids AbortError from pause/play race
-  setTimeout(function(){
-    if(radioAudio === audio){
-      audio.play().catch(function(e){
-        if(e.name !== 'AbortError') console.warn('radio:', e);
-      });
-    }
-  }, 80);
-  // Sync queue index
-  for(var _qi=0;_qi<radioQueue.length;_qi++){
-    if(radioQueue[_qi].slug===slug){ radioQueueIdx=_qi; break; }
-  }
+  radioCurrentSlug = slug;
+
+  audio.addEventListener('timeupdate', _xfWatch);
+  audio.addEventListener('ended', function(){ if(radioAudio===audio && !_radioAdvancing){ _radioAdvancing=true; radioPlayNext(); } });
+
+  var p=audio.play(); if(p&&p.catch) p.catch(function(e){ if(e.name!=='AbortError') console.warn('radio:',e); });
+
+  // crossfade: new in, old out
+  if(_xfTimer){ clearInterval(_xfTimer); _xfTimer=null; }
+  _rampVol(audio, target, CROSSFADE_MS);
+  if(outgoing){ _rampVol(outgoing, 0, CROSSFADE_MS, function(){ try{ outgoing.pause(); outgoing.src=''; }catch(e){} }); }
+
+  // buffer the following track so its transition is seamless too
+  setTimeout(_preloadNext, 600);
+
+  // occasional voice, ducked OVER the music mid-track (never a gap)
+  _radioTrackCount++;
+  if(_radioTrackCount % 4 === 0){ setTimeout(radioDuckVoice, 5000); }
+
+  // ---- queue sync + UI (unchanged) ----
+  for(var _qi=0;_qi<radioQueue.length;_qi++){ if(radioQueue[_qi].slug===slug){ radioQueueIdx=_qi; break; } }
   try{ var _pk='respira_radio_plays'; var _pl=JSON.parse(localStorage.getItem(_pk)||'{}'); _pl[slug]=(_pl[slug]||0)+1; localStorage.setItem(_pk,JSON.stringify(_pl)); if(typeof renderSpotlight==='function') renderSpotlight(); }catch(e){}
-  radioCurrentSlug=slug; if(window.miniShow) window.miniShow(name, cat); if(typeof setRoomWallpaper==='function') setRoomWallpaper(cat);
-  var bar=document.getElementById('radio-now-playing');
-  if(bar){bar.style.display='flex';}
-  var tn=document.getElementById('radio-track-name');
-  if(tn){tn.innerHTML=name;tn.style.color='rgba(255,255,255,.8)';}
-  var tc=document.getElementById('radio-track-cat');if(tc)tc.textContent=cat;
+  if(window.miniShow) window.miniShow(name, cat);
+  if(typeof setRoomWallpaper==='function') setRoomWallpaper(cat);
+  var bar=document.getElementById('radio-now-playing'); if(bar){bar.style.display='flex';}
+  var tn=document.getElementById('radio-track-name'); if(tn){tn.innerHTML=name;tn.style.color='rgba(255,255,255,.8)';}
+  var tc=document.getElementById('radio-track-cat'); if(tc)tc.textContent=cat;
   var pulse=document.getElementById('radio-pulse');
   if(pulse){pulse.style.background='rgba(201,163,106,.8)';pulse.style.animation='radioPulse 1.8s ease-in-out infinite';}
-  document.querySelectorAll('.radio-track').forEach(function(t){
-    var oc=t.getAttribute('onclick')||'';
-    if(oc.indexOf("'"+slug+"'")!==-1){t.classList.add('playing');t.querySelector('.radio-play-icon').innerHTML='&#9654;';}
-  });
+  document.querySelectorAll('.radio-track').forEach(function(t){t.classList.remove('playing');var pi=t.querySelector('.radio-play-icon'); if(pi) pi.innerHTML='&#9655;';});
+  document.querySelectorAll('.radio-track').forEach(function(t){ var oc=t.getAttribute('onclick')||''; if(oc.indexOf("'"+slug+"'")!==-1){t.classList.add('playing');var pi=t.querySelector('.radio-play-icon'); if(pi) pi.innerHTML='&#9654;';} });
 }
+
 var radioStations = {
   drift: 'slow, spacious beats · for winding down & gentle movement',
   groove: 'warm low-key grooves · for focus & easy energy',
   ire:   'bright & uplifting · for joy, light & good mornings',
   dust:  'pure soundscapes · for meditation, breathwork & deep rest',
-  whisper: 'spoken word, poetry & short talks · for reflection & stillness'
+  whisper: 'whispers weekly with dr. earl · a new reflection each week · find quiet, hear your heart'
 };
 function radioTab(cat, btn){
   var d=document.getElementById('radio-station-desc'); if(d) d.textContent = radioStations[cat] || '';
@@ -1814,10 +1851,13 @@ function radioFadeOut(){
   var iv=setInterval(function(){ i++; try{ a.volume=Math.max(0, v0*(1-i/steps)); }catch(e){} if(i>=steps){ clearInterval(iv); radioStop(); var b=document.getElementById('radio-timer-btn'); if(b){ b.textContent='◷ timer'; b.style.opacity='0.5'; } _radioTimerMin=0; } }, 250);
 }
 function radioStop(){
-  if(radioAudio){radioAudio.pause();radioAudio.currentTime=0;}
+  if(_xfTimer){ clearInterval(_xfTimer); _xfTimer=null; }
+  if(radioAudio){ try{radioAudio.pause();radioAudio.currentTime=0;radioAudio.src='';}catch(e){} }
+  if(_radioNextPre && _radioNextPre.audio){ try{_radioNextPre.audio.pause();_radioNextPre.audio.src='';}catch(e){} _radioNextPre=null; }
+  radioAudio=null;
   if(window.miniHide) window.miniHide();
   var bar=document.getElementById('radio-now-playing');if(bar)bar.style.display='none';
-  document.querySelectorAll('.radio-track').forEach(function(t){t.classList.remove('playing');t.querySelector('.radio-play-icon').innerHTML='&#9655;';});
+  document.querySelectorAll('.radio-track').forEach(function(t){t.classList.remove('playing');var pi=t.querySelector('.radio-play-icon'); if(pi) pi.innerHTML='&#9655;';});
   radioCurrentSlug=null;
 }
 var rvol=document.getElementById('radio-volume');
