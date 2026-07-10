@@ -26,7 +26,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -941,8 +941,9 @@ body{transition:background-color .7s ease;}
 </style>
 
 <style>
-#nav-radio-btn{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.4rem .9rem;border-radius:999px;border:1px solid rgba(201,163,106,.3);background:#2a1f18;color:rgba(201,163,106,.85);cursor:pointer;transition:all .2s;white-space:nowrap;line-height:1;flex-shrink:0;}
-#nav-radio-btn:hover{color:var(--gold);border-color:rgba(201,163,106,.6);}
+#nav-radio-btn{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.45rem .95rem;border-radius:999px;border:1px solid rgba(106,59,40,.5);background:#fffaf2;color:#6a3b28;cursor:pointer;transition:all .2s;white-space:nowrap;line-height:1;flex-shrink:0;}
+#nav-radio-btn:hover{background:#fff;border-color:#6a3b28;color:#4a2a1c;}
+#nav-radio-btn.playing{background:#6a3b28;border-color:#6a3b28;color:#fffaf2;}
 .nav-links{min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .nav-links::-webkit-scrollbar{display:none;}
 @media(max-width:680px){
@@ -1342,7 +1343,10 @@ body{transition:background-color .7s ease;}
         <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(95,85,75,.55);margin-bottom:.5rem;">respira radio</div>
         <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;color:#33372a;letter-spacing:-.03em;line-height:1;margin:0;">soulful soundscapes<br><em style="color:#a5763a;">for studios &amp; spaces.</em></h2>
       </div>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(95,85,75,.5);line-height:1.8;max-width:28ch;text-align:right;">free for studios, practices &amp; community spaces.<br>from the mmaadd soundlab.</p>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(95,85,75,.5);line-height:1.8;max-width:28ch;text-align:right;margin:0;">free for studios, practices &amp; community spaces.<br>from the mmaadd soundlab.</p>
+        <button class="share-pill" onclick="respiraShare('radio')">&#8599; share the radio</button>
+      </div>
     </div>
 
 <div id="radio-now-playing" style="display:flex;align-items:center;gap:14px;margin:0 auto 1.5rem;max-width:560px;padding:14px 20px;background:#2a1f18;border:1px solid rgba(201,163,106,.28);border-radius:16px;box-shadow:0 12px 34px rgba(0,0,0,.32);">
@@ -1597,51 +1601,37 @@ body{transition:background-color .7s ease;}
 
 // ── radio: full track list for autoplay + shuffle ─────────────────────────
 var radioAllTracks = [
-  {slug:'coastal-breath-01', name:'coastal breath 01', cat:'drift'},
-  {slug:'coastal-breath-02', name:'coastal breath 02', cat:'drift'},
-  {slug:'coastal-breath-03', name:'coastal breath 03', cat:'drift'},
-  {slug:'coastal-breath-04', name:'coastal breath 04', cat:'drift'},
-  {slug:'coastal-breath-05', name:'coastal breath 05', cat:'drift'},
-  {slug:'coastal-breath-06', name:'coastal breath 06', cat:'drift'},
-  {slug:'coastal-breath-07', name:'coastal breath 07', cat:'drift'},
-  {slug:'still-ground-01',   name:'still ground 01',   cat:'drift'},
-  {slug:'still-ground-02',   name:'still ground 02',   cat:'drift'},
-  {slug:'township-morning-01', name:'township morning 01', cat:'groove'},
-  {slug:'township-morning-02', name:'township morning 02', cat:'groove'},
-  {slug:'sunday-slow-01',    name:'sunday slow 01',    cat:'groove'},
-  {slug:'sunday-slow-02',    name:'sunday slow 02',    cat:'groove'},
-  {slug:'water-no-get-enemy-01', name:'water no get enemy 01', cat:'groove'},
-  {slug:'water-no-get-enemy-02', name:'water no get enemy 02', cat:'groove'},
-  {slug:'the-serpent-ate-the-treasure', name:'the serpent ate the treasure', cat:'drift'},
-  {slug:'road-trip-to-zamfara', name:'road trip to zamfara', cat:'groove'},
-  {slug:'riverbend-808', name:'riverbend 808', cat:'groove'},
-  {slug:'yingi-yanga', name:'yingi yanga', cat:'groove'},
-  {slug:'coco-coconut', name:'coco coconut', cat:'groove'},
-  {slug:'rasta-savasana', name:'rasta savasana', cat:'drift'},
-  {slug:'945-in-kingston', name:'945 in kingston', cat:'drift'},
-  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:'a man, a guitar and vuvuzela went to a bar', cat:'groove'},
-  {slug:'yogapiano', name:'yogapiano', cat:'groove'},
-  {slug:'zouk-asana', name:'zouk-asana', cat:'groove'},
-  {slug:'kizomba-my-heart', name:'kizomba my heart', cat:'groove'},
-  {slug:'they-said-buddha-cant-run', name:'they said buddha cant run', cat:'drift'},
-  {slug:'cello-phane-clouds', name:'cello-phane clouds', cat:'drift'},
-  {slug:'cello-phane-again', name:'cello-phane again', cat:'drift'},
-  {slug:'sunset-no-delay', name:'sunset no delay', cat:'drift'},
-  {slug:'lagos-quiet-hour', name:'lagos quiet hour', cat:'drift'},
-  {slug:'rastas-nightmare', name:'rastas nightmare', cat:'drift'},
-  {slug:'yanya-yingi', name:'yanya yingi', cat:'groove'},
-  {slug:'we-were-here-yesterday-02', name:'we were here yesterday 02', cat:'drift'},
-  {slug:'ancestor-hum', name:'ancestor hum', cat:'dust'},
-  {slug:'calm-shore', name:'calm shore', cat:'dust'},
-  {slug:'cartagena-breeze', name:'cartagena breeze', cat:'dust'},
-  {slug:'kingston-raindrops', name:'kingston raindrops', cat:'dust'},
-  {slug:'lagos-downpour', name:'lagos downpour', cat:'dust'},
-  {slug:'steady-rainfall', name:'steady rainfall', cat:'dust'},
-  {slug:'wakanda-waves', name:'wakanda waves', cat:'dust'},
-  {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'dust'},
-  {slug:'begin-again', name:'begin again', cat:'whisper'},
-  // ── ADD NEW TRACKS HERE ──────────────────────────────────────────────────────
-  // {slug:'your-file-name', name:'display name', cat:'drift|groove|iré|new-category'},
+  {slug:"sunday-slow-01", name:"sunday slow 01", cat:"groove", file:"radio/rooms/groove/sunday-slow-01.mp3"},
+  {slug:"sunday-slow-02", name:"sunday slow 02", cat:"groove", file:"radio/rooms/groove/sunday-slow-02.mp3"},
+  {slug:"the-serpent-ate-the-treasure", name:"the serpent ate the treasure", cat:"drift", file:"radio/rooms/drift/the-serpent-ate-the-treasure.mp3"},
+  {slug:"road-trip-to-zamfara", name:"road trip to zamfara", cat:"groove", file:"radio/rooms/groove/road-trip-to-zamfara.mp3"},
+  {slug:"riverbend-808", name:"riverbend 808", cat:"groove", file:"radio/rooms/groove/riverbend-808.mp3"},
+  {slug:"yingi-yanga", name:"yingi yanga", cat:"groove", file:"radio/rooms/groove/yingi-yanga.mp3"},
+  {slug:"coco-coconut", name:"coco coconut", cat:"groove", file:"radio/rooms/groove/coco-coconut.mp3"},
+  {slug:"rasta-savasana", name:"rasta savasana", cat:"drift", file:"radio/rooms/drift/rasta-savasana.mp3"},
+  {slug:"945-in-kingston", name:"945 in kingston", cat:"drift", file:"radio/rooms/drift/945-in-kingston.mp3"},
+  {slug:"a-man-a-guitar-and-vuvuzela-went-to-a-bar", name:"a man, a guitar and vuvuzela went to a bar", cat:"groove", file:"radio/rooms/groove/a-man-a-guitar-and-vuvuzela-went-to-a-bar.mp3"},
+  {slug:"yogapiano", name:"yogapiano", cat:"groove", file:"radio/rooms/groove/yogapiano.mp3"},
+  {slug:"zouk-asana", name:"zouk-asana", cat:"groove", file:"radio/rooms/groove/zouk-asana.mp3"},
+  {slug:"kizomba-my-heart", name:"kizomba my heart", cat:"groove", file:"radio/rooms/groove/kizomba-my-heart.mp3"},
+  {slug:"they-said-buddha-cant-run", name:"they said buddha cant run", cat:"drift", file:"radio/rooms/drift/they-said-buddha-cant-run.mp3"},
+  {slug:"cello-phane-clouds", name:"cello-phane clouds", cat:"drift", file:"radio/rooms/drift/cello-phane-clouds.mp3"},
+  {slug:"cello-phane-again", name:"cello-phane again", cat:"drift", file:"radio/rooms/drift/cello-phane-again.mp3"},
+  {slug:"sunset-no-delay", name:"sunset no delay", cat:"drift", file:"radio/rooms/drift/sunset-no-delay.mp3"},
+  {slug:"lagos-quiet-hour", name:"lagos quiet hour", cat:"drift", file:"radio/rooms/drift/lagos-quiet-hour.mp3"},
+  {slug:"rastas-nightmare", name:"rastas nightmare", cat:"drift", file:"radio/rooms/drift/rastas-nightmare.mp3"},
+  {slug:"yanya-yingi", name:"yanya yingi", cat:"groove", file:"radio/rooms/groove/yanya-yingi.mp3"},
+  {slug:"we-were-here-yesterday-01", name:"we were here yesterday 01", cat:"groove", file:"radio/rooms/groove/we-were-here-yesterday-01.mp3"},
+  {slug:"we-were-here-yesterday-02", name:"we were here yesterday 02", cat:"drift", file:"radio/rooms/drift/we-were-here-yesterday-02.mp3"},
+  {slug:"ancestor-hum", name:"ancestor hum", cat:"dust", file:"radio/rooms/dust/ancestor-hum.mp3"},
+  {slug:"calm-shore", name:"calm shore", cat:"dust", file:"radio/rooms/dust/calm-shore.mp3"},
+  {slug:"cartagena-breeze", name:"cartagena breeze", cat:"dust", file:"radio/rooms/dust/cartagena-breeze.mp3"},
+  {slug:"kingston-raindrops", name:"kingston raindrops", cat:"dust", file:"radio/rooms/dust/kingston-raindrops.mp3"},
+  {slug:"lagos-downpour", name:"lagos downpour", cat:"dust", file:"radio/rooms/dust/lagos-downpour.mp3"},
+  {slug:"steady-rainfall", name:"steady rainfall", cat:"dust", file:"radio/rooms/dust/steady-rainfall.mp3"},
+  {slug:"wakanda-waves", name:"wakanda waves", cat:"dust", file:"radio/rooms/dust/wakanda-waves.mp3"},
+  {slug:"zanzibar-shallows", name:"zanzibar shallows", cat:"dust", file:"radio/rooms/dust/zanzibar-shallows.mp3"},
+  {slug:"begin-again", name:"begin again", cat:"whisper", file:"radio/rooms/whisper/begin-again.mp3"}
 ];
 var radioShuffled = true;
 var radioLoop = true;
@@ -1733,35 +1723,11 @@ function _clearBed(){ if(_bedTimer){ clearTimeout(_bedTimer); _bedTimer=null; } 
 var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
 buildQueue(true);
 
-var radioUrlMap = {
-  'ancestor-hum': radioBase+'sounds/ancestor-hum.mp3',
-  'calm-shore': radioBase+'sounds/calm-shore.mp3',
-  'cartagena-breeze': radioBase+'sounds/cartagena-breeze.mp3',
-  'kingston-raindrops': radioBase+'sounds/kingston-raindrops.mp3',
-  'lagos-downpour': radioBase+'sounds/lagos-downpour.mp3',
-  'steady-rainfall': radioBase+'sounds/steady-rainfall.mp3',
-  'wakanda-waves': radioBase+'sounds/wakanda-waves.mp3',
-  'zanzibar-shallows': radioBase+'sounds/zanzibar-shallows.mp3',
-  '945-in-kingston': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/945%20in%20kingston.mp3',
-  'a-man-a-guitar-and-vuvuzela-went-to-a-bar': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/a%20man%2C%20a%20guitar%20and%20vuvuzela%20went%20to%20a%20bar.mp3',
-  'cello-phane-again': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/cello-phane%20again.mp3',
-  'cello-phane-clouds': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/cello-phane%20clouds.mp3',
-  'coco-coconut': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/coco%20coconut.mp3',
-  'kizomba-my-heart': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/kizomba%20my%20heart.mp3',
-  'lagos-quiet-hour': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/lagos%20quiet%20hour.mp3',
-  'rasta-savasana': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/rasta%20savasana.mp3',
-  'riverbend-808': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/riverbend%20808.mp3',
-  'road-trip-to-zamfara': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/road%20trip%20to%20zamfara.mp3',
-  'sunset-no-delay': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/sunset%20no%20delay.mp3',
-  'the-serpent-ate-the-treasure': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/the%20serpent%20ate%20the%20treasure.mp3',
-  'they-said-buddha-cant-run': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/they%20said%20buddha%20cant%20run.mp3',
-  'yingi-yanga': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yingi%20yanga.mp3',
-  'yogapiano': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yogapiano.mp3',
-  'zouk-asana': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/zouk-asana.mp3',
-  'rastas-nightmare': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/rastas%20nightmare.mp3',
-  'yanya-yingi': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/yanya%20yingi.mp3',
-  'we-were-here-yesterday-02': 'https://raw.githubusercontent.com/surulere-pixel/respira/main/we%20were%20here%20yesterday%2002.mp3',
-};
+// path lives on each track now (radio/rooms/<station>/<slug>.mp3).
+// the dust beds ALSO exist in /sounds for the breathing sessions; the radio
+// uses the rooms copy, the breathing engine keeps using AMBIENT_BASE.
+function _trackFile(slug){ for(var i=0;i<radioAllTracks.length;i++){ if(radioAllTracks[i].slug===slug) return radioAllTracks[i].file; } return slug+'.mp3'; }
+function radioUrl(slug){ return radioBase + _trackFile(slug); }
 function _radioTargetVol(){ var v=document.getElementById('radio-volume'); return v?parseFloat(v.value):0.6; }
 function _rampVol(a,to,ms,done){
   if(!a){ if(done) done(); return; }
@@ -1772,7 +1738,7 @@ function _rampVol(a,to,ms,done){
 function _peekNext(){ var ni=radioQueueIdx+1; if(ni>=radioQueue.length){ ni = radioLoop ? 0 : -1; } return ni>=0 ? radioQueue[ni] : null; }
 function _preloadNext(){
   var t=_peekNext(); if(!t){ _radioNextPre=null; return; }
-  var url=radioUrlMap[t.slug]?radioUrlMap[t.slug]:radioBase+t.slug+'.mp3';
+  var url=radioUrl(t.slug);
   var a=new Audio(); a.preload='auto'; a.src=url; a.volume=0;
   _radioNextPre={slug:t.slug, audio:a};
 }
@@ -1802,7 +1768,7 @@ function radioDuckVoice(){
 function radioPlay(slug,name,cat){
   var _nc = radioNorm(cat);
   if(_nc && _nc !== radioCat){ radioCat = _nc; buildQueue(radioShuffled); }
-  var url = radioUrlMap[slug] ? radioUrlMap[slug] : radioBase+slug+'.mp3';
+  var url = radioUrl(slug);
   var target = _radioTargetVol();
 
   // reuse the preloaded next track if it matches (already buffered = no gap)
@@ -1940,26 +1906,30 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 /* volunteer card */
 .guide-join{display:flex;flex-direction:column;justify-content:center;background:transparent;border:1px dashed rgba(95,85,75,.28);border-radius:20px;padding:20px;}
 .lv-open{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:12px 24px;border-radius:999px;border:1px solid rgba(201,163,106,.45);background:transparent;color:var(--soft);cursor:pointer;margin-top:12px;}
-.lv-collapse{display:none;margin-top:14px;}
-.lv-script{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.02rem;color:var(--soft);line-height:1.5;background:rgba(95,85,75,.05);border-left:2px solid rgba(201,163,106,.5);border-radius:8px;padding:12px 14px;margin:12px 0;}
-.lv-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.lv-collapse{display:none;margin-top:16px;text-align:left;}
+.lv-step{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:var(--faint);margin:20px 0 9px;text-align:left;}
+.lv-select{width:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f554b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.lv-select:focus{border-color:var(--sage-dark);}
+.lv-script{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.08rem;color:var(--soft);line-height:1.75;background:rgba(95,85,75,.05);border-left:2px solid rgba(201,163,106,.5);border-right:0 solid rgba(201,163,106,.5);border-radius:10px;padding:18px 20px;margin:0;transition:opacity .25s ease;text-align:left;}
+.lv-script[dir="rtl"]{font-family:'Noto Naskh Arabic','Cormorant Garamond',serif;font-style:normal;font-size:1.02rem;line-height:2;}
+.lv-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
 .lv-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:10px 18px;border-radius:999px;border:1px solid rgba(201,163,106,.4);background:transparent;color:var(--soft);cursor:pointer;white-space:nowrap;}
 .lv-btn.rec{background:rgba(181,80,47,.12);border-color:rgba(181,80,47,.5);color:#b5502f;}
 .lv-audio{height:34px;max-width:210px;}
 .lv-meter{height:5px;background:rgba(95,85,75,.14);border-radius:3px;overflow:hidden;margin:2px 0 6px;}
 .lv-bar{height:100%;width:0;background:rgba(201,163,106,.9);transition:width .25s linear;}
 .lv-count{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--faint);margin-bottom:4px;}
-.lv-file{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:var(--soft);cursor:pointer;border:1px dashed rgba(95,85,75,.3);border-radius:999px;padding:8px 14px;margin:0 0 12px;}
+.lv-file{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:var(--soft);cursor:pointer;border:1px dashed rgba(95,85,75,.3);border-radius:12px;padding:12px 16px;margin:0 0 14px;text-align:left;}
 .lv-file input{display:none;}
-.lv-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.03em;color:var(--faint);line-height:1.7;margin:0 0 12px;}
+.lv-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.03em;color:var(--faint);line-height:1.8;margin:0 0 16px;}
 .lv-consent{display:flex;align-items:flex-start;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:9px;line-height:1.55;color:var(--soft);cursor:pointer;margin:4px 0 12px;text-align:left;}
 .lv-consent input{margin-top:2px;flex-shrink:0;}
 .guide-join-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.35rem;font-weight:300;color:var(--ink);line-height:1.05;margin-bottom:8px;}
 .guide-join-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:var(--soft);line-height:1.7;margin-bottom:14px;}
 .guide-join-row{display:flex;gap:8px;flex-wrap:wrap;}
-.guide-join-input{flex:1;min-width:120px;background:transparent;border:none;border-bottom:1px solid var(--line);padding:8px 2px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);outline:none;transition:border-color .2s;}
+.guide-join-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);padding:10px 2px;margin-bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);outline:none;transition:border-color .2s;}
 .guide-join-input:focus{border-bottom-color:var(--sage-dark);}
-.guide-join-btn{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;padding:10px 18px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.9);cursor:pointer;transition:opacity .2s;}
+.guide-join-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;padding:13px 24px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.9);cursor:pointer;transition:opacity .2s;}
 .guide-join-btn:hover{opacity:.88;}
 .guide-join-thanks{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--sage-dark);margin-top:10px;display:none;}
 </style>
@@ -2021,22 +1991,56 @@ function guideCard(g){
     + '</div>'
     + '</div>';
 }
+var LV_SCRIPTS = {
+  'english':{dir:'ltr',text:"come to a comfortable seat, and let the shoulders soften. take one slow breath in, and a slower breath out. feel the ground beneath you, steady and patient. there is nothing to fix, and nowhere else to be. breathe in — two, three, four. and out — two, three, four, five, six. let the body settle. you are exactly where you need to be."},
+  'español':{dir:'ltr',text:"ven a un asiento cómodo, y deja que los hombros se suavicen. toma una inhalación lenta, y una exhalación más lenta. siente el suelo debajo de ti, firme y paciente. no hay nada que arreglar, ni ningún otro lugar donde estar. inhala — dos, tres, cuatro. y exhala — dos, tres, cuatro, cinco, seis. deja que el cuerpo se asiente. estás exactamente donde necesitas estar."},
+  'français':{dir:'ltr',text:"installe-toi confortablement, et laisse les épaules s’adoucir. prends une inspiration lente, et une expiration plus lente. sens le sol sous toi, ferme et patient. il n’y a rien à réparer, et nulle part ailleurs où être. inspire — deux, trois, quatre. et expire — deux, trois, quatre, cinq, six. laisse le corps se poser. tu es exactement là où tu dois être."},
+  'kiswahili':{dir:'ltr',text:"kaa mahali pazuri, na acha mabega yalegee. vuta pumzi polepole, na uitoe polepole zaidi. hisi ardhi chini yako, imara na yenye subira. hakuna cha kurekebisha, wala mahali pengine pa kuwa. vuta pumzi — mbili, tatu, nne. na toa — mbili, tatu, nne, tano, sita. acha mwili utulie. uko pale unapohitajika kuwa."},
+  'العربية':{dir:'rtl',text:"اجلس في وضع مريح، ودع الكتفين يسترخيان. خذ شهيقاً بطيئاً، وزفيراً أبطأ. اشعر بالأرض تحتك، ثابتة وصبورة. لا شيء يحتاج إلى إصلاح، ولا مكان آخر تكون فيه. استنشق — اثنان، ثلاثة، أربعة. وازفر — اثنان، ثلاثة، أربعة، خمسة، ستة. دع الجسد يهدأ. أنت في المكان الذي ينبغي أن تكون فيه."},
+  'yorùbá':{dir:'ltr',text:"jókòó sí ibi ìtura, kí o sì jẹ́ kí èjìká rẹ rọ̀. mí èémí lọ́ra, kí o sì tú u jáde lọ́ra síi. fara balẹ̀ lórí ilẹ̀ tí ó wà lábẹ́ rẹ, tí ó dúró ṣinṣin. kò sí ohun tí ó yẹ kí a tún ṣe, kò sì sí ibòmíràn tí o gbọ́dọ̀ wà. mí sínú — méjì, mẹ́ta, mẹ́rin. kí o sì tú jáde — méjì, mẹ́ta, mẹ́rin, márùn-ún, mẹ́fà. jẹ́ kí ara rẹ balẹ̀. o wà níbi tí o yẹ kí o wà."},
+  'kreyòl':{dir:'ltr',text:"chita yon kote ki konfòtab, epi kite zepòl ou vin dou. pran yon souf dousman, epi lage l pi dousman. santi tè a anba ou, fèm epi pasyan. pa gen anyen pou repare, e pa gen lòt kote pou ou ye. respire — de, twa, kat. epi ekspire — de, twa, kat, senk, sis. kite kò a poze. ou egzakteman kote ou bezwen ye."},
+  'igbo':{dir:'ltr',text:"nọdụ ala n’ebe dị mma, hapụ ubu gị ka ọ dajụọ. kuo ume nwayọọ, ma tufuo ya nwayọọ karịa. chee ala dị n’okpuru gị, nke kwụsiri ike ma nwee ndidi. o nweghị ihe ị ga-edozi, o nweghịkwa ebe ọzọ ị ga-anọ. kuo ume — abụọ, atọ, anọ. tufuo — abụọ, atọ, anọ, ise, isii. hapụ ahụ gị ka ọ dajụọ. ị nọ kpọmkwem ebe ị kwesịrị ịnọ."}
+};
 function guideJoinCard(){
+  var opts = Object.keys(LV_SCRIPTS).map(function(k){ return '<option value="'+k+'">'+k+'</option>'; }).join('');
   return '<div class="guide-join">'
     + '<div class="guide-join-title">speak a language? lend your voice.</div>'
-    + '<div class="guide-join-copy">you don&rsquo;t have to be a guide. read the lines below in your language &mdash; about thirty seconds &mdash; and respira can begin to speak it.</div>'
-    + '<button class="lv-open" onclick="lvOpen(this)">lend your voice &rarr;</button>' + '<div class="lv-collapse" id="lv-collapse">' + '<div class="lv-script">&ldquo;come to a comfortable seat, and let the shoulders soften. take one slow breath in, and a slower breath out. feel the ground beneath you, steady and patient. there is nothing to fix, and nowhere else to be. breathe in &mdash; two, three, four. and out &mdash; two, three, four, five, six. let the body settle. you are exactly where you need to be.&rdquo;</div>'
-    + '<div class="lv-controls"><button id="lv-rec" class="lv-btn" onclick="lvToggle()">&#9679; record</button><audio id="lv-audio" class="lv-audio" controls style="display:none;"></audio></div>'
-    + '<div class="lv-meter"><div class="lv-bar" id="lv-bar"></div></div>'
-    + '<div class="lv-count" id="lv-count">read for about thirty seconds.</div>'
-    + '<input type="text" id="lv-lang" class="guide-join-input" placeholder="which language did you read?" style="margin:12px 0 8px;">'
-    + '<label class="lv-file"><span id="lv-file-text">add a headshot &mdash; optional, to appear as a guide</span><input type="file" id="lv-photo" accept="image/*" onchange="lvPhotoName(this)"></label>'
-    + '<label class="lv-consent"><input type="checkbox" id="lv-consent"> i confirm this is my voice, and i agree respira may use this recording to guide sessions.</label>'
-    + '<div class="lv-note">we&rsquo;ll send you the final voice before anything is posted &mdash; and you can ask us to remove it anytime. contributors are always credited.</div>'
-    + '<input type="email" id="guide-join-email" class="guide-join-input" placeholder="your email (so we can send it to you first)" style="margin-bottom:8px;">'
-    + '<button class="guide-join-btn" onclick="lvSubmit()">send my voice</button>'
-    + '</div>' + '<div id="guide-join-thanks" class="guide-join-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>'
+    + '<div class="guide-join-copy">you don&rsquo;t have to be a guide. choose your language, read the lines aloud &mdash; about thirty seconds &mdash; and respira can begin to speak it.</div>'
+    + '<button class="lv-open" onclick="lvOpen(this)">lend your voice &rarr;</button>'
+    + '<div class="lv-collapse" id="lv-collapse">'
+    +   '<div class="lv-step">1 &middot; choose your language</div>'
+    +   '<select id="lv-lang" class="lv-select" onchange="lvLang()">' + opts + '</select>'
+    +   '<div class="lv-step">2 &middot; read this aloud</div>'
+    +   '<div class="lv-script" id="lv-script"></div>'
+    +   '<div class="lv-step">3 &middot; record</div>'
+    +   '<div class="lv-controls"><button id="lv-rec" class="lv-btn" onclick="lvToggle()">&#9679; record</button><audio id="lv-audio" class="lv-audio" controls style="display:none;"></audio></div>'
+    +   '<div class="lv-meter"><div class="lv-bar" id="lv-bar"></div></div>'
+    +   '<div class="lv-count" id="lv-count">read for about thirty seconds.</div>'
+    +   '<div class="lv-step">4 &middot; send it</div>'
+    +   '<label class="lv-file"><span id="lv-file-text">add a headshot &mdash; optional, to appear as a guide</span><input type="file" id="lv-photo" accept="image/*" onchange="lvPhotoName(this)"></label>'
+    +   '<label class="lv-consent"><input type="checkbox" id="lv-consent"> i confirm this is my voice, and i agree respira may use this recording to guide sessions.</label>'
+    +   '<div class="lv-note">we&rsquo;ll send you the final voice before anything is posted &mdash; and you can ask us to remove it anytime. contributors are always credited.</div>'
+    +   '<input type="email" id="guide-join-email" class="guide-join-input" placeholder="your email (so we can send it to you first)">'
+    +   '<button class="guide-join-btn" onclick="lvSubmit()">send my voice</button>'
+    + '</div>'
+    + '<div id="guide-join-thanks" class="guide-join-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>'
     + '</div>';
+}
+function lvLang(){
+  var sel = document.getElementById('lv-lang'); if(!sel) return;
+  var e = LV_SCRIPTS[sel.value] || LV_SCRIPTS['english'];
+  var box = document.getElementById('lv-script');
+  if(box){
+    box.style.opacity = 0;
+    setTimeout(function(){
+      box.textContent = '\u201c' + e.text + '\u201d';
+      box.setAttribute('dir', e.dir);
+      box.style.textAlign = (e.dir === 'rtl') ? 'right' : 'left';
+      box.style.borderLeftWidth = (e.dir === 'rtl') ? '0' : '2px';
+      box.style.borderRightWidth = (e.dir === 'rtl') ? '2px' : '0';
+      box.style.opacity = 1;
+    }, 140);
+  }
 }
 function renderGuides(){
   var grid = document.getElementById('guides-grid');
@@ -2068,7 +2072,7 @@ function _lvMeterTick(){
   if(el>=LV_CAP && _lvRec && _lvRec.state==='recording'){ lvToggle(); }
 }
 function lvPhotoName(inp){ var t=document.getElementById('lv-file-text'); if(t && inp.files && inp.files[0]){ t.textContent='\u2713 '+inp.files[0].name; } }
-function lvOpen(btn){ var c=document.getElementById('lv-collapse'); if(c) c.style.display='block'; if(btn) btn.style.display='none'; }
+function lvOpen(btn){ var c=document.getElementById('lv-collapse'); if(c) c.style.display='block'; if(btn) btn.style.display='none'; lvLang(); }
 function lvToggle(){
   var btn=document.getElementById('lv-rec');
   if(_lvRec && _lvRec.state==='recording'){ _lvRec.stop(); return; }
@@ -2090,7 +2094,7 @@ function lvToggle(){
   }).catch(function(){ if(btn) btn.textContent='allow mic access to record'; });
 }
 function lvSubmit(){
-  var lang=(document.getElementById('lv-lang')||{value:''}).value||'';
+  var lang=(document.getElementById('lv-lang')||{value:'english'}).value||'english';
   var email=(document.getElementById('guide-join-email')||{value:''}).value||'';
   var consent=document.getElementById('lv-consent');
   var btn=document.getElementById('lv-rec');
@@ -2256,6 +2260,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       var el=document.getElementById('ho-email'), email=el?el.value.trim():'';
       if(!email || email.indexOf('@')===-1){ if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
       try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'hoodie_preorder', email:email, _subject:'respira hoodie — pre-order interest'})}); }catch(e){}
+      if(typeof RESPIRA_STRIPE !== 'undefined' && stripeReady(RESPIRA_STRIPE.products.hoodie)){ stripeGo(RESPIRA_STRIPE.products.hoodie, {email:email}); return; }
       var row=document.getElementById('ho-row'), t=document.getElementById('ho-thanks');
       if(row) row.style.display='none';
       if(t) t.style.display='block';
@@ -2311,6 +2316,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       var active=document.querySelector('.rn-swatch.active');
       var color=active?active.getAttribute('data-color'):'';
       try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'reunion_mat_preorder', email:email, colorway:color, _subject:'reunion mat \u2014 pre-order interest'})}); }catch(e){}
+      if(typeof RESPIRA_STRIPE !== 'undefined' && stripeReady(RESPIRA_STRIPE.products.reunion)){ stripeGo(RESPIRA_STRIPE.products.reunion, {email:email}); return; }
       var row=document.getElementById('rn-row'), t=document.getElementById('rn-thanks');
       if(row) row.style.display='none';
       if(t) t.style.display='block';
@@ -2345,7 +2351,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         <div class="goods-tier t2">poster maker</div>
         <p class="poster-intro">choose a phrase, add your mother tongue, pick your colors &mdash; then print it at 18&Prime;&times;24&Prime;. the four originals stay one tap away.</p>
       </div>
-      <a class="poster-spec" href="/poster">open the studio &rarr;</a>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;"><a class="poster-spec" href="/poster">open the studio &rarr;</a><button class="share-pill" onclick="respiraShare('poster')">&#8599; share</button></div>
     </div>
     <div class="poster-grid">
       <div class="poster-card pp-cream">
@@ -2523,6 +2529,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       var el=document.getElementById('fp-email'), email=el?el.value.trim():'';
       if(!email || email.indexOf('@')===-1){ if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
       try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'framed_print_preorder', email:email, phrase:FP_PHRASES[fpPhrase].label, frame:fpFrame, size:'18x24 medium', price:148, _subject:'respira framed print \u2014 pre-order interest'})}); }catch(e){}
+      if(typeof RESPIRA_STRIPE !== 'undefined' && stripeReady(RESPIRA_STRIPE.products.framed)){ stripeGo(RESPIRA_STRIPE.products.framed, {email:email}); return; }
       var row=document.getElementById('fp-row'), t=document.getElementById('fp-thanks');
       if(row) row.style.display='none';
       if(t) t.style.display='block';
@@ -2774,7 +2781,10 @@ document.addEventListener('DOMContentLoaded', function(){
     <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.4);line-height:1.9;margin-top:2rem;">
       respira radio powered by <a href="https://www.themmaadd.org/" style="color:rgba(201,163,106,.85);text-decoration:underline;text-underline-offset:3px;">mmaadd soundlab</a>
     </p>
-    <button onclick="openDonate()" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:14px 32px;border-radius:999px;border:none;background:rgba(201,163,106,.96);color:#2a1f18;cursor:pointer;transition:all .2s ease;margin-top:2.25rem;">support the project →</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:2.25rem;">
+      <button onclick="openDonate()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:14px 32px;border-radius:999px;border:none;background:rgba(201,163,106,.96);color:#2a1f18;cursor:pointer;transition:all .2s ease;">support the project →</button>
+      <button class="share-pill on-dark" style="padding:14px 28px;font-size:10px;" onclick="respiraShare('site')">&#8599; share respira</button>
+    </div>
     <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.38);margin-top:2.5rem;line-height:1.8;">
       respira · by happy sunday · a birthright labs initiative · prosperity is a human right
     </p>
@@ -4303,11 +4313,11 @@ function navRadioToggle(){
   if(navRadioPlaying){
     radioStop();
     navRadioPlaying = false;
-    if(btn) btn.innerHTML = '&#9655; play radio';
+    if(btn){ btn.innerHTML = '&#9655; <span class="nrb-word">play </span>radio'; btn.classList.remove('playing'); }
   } else {
     radioStartFirst();
     navRadioPlaying = true;
-    if(btn) btn.innerHTML = '&#9646;&#9646; stop radio';
+    if(btn){ btn.innerHTML = '&#9646;&#9646; <span class="nrb-word">stop </span>radio'; btn.classList.add('playing'); }
     var r = document.getElementById('radio');
     if(r) r.scrollIntoView({behavior:'smooth', block:'start'});
   }
@@ -4363,6 +4373,16 @@ function donateCustomInput(){
 function submitDonate(){
   if(!_donateAmount || _donateAmount<=0){ var c=document.getElementById('donate-custom'); if(c){ c.focus(); } return; }
   try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'donation_intent', amount:_donateAmount, _subject:'respira donation intent: $'+_donateAmount})}); }catch(e){}
+  if(typeof RESPIRA_STRIPE !== 'undefined'){
+    var _d = RESPIRA_STRIPE.donate || {};
+    var _link = _d[_donateAmount] || _d.custom;
+    if(stripeReady(_link)){
+      var t0=document.getElementById('donate-thanks');
+      if(t0){ t0.style.display='block'; t0.innerHTML='taking you to a secure checkout\u2026'; }
+      setTimeout(function(){ stripeGo(_link, {}); }, 450);
+      return;
+    }
+  }
   var t=document.getElementById('donate-thanks');
   if(t){ t.style.display='block'; t.innerHTML='thank you — $'+_donateAmount+' held.<br>secure payment is coming very soon.'; }
 }
@@ -4543,6 +4563,61 @@ setInterval(function(){
     if(tm) tm.textContent=_miniFmt(_c)+' / '+_miniFmt(_d);
   }
 }, 500);
+</script>
+
+<!-- respira: stripe + share -->
+<div id="r-toast" role="status" aria-live="polite"></div>
+<style>
+#r-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;padding:12px 20px;border-radius:999px;z-index:10002;transition:all .3s;}
+#r-toast.on{opacity:1;transform:translate(-50%,0);}
+.share-pill{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;padding:10px 18px;border-radius:999px;border:1px solid rgba(106,59,40,.4);background:#fffaf2;color:#6a3b28;cursor:pointer;transition:all .18s;text-decoration:none;white-space:nowrap;}
+.share-pill:hover{background:#fff;border-color:#6a3b28;transform:translateY(-1px);}
+.share-pill.on-dark{background:transparent;border-color:rgba(201,163,106,.45);color:rgba(201,163,106,.92);}
+.share-pill.on-dark:hover{background:rgba(201,163,106,.12);border-color:rgba(201,163,106,.8);}
+</style>
+<script>
+/* ── stripe ──────────────────────────────────────────────────────────────
+   paste stripe payment links below. leave a value empty and that button
+   falls back to the pre-order list, exactly as it behaves today.
+   donations: one payment link per amount, plus one link with
+   "let customers choose what to pay" enabled, for `custom`.
+   ────────────────────────────────────────────────────────────────────── */
+var RESPIRA_STRIPE = {
+  donate: { 5:'', 10:'', 25:'', 54:'', custom:'' },
+  products: {
+    hoodie:  '',   /* the respira hoodie · $98  */
+    reunion: '',   /* the reunion mat · $145    */
+    framed:  ''    /* the framed print · $148   */
+  }
+};
+function stripeReady(url){ return !!(url && url.indexOf('http') === 0); }
+function stripeGo(url, meta){
+  var extra = '';
+  if(meta && meta.email){ extra = (url.indexOf('?')>-1?'&':'?') + 'prefilled_email=' + encodeURIComponent(meta.email); }
+  window.location.href = url + extra;
+}
+
+/* ── share ─────────────────────────────────────────────────────────────── */
+var RESPIRA_SHARE = {
+  site:   { title:'respira', text:'a breathing room. put down what you\u2019re carrying.', url:'https://openrespira.org' },
+  radio:  { title:'respira radio', text:'soulful soundscapes for studios, practices and community spaces. free.', url:'https://openrespira.org/#radio' },
+  poster: { title:'the respira poster studio', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' }
+};
+function rToast(msg){
+  var t=document.getElementById('r-toast'); if(!t) return;
+  t.textContent=msg; t.classList.add('on');
+  clearTimeout(window._rToastT); window._rToastT=setTimeout(function(){ t.classList.remove('on'); }, 2600);
+}
+function respiraShare(which){
+  var d = RESPIRA_SHARE[which] || RESPIRA_SHARE.site;
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'share', what:which, _subject:'respira: someone shared '+which})}); }catch(e){}
+  if(navigator.share){ navigator.share(d).catch(function(){}); return; }
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(d.url).then(function(){ rToast('link copied \u2014 pass it on'); }).catch(function(){ rToast(d.url); });
+    return;
+  }
+  rToast(d.url);
+}
 </script>
 </body>
 </html>

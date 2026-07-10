@@ -1,0 +1,20 @@
+{
+  "name": "respira radio",
+  "short_name": "respira radio",
+  "description": "soulful soundscapes for studios, practices and community spaces. free.",
+  "start_url": "/radio/",
+  "scope": "/radio/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#14110f",
+  "theme_color": "#14110f",
+  "categories": ["music", "health", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "plan a class", "url": "/radio/?tab=set" },
+    { "name": "get on the air", "url": "/radio/?tab=give" }
+  ]
+}
