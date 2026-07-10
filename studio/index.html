@@ -1,0 +1,618 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>respira · studio — class builder</title>
+<link rel="manifest" href="/studio/manifest.json">
+<meta name="theme-color" content="#211a15">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="respira studio">
+<link rel="apple-touch-icon" href="/icons/studio-192.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%232a1f18%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%278%27%20fill%3D%27%23c9a36a%27%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head><style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#f7f4ec;--ink:#33372a;--soft:#5f554b;--faint:rgba(95,85,75,.5);--gold:#9a7a3a;--terra:#a5442f;--coffee:#2a1f18;--cream:#fbfaf4;--line:rgba(95,85,75,.16);--sage-dark:#4f5a43;}
+body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.wrap{max-width:840px;margin:0 auto;padding:clamp(1.2rem,4vw,2.5rem);}
+/* header */
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.hd-logo{font-family:'Cormorant Garamond';font-weight:300;font-size:1.5rem;}
+.hd-logo em{font-style:normal;color:var(--gold);}
+.hd-back{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--soft);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;}
+/* hero band */
+.sb-hero{background:linear-gradient(135deg,#a5442f 0%,#6a2f1f 45%,#2a1f18 100%);border-radius:22px;padding:clamp(1.8rem,4vw,2.6rem);color:#f7f4ec;position:relative;overflow:hidden;margin-bottom:1.6rem;}
+.sb-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 22% 20%,rgba(201,163,106,.2),transparent 55%);}
+.sb-hero>*{position:relative;z-index:1;}
+.sb-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.9);}
+.sb-h{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(2rem,5vw,3rem);line-height:1.02;margin:.4rem 0 0;}
+.sb-lede{font-family:'Cormorant Garamond';font-style:italic;font-size:1.1rem;color:rgba(248,244,237,.75);margin:.8rem 0 0;max-width:48ch;line-height:1.5;}
+.sb-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem;}
+.sb-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:13px 26px;border-radius:999px;background:rgba(201,163,106,.96);color:#2a1f18;text-decoration:none;transition:transform .15s;}
+.sb-cta:hover{transform:translateY(-2px);}
+.sb-cta2{background:transparent;color:rgba(248,244,237,.92);border:1px solid rgba(248,244,237,.4);}
+.tk{margin-bottom:1.6rem;}
+.tk-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:lowercase;color:var(--gold);margin-bottom:.8rem;}
+.tk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+.tk-tool{display:block;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:15px 17px;text-decoration:none;transition:transform .15s,box-shadow .15s;}
+.tk-tool:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(55,42,29,.08);}
+.tk-tool b{display:block;font-family:'Cormorant Garamond';font-weight:400;font-size:1.2rem;color:var(--ink);}
+.tk-tool span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.02em;color:var(--soft);line-height:1.6;margin-top:3px;}
+.tk-new{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.9);border-radius:999px;padding:2px 7px;vertical-align:middle;}
+.tk-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--faint);margin-top:1.2rem;}
+.builder-head{margin-bottom:1.2rem;padding-top:.5rem;border-top:1px solid var(--line);padding-top:1.8rem;scroll-margin-top:20px;}
+.builder-title{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);letter-spacing:-.02em;margin:.3rem 0 0;}
+.builder-sub{font-family:'Cormorant Garamond';font-style:italic;font-size:1.05rem;color:var(--soft);margin:.4rem 0 0;}
+/* setup card */
+.card{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:clamp(1.2rem,3vw,1.8rem);margin-bottom:1.4rem;}
+.lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:var(--gold);margin-bottom:.7rem;}
+.mins{font-family:'Cormorant Garamond';font-weight:300;font-size:3.4rem;line-height:1;}
+.mins small{font-size:1rem;color:var(--soft);font-style:italic;}
+input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4px;cursor:pointer;}
+.snaps{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--faint);margin-top:4px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;}
+.seg{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:lowercase;padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;}
+.seg.on{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.6);color:var(--ink);}
+.sel{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);width:100%;}
+/* timeline bar */
+.tl{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:1rem 0 .3rem;border:1px solid var(--line);}
+.tl-seg{height:100%;}
+.tl-total{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--faint);text-align:right;}
+/* blocks */
+.blk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:720px){.blk-grid{grid-template-columns:1fr;}}
+.blk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0;}
+.blk-top{display:flex;align-items:center;gap:10px;}
+.blk-move{display:flex;flex-direction:column;gap:2px;}
+.blk-move button{font-family:'IBM Plex Mono',monospace;font-size:9px;background:none;border:none;color:var(--faint);cursor:pointer;line-height:1;padding:1px;}
+.blk-name{flex:1;font-family:'Cormorant Garamond';font-weight:400;font-size:1.25rem;color:var(--ink);border:none;background:none;outline:none;min-width:0;}
+.blk-dur{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.blk-dur button{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--soft);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1;}
+.blk-min{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);min-width:34px;text-align:center;}
+.blk-x{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint);background:none;border:none;cursor:pointer;flex-shrink:0;}
+.blk-cues{width:100%;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.7;color:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);resize:vertical;min-height:52px;outline:none;}
+.blk-tools{display:flex;gap:12px;margin-top:8px;}
+.blk-gen{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;}
+.add-blk{width:100%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;color:var(--soft);background:none;border:1px dashed var(--line);border-radius:12px;padding:11px;cursor:pointer;margin-top:4px;}
+/* actions */
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:1.6rem;}
+.btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:15px 30px;border-radius:999px;border:none;cursor:pointer;}
+.btn-play{background:var(--coffee);color:rgba(201,163,106,.95);flex:1;min-width:160px;}
+.btn-pdf{background:transparent;border:1px solid var(--line);color:var(--ink);}
+.hint{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);margin-top:1rem;line-height:1.7;}
+
+/* ══ CONSOLE — the studio dashboard ══════════════════════════════ */
+.console{background:linear-gradient(165deg,#211a15 0%,#171210 100%);border:1px solid rgba(201,163,106,.2);border-radius:24px;padding:clamp(1.2rem,3vw,2rem);margin-bottom:1.4rem;box-shadow:0 30px 80px rgba(30,20,12,.28);position:relative;overflow:hidden;}
+.console::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,163,106,.5),transparent);}
+.cx-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:1.4rem;}
+.cx-name{flex:1;min-width:180px;font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(1.4rem,3.4vw,2rem);color:#f0e4cf;background:none;border:none;border-bottom:1px solid rgba(201,163,106,.25);outline:none;padding:2px 0 6px;color:#f0e4cf;}
+.cx-name::placeholder{color:rgba(240,228,207,.32);font-style:italic;}
+.cx-name:focus{border-color:rgba(201,163,106,.7);}
+.cx-live{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,163,106,.8);}
+.cx-live .dot{width:7px;height:7px;border-radius:50%;background:#c9a36a;box-shadow:0 0 10px #c9a36a;animation:cxpulse 2.4s ease-in-out infinite;}
+@keyframes cxpulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+/* dial row */
+.cx-dials{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-bottom:1.5rem;}
+@media(max-width:640px){.cx-dials{grid-template-columns:1fr;}}
+.cx-pod{background:rgba(255,250,242,.03);border:1px solid rgba(201,163,106,.14);border-radius:16px;padding:16px 18px;}
+.cx-pod-lab{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,163,106,.7);margin-bottom:10px;}
+.cx-len{display:flex;align-items:baseline;gap:8px;}
+.cx-len b{font-family:'Cormorant Garamond';font-weight:300;font-size:3rem;line-height:.9;color:#f0e4cf;}
+.cx-len small{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(240,228,207,.5);}
+.cx-slider{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:rgba(201,163,106,.25);border-radius:2px;margin-top:14px;outline:none;cursor:pointer;}
+.cx-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#c9a36a;cursor:pointer;box-shadow:0 0 0 4px rgba(201,163,106,.18),0 2px 8px rgba(0,0,0,.4);}
+.cx-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#c9a36a;border:none;cursor:pointer;box-shadow:0 0 0 4px rgba(201,163,106,.18);}
+.cx-snaps{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:7.5px;color:rgba(240,228,207,.35);margin-top:6px;}
+.cx-discs{display:flex;flex-wrap:wrap;gap:6px;}
+.cx-disc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;text-transform:lowercase;padding:7px 12px;border-radius:999px;border:1px solid rgba(201,163,106,.22);background:transparent;color:rgba(240,228,207,.7);cursor:pointer;transition:all .15s;}
+.cx-disc:hover{border-color:rgba(201,163,106,.5);color:#f0e4cf;}
+.cx-disc.on{background:rgba(201,163,106,.9);border-color:#c9a36a;color:#211a15;}
+.cx-music{width:100%;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:11px 14px;border-radius:12px;border:1px solid rgba(201,163,106,.22);background:rgba(255,250,242,.04);color:#f0e4cf;outline:none;cursor:pointer;margin-top:2px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23c9a36a' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.cx-music option{background:#211a15;color:#f0e4cf;}
+
+/* the ARC — visual timeline the sections live on */
+.cx-arc-lab{display:flex;align-items:center;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,163,106,.7);margin:4px 0 12px;}
+.cx-arc{position:relative;height:80px;border-radius:14px;background:rgba(255,250,242,.03);border:1px solid rgba(201,163,106,.14);overflow:hidden;display:flex;padding:3px;gap:3px;}
+.cx-seg{position:relative;border-radius:11px;min-width:20px;cursor:pointer;transition:transform .16s,filter .16s;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 9px;}
+.cx-seg:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.cx-seg.sel{outline:2px solid #f0e4cf;outline-offset:-2px;}
+.cx-seg-name{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.03em;color:rgba(255,255,255,.92);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.4);}
+.cx-seg-min{font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(255,255,255,.7);margin-top:1px;}
+
+/* editor drawer for the selected section */
+.cx-edit{margin-top:14px;background:rgba(255,250,242,.04);border:1px solid rgba(201,163,106,.16);border-radius:16px;padding:16px;display:none;}
+.cx-edit.on{display:block;animation:cxslide .25s ease;}
+@keyframes cxslide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.cx-edit-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.cx-edit-name{flex:1;font-family:'Cormorant Garamond';font-weight:400;font-size:1.3rem;color:#f0e4cf;background:none;border:none;outline:none;min-width:0;}
+.cx-edit-dur{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.cx-edit-dur button{width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,163,106,.3);background:transparent;color:#c9a36a;cursor:pointer;font-size:14px;line-height:1;}
+.cx-edit-min{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f0e4cf;min-width:38px;text-align:center;}
+.cx-nav{display:flex;gap:6px;}
+.cx-nav button{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(240,228,207,.55);background:none;border:1px solid rgba(201,163,106,.2);border-radius:8px;width:30px;height:30px;cursor:pointer;}
+.cx-nav button:hover{color:#c9a36a;border-color:rgba(201,163,106,.5);}
+.cx-cues{width:100%;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.8;color:rgba(240,228,207,.85);background:rgba(0,0,0,.2);border:1px solid rgba(201,163,106,.14);border-radius:10px;padding:11px 13px;resize:vertical;min-height:70px;outline:none;}
+.cx-cues::placeholder{color:rgba(240,228,207,.3);}
+.cx-cues:focus{border-color:rgba(201,163,106,.4);}
+.cx-edit-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;}
+.cx-gen{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:#c9a36a;background:none;border:none;cursor:pointer;}
+.cx-del{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,228,207,.4);background:none;border:none;cursor:pointer;}
+.cx-del:hover{color:var(--terra);}
+.cx-add{width:100%;margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:lowercase;color:rgba(201,163,106,.8);background:none;border:1px dashed rgba(201,163,106,.28);border-radius:12px;padding:11px;cursor:pointer;transition:all .15s;}
+.cx-add:hover{border-style:solid;background:rgba(201,163,106,.06);}
+
+/* transport bar */
+.cx-transport{display:flex;align-items:center;gap:14px;margin-top:1.5rem;padding-top:1.4rem;border-top:1px solid rgba(201,163,106,.14);}
+.cx-total{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(240,228,207,.5);flex:1;}
+.cx-total b{color:#f0e4cf;font-size:11px;}
+.cx-go{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:14px 30px;border-radius:999px;background:#c9a36a;color:#211a15;border:none;cursor:pointer;transition:all .16s;display:flex;align-items:center;gap:8px;}
+.cx-go:hover{background:#dcb87c;transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,163,106,.3);}
+.cx-pdf{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:14px 20px;border-radius:999px;background:transparent;border:1px solid rgba(201,163,106,.3);color:rgba(240,228,207,.8);cursor:pointer;}
+.cx-pdf:hover{border-color:rgba(201,163,106,.6);color:#f0e4cf;}
+@media print{.console{display:none!important;}}
+
+/* install pill */
+.hd-install{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:#2a1f18;background:rgba(201,163,106,.95);border:none;border-radius:999px;padding:7px 14px;cursor:pointer;margin-right:8px;}
+.hd-install:hover{background:#c9a36a;}
+.hd-row{display:flex;align-items:center;gap:0;}
+
+/* runner overlay */
+#runner{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,#2a1f18,#1a130e);color:#f7f4ec;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#runner.on{display:flex;}
+.rn-block{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.85);}
+.rn-time{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(4rem,16vw,7rem);line-height:1;margin:.4rem 0;}
+.rn-cue{font-family:'Cormorant Garamond';font-style:italic;font-size:clamp(1.3rem,4vw,2rem);color:rgba(248,244,237,.9);max-width:22ch;min-height:2.4em;line-height:1.4;transition:opacity .5s;}
+.rn-next{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(248,244,237,.4);margin-top:1.4rem;}
+.rn-ctrl{display:flex;gap:10px;margin-top:2rem;align-items:center;}
+.rn-ctrl button{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(248,244,237,.85);background:none;border:1px solid rgba(201,163,106,.4);border-radius:999px;padding:11px 20px;cursor:pointer;}
+.rn-prog{position:fixed;top:0;left:0;height:3px;background:rgba(201,163,106,.9);width:0;transition:width 1s linear;}
+.rn-x{position:fixed;top:18px;right:18px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(248,244,237,.6);background:none;border:none;cursor:pointer;}
+.rn-music{position:fixed;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:rgba(248,244,237,.4);}
+@media print{
+  body{background:#fff;}.hd-back,.acts,.sb-hero .sb-lede,.add-blk,.blk-tools,.blk-move,.blk-dur button,.blk-x,input[type=range],.snaps,.row,#runner{display:none!important;}
+  .card,.blk{border:none;background:#fff;padding:0;margin:0 0 10px;}.sb-hero{background:none;color:var(--ink);padding:0;margin-bottom:.5rem;}
+  .sb-hero::after{display:none;}.sb-eye,.sb-h{color:var(--ink);}.wrap{max-width:100%;}
+}
+</style><body>
+<div class="wrap" id="top">
+  <div class="hd"><div class="hd-logo">res<em>pira</em> · studio</div><div class="hd-row"><button class="hd-install" id="hdInstall" hidden onclick="studioInstall()">&#8681; install</button><a class="hd-back" href="/">&larr; back to respira</a></div></div>
+  <div class="sb-hero">
+    <div class="sb-eye">for studios &middot; coaches &middot; spaces</div>
+    <div class="sb-h">bring respira into your practice.</div>
+    <div class="sb-lede">a free toolkit for the people holding space &mdash; audio for your rooms, your own branded app, a directory that sends you clients, and a class builder you can teach from. built by happy sunday, given freely.</div>
+    <div class="sb-ctas">
+      <a href="#builder" class="sb-cta">build a class &rarr;</a>
+      <a href="/respira-for-studios.pdf" class="sb-cta sb-cta2" download>download the packet &darr;</a>
+    </div>
+  </div>
+
+  <div class="tk">
+    <div class="tk-label">studios + coaches</div>
+    <div class="tk-grid">
+      <a class="tk-tool" href="#builder"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
+      <a class="tk-tool" href="#blueprint"><b>your own app</b><span>a branded breathing room, built for you</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
+      <a class="tk-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><b>helpdesk &#8599;</b><span>support, answered with warmth</span></a>
+      <a class="tk-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><b>pages &#8599;</b><span>happy sunday&rsquo;s directory of care</span></a>
+    </div>
+    <div class="tk-label" style="margin-top:1.4rem;">community</div>
+    <div class="tk-grid">
+      <a class="tk-tool" href="https://openrespira.org/#guides"><b>guides</b><span>find &amp; book practitioners</span></a>
+      <a class="tk-tool" href="https://openrespira.org/#local"><b>respira 100</b><span>vetted &amp; always rotating &mdash; fresh each visit</span></a>
+    </div>
+    <p class="tk-foot">powered by happy sunday &middot; an initiative of the birthright project</p>
+  </div>
+
+  <div class="builder-head" id="builder">
+    <div class="sb-eye" style="color:var(--gold);">the class builder &middot; beta</div>
+    <h2 class="builder-title" id="pdf-title">untitled class</h2>
+    <p class="builder-sub">set a length, shape the arc, drop in cues &amp; music. save it, then walk in and press play.</p>
+  </div>
+
+  <div class="console">
+    <div class="cx-top">
+      <input class="cx-name" id="cname" placeholder="name your class — e.g. sunday slow flow" oninput="document.getElementById('pdf-title').textContent=this.value||'untitled class'">
+      <div class="cx-live"><span class="dot"></span> studio console</div>
+    </div>
+
+    <div class="cx-dials">
+      <div class="cx-pod">
+        <div class="cx-pod-lab">length</div>
+        <div class="cx-len"><b id="minsVal">60</b><small>minutes</small></div>
+        <input type="range" class="cx-slider" id="lenRange" min="30" max="90" step="15" value="60" oninput="setLen(this.value)">
+        <div class="cx-snaps"><span>30</span><span>45</span><span>60</span><span>75</span><span>90</span></div>
+      </div>
+      <div class="cx-pod">
+        <div class="cx-pod-lab">discipline</div>
+        <div class="cx-discs" id="discRow"></div>
+        <div class="cx-pod-lab" style="margin-top:16px;">music</div>
+        <select class="cx-music" id="music">
+          <option value="all">respira radio · shuffle</option>
+          <option value="drift">wind-down · drift</option>
+          <option value="groove">energy · groove</option>
+          <option value="dust">meditation · dust</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cx-arc-lab"><span>the arc &middot; tap a section to shape it</span><span id="tlTotal"></span></div>
+    <div class="cx-arc" id="tl"></div>
+
+    <div class="cx-edit" id="cxEdit">
+      <div class="cx-edit-top">
+        <div class="cx-nav"><button onclick="mv(cxSel,-1)" aria-label="move left">&#8249;</button><button onclick="mv(cxSel,1)" aria-label="move right">&#8250;</button></div>
+        <input class="cx-edit-name" id="cxEditName" oninput="rename(cxSel,this.value)">
+        <div class="cx-edit-dur"><button onclick="dur(cxSel,-1)">&minus;</button><span class="cx-edit-min" id="cxEditMin">5'</span><button onclick="dur(cxSel,1)">+</button></div>
+      </div>
+      <textarea class="cx-cues" id="cxEditCues" placeholder="cues for this section — one per line" oninput="setCues(cxSel,this.value)"></textarea>
+      <div class="cx-edit-tools">
+        <button class="cx-gen" onclick="genCues(cxSel)">&#10022; generate cues</button>
+        <button class="cx-del" onclick="rmSel()">remove section</button>
+      </div>
+    </div>
+    <button class="cx-add" onclick="addBlock()">+ add a section</button>
+
+    <div class="cx-transport">
+      <div class="cx-total">runtime <b id="cxRuntime">60 min</b></div>
+      <button class="cx-pdf" onclick="window.print()">save pdf</button>
+      <button class="cx-go" onclick="startClass()">&#9655; start class</button>
+    </div>
+  </div>
+
+  <div id="blocks" style="display:none;"></div>
+
+<!-- blueprint -->
+<div id="blueprint" style="background:#e0d3e8;border-top:1px solid var(--line);padding:clamp(3.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem);">
+  <div class="inner" style="max-width:720px;margin:0 auto;">
+    <div style="text-align:center;">
+      <div class="bp-eyebrow">the blueprint</div>
+      <h2 class="bp-h2">build your own breathing room.</h2>
+      <p class="bp-lede">switch on what you want. mix our pieces with yours, then launch under your name.</p>
+    </div>
+
+    <div class="bp-dash">
+      <div class="bp-row" data-mod="voices" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">voices</div><div class="bp-row-desc">the guiding voice</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our guides &middot; multilingual</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="soundscapes" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">soundscapes</div><div class="bp-row-desc">the ambient beds</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our library</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="sessions" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">sessions &amp; events</div><div class="bp-row-desc">what&rsquo;s on, near you</div></div>
+        <div class="bp-row-right">
+          <div class="bp-choice">
+            <button class="bp-opt on" data-val="ours" onclick="bpOpt(this)">our listings</button>
+            <button class="bp-opt" data-val="yours" onclick="bpOpt(this)">your own</button>
+          </div>
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row" data-mod="network" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">global network</div><div class="bp-row-desc">the diaspora directory &amp; map</div></div>
+        <div class="bp-row-right">
+          <button class="bp-toggle on" aria-label="toggle" onclick="bpToggle(this)"><span></span></button>
+        </div>
+      </div>
+
+      <div class="bp-row bp-locked" data-mod="app" data-on="1">
+        <div class="bp-row-main"><div class="bp-row-name">the app</div><div class="bp-row-desc">breathe &amp; flow</div></div>
+        <div class="bp-row-right"><span class="bp-always">always yours</span></div>
+      </div>
+    </div>
+
+    <div class="bp-launch">
+      <div class="bp-launch-label">then launch as</div>
+      <div class="bp-launch-domains">
+        <span class="bp-dom"><b>you</b>.openrespira.org</span>
+        <span class="bp-or">or bring your own</span>
+        <span class="bp-dom"><b>you</b>.com</span>
+      </div>
+    </div>
+
+    <div class="bp-cta-wrap">
+      <button class="bp-cta" onclick="blueprintStart()">open your room &rarr;</button>
+      <div class="bp-thanks" id="bp-thanks">thank you &mdash; we&rsquo;ll be in touch about your room.</div>
+    </div>
+    <p class="bp-foot">an open blueprint from respira &middot; built with mmaadd &middot; an initiative of the birthright project</p>
+  </div>
+</div>
+
+<style>
+.bp-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);}
+.bp-h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:300;color:var(--ink);letter-spacing:-.03em;line-height:1;margin:.6rem 0 0;}
+.bp-lede{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.1rem,2.4vw,1.45rem);font-weight:300;font-style:italic;color:var(--soft);line-height:1.5;max-width:34ch;margin:1rem auto 0;}
+.bp-dash{margin:2.5rem 0 0;}
+.bp-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 18px;border:1px solid var(--line);border-radius:16px;background:var(--cream);margin-bottom:10px;transition:opacity .2s;flex-wrap:wrap;}
+.bp-row.bp-off{opacity:.5;}
+.bp-row-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:300;color:var(--ink);line-height:1;}
+.bp-row-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:var(--faint);margin-top:5px;}
+.bp-row-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
+.bp-choice{display:flex;gap:3px;background:rgba(95,85,75,.07);border-radius:999px;padding:3px;transition:opacity .2s;}
+.bp-off .bp-choice{opacity:.35;pointer-events:none;}
+.bp-opt{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;text-transform:lowercase;padding:7px 11px;border-radius:999px;border:none;background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.bp-opt.on{background:var(--bg);color:var(--ink);box-shadow:0 1px 4px rgba(55,42,29,.12);}
+.bp-toggle{width:42px;height:24px;border-radius:999px;border:none;background:rgba(95,85,75,.22);position:relative;cursor:pointer;transition:background .2s;padding:0;flex-shrink:0;}
+.bp-toggle.on{background:var(--sage-dark);}
+.bp-toggle span{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.bp-toggle.on span{left:21px;}
+.bp-locked{background:#2a1f18;border-color:#2a1f18;}
+.bp-locked .bp-row-name{color:rgba(248,244,237,.95);}
+.bp-locked .bp-row-desc{color:rgba(201,163,106,.7);}
+.bp-always{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:rgba(201,163,106,.9);}
+.bp-launch{text-align:center;margin:2rem auto 0;padding:1.75rem;background:#2a1f18;border-radius:20px;max-width:600px;}
+.bp-launch-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:rgba(201,163,106,.7);margin-bottom:.9rem;}
+.bp-launch-domains{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;}
+.bp-dom{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.2rem,3vw,1.7rem);font-weight:300;color:rgba(248,244,237,.65);}
+.bp-dom b{font-weight:400;font-style:italic;color:rgba(201,163,106,.95);}
+.bp-or{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.45);}
+.bp-cta-wrap{text-align:center;margin-top:2rem;}
+.bp-cta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;padding:15px 34px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:all .2s;}
+.bp-cta:hover{transform:translateY(-2px);border-color:var(--sage-dark);}
+.bp-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--sage-dark);margin-top:1rem;}
+.bp-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint);margin-top:2rem;text-align:center;line-height:1.8;}
+</style>
+
+<script>
+function bpToggle(btn){
+  var row = btn.parentNode.parentNode;
+  var on = btn.classList.toggle('on');
+  row.setAttribute('data-on', on ? '1' : '0');
+  row.classList.toggle('bp-off', !on);
+}
+function bpOpt(btn){
+  var choice = btn.parentNode;
+  var opts = choice.getElementsByClassName('bp-opt');
+  for(var i=0;i<opts.length;i++){ opts[i].classList.remove('on'); }
+  btn.classList.add('on');
+}
+function blueprintStart(){
+  var cfg = {};
+  var rows = document.querySelectorAll('#blueprint .bp-row');
+  for(var i=0;i<rows.length;i++){
+    var r = rows[i], mod = r.getAttribute('data-mod'), on = r.getAttribute('data-on')==='1';
+    var opt = r.querySelector('.bp-opt.on');
+    cfg[mod] = on ? (opt ? opt.getAttribute('data-val') : 'on') : 'off';
+  }
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'blueprint_interest', config:cfg, _subject:'respira blueprint: a guide configured their own room'})}); }catch(e){}
+  var b=document.querySelector('.bp-cta'), t=document.getElementById('bp-thanks');
+  if(b){ b.style.display='none'; }
+  if(t){ t.style.display='block'; }
+}
+</script>
+
+<div id="runner">
+  <div class="rn-prog" id="rnProg"></div>
+  <button class="rn-x" onclick="stopClass()">end &times;</button>
+  <div class="rn-block" id="rnBlock">—</div>
+  <div class="rn-time" id="rnTime">0:00</div>
+  <div class="rn-cue" id="rnCue"></div>
+  <div class="rn-next" id="rnNext"></div>
+  <div class="rn-ctrl">
+    <button onclick="rnPrev()">&#9198; prev</button>
+    <button onclick="rnPause()" id="rnPauseBtn">&#10074;&#10074; pause</button>
+    <button onclick="rnNext()">next &#9197;</button>
+  </div>
+  <div class="rn-music mono" id="rnMusic"></div>
+</div>
+<script>
+var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
+var radioAllTracks = [
+  {slug:'coastal-breath-01', name:"coastal breath 01", cat:'drift', file:'radio/rooms/drift/coastal-breath-01.mp3'},
+  {slug:'coastal-breath-02', name:"coastal breath 02", cat:'drift', file:'radio/rooms/drift/coastal-breath-02.mp3'},
+  {slug:'coastal-breath-03', name:"coastal breath 03", cat:'drift', file:'radio/rooms/drift/coastal-breath-03.mp3'},
+  {slug:'coastal-breath-04', name:"coastal breath 04", cat:'drift', file:'radio/rooms/drift/coastal-breath-04.mp3'},
+  {slug:'coastal-breath-05', name:"coastal breath 05", cat:'drift', file:'radio/rooms/drift/coastal-breath-05.mp3'},
+  {slug:'coastal-breath-06', name:"coastal breath 06", cat:'drift', file:'radio/rooms/drift/coastal-breath-06.mp3'},
+  {slug:'coastal-breath-07', name:"coastal breath 07", cat:'drift', file:'radio/rooms/drift/coastal-breath-07.mp3'},
+  {slug:'still-ground-01', name:"still ground 01", cat:'drift', file:'radio/rooms/drift/still-ground-01.mp3'},
+  {slug:'still-ground-02', name:"still ground 02", cat:'drift', file:'radio/rooms/drift/still-ground-02.mp3'},
+  {slug:'township-morning-01', name:"township morning 01", cat:'groove', file:'radio/rooms/groove/township-morning-01.mp3'},
+  {slug:'township-morning-02', name:"township morning 02", cat:'groove', file:'radio/rooms/groove/township-morning-02.mp3'},
+  {slug:'sunday-slow-01', name:"sunday slow 01", cat:'groove', file:'radio/rooms/groove/sunday-slow-01.mp3'},
+  {slug:'sunday-slow-02', name:"sunday slow 02", cat:'groove', file:'radio/rooms/groove/sunday-slow-02.mp3'},
+  {slug:'water-no-get-enemy-01', name:"water no get enemy 01", cat:'groove', file:'radio/rooms/groove/water-no-get-enemy-01.mp3'},
+  {slug:'water-no-get-enemy-02', name:"water no get enemy 02", cat:'groove', file:'radio/rooms/groove/water-no-get-enemy-02.mp3'},
+  {slug:'the-serpent-ate-the-treasure', name:"the serpent ate the treasure", cat:'drift', file:'radio/rooms/drift/the-serpent-ate-the-treasure.mp3'},
+  {slug:'road-trip-to-zamfara', name:"road trip to zamfara", cat:'groove', file:'radio/rooms/groove/road-trip-to-zamfara.mp3'},
+  {slug:'riverbend-808', name:"riverbend 808", cat:'groove', file:'radio/rooms/groove/riverbend-808.mp3'},
+  {slug:'yingi-yanga', name:"yingi yanga", cat:'groove', file:'radio/rooms/groove/yingi-yanga.mp3'},
+  {slug:'coco-coconut', name:"coco coconut", cat:'groove', file:'radio/rooms/groove/coco-coconut.mp3'},
+  {slug:'rasta-savasana', name:"rasta savasana", cat:'drift', file:'radio/rooms/drift/rasta-savasana.mp3'},
+  {slug:'945-in-kingston', name:"945 in kingston", cat:'drift', file:'radio/rooms/drift/945-in-kingston.mp3'},
+  {slug:'a-man-a-guitar-and-vuvuzela-went-to-a-bar', name:"a man, a guitar and vuvuzela went to a bar", cat:'groove', file:'radio/rooms/groove/a-man-a-guitar-and-vuvuzela-went-to-a-bar.mp3'},
+  {slug:'yogapiano', name:"yogapiano", cat:'groove', file:'radio/rooms/groove/yogapiano.mp3'},
+  {slug:'zouk-asana', name:"zouk-asana", cat:'groove', file:'radio/rooms/groove/zouk-asana.mp3'},
+  {slug:'kizomba-my-heart', name:"kizomba my heart", cat:'groove', file:'radio/rooms/groove/kizomba-my-heart.mp3'},
+  {slug:'they-said-buddha-cant-run', name:"they said buddha cant run", cat:'drift', file:'radio/rooms/drift/they-said-buddha-cant-run.mp3'},
+  {slug:'cello-phane-clouds', name:"cello-phane clouds", cat:'drift', file:'radio/rooms/drift/cello-phane-clouds.mp3'},
+  {slug:'cello-phane-again', name:"cello-phane again", cat:'drift', file:'radio/rooms/drift/cello-phane-again.mp3'},
+  {slug:'sunset-no-delay', name:"sunset no delay", cat:'drift', file:'radio/rooms/drift/sunset-no-delay.mp3'},
+  {slug:'lagos-quiet-hour', name:"lagos quiet hour", cat:'drift', file:'radio/rooms/drift/lagos-quiet-hour.mp3'},
+  {slug:'rastas-nightmare', name:"rastas nightmare", cat:'drift', file:'radio/rooms/drift/rastas-nightmare.mp3'},
+  {slug:'yanya-yingi', name:"yanya yingi", cat:'groove', file:'radio/rooms/groove/yanya-yingi.mp3'},
+  {slug:'we-were-here-yesterday-02', name:"we were here yesterday 02", cat:'drift', file:'radio/rooms/drift/we-were-here-yesterday-02.mp3'},
+  {slug:'ancestor-hum', name:"ancestor hum", cat:'dust', file:'radio/rooms/dust/ancestor-hum.mp3'},
+  {slug:'calm-shore', name:"calm shore", cat:'dust', file:'radio/rooms/dust/calm-shore.mp3'},
+  {slug:'cartagena-breeze', name:"cartagena breeze", cat:'dust', file:'radio/rooms/dust/cartagena-breeze.mp3'},
+  {slug:'kingston-raindrops', name:"kingston raindrops", cat:'dust', file:'radio/rooms/dust/kingston-raindrops.mp3'},
+  {slug:'lagos-downpour', name:"lagos downpour", cat:'dust', file:'radio/rooms/dust/lagos-downpour.mp3'},
+  {slug:'steady-rainfall', name:"steady rainfall", cat:'dust', file:'radio/rooms/dust/steady-rainfall.mp3'},
+  {slug:'wakanda-waves', name:"wakanda waves", cat:'dust', file:'radio/rooms/dust/wakanda-waves.mp3'},
+  {slug:'zanzibar-shallows', name:"zanzibar shallows", cat:'dust', file:'radio/rooms/dust/zanzibar-shallows.mp3'},
+  {slug:'your-file-name', name:"display name", cat:'drift|groove|iré|new-category', file:'radio/rooms/drift|groove|iré|new-category/your-file-name.mp3'},
+];
+function _tf(slug){ for(var i=0;i<radioAllTracks.length;i++){ if(radioAllTracks[i].slug===slug) return radioAllTracks[i].file; } return slug+'.mp3'; }
+
+
+// ---- templates: name, pct of total, cue-kind ----
+var TEMPLATES = {
+  flow: [['arrival & breath',8,'arrival'],['warm-up',14,'warm'],['sun salutations',18,'build'],['standing & peak',26,'peak'],['balance',8,'balance'],['floor & deep',14,'floor'],['wind-down',6,'wind'],['rest · savasana',6,'rest']],
+  pilates: [['breath & set-up',10,'arrival'],['core activation',22,'core'],['flowing sequence',28,'build'],['targeted work',24,'peak'],['stretch',10,'wind'],['rest',6,'rest']],
+  mobility: [['warm-up',15,'warm'],['joint prep',25,'core'],['loaded mobility',34,'peak'],['down-regulate',16,'wind'],['rest',10,'rest']],
+  breathwork: [['settle',16,'arrival'],['foundation breath',26,'breath'],['active breath',30,'peak'],['integration',18,'wind'],['rest',10,'rest']],
+  meditation: [['arrival',16,'arrival'],['settling',20,'settle'],['practice',44,'meditate'],['deepening',14,'deep'],['return',6,'return']],
+  coaching: [['check-in',16,'arrival'],['grounding',16,'settle'],['core work',44,'core'],['reflection',16,'reflect'],['close',8,'return']]
+};
+var CUES = {
+  arrival:['come to a comfortable position.','let the breath settle.','close the eyes, or soften the gaze.','arrive fully — nothing else to do.'],
+  warm:['start to move gently.','wake up the spine.','small movements, no forcing.','follow the breath as you move.'],
+  build:['find your rhythm.','link one breath to one movement.','build heat slowly.','stay smooth and steady.'],
+  peak:['this is the fullest part.','strong and steady.','breathe through the effort.','stay present with the challenge.'],
+  balance:['find one point to focus on.','root down to rise up.','it is okay to wobble.','breathe and steady.'],
+  floor:['come down to the mat.','let the body open slowly.','longer, deeper holds now.','soften into each shape.'],
+  wind:['begin to slow everything down.','let the breath lengthen.','release the effort.','prepare to rest.'],
+  rest:['lie back. let go completely.','nothing to hold, nowhere to be.','let the body get heavy.','stay as long as you need.'],
+  core:['engage from the center.','control the movement.','quality over speed.','keep the breath moving.'],
+  breath:['find a steady breath.','inhale slowly.','exhale slowly.','let the rhythm carry you.'],
+  settle:['let the mind slow.','notice the body sitting.','follow one breath at a time.','settle a little deeper.'],
+  meditate:['rest attention on the breath.','when the mind wanders, return.','no judgment, just returning.','stay soft and aware.'],
+  deep:['let stillness grow.','less effort now.','just being here.','deep and quiet.'],
+  return:['begin to come back.','notice sounds around you.','small movements return.','carry this calm with you.'],
+  reflect:['notice what came up.','let it be, without fixing.','breathe with whatever is here.','honor the work you did.']
+};
+var DISCIPLINES=[['flow','flow / vinyasa'],['pilates','pilates'],['mobility','mobility'],['breathwork','breathwork'],['meditation','meditation'],['coaching','coaching']];
+var PALETTE={arrival:'#c9a36a',warm:'#d98b5a',build:'#b5502f',peak:'#a5442f',balance:'#8a6a3a',floor:'#6a2f1f',wind:'#7a5a3a',rest:'#4f5a43',core:'#a5442f',breath:'#4f7a6a',settle:'#8a6a3a',meditate:'#4f5a43',deep:'#3a4a3f',return:'#c9a36a',reflect:'#8a6a3a'};
+
+var state={minutes:60,disc:'flow',blocks:[]};
+
+function buildDisc(){ var r=document.getElementById('discRow'); r.innerHTML=DISCIPLINES.map(function(d){return '<button class="cx-disc'+(d[0]===state.disc?' on':'')+'" onclick="setDisc(\''+d[0]+'\')">'+d[1]+'</button>';}).join(''); }
+function setDisc(d){ state.disc=d; buildDisc(); genArc(); }
+function setLen(v){ state.minutes=+v; document.getElementById('minsVal').textContent=v; genArc(); }
+
+function genArc(){
+  var tpl=TEMPLATES[state.disc], tot=state.minutes, blocks=[], acc=0;
+  tpl.forEach(function(b,i){ var m=Math.max(1,Math.round(tot*b[1]/100)); blocks.push({name:b[0],mins:m,kind:b[2],cues:''}); acc+=m; });
+  // fix rounding drift onto the biggest block
+  var drift=tot-acc; if(drift!==0){ var bi=0; blocks.forEach(function(b,i){ if(b.mins>blocks[bi].mins) bi=i; }); blocks[bi].mins=Math.max(1,blocks[bi].mins+drift); }
+  state.blocks=blocks; renderBlocks();
+}
+var cxSel = -1;
+function renderBlocks(){
+  var tot = state.blocks.reduce(function(a,b){return a+b.mins;},0) || 1;
+  var arc = document.getElementById('tl');
+  arc.innerHTML = state.blocks.map(function(b,i){
+    var col = PALETTE[b.kind] || '#c9a36a';
+    return '<div class="cx-seg'+(i===cxSel?' sel':'')+'" style="flex:'+b.mins+' '+b.mins+' 0;background:linear-gradient(160deg,'+col+',rgba(0,0,0,.25));" onclick="cxPick('+i+')">'
+      + '<div class="cx-seg-name">'+b.name+'</div>'
+      + '<div class="cx-seg-min">'+b.mins+"'"+'</div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('tlTotal').textContent = tot + ' min';
+  var rt=document.getElementById('cxRuntime'); if(rt) rt.textContent = tot + ' min';
+  renderEditor();
+}
+function cxPick(i){ cxSel = (cxSel===i ? -1 : i); renderBlocks(); }
+function renderEditor(){
+  var box=document.getElementById('cxEdit');
+  if(cxSel<0 || !state.blocks[cxSel]){ box.classList.remove('on'); return; }
+  var b=state.blocks[cxSel];
+  document.getElementById('cxEditName').value = b.name;
+  document.getElementById('cxEditMin').textContent = b.mins + "'";
+  var ta=document.getElementById('cxEditCues'); if(document.activeElement!==ta) ta.value = b.cues||'';
+  box.classList.add('on');
+}
+function rmSel(){ if(cxSel<0) return; state.blocks.splice(cxSel,1); cxSel=-1; renderBlocks(); }
+function renderTL(){ renderBlocks(); }
+function mv(i,d){ var j=i+d; if(j<0||j>=state.blocks.length) return; var t=state.blocks[i]; state.blocks[i]=state.blocks[j]; state.blocks[j]=t; if(cxSel===i)cxSel=j; else if(cxSel===j)cxSel=i; renderBlocks(); }
+function dur(i,d){ state.blocks[i].mins=Math.max(1,state.blocks[i].mins+d); renderBlocks(); }
+function rename(i,v){ if(state.blocks[i]) state.blocks[i].name=v; renderTL(); }
+function setCues(i,v){ state.blocks[i].cues=v; }
+function rm(i){ state.blocks.splice(i,1); renderBlocks(); }
+function addBlock(){ state.blocks.push({name:'new section',mins:5,kind:'build',cues:''}); cxSel=state.blocks.length-1; renderBlocks(); }
+function genCues(i){
+  var k=state.blocks[i].kind||'build', pool=CUES[k]||CUES.build;
+  var n=Math.min(3, pool.length), pick=pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,n);
+  state.blocks[i].cues=pick.join('\n'); renderBlocks();
+}
+
+// ---- runner ----
+var rn={idx:0,left:0,timer:null,paused:false,cueTimer:null,audio:null,queue:[],qi:0};
+function musicQueue(){
+  var m=document.getElementById('music').value;
+  var list=radioAllTracks.filter(function(t){ return m==='all' ? true : (t.cat===m); });
+  if(!list.length) list=radioAllTracks.slice();
+  for(var i=list.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=list[i]; list[i]=list[j]; list[j]=t; }
+  return list;
+}
+function trackUrl(t){ return radioBase + (t.file || _tf(t.slug)); }
+function playNextTrack(){
+  if(!rn.queue.length) return; rn.qi=(rn.qi+1)%rn.queue.length; playCurTrack();
+}
+function playCurTrack(){
+  var t=rn.queue[rn.qi]; if(!t) return;
+  if(rn.audio){ rn.audio.pause(); }
+  rn.audio=new Audio(trackUrl(t)); rn.audio.volume=0.7;
+  rn.audio.onended=playNextTrack; rn.audio.play().catch(function(){});
+  var mm=document.getElementById('rnMusic'); if(mm) mm.textContent='&#9834; '+t.name+' · '+(document.getElementById('music').value==='all'?'respira radio':document.getElementById('music').value);
+  document.getElementById('rnMusic').innerHTML='&#9834; '+t.name;
+}
+function startClass(){
+  if(!state.blocks.length) return;
+  rn.idx=0; rn.paused=false; rn.queue=musicQueue(); rn.qi=0;
+  document.getElementById('runner').classList.add('on');
+  playCurTrack(); enterBlock();
+  rn.timer=setInterval(tick,1000);
+}
+function enterBlock(){
+  var b=state.blocks[rn.idx]; if(!b){ stopClass(); return; }
+  rn.left=b.mins*60;
+  document.getElementById('rnBlock').textContent=(rn.idx+1)+' / '+state.blocks.length+' · '+b.name;
+  var nb=state.blocks[rn.idx+1];
+  document.getElementById('rnNext').textContent=nb?('next: '+nb.name):'last section';
+  document.getElementById('rnProg').style.width=((rn.idx)/state.blocks.length*100)+'%';
+  cueCycle(b);
+  paintTime();
+}
+function cueCycle(b){
+  if(rn.cueTimer) clearInterval(rn.cueTimer);
+  var lines=(b.cues||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
+  if(!lines.length){ document.getElementById('rnCue').textContent=''; return; }
+  var ci=0, cue=document.getElementById('rnCue');
+  function show(){ cue.style.opacity=0; setTimeout(function(){ cue.textContent=lines[ci%lines.length]; cue.style.opacity=1; ci++; },400); }
+  show();
+  var iv=Math.max(8, Math.floor((state.blocks[rn.idx].mins*60)/Math.max(lines.length,4)));
+  rn.cueTimer=setInterval(function(){ if(!rn.paused) show(); }, iv*1000);
+}
+function paintTime(){ var m=Math.floor(rn.left/60), s=rn.left%60; document.getElementById('rnTime').textContent=m+':'+(s<10?'0':'')+s; }
+function tick(){ if(rn.paused) return; rn.left--; if(rn.left<0){ rnNext(); return; } paintTime(); }
+function rnNext(){ if(rn.idx>=state.blocks.length-1){ stopClass(); return; } rn.idx++; enterBlock(); }
+function rnPrev(){ if(rn.idx>0){ rn.idx--; enterBlock(); } }
+function rnPause(){ rn.paused=!rn.paused; document.getElementById('rnPauseBtn').innerHTML=rn.paused?'&#9654; resume':'&#10074;&#10074; pause'; if(rn.audio){ rn.paused?rn.audio.pause():rn.audio.play().catch(function(){}); } }
+function stopClass(){
+  if(rn.timer) clearInterval(rn.timer); if(rn.cueTimer) clearInterval(rn.cueTimer);
+  if(rn.audio){ rn.audio.pause(); rn.audio=null; }
+  document.getElementById('runner').classList.remove('on');
+}
+
+// ---- PWA install ----
+var _sPrompt=null;
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); _sPrompt=e; var b=document.getElementById('hdInstall'); if(b) b.hidden=false; });
+function studioInstall(){
+  if(_sPrompt){ _sPrompt.prompt(); _sPrompt.userChoice.finally(function(){ _sPrompt=null; var b=document.getElementById('hdInstall'); if(b) b.hidden=true; }); return; }
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  alert(ios ? 'tap the share icon, then "add to home screen"' : 'use your browser menu to install this app');
+}
+if('serviceWorker' in navigator){ window.addEventListener('load', function(){ navigator.serviceWorker.register('/studio/sw.js', {scope:'/studio/'}).catch(function(){}); }); }
+
+// init
+buildDisc(); genArc();
+</script></body></html>

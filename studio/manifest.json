@@ -1,0 +1,36 @@
+{
+  "name": "respira studio",
+  "short_name": "respira studio",
+  "description": "a teacher's console \u2014 build a class, shape the arc, press play.",
+  "start_url": "/studio/",
+  "scope": "/studio/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#211a15",
+  "theme_color": "#211a15",
+  "categories": [
+    "health",
+    "lifestyle",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/icons/studio-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/studio-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/studio-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
