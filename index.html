@@ -2315,8 +2315,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="gf-price">$98 <span>&middot; heavyweight hoodie</span></div>
         <div class="gf-row" id="ho-row">
-          <input id="ho-email" type="email" placeholder="your email" class="gf-input" aria-label="your email">
-          <button class="gf-btn" onclick="hoPreorder()">reserve yours &rarr;</button>
+          <button class="gf-btn" onclick="cartAdd('hoodie',{variant:document.querySelector('.ho-swatch.active').textContent.trim()})">add to cart &rarr;</button>
         </div>
         <div class="gf-note">pre-order &middot; ships when it&rsquo;s ready</div>
         <div id="ho-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. we&rsquo;ll email you first.</div>
@@ -2358,8 +2357,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="gf-price">$145 <span>&middot; mat, cushion &amp; bag</span></div>
         <div class="gf-row" id="rn-row">
-          <input id="rn-email" type="email" placeholder="your email" class="gf-input" aria-label="your email">
-          <button class="gf-btn" onclick="rnPreorder()">reserve yours &rarr;</button>
+          <button class="gf-btn" onclick="cartAdd('reunion',{variant:document.querySelector('.rn-swatch.active').getAttribute('data-color')})">add to cart &rarr;</button>
         </div>
         <div class="gf-note">by reunion &middot; pre-order &middot; ships when it&rsquo;s ready</div>
         <div id="rn-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. reunion will email you first.</div>
@@ -2611,17 +2609,9 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         var a=document.createElement('a'); a.href=url; a.download=''; a.target='_blank'; a.rel='noopener'; a.click();
         return;
       }
-      var el=document.getElementById('fp-email'), email=el?el.value.trim():'';
-      if(!email || email.indexOf('@')===-1){ if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
-      var sz=FP_SIZES[fpSize], dep=Math.round(sz.price*0.10);
-      try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'framed_deposit', email:email, phrase:FP_PHRASES[fpPhrase].label, color:fpColor, frame:fpFrame, size:sz.label, price:sz.price, deposit:dep, _subject:'respira framed print — $'+dep+' deposit'})}); }catch(e){}
-      // 10% deposit via stripe, if the link is configured
-      if(typeof RESPIRA_STRIPE!=='undefined' && RESPIRA_STRIPE.deposit && stripeReady(RESPIRA_STRIPE.deposit[sz.stripe])){
-        stripeGo(RESPIRA_STRIPE.deposit[sz.stripe], {email:email}); return;
-      }
-      var row=document.getElementById('fp-row'), t=document.getElementById('fp-thanks');
-      if(row) row.style.display='none';
-      if(t){ t.innerHTML='thank you &mdash; your $'+dep+' deposit link is coming to '+email+'. we&rsquo;ll notify you to pay the balance when it ships.'; t.style.display='block'; }
+      var sz=FP_SIZES[fpSize];
+      var desc = FP_PHRASES[fpPhrase].label + ' · ' + fpColor + ' · ' + fpFrame + ' frame · ' + sz.label;
+      cartAdd('framed-'+fpSize, { desc: desc });
     }
     document.addEventListener('DOMContentLoaded', fpBuild);
     </script>
@@ -4461,17 +4451,7 @@ function donateCustomInput(){
 }
 function submitDonate(){
   if(!_donateAmount || _donateAmount<=0){ var c=document.getElementById('donate-custom'); if(c){ c.focus(); } return; }
-  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'donation_intent', amount:_donateAmount, _subject:'respira donation intent: $'+_donateAmount})}); }catch(e){}
-  if(typeof RESPIRA_STRIPE !== 'undefined'){
-    var _d = RESPIRA_STRIPE.donate || {};
-    var _link = _d[_donateAmount] || _d.custom;
-    if(stripeReady(_link)){
-      var t0=document.getElementById('donate-thanks');
-      if(t0){ t0.style.display='block'; t0.innerHTML='taking you to a secure checkout\u2026'; }
-      setTimeout(function(){ stripeGo(_link, {}); }, 450);
-      return;
-    }
-  }
+  if(typeof donateCheckout==='function'){ donateCheckout(_donateAmount); return; }
   var t=document.getElementById('donate-thanks');
   if(t){ t.style.display='block'; t.innerHTML='thank you — $'+_donateAmount+' held.<br>secure payment is coming very soon.'; }
 }
@@ -4671,24 +4651,8 @@ setInterval(function(){
    donations: one payment link per amount, plus one link with
    "let customers choose what to pay" enabled, for `custom`.
    ────────────────────────────────────────────────────────────────────── */
-var RESPIRA_STRIPE = {
-  deposit: {
-    framed_med: '',   /* stripe link: 12×18 framed · $10 deposit (10% of $99)  */
-    framed_lg:  ''    /* stripe link: 18×24 framed · $15 deposit (10% of $149) */
-  },
-  donate: { 5:'', 10:'', 25:'', 54:'', custom:'' },
-  products: {
-    hoodie:  '',   /* the respira hoodie · $98  */
-    reunion: '',   /* the reunion mat · $145    */
-    framed:  ''    /* the framed print · $148   */
-  }
-};
-function stripeReady(url){ return !!(url && url.indexOf('http') === 0); }
-function stripeGo(url, meta){
-  var extra = '';
-  if(meta && meta.email){ extra = (url.indexOf('?')>-1?'&':'?') + 'prefilled_email=' + encodeURIComponent(meta.email); }
-  window.location.href = url + extra;
-}
+/* commerce runs through the cart + /api/checkout (Stripe Checkout Sessions).
+   the old per-product payment-link config lived here and has been removed. */
 
 /* ── share ─────────────────────────────────────────────────────────────── */
 var RESPIRA_SHARE = {
@@ -4711,6 +4675,177 @@ function respiraShare(which){
   }
   rToast(d.url);
 }
+</script>
+<!-- ══════════════════════ shopping cart ══════════════════════ -->
+<style>
+#rc-fab{position:fixed;right:20px;bottom:20px;z-index:9998;display:flex;align-items:center;gap:9px;padding:13px 18px;border:none;border-radius:999px;background:#2a1f18;color:rgba(201,163,106,.96);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer;box-shadow:0 12px 34px rgba(42,31,24,.32);transition:transform .18s ease;}
+#rc-fab:hover{transform:translateY(-2px);}
+.rc-fab-ico{font-size:15px;line-height:1;}
+.rc-fab-count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--gold,#c9a36a);color:#221a13;font-size:10px;display:inline-flex;align-items:center;justify-content:center;font-weight:500;}
+#rc-overlay{position:fixed;inset:0;z-index:9998;background:rgba(27,24,20,.5);backdrop-filter:blur(3px);}
+#rc-drawer{position:fixed;top:0;right:0;bottom:0;z-index:9999;width:min(400px,92vw);background:var(--cream,#fffaf2);border-left:1px solid var(--line,rgba(29,25,21,.12));display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:-24px 0 60px rgba(42,31,24,.18);}
+#rc-drawer.open{transform:translateX(0);}
+.rc-head{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 16px;border-bottom:1px solid var(--line,rgba(29,25,21,.12));}
+.rc-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:300;color:var(--ink,#1d1915);}
+.rc-x{background:none;border:none;font-size:24px;line-height:1;color:var(--faint,#b3a99c);cursor:pointer;}
+.rc-x:hover{color:var(--clay,#a5442f);}
+.rc-items{flex:1;overflow-y:auto;padding:8px 22px;}
+.rc-item{display:grid;grid-template-columns:1fr auto;gap:6px 12px;padding:16px 0;border-bottom:1px solid var(--line,rgba(29,25,21,.1));}
+.rc-item-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.12rem;font-weight:400;color:var(--ink,#1d1915);line-height:1.15;}
+.rc-item-meta{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.06em;color:var(--soft,#5f554b);text-transform:lowercase;margin-top:3px;line-height:1.5;}
+.rc-item-price{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink,#1d1915);text-align:right;white-space:nowrap;}
+.rc-qty{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.rc-qbtn{width:24px;height:24px;border:1px solid var(--line,rgba(29,25,21,.16));background:transparent;border-radius:50%;font-size:14px;line-height:1;color:var(--soft,#5f554b);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.rc-qbtn:hover{border-color:var(--sage-dark,#4f5a43);color:var(--ink,#1d1915);}
+.rc-qn{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink,#1d1915);min-width:16px;text-align:center;}
+.rc-rm{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--faint,#b3a99c);background:none;border:none;cursor:pointer;text-transform:lowercase;align-self:end;text-align:right;}
+.rc-rm:hover{color:var(--clay,#a5442f);}
+.rc-empty{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.15rem;color:var(--faint,#b3a99c);}
+.rc-foot{padding:18px 22px 24px;border-top:1px solid var(--line,rgba(29,25,21,.12));}
+.rc-subrow{display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--soft,#5f554b);text-transform:lowercase;}
+.rc-subrow span:last-child{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;color:var(--ink,#1d1915);}
+.rc-fineprint{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;color:var(--faint,#b3a99c);margin:8px 0 14px;text-transform:lowercase;}
+.rc-checkout{width:100%;padding:15px;border:none;border-radius:999px;background:#2a1f18;color:rgba(201,163,106,.96);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;cursor:pointer;transition:opacity .2s;}
+.rc-checkout:hover{opacity:.9;}
+.rc-checkout[disabled]{opacity:.55;cursor:default;}
+</style>
+
+<button id="rc-fab" onclick="cartOpen()" aria-label="open cart" hidden><span class="rc-fab-ico">&#9707;</span><span>cart</span><span id="rc-fab-count" class="rc-fab-count">0</span></button>
+<div id="rc-overlay" onclick="cartClose()" hidden></div>
+<aside id="rc-drawer" aria-label="your cart" aria-hidden="true">
+  <div class="rc-head"><span class="rc-title">your cart</span><button class="rc-x" onclick="cartClose()" aria-label="close cart">&times;</button></div>
+  <div id="rc-items" class="rc-items"></div>
+  <div id="rc-empty" class="rc-empty">your cart is empty.</div>
+  <div class="rc-foot">
+    <div class="rc-subrow"><span>subtotal</span><span id="rc-subtotal">$0</span></div>
+    <div class="rc-fineprint">shipping &amp; tax calculated at checkout &middot; secured by stripe</div>
+    <button id="rc-checkout" class="rc-checkout" onclick="cartCheckout()">checkout &rarr;</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  // display-only catalog; the checkout Function is the price source of truth.
+  var CATALOG = {
+    'hoodie':     { name:'the respira hoodie',   price:9800,  ship:true },
+    'reunion':    { name:'the reunion mat',      price:14500, ship:true },
+    'framed-med': { name:'framed print · 12×18″', price:990,  deposit:true },
+    'framed-lg':  { name:'framed print · 18×24″', price:1490, deposit:true }
+  };
+  var KEY = 'respira_cart_v1';
+  var cart = [];
+  try { cart = JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ cart = []; }
+
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(cart)); }catch(e){} }
+  function money(c){ return (c % 100 === 0) ? '$' + (c/100) : '$' + (c/100).toFixed(2); }
+  function count(){ return cart.reduce(function(n,i){ return n + i.qty; }, 0); }
+  function total(){ return cart.reduce(function(s,i){ return s + i.price*i.qty; }, 0); }
+  function toast(m){ if(typeof rToast==='function'){ rToast(m); } else { alert(m); } }
+
+  window.cartAdd = function(id, opts){
+    opts = opts || {};
+    var prod = CATALOG[id]; if(!prod) return;
+    var variant = opts.variant || '';
+    var desc = opts.desc || '';
+    var qty = Math.max(1, opts.qty || 1);
+    var hit = cart.filter(function(i){ return i.id===id && i.variant===variant && i.desc===desc; })[0];
+    if(hit){ hit.qty += qty; }
+    else { cart.push({ id:id, variant:variant, desc:desc, qty:qty, name:prod.name, price:prod.price, deposit:!!prod.deposit }); }
+    save(); render();
+    toast('added to cart');
+    cartOpen();
+  };
+  window.cartRemove = function(idx){ cart.splice(idx,1); save(); render(); };
+  window.cartBump = function(idx, d){
+    if(!cart[idx]) return;
+    cart[idx].qty += d;
+    if(cart[idx].qty < 1){ cart.splice(idx,1); }
+    save(); render();
+  };
+  window.cartOpen = function(){
+    var d=document.getElementById('rc-drawer'), o=document.getElementById('rc-overlay');
+    o.hidden=false; d.setAttribute('aria-hidden','false');
+    requestAnimationFrame(function(){ d.classList.add('open'); });
+  };
+  window.cartClose = function(){
+    var d=document.getElementById('rc-drawer'), o=document.getElementById('rc-overlay');
+    d.classList.remove('open'); d.setAttribute('aria-hidden','true');
+    setTimeout(function(){ o.hidden=true; }, 280);
+  };
+
+  function render(){
+    var wrap=document.getElementById('rc-items');
+    var empty=document.getElementById('rc-empty');
+    var foot=document.getElementById('rc-checkout');
+    var fab=document.getElementById('rc-fab');
+    var badge=document.getElementById('rc-fab-count');
+    var sub=document.getElementById('rc-subtotal');
+    if(!wrap) return;
+    var n=count();
+    fab.hidden = n===0; badge.textContent = n;
+    sub.textContent = money(total());
+    foot.disabled = n===0;
+    if(!cart.length){ wrap.innerHTML=''; empty.style.display='flex'; return; }
+    empty.style.display='none';
+    wrap.innerHTML = cart.map(function(i, idx){
+      var meta = [];
+      if(i.variant) meta.push(i.variant);
+      if(i.desc) meta.push(i.desc);
+      if(i.deposit) meta.push('10% deposit reserves it');
+      return '<div class="rc-item">'
+        + '<div><div class="rc-item-name">'+i.name+'</div>'
+        + (meta.length? '<div class="rc-item-meta">'+meta.join(' &middot; ')+'</div>':'')
+        + '<div class="rc-qty"><button class="rc-qbtn" onclick="cartBump('+idx+',-1)" aria-label="decrease">&minus;</button>'
+        + '<span class="rc-qn">'+i.qty+'</span>'
+        + '<button class="rc-qbtn" onclick="cartBump('+idx+',1)" aria-label="increase">+</button></div></div>'
+        + '<div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;">'
+        + '<div class="rc-item-price">'+money(i.price*i.qty)+'</div>'
+        + '<button class="rc-rm" onclick="cartRemove('+idx+')">remove</button></div>'
+        + '</div>';
+    }).join('');
+  }
+
+  window.cartCheckout = function(){
+    if(!cart.length) return;
+    var btn=document.getElementById('rc-checkout');
+    btn.disabled=true; btn.textContent='taking you to checkout…';
+    var items = cart.map(function(i){ return { id:i.id, variant:i.variant, qty:i.qty, desc:i.desc }; });
+    fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ items:items }) })
+      .then(function(r){ return r.json().then(function(d){ return { ok:r.ok, status:r.status, d:d }; }); })
+      .then(function(res){
+        if(res.ok && res.d.url){ window.location.href = res.d.url; return; }
+        if(res.status===503 || res.d.error==='not_configured'){ toast('checkout isn’t switched on yet'); }
+        else { toast(res.d.error ? ('checkout error: '+res.d.error) : 'couldn’t start checkout — try again'); }
+        btn.disabled=false; btn.textContent='checkout →';
+      })
+      .catch(function(){ toast('network error — try again'); btn.disabled=false; btn.textContent='checkout →'; });
+  };
+
+  // donations reuse the same Function (single dynamic line item)
+  window.donateCheckout = function(dollars){
+    var cents = Math.round(Number(dollars)*100);
+    if(!(cents>0)) return false;
+    var t=document.getElementById('donate-thanks');
+    if(t){ t.style.display='block'; t.innerHTML='taking you to a secure checkout…'; }
+    fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ donation:cents }) })
+      .then(function(r){ return r.json().then(function(d){ return { ok:r.ok, status:r.status, d:d }; }); })
+      .then(function(res){
+        if(res.ok && res.d.url){ window.location.href = res.d.url; return; }
+        if(t){ t.innerHTML = (res.status===503) ? 'donations aren’t switched on yet — thank you, though.' : 'couldn’t start checkout — please try again.'; }
+      })
+      .catch(function(){ if(t){ t.innerHTML='network error — please try again.'; } });
+    return true;
+  };
+
+  // reflect a completed / cancelled Stripe redirect
+  try {
+    var q = new URLSearchParams(location.search);
+    if(q.get('order')==='success'){ cart=[]; save(); render(); toast('thank you — your order’s in.'); history.replaceState({}, '', location.pathname); }
+    else if(q.get('order')==='cancelled'){ toast('checkout cancelled — your cart’s still here.'); history.replaceState({}, '', location.pathname); }
+  } catch(e){}
+
+  render();
+})();
 </script>
 </body>
 </html>
