@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>respira radio</title>
+<meta name="description" content="soulful soundscapes for studios, practices and community spaces. free. install it, plan a class, share it.">
+<link rel="manifest" href="/radio/manifest.json">
+<meta name="theme-color" content="#1b1814">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="respira radio">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<meta property="og:title" content="respira radio">
+<meta property="og:description" content="soulful soundscapes for studios, practices and community spaces. free.">
+<meta property="og:url" content="https://openrespira.org/radio">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#14110f; --panel:#1e1a16; --panel-2:#26201b; --line:rgba(201,163,106,.16);
+  --cream:#f8f4ed; --soft:rgba(248,244,237,.66); --faint:rgba(248,244,237,.36);
+  --gold:#c9a36a; --gold-soft:rgba(201,163,106,.9); --sage:#8f9a7a; --clay:#a5442f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace; --serif:'Cormorant Garamond',Georgia,serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--cream);font-family:var(--mono);line-height:1.7;overflow-x:hidden;
+  background-image:radial-gradient(circle at 15% 0%,rgba(201,163,106,.10),transparent 45%),radial-gradient(circle at 85% 12%,rgba(143,154,122,.07),transparent 40%);
+  background-attachment:fixed;padding-bottom:calc(104px + var(--safe-b));}
+button,input,select{font:inherit;color:inherit;}
+button{cursor:pointer;background:none;border:none;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+a{color:inherit;}
+::-webkit-scrollbar{width:0;height:0;}
+
+/* ── head ─────────────────────────────────────────── */
+.top{position:sticky;top:0;z-index:60;background:rgba(20,17,15,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:0 clamp(1rem,3.5vw,2.5rem);}
+.top-in{max-width:1180px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0;}
+.brand-orb{width:26px;height:26px;border-radius:50%;flex:none;background:radial-gradient(circle at 38% 30%,#fdf3db,#ecca8c 52%,#d3a862 82%);box-shadow:0 0 22px rgba(201,163,106,.45);}
+.brand-orb.spin{animation:pulse 4.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(.9);}50%{transform:scale(1.06);}}
+.brand-name{font-family:var(--serif);font-size:1.4rem;font-weight:300;letter-spacing:-.03em;white-space:nowrap;}
+.brand-name em{font-style:italic;color:var(--gold);}
+.top-acts{display:flex;align-items:center;gap:8px;}
+.tbtn{font-size:.58rem;letter-spacing:.1em;padding:.5rem .9rem;border-radius:999px;border:1px solid var(--line);color:var(--soft);white-space:nowrap;transition:all .15s;text-decoration:none;display:inline-flex;gap:6px;align-items:center;}
+.tbtn:hover{border-color:var(--gold);color:var(--gold);}
+.tbtn-solid{background:var(--gold);border-color:var(--gold);color:#221a13;}
+.tbtn-solid:hover{background:#dcb87c;color:#221a13;}
+@media(max-width:640px){.tbtn span.lbl{display:none;}}
+
+/* ── tabs ─────────────────────────────────────────── */
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(1.4rem,3.5vw,2.5rem) clamp(1rem,3.5vw,2.5rem) 3rem;}
+.tabs{display:flex;gap:6px;margin-bottom:1.9rem;border-bottom:1px solid var(--line);}
+.tab{font-size:.6rem;letter-spacing:.14em;padding:12px 16px;color:var(--faint);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .16s;}
+.tab:hover{color:var(--soft);}
+.tab[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold);}
+.panel[hidden]{display:none;}
+
+/* ── stations ─────────────────────────────────────── */
+.sec-label{font-size:.55rem;letter-spacing:.2em;color:var(--gold);margin:0 0 16px;}
+.stations{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;}
+.st{position:relative;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .18s ease;}
+.st:hover{transform:translateY(-4px);}
+.st-cover{position:relative;width:100%;aspect-ratio:1;min-height:110px;border-radius:16px;overflow:hidden;background-color:#2a1f18;box-shadow:0 14px 34px rgba(0,0,0,.45);}
+.st-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+.st-cover::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.18),transparent 62%);z-index:2;}
+.st-tri{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:56%;height:56%;clip-path:polygon(50% 0,100% 100%,0 100%);background:rgba(255,255,255,.9);opacity:.18;z-index:2;}
+.st-go{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;background:var(--gold-soft);color:#221a13;display:grid;place-items:center;font-size:13px;opacity:0;transform:translateY(6px);transition:all .2s;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.45);}
+.st:hover .st-go,.st.on .st-go{opacity:1;transform:translateY(0);}
+.st.on .st-cover{outline:2px solid var(--gold);outline-offset:2px;}
+.st-chip{position:absolute;left:10px;top:10px;z-index:3;font-size:7px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--gold-soft);color:#221a13;}
+.st-chip.soon{background:rgba(0,0,0,.4);color:rgba(255,255,255,.65);}
+.st-name{font-family:var(--serif);font-size:1.4rem;font-weight:300;line-height:1;}
+.st-desc{font-size:8.5px;letter-spacing:.04em;color:var(--faint);line-height:1.6;}
+.c-drift .st-cover{background-color:#0d2c30;background-image:linear-gradient(145deg,#123c3c,#081c22);}
+.c-groove .st-cover{background-color:#33210f;background-image:linear-gradient(145deg,#4a2f1a,#22140a);}
+.c-whisper .st-cover{background-color:#2b1e35;background-image:linear-gradient(145deg,#3d2b48,#1c1425);}
+.c-dust .st-cover{background-color:#2e4038;background-image:linear-gradient(145deg,rgba(65,96,86,.4),#26332e);}
+.c-diasporadique .st-cover{background-color:#6b2f2c;background-image:linear-gradient(145deg,#a8452f,#2e1a2a);}
+
+/* ── search + list ────────────────────────────────── */
+.searchbar{display:flex;gap:8px;align-items:center;margin:2.4rem 0 1rem;}
+.search{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:12px 18px;font-size:.65rem;letter-spacing:.04em;outline:none;color:var(--cream);}
+.search::placeholder{color:var(--faint);}
+.search:focus{border-color:var(--gold);}
+.count{font-size:8px;letter-spacing:.12em;color:var(--faint);white-space:nowrap;}
+.tracks{border-top:1px solid var(--line);}
+.tr{display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid var(--line);transition:background .14s;}
+.tr:hover{background:rgba(201,163,106,.05);}
+.tr-n{font-size:8.5px;color:var(--faint);width:22px;flex:none;text-align:right;}
+.tr-body{flex:1;min-width:0;cursor:pointer;}
+.tr-name{font-family:var(--serif);font-size:1.05rem;font-weight:300;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tr.playing .tr-name{color:var(--gold);}
+.tr-cat{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+.tr-add{font-size:.6rem;color:var(--faint);border:1px solid var(--line);border-radius:999px;width:30px;height:30px;flex:none;display:grid;place-items:center;transition:all .15s;}
+.tr-add:hover{border-color:var(--gold);color:var(--gold);}
+.tr-add.in{background:var(--gold);border-color:var(--gold);color:#221a13;}
+
+/* ── set builder ──────────────────────────────────── */
+.set-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:1.4rem;}
+.set-h{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;line-height:1;letter-spacing:-.03em;}
+.set-h em{font-style:italic;color:var(--gold);}
+.set-lede{font-size:.6rem;letter-spacing:.04em;color:var(--faint);line-height:1.9;max-width:46ch;margin-top:8px;}
+.set-stats{display:flex;gap:20px;}
+.stat-n{font-family:var(--serif);font-size:1.9rem;font-weight:300;line-height:1;}
+.stat-l{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:4px;}
+.set-target{display:flex;align-items:center;gap:10px;margin:0 0 1.4rem;flex-wrap:wrap;}
+.chip{font-size:.58rem;letter-spacing:.08em;padding:9px 15px;border-radius:999px;border:1px solid var(--line);color:var(--soft);transition:all .15s;}
+.chip:hover{border-color:var(--gold);color:var(--gold);}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#221a13;}
+.set-list{border-top:1px solid var(--line);min-height:80px;}
+.set-row{display:flex;align-items:center;gap:10px;padding:11px 6px;border-bottom:1px solid var(--line);}
+.set-i{font-size:8.5px;color:var(--faint);width:22px;text-align:right;flex:none;}
+.set-name{flex:1;min-width:0;font-family:var(--serif);font-size:1.05rem;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.set-dur{font-size:8.5px;color:var(--faint);flex:none;}
+.set-btn{font-size:.65rem;color:var(--faint);padding:4px 7px;line-height:1;transition:color .15s;}
+.set-btn:hover{color:var(--gold);}
+.set-btn.x:hover{color:var(--clay);}
+.set-empty{padding:34px 6px;font-size:.6rem;letter-spacing:.04em;color:var(--faint);line-height:1.9;}
+.set-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.6rem;}
+
+/* ── give / share ─────────────────────────────────── */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:760px){.cards{grid-template-columns:1fr;}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(1.3rem,2.6vw,1.9rem);}
+.card-h{font-family:var(--serif);font-size:1.6rem;font-weight:300;line-height:1.05;margin-bottom:10px;}
+.card-h em{font-style:italic;color:var(--gold);}
+.card-p{font-size:.6rem;letter-spacing:.03em;color:var(--faint);line-height:1.9;margin-bottom:1.2rem;}
+.field{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:12px 15px;font-size:.65rem;outline:none;margin-bottom:8px;color:var(--cream);}
+.field::placeholder{color:var(--faint);}
+.field:focus{border-color:var(--gold);}
+.opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.thanks{display:none;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--gold);margin-top:12px;}
+
+/* ── the player ───────────────────────────────────── */
+.player{position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(30,26,22,.97);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:12px clamp(.8rem,3vw,2rem) calc(12px + var(--safe-b));}
+.p-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;}
+.p-cover{width:48px;height:48px;border-radius:11px;flex:none;position:relative;overflow:hidden;background:#2a1f18;}
+.p-cover .st-tri{opacity:.2;}
+.p-meta{flex:1;min-width:0;}
+.p-name{font-family:var(--serif);font-size:1.08rem;font-weight:300;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.p-sub{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+.p-bar{height:3px;background:rgba(248,244,237,.14);border-radius:2px;margin-top:7px;overflow:hidden;cursor:pointer;}
+.p-fill{height:100%;width:0;background:var(--gold);transition:width .4s linear;}
+.p-time{font-size:8px;color:var(--faint);white-space:nowrap;flex:none;}
+.p-ctrl{display:flex;align-items:center;gap:2px;flex:none;}
+.p-ctrl button{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--soft);font-size:12px;transition:all .15s;}
+.p-ctrl button:hover{color:var(--gold);background:rgba(201,163,106,.1);}
+#pPlay{width:46px;height:46px;background:var(--gold);color:#221a13;font-size:13px;}
+#pPlay:hover{background:#dcb87c;color:#221a13;}
+.p-extra{display:flex;align-items:center;gap:8px;flex:none;}
+.p-extra button{font-size:8px;letter-spacing:.1em;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--faint);transition:all .15s;}
+.p-extra button:hover,.p-extra button.on{color:var(--gold);border-color:var(--gold);}
+#pVol{width:70px;accent-color:var(--gold);cursor:pointer;}
+@media(max-width:900px){.p-time,.p-extra{display:none;}}
+@media(max-width:520px){.p-cover{width:42px;height:42px;}.p-ctrl button:not(#pPlay){display:none;}}
+
+#toast{position:fixed;left:50%;bottom:calc(112px + var(--safe-b));transform:translate(-50%,14px);opacity:0;pointer-events:none;background:var(--gold);color:#221a13;font-size:9px;letter-spacing:.1em;padding:11px 20px;border-radius:999px;z-index:90;transition:all .28s;}
+#toast.on{opacity:1;transform:translate(-50%,0);}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/">
+      <span class="brand-orb" id="brandOrb"></span>
+      <span class="brand-name">resp<em>i</em>ra <span style="color:var(--faint);font-size:.75rem;letter-spacing:.1em;font-family:var(--mono);">radio</span></span>
+    </a>
+    <div class="top-acts">
+      <button class="tbtn" onclick="shareRadio()">&#8599; <span class="lbl">share</span></button>
+      <button class="tbtn tbtn-solid" id="installBtn" hidden onclick="doInstall()">install<span class="lbl"> the app</span></button>
+      <a class="tbtn" href="/">the room &rarr;</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="p-listen" onclick="tab('listen',this)">listen</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-set" onclick="tab('set',this)">plan a class</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-give" onclick="tab('give',this)">get on the air</button>
+  </div>
+
+  <!-- ── listen ── -->
+  <section class="panel" id="p-listen" role="tabpanel">
+    <div class="sec-label">stations</div>
+    <div class="stations" id="stations"></div>
+
+    <div class="searchbar">
+      <input class="search" id="search" placeholder="search the library" aria-label="search tracks" oninput="renderTracks()">
+      <span class="count" id="count"></span>
+    </div>
+    <div class="tracks" id="tracks"></div>
+  </section>
+
+  <!-- ── plan a class ── -->
+  <section class="panel" id="p-set" role="tabpanel" hidden>
+    <div class="set-head">
+      <div>
+        <h2 class="set-h">build a <em>set</em>.</h2>
+        <p class="set-lede">add tracks from the library, put them in order, and the runtime adds itself up. saved on this device &mdash; it&rsquo;s here when you come back.</p>
+      </div>
+      <div class="set-stats">
+        <div><div class="stat-n" id="setCount">0</div><div class="stat-l">tracks</div></div>
+        <div><div class="stat-n" id="setTime">0:00</div><div class="stat-l">runtime</div></div>
+      </div>
+    </div>
+    <div class="set-target">
+      <span class="count">class length</span>
+      <button class="chip" data-min="30" onclick="setTarget(30,this)">30 min</button>
+      <button class="chip" data-min="45" onclick="setTarget(45,this)">45 min</button>
+      <button class="chip" data-min="60" onclick="setTarget(60,this)">60 min</button>
+      <button class="chip" data-min="75" onclick="setTarget(75,this)">75 min</button>
+      <span class="count" id="targetNote"></span>
+    </div>
+    <div class="set-list" id="setList"></div>
+    <div class="set-acts">
+      <button class="chip" onclick="playSet()">&#9655; play the set</button>
+      <button class="chip" onclick="fillSet()">fill to length</button>
+      <button class="chip" onclick="copySet()">copy as text</button>
+      <button class="chip" onclick="clearSet()">clear</button>
+    </div>
+  </section>
+
+  <!-- ── get on the air ── -->
+  <section class="panel" id="p-give" role="tabpanel" hidden>
+    <div class="cards">
+      <div class="card">
+        <h3 class="card-h">bring your sound<br><em>to the community.</em></h3>
+        <p class="card-p">artists, producers and poets &mdash; submit sounds, build sets, or add your voice over one of our studio tracks. selected work is reviewed before it goes on the air.</p>
+        <div class="opts" id="rfOpts"></div>
+        <input class="field" id="rf-name" placeholder="your name / artist name">
+        <input class="field" id="rf-contact" placeholder="email or handle">
+        <input class="field" id="rf-link" placeholder="a link to your work (optional)">
+        <button class="tbtn tbtn-solid" style="padding:12px 22px;" onclick="rfSubmit()">register interest &rarr;</button>
+        <div class="thanks" id="rf-thanks">thank you &mdash; we&rsquo;ll be in touch about getting you on the air.</div>
+      </div>
+      <div class="card">
+        <h3 class="card-h">free for studios,<br><em>practices &amp; spaces.</em></h3>
+        <p class="card-p">install respira radio on the studio tablet or the desk it lives on. it opens straight to the stations, remembers your sets, and keeps playing with the screen off. no account, no fee, no ads &mdash; ever.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="tbtn" style="justify-content:space-between;padding:13px 18px;" onclick="shareRadio()">&#8599; share the radio<span style="color:var(--faint)">pass it on</span></button>
+          <button class="tbtn" style="justify-content:space-between;padding:13px 18px;" id="installBtn2" onclick="doInstall()">&#8681; install the app<span style="color:var(--faint)" id="installHint">add to home screen</span></button>
+          <a class="tbtn" style="justify-content:space-between;padding:13px 18px;" href="/studio">tools for studios<span style="color:var(--faint)">&rarr;</span></a>
+          <a class="tbtn" style="justify-content:space-between;padding:13px 18px;" href="/#directory">join the directory<span style="color:var(--faint)">&rarr;</span></a>
+        </div>
+        <p class="card-p" style="margin:1.2rem 0 0;">respira radio is powered by the <a href="https://www.themmaadd.org/" style="color:var(--gold);">mmaadd soundlab</a>, a birthright labs initiative.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── player ── -->
+<div class="player">
+  <div class="p-in">
+    <div class="p-cover" id="pCover"><span class="st-tri"></span></div>
+    <div class="p-meta">
+      <div class="p-name" id="pName">choose a station</div>
+      <div class="p-sub" id="pSub">respira radio</div>
+      <div class="p-bar" id="pBar" onclick="seek(event)"><div class="p-fill" id="pFill"></div></div>
+    </div>
+    <span class="p-time" id="pTime">0:00 / 0:00</span>
+    <div class="p-ctrl">
+      <button onclick="prev()" aria-label="previous">&#9664;&#9664;</button>
+      <button id="pPlay" onclick="toggle()" aria-label="play or pause">&#9655;</button>
+      <button onclick="next()" aria-label="next">&#9654;&#9654;</button>
+    </div>
+    <div class="p-extra">
+      <button id="bShuffle" class="on" onclick="toggleShuffle()" aria-label="shuffle">&#8644; shuffle</button>
+      <button id="bLoop" class="on" onclick="toggleLoop()" aria-label="loop">&#8634; loop</button>
+      <button id="bTimer" onclick="cycleTimer()" aria-label="sleep timer">&#9727; timer</button>
+      <input type="range" id="pVol" min="0" max="1" step="0.01" value="0.6" aria-label="volume">
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   respira radio · standalone player
+   one rule: the filename is the slug. dust lives in /sounds.
+   ══════════════════════════════════════════════════════════════ */
+var BASE = 'https://raw.githubusercontent.com/surulere-pixel/respira/main/';
+var CROSSFADE = 3200;      // ms
+var BED_MINUTES = 7;       // dust beds are short loops — hold the room this long
+
+var STATIONS = [
+  {id:'drift',   name:'drift',   desc:'wind-down & slow movement', live:true},
+  {id:'groove',  name:'groove',  desc:'focus & easy energy',       live:true},
+  {id:'whisper', name:'whisper', desc:'whispers weekly · with dr. earl', live:true, chip:'new'},
+  {id:'dust',    name:'dust',    desc:'meditation & deep rest',    live:true},
+  {id:'diasporadique', name:'diasporadique', desc:'sounds of the diaspora', live:false, chip:'soon'}
+];
+
+/* ---- TRACKS ---- */
+</script>
+<script src="tracks.js"></script>
+<script>
+function urlFor(t){ return BASE + t.file; }   // tracks.js carries the path
+function fmt(s){ s=Math.max(0,Math.floor(s||0)); var m=Math.floor(s/60); return m+':'+String(s%60).padStart(2,'0'); }
+function $(id){ return document.getElementById(id); }
+var toastT;
+function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('on');},2500); }
+
+/* ── state ── */
+var audio=null, nextPre=null, cur=null, queue=[], qi=0, station=null;
+var shuffle=true, loop=true, advancing=false, bedTimer=null, timerMin=0, sleepT=null;
+
+/* ── queue ── */
+function buildQueue(cat){
+  queue = TRACKS.filter(function(t){ return !cat || t.cat===cat; });
+  if(!queue.length) queue = TRACKS.slice();
+  if(shuffle){ for(var i=queue.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=queue[i]; queue[i]=queue[j]; queue[j]=x; } }
+  qi = 0;
+}
+
+/* ── volume ── */
+function vol(){ var v=$('pVol'); return v?parseFloat(v.value):0.6; }
+function ramp(el,to,ms,done){
+  if(!el){ if(done) done(); return; }
+  var from=el.volume, steps=Math.max(8,Math.round(ms/55)), i=0;
+  var iv=setInterval(function(){ i++; try{ el.volume=Math.max(0,Math.min(1, from+(to-from)*(i/steps))); }catch(e){}
+    if(i>=steps){ clearInterval(iv); if(done) done(); } }, ms/steps);
+}
+
+/* ── play ── */
+function clearBed(){ if(bedTimer){ clearTimeout(bedTimer); bedTimer=null; } }
+function peekNext(){ var n=qi+1; if(n>=queue.length){ n = loop?0:-1; } return n>=0?queue[n]:null; }
+function preload(){ var t=peekNext(); if(!t){ nextPre=null; return; } var a=new Audio(); a.preload='auto'; a.src=urlFor(t); a.volume=0; nextPre={slug:t.slug,audio:a}; }
+
+function play(t){
+  if(!t) return;
+  for(var i=0;i<queue.length;i++){ if(queue[i].slug===t.slug){ qi=i; break; } }
+  var a;
+  if(nextPre && nextPre.slug===t.slug){ a=nextPre.audio; nextPre=null; }
+  else { a=new Audio(); a.src=urlFor(t); }
+  var bed = (t.cat==='dust');
+  a.loop=bed; a.volume=0; advancing=false; clearBed();
+  if(bed){ a._bedTotal=BED_MINUTES*60; a._bedStart=Date.now();
+    bedTimer=setTimeout(function(){ if(audio===a && !advancing){ advancing=true; next(); } }, Math.max(1000, a._bedTotal*1000 - CROSSFADE)); }
+
+  var out = audio; audio = a; cur = t;
+  a.addEventListener('timeupdate', watch);
+  a.addEventListener('ended', function(){ if(audio===a && !advancing){ advancing=true; next(); } });
+  a.addEventListener('error', function(){ if(audio===a && !advancing){ advancing=true; clearBed(); setTimeout(next,300); } });
+  a.play().catch(function(){});
+  ramp(a, vol(), CROSSFADE);
+  if(out) ramp(out, 0, CROSSFADE, function(){ try{ out.pause(); out.src=''; }catch(e){} });
+  setTimeout(preload, 600);
+  paint(); mediaSession(); bump(t.slug);
+}
+function watch(){
+  var a=audio; if(!a||a.loop||!a.duration||!isFinite(a.duration)) return;
+  if(a.duration > CROSSFADE/1000+1.5 && a.currentTime >= a.duration - CROSSFADE/1000 && !advancing){
+    advancing=true; try{ a.removeEventListener('timeupdate', watch); }catch(e){} next();
+  }
+}
+function next(){ qi++; if(qi>=queue.length){ if(!loop){ stop(); return; } buildQueue(station); qi=0; } play(queue[qi]); }
+function prev(){ qi--; if(qi<0) qi=queue.length-1; play(queue[qi]); }
+function toggle(){ if(!audio){ playStation(station||'drift'); return; } if(audio.paused) audio.play().catch(function(){}); else audio.pause(); paint(); }
+function stop(){ clearBed(); if(audio){ try{ audio.pause(); audio.src=''; }catch(e){} } audio=null; cur=null; paint(); }
+
+function playStation(id){
+  var st = STATIONS.filter(function(s){return s.id===id;})[0];
+  if(st && !st.live){ toast(st.name + ' \u2014 coming soon'); return; }
+  station=id; buildQueue(id); play(queue[0]); renderStations(); renderTracks();
+}
+function playSlug(slug){
+  var t=TRACKS.filter(function(x){return x.slug===slug;})[0]; if(!t) return;
+  if(t.cat!==station){ station=t.cat; buildQueue(station); renderStations(); }
+  play(t);
+}
+function toggleShuffle(){ shuffle=!shuffle; $('bShuffle').classList.toggle('on',shuffle); buildQueue(station); toast(shuffle?'shuffle on':'shuffle off'); }
+function toggleLoop(){ loop=!loop; $('bLoop').classList.toggle('on',loop); toast(loop?'loop on':'loop off'); }
+var TIMERS=[0,15,30,45,60,90];
+function cycleTimer(){
+  timerMin = TIMERS[(TIMERS.indexOf(timerMin)+1)%TIMERS.length];
+  var b=$('bTimer'); b.textContent = timerMin?('\u25F7 '+timerMin+'m'):'\u25F7 timer'; b.classList.toggle('on', !!timerMin);
+  if(sleepT){ clearTimeout(sleepT); sleepT=null; }
+  if(timerMin){ sleepT=setTimeout(function(){ if(audio) ramp(audio,0,6000,stop); else stop(); }, timerMin*60000); toast('fading out in '+timerMin+' minutes'); }
+}
+function seek(e){
+  if(!audio||!audio.duration||!isFinite(audio.duration)||audio._bedTotal) return;
+  var r=$('pBar').getBoundingClientRect();
+  audio.currentTime = Math.max(0, Math.min(audio.duration, ((e.clientX-r.left)/r.width)*audio.duration));
+}
+$('pVol').addEventListener('input', function(){ if(audio) audio.volume=vol(); });
+
+/* ── lock screen / desktop media keys ── */
+function mediaSession(){
+  if(!('mediaSession' in navigator) || !cur) return;
+  try{
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: cur.name, artist: 'respira radio', album: cur.cat,
+      artwork: [{src: BASE+'radio/rooms/'+cur.cat+'.jpg', sizes:'512x512', type:'image/jpeg'}]
+    });
+    navigator.mediaSession.setActionHandler('play', function(){ if(audio) audio.play(); paint(); });
+    navigator.mediaSession.setActionHandler('pause', function(){ if(audio) audio.pause(); paint(); });
+    navigator.mediaSession.setActionHandler('previoustrack', prev);
+    navigator.mediaSession.setActionHandler('nexttrack', next);
+  }catch(e){}
+}
+
+/* ── paint ── */
+function paint(){
+  var playing = audio && !audio.paused;
+  $('pPlay').innerHTML = playing ? '&#10074;&#10074;' : '&#9655;';
+  $('brandOrb').classList.toggle('spin', !!playing);
+  if(cur){
+    $('pName').textContent = cur.name;
+    $('pSub').textContent  = cur.cat;
+    $('pCover').className = 'p-cover c-'+cur.cat;
+    $('pCover').style.cssText = '';
+  }
+  document.querySelectorAll('.tr').forEach(function(el){ el.classList.toggle('playing', !!cur && el.dataset.slug===cur.slug); });
+}
+setInterval(function(){
+  if(!audio) return;
+  var d = audio._bedTotal || audio.duration;
+  var c = audio._bedTotal ? Math.min(d,(Date.now()-audio._bedStart)/1000) : audio.currentTime;
+  if(d && !isNaN(d)){ $('pFill').style.width = ((c/d)*100)+'%'; $('pTime').textContent = fmt(c)+' / '+fmt(d); }
+  $('pPlay').innerHTML = audio.paused ? '&#9655;' : '&#10074;&#10074;';
+}, 500);
+
+/* ── plays, for the library ── */
+function bump(slug){ try{ var k='respira_radio_plays', p=JSON.parse(localStorage.getItem(k)||'{}'); p[slug]=(p[slug]||0)+1; localStorage.setItem(k,JSON.stringify(p)); }catch(e){} }
+
+/* ── render ── */
+function renderStations(){
+  $('stations').innerHTML = STATIONS.map(function(s){
+    return '<button class="st c-'+s.id+(station===s.id?' on':'')+'" onclick="playStation(\''+s.id+'\')">'
+      + '<div class="st-cover">'
+      +   '<img src="'+BASE+'radio/rooms/'+s.id+'.jpg" alt="" onerror="this.style.display=\'none\'">'
+      +   '<span class="st-tri"></span>'
+      +   (s.chip?'<div class="st-chip'+(s.live?'':' soon')+'">'+s.chip+'</div>':'')
+      +   (s.live?'<div class="st-go">&#9655;</div>':'')
+      + '</div>'
+      + '<div class="st-name">'+s.name+'</div><div class="st-desc">'+s.desc+'</div></button>';
+  }).join('');
+}
+function renderTracks(){
+  var q = ($('search').value||'').toLowerCase().trim();
+  var list = TRACKS.filter(function(t){ return !q || t.name.toLowerCase().indexOf(q)>-1 || t.cat.indexOf(q)>-1; });
+  $('count').textContent = list.length + (list.length===1?' track':' tracks');
+  $('tracks').innerHTML = list.map(function(t,i){
+    var inSet = SET.indexOf(t.slug)>-1;
+    return '<div class="tr'+(cur&&cur.slug===t.slug?' playing':'')+'" data-slug="'+t.slug+'">'
+      + '<span class="tr-n">'+String(i+1).padStart(2,'0')+'</span>'
+      + '<div class="tr-body" onclick="playSlug(\''+t.slug+'\')"><div class="tr-name">'+t.name+'</div><div class="tr-cat">'+t.cat+'</div></div>'
+      + '<button class="tr-add'+(inSet?' in':'')+'" onclick="toggleSet(\''+t.slug+'\')" aria-label="add to set">'+(inSet?'&#10003;':'+')+'</button>'
+      + '</div>';
+  }).join('');
+}
+
+/* ══ the set builder ═══════════════════════════════════════════ */
+var SET = [], DUR = {}, target = 0;
+try{ SET = JSON.parse(localStorage.getItem('respira_set')||'[]'); }catch(e){ SET=[]; }
+try{ DUR = JSON.parse(localStorage.getItem('respira_durations')||'{}'); }catch(e){ DUR={}; }
+function saveSet(){ try{ localStorage.setItem('respira_set', JSON.stringify(SET)); }catch(e){} }
+function trackOf(slug){ return TRACKS.filter(function(t){return t.slug===slug;})[0]; }
+function durOf(slug){ var t=trackOf(slug); if(t && t.cat==='dust') return BED_MINUTES*60; return DUR[slug] || 210; }
+function learnDur(slug, d){ if(d && isFinite(d)){ DUR[slug]=Math.round(d); try{ localStorage.setItem('respira_durations', JSON.stringify(DUR)); }catch(e){} } }
+function toggleSet(slug){
+  var i=SET.indexOf(slug);
+  if(i>-1){ SET.splice(i,1); } else { SET.push(slug); measure(slug); }
+  saveSet(); renderSet(); renderTracks();
+}
+function measure(slug){
+  var t=trackOf(slug); if(!t || DUR[slug] || t.cat==='dust') return;
+  var a=new Audio(); a.preload='metadata'; a.src=urlFor(t);
+  a.addEventListener('loadedmetadata', function(){ learnDur(slug, a.duration); renderSet(); });
+}
+function moveSet(i,d){ var j=i+d; if(j<0||j>=SET.length) return; var x=SET[i]; SET[i]=SET[j]; SET[j]=x; saveSet(); renderSet(); }
+function clearSet(){ SET=[]; saveSet(); renderSet(); renderTracks(); toast('set cleared'); }
+function setTotal(){ return SET.reduce(function(a,s){ return a+durOf(s); },0); }
+function setTarget(m,btn){
+  target = (target===m) ? 0 : m;
+  document.querySelectorAll('.set-target .chip').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn && target===m)); });
+  renderSet();
+}
+function fillSet(){
+  if(!target){ toast('choose a class length first'); return; }
+  var pool = TRACKS.filter(function(t){ return t.cat!=='whisper' && SET.indexOf(t.slug)<0; });
+  for(var i=pool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=pool[i]; pool[i]=pool[j]; pool[j]=x; }
+  var guard=0;
+  while(setTotal() < target*60 && pool.length && guard++ < 60){ var t=pool.shift(); SET.push(t.slug); measure(t.slug); }
+  saveSet(); renderSet(); renderTracks(); toast('filled to about '+target+' minutes');
+}
+function playSet(){
+  if(!SET.length){ toast('add a few tracks first'); return; }
+  station=null;
+  queue = SET.map(trackOf).filter(Boolean);
+  qi=0; play(queue[0]); toast('playing your set');
+}
+function copySet(){
+  if(!SET.length){ toast('add a few tracks first'); return; }
+  var lines = SET.map(function(s,i){ var t=trackOf(s); return (i+1)+'. '+t.name+'  ('+t.cat+', '+fmt(durOf(s))+')'; });
+  var txt = 'respira radio \u2014 a set\n\n' + lines.join('\n') + '\n\ntotal: ' + fmt(setTotal()) + '\nopenrespira.org/radio';
+  if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ toast('set copied'); }).catch(function(){ toast('copy failed'); }); }
+}
+function renderSet(){
+  $('setCount').textContent = SET.length;
+  $('setTime').textContent  = fmt(setTotal());
+  var note=$('targetNote');
+  if(target){
+    var diff = setTotal() - target*60;
+    note.textContent = Math.abs(diff)<45 ? 'right on time' : (diff<0 ? fmt(-diff)+' short' : fmt(diff)+' over');
+  } else note.textContent='';
+  if(!SET.length){ $('setList').innerHTML = '<div class="set-empty">nothing here yet. head to <b style="color:var(--gold);font-weight:400;">listen</b> and tap + on any track, or choose a class length and let respira fill it.</div>'; return; }
+  $('setList').innerHTML = SET.map(function(s,i){
+    var t=trackOf(s); if(!t) return '';
+    return '<div class="set-row">'
+      + '<span class="set-i">'+String(i+1).padStart(2,'0')+'</span>'
+      + '<span class="set-name">'+t.name+'</span>'
+      + '<span class="set-dur">'+fmt(durOf(s))+'</span>'
+      + '<button class="set-btn" onclick="moveSet('+i+',-1)" aria-label="up">&#9650;</button>'
+      + '<button class="set-btn" onclick="moveSet('+i+',1)" aria-label="down">&#9660;</button>'
+      + '<button class="set-btn x" onclick="toggleSet(\''+s+'\')" aria-label="remove">&times;</button>'
+      + '</div>';
+  }).join('');
+}
+
+/* ══ tabs, share, install, submissions ═════════════════════════ */
+function tab(name, btn){
+  ['listen','set','give'].forEach(function(n){ $('p-'+n).hidden = (n!==name); });
+  document.querySelectorAll('.tab').forEach(function(b){ b.setAttribute('aria-selected', String(b===btn)); });
+  if(name==='set') renderSet();
+}
+function shareRadio(){
+  var d={title:'respira radio', text:'soulful soundscapes for studios, practices and community spaces. free.', url:'https://openrespira.org/radio'};
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'share', what:'radio_pwa', _subject:'respira: someone shared the radio'})}); }catch(e){}
+  if(navigator.share){ navigator.share(d).catch(function(){}); return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(d.url).then(function(){ toast('link copied \u2014 pass it on'); }); return; }
+  toast(d.url);
+}
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredPrompt=e; $('installBtn').hidden=false; });
+function doInstall(){
+  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.finally(function(){ deferredPrompt=null; $('installBtn').hidden=true; }); return; }
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  toast(ios ? 'tap share, then "add to home screen"' : 'use your browser menu \u2192 install');
+}
+var RF=['post my originals','remix a respira soundscape','voice-over on one of our tracks','whisper \u2014 spoken word','build a collection'];
+function rfBuild(){ $('rfOpts').innerHTML = RF.map(function(v,i){ return '<button class="chip" data-v="'+v+'" aria-pressed="false" onclick="rfPick(this)">'+v+'</button>'; }).join(''); }
+function rfPick(b){ b.setAttribute('aria-pressed', b.getAttribute('aria-pressed')==='true'?'false':'true'); }
+function rfSubmit(){
+  var picks=[]; document.querySelectorAll('#rfOpts .chip[aria-pressed="true"]').forEach(function(b){ picks.push(b.getAttribute('data-v')); });
+  var contact=$('rf-contact').value.trim();
+  if(!contact){ $('rf-contact').focus(); $('rf-contact').style.borderColor='#a5442f'; return; }
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'radio_feature_interest', interests:picks, name:$('rf-name').value, contact:contact, link:$('rf-link').value, source:'radio pwa', _subject:'respira radio: feature interest'})}); }catch(e){}
+  $('rf-thanks').style.display='block';
+}
+
+/* ── keys ── */
+document.addEventListener('keydown', function(e){
+  if(/input|select|textarea/i.test(e.target.tagName)) return;
+  if(e.code==='Space'){ e.preventDefault(); toggle(); }
+  if(e.key==='ArrowRight') next();
+  if(e.key==='ArrowLeft') prev();
+});
+
+/* ── boot ── */
+renderStations(); renderTracks(); renderSet(); rfBuild(); buildQueue(null);
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('/radio/sw.js', {scope:'/radio/'}).catch(function(){}); });
+}
+</script>
+</body>
+</html>
