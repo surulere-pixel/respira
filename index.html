@@ -551,6 +551,8 @@ body{transition:background-color .7s ease;}
 .cstat-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.8rem;font-weight:300;color:var(--ink);line-height:1;}
 .cstat-l{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:5px;}
 .radio-station-desc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:#9a7a3a;text-align:center;margin:1.6rem auto 1.6rem;max-width:400px;line-height:1.6;}
+.radio-install-pill{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:#2a1f18;background:rgba(201,163,106,.95);border-radius:999px;padding:9px 18px;text-decoration:none;transition:all .16s ease;white-space:nowrap;}
+.radio-install-pill:hover{background:#c9a36a;transform:translateY(-1px);box-shadow:0 8px 20px rgba(55,42,29,.2);}
 .entry-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:min(100%,760px);margin:0 auto;}
 @media(max-width:560px){.entry-grid{grid-template-columns:1fr;width:min(100%,360px);}}
 .entry-tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;min-height:118px;justify-content:flex-end;}
@@ -1370,6 +1372,9 @@ body{transition:background-color .7s ease;}
       <button id="radio-loop-btn" onclick="radioToggleLoop()" title="loop" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(95,85,75,.7);background:none;border:1px solid rgba(95,85,75,.18);border-radius:20px;padding:6px 12px;cursor:pointer;">&#8634; loop</button>
       <button id="radio-shuffle-btn" onclick="radioShuffle()" title="shuffle" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(95,85,75,.7);background:none;border:1px solid rgba(95,85,75,.18);border-radius:20px;padding:6px 12px;cursor:pointer;">&#8644; shuffle</button>
       <button id="radio-timer-btn" onclick="radioCycleTimer()" title="sleep timer" style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(95,85,75,.7);background:none;border:1px solid rgba(95,85,75,.18);border-radius:20px;padding:6px 12px;cursor:pointer;opacity:.7;">&#9727; timer</button>
+    </div>
+    <div style="display:flex;justify-content:center;margin:-0.75rem auto 1.75rem;">
+      <a href="/radio" class="radio-install-pill">&#8681; install the free player</a>
     </div>
     <script>
     function radioMainToggle(){
@@ -2306,7 +2311,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         <div class="gf-incl">movement = medicine &middot; stillness = sustenance &mdash; translated down the front &amp; back</div>
         <div class="gf-colors">
           <button class="ho-swatch active" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/hoodie-terracotta.jpg" onclick="hoColor(this)"><span style="background:#a5542f"></span>terracotta</button>
-          <button class="ho-swatch" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/hoodie-ink.jpg" onclick="hoColor(this)"><span style="background:#3b2f27"></span>ink</button>
+          <button class="ho-swatch" data-src="https://raw.githubusercontent.com/surulere-pixel/respira/main/goods/hoodie-ink.jpg" onclick="hoColor(this)"><span style="background:#3a2a20"></span>dark choco</button>
         </div>
         <div class="gf-price">$98 <span>&middot; heavyweight hoodie</span></div>
         <div class="gf-row" id="ho-row">
@@ -2454,10 +2459,10 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 
     <div class="fp-head">
       <div>
-        <div class="goods-tier t2">framed print</div>
-        <p class="poster-intro">the same phrase, printed on heavyweight matte and framed for the wall. one size, made to sit at eye level in a room where people breathe.</p>
+        <div class="goods-tier t2">the print</div>
+        <p class="poster-intro">pick a phrase, a color, a format &mdash; framed for the wall or a free print to take away. framed pieces ship printed-to-order after a small deposit.</p>
       </div>
-      <div class="poster-spec">18&Prime;&times;24&Prime; &middot; medium</div>
+      <div class="poster-spec" id="fp-spec">18&Prime;&times;24&Prime;</div>
     </div>
     <div class="fp-wrap">
       <div class="fp-stage">
@@ -2472,22 +2477,31 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       </div>
       <div class="fp-body">
         <div class="gf-tag">made by respira</div>
-        <h3 class="gf-name">the framed print</h3>
+        <h3 class="gf-name">the print</h3>
         <p class="gf-tagline">a phrase, held at eye level.</p>
-        <div class="gf-incl">heavyweight matte paper &middot; acid-free mat &middot; solid wood frame &middot; ready to hang</div>
+        <div class="gf-incl" id="fp-incl">heavyweight matte paper &middot; acid-free mat &middot; solid wood frame &middot; ready to hang</div>
 
         <div class="fp-label">the phrase</div>
         <div class="fp-opts" id="fp-phrases"></div>
 
-        <div class="fp-label">the frame</div>
+        <div class="fp-label">the color</div>
+        <div class="gf-colors" id="fp-colors"></div>
+
+        <div class="fp-label">format</div>
+        <div class="fp-opts" id="fp-formats"></div>
+
+        <div class="fp-label" id="fp-size-label">size</div>
+        <div class="fp-opts" id="fp-sizes"></div>
+
+        <div class="fp-label" id="fp-frame-label">the frame</div>
         <div class="gf-colors" id="fp-frames"></div>
 
-        <div class="gf-price">$148 <span>&middot; framed &amp; ready to hang</span></div>
+        <div class="gf-price" id="fp-price"></div>
         <div class="gf-row" id="fp-row">
           <input id="fp-email" type="email" placeholder="your email" class="gf-input" aria-label="your email">
-          <button class="gf-btn" onclick="fpPreorder()">reserve yours &rarr;</button>
+          <button class="gf-btn" id="fp-cta" onclick="fpGo()">reserve &rarr;</button>
         </div>
-        <div class="gf-note">pre-order &middot; printed to order &middot; ships when it&rsquo;s ready</div>
+        <div class="gf-note" id="fp-note"></div>
         <div id="fp-thanks" class="gf-thanks">thank you &mdash; you&rsquo;re on the list. we&rsquo;ll email you first.</div>
       </div>
     </div>
@@ -2498,57 +2512,116 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
       movement:{ label:'movement = medicine', sheet:'pp-sage', lines:['movement = medicine','movimiento = medicina','mouvement = médecine','mwendo = dawa','\u0627\u0644\u062d\u0631\u0643\u0629 = \u062f\u0648\u0627\u0621','ìgbésẹ̀ = òògùn','mouvman = medikaman','mmegharị = ọgwụ'] },
       prosperity:{ label:'prosperity is a human right', sheet:'pp-coffee', lines:['prosperity is a human right','la prosperidad es un derecho humano','la prospérité est un droit humain','ustawi ni haki ya binadamu','\u0627\u0644\u0627\u0632\u062f\u0647\u0627\u0631 \u062d\u0642 \u0625\u0646\u0633\u0627\u0646\u064a','aásìkí jẹ́ ẹ̀tọ́ ènìyàn','pwosperite se yon dwa moun','ọganihu bụ ikike mmadụ'] }
     };
+    // colorways = the poster palettes (sheet + ink), same as the free download cards
+    var FP_COLORS = [
+      {id:'cocoa', label:'deep cocoa', sheet:'#24170f', ink:'#c9a06f'},
+      {id:'clay',  label:'burnt clay', sheet:'#8f4a2d', ink:'#f1c98f'},
+      {id:'olive', label:'olive',      sheet:'#263025', ink:'#d2b98a'},
+      {id:'onyx',  label:'onyx',       sheet:'#11100e', ink:'#b99664'}
+    ];
     var FP_FRAMES = [
       {id:'oak',    label:'natural oak', color:'#c9a274', edge:'#a4805a'},
       {id:'walnut', label:'walnut',      color:'#6b4a33', edge:'#4b3223'},
       {id:'black',  label:'black ash',   color:'#241f1b', edge:'#12100e'}
     ];
-    var fpPhrase = 'stillness', fpFrame = 'oak';
+    // sizes: framed clears >50% margin at POD. free = downloadable print.
+    var FP_SIZES = {
+      med:{ label:'12×18″', spec:'12&Prime;×18&Prime;', price:99, stripe:'framed_med' },
+      lg: { label:'18×24″', spec:'18&Prime;×24&Prime;', price:149, stripe:'framed_lg' }
+    };
+    var fpPhrase='stillness', fpColor='cocoa', fpFrame='oak', fpFormat='framed', fpSize='med';
+
     function fpRender(){
-      var p = FP_PHRASES[fpPhrase];
-      var sheet = document.getElementById('fp-sheet');
-      sheet.className = 'fp-sheet ' + p.sheet;
-      var stack = document.getElementById('fp-stack');
-      stack.innerHTML = p.lines.map(function(l,i){
-        var ar = (i===4) ? ' lang="ar" dir="rtl"' : '';
-        return '<span class="pc-line pc-line-'+(i+1)+'"'+ar+'>'+l+'</span>';
+      var p=FP_PHRASES[fpPhrase], c=FP_COLORS.filter(function(x){return x.id===fpColor;})[0];
+      var sheet=document.getElementById('fp-sheet');
+      sheet.className='fp-sheet';
+      sheet.style.background=c.sheet;
+      var stack=document.getElementById('fp-stack');
+      stack.innerHTML=p.lines.map(function(l,i){
+        var ar=(i===4)?' lang="ar" dir="rtl"':'';
+        return '<span class="pc-line pc-line-'+(i+1)+'"'+ar+' style="color:'+c.ink+'">'+l+'</span>';
       }).join('');
-      var f = FP_FRAMES.filter(function(x){ return x.id===fpFrame; })[0];
-      var fr = document.getElementById('fp-frame');
-      fr.style.background = f.color;
-      fr.style.borderColor = f.edge;
+      // frame vs free-print mat treatment
+      var fr=document.getElementById('fp-frame'), mat=fr.querySelector('.fp-mat');
+      if(fpFormat==='framed'){
+        var f=FP_FRAMES.filter(function(x){return x.id===fpFrame;})[0];
+        fr.style.background=f.color; fr.style.borderColor=f.edge;
+        fr.style.borderWidth='1px'; if(mat) mat.style.background='#fdfaf3';
+      } else {
+        fr.style.background='transparent'; fr.style.borderColor='rgba(0,0,0,.08)';
+        if(mat) mat.style.background='transparent';
+      }
+      // show/hide frame + size rows by format
+      var framed = fpFormat==='framed';
+      document.getElementById('fp-frame-label').style.display = framed?'block':'none';
+      document.getElementById('fp-frames').style.display = framed?'flex':'none';
+      document.getElementById('fp-size-label').style.display = framed?'block':'none';
+      document.getElementById('fp-sizes').style.display = framed?'flex':'none';
+      // price + spec + cta + note
+      var priceEl=document.getElementById('fp-price'), spec=document.getElementById('fp-spec');
+      var cta=document.getElementById('fp-cta'), note=document.getElementById('fp-note'), incl=document.getElementById('fp-incl');
+      if(framed){
+        var sz=FP_SIZES[fpSize], dep=Math.round(sz.price*0.10);
+        priceEl.innerHTML='$'+sz.price+' <span>&middot; framed &amp; ready to hang</span>';
+        spec.innerHTML=sz.spec;
+        cta.innerHTML='reserve · $'+dep+' deposit &rarr;';
+        note.innerHTML='a $'+dep+' deposit (10%) reserves it &middot; pay the balance when it ships';
+        incl.innerHTML='heavyweight matte paper &middot; acid-free mat &middot; solid wood frame &middot; ready to hang';
+      } else {
+        priceEl.innerHTML='free <span>&middot; print it yourself</span>';
+        spec.innerHTML='18&Prime;×24&Prime; pdf';
+        cta.innerHTML='download the print &darr;';
+        note.innerHTML='print-ready pdf &middot; yours to keep &middot; no cost';
+        incl.innerHTML='high-resolution pdf &middot; 18×24″ &middot; print at home or any shop';
+      }
     }
     function fpBuild(){
-      var pc = document.getElementById('fp-phrases');
-      pc.innerHTML = Object.keys(FP_PHRASES).map(function(k){
-        return '<button class="fp-opt'+(k===fpPhrase?' active':'')+'" data-k="'+k+'" onclick="fpPickPhrase(this)">'+FP_PHRASES[k].label+'</button>';
+      document.getElementById('fp-phrases').innerHTML=Object.keys(FP_PHRASES).map(function(k){
+        return '<button class="fp-opt'+(k===fpPhrase?' active':'')+'" onclick="fpPick(\'phrase\',\''+k+'\',this)">'+FP_PHRASES[k].label+'</button>';
       }).join('');
-      var fc = document.getElementById('fp-frames');
-      fc.innerHTML = FP_FRAMES.map(function(f){
-        return '<button class="rn-swatch'+(f.id===fpFrame?' active':'')+'" data-k="'+f.id+'" onclick="fpPickFrame(this)"><span style="background:'+f.color+'"></span>'+f.label+'</button>';
+      document.getElementById('fp-colors').innerHTML=FP_COLORS.map(function(c){
+        return '<button class="rn-swatch'+(c.id===fpColor?' active':'')+'" onclick="fpPick(\'color\',\''+c.id+'\',this)"><span style="background:'+c.sheet+'"></span>'+c.label+'</button>';
+      }).join('');
+      document.getElementById('fp-formats').innerHTML=[['framed','framed print'],['free','free download']].map(function(f){
+        return '<button class="fp-opt'+(f[0]===fpFormat?' active':'')+'" onclick="fpPick(\'format\',\''+f[0]+'\',this)">'+f[1]+'</button>';
+      }).join('');
+      document.getElementById('fp-sizes').innerHTML=Object.keys(FP_SIZES).map(function(k){
+        return '<button class="fp-opt'+(k===fpSize?' active':'')+'" onclick="fpPick(\'size\',\''+k+'\',this)">'+FP_SIZES[k].label+' · $'+FP_SIZES[k].price+'</button>';
+      }).join('');
+      document.getElementById('fp-frames').innerHTML=FP_FRAMES.map(function(f){
+        return '<button class="rn-swatch'+(f.id===fpFrame?' active':'')+'" onclick="fpPick(\'frame\',\''+f.id+'\',this)"><span style="background:'+f.color+'"></span>'+f.label+'</button>';
       }).join('');
       fpRender();
     }
-    function fpPickPhrase(btn){
-      fpPhrase = btn.getAttribute('data-k');
-      var b = document.querySelectorAll('#fp-phrases .fp-opt');
-      for(var i=0;i<b.length;i++) b[i].classList.remove('active');
-      btn.classList.add('active'); fpRender();
+    function fpPick(kind,val,btn){
+      if(kind==='phrase') fpPhrase=val;
+      if(kind==='color')  fpColor=val;
+      if(kind==='format') fpFormat=val;
+      if(kind==='size')   fpSize=val;
+      if(kind==='frame')  fpFrame=val;
+      var grp=btn.parentNode.querySelectorAll('button');
+      for(var i=0;i<grp.length;i++) grp[i].classList.remove('active');
+      btn.classList.add('active');
+      fpRender();
     }
-    function fpPickFrame(btn){
-      fpFrame = btn.getAttribute('data-k');
-      var b = document.querySelectorAll('#fp-frames .rn-swatch');
-      for(var i=0;i<b.length;i++) b[i].classList.remove('active');
-      btn.classList.add('active'); fpRender();
-    }
-    function fpPreorder(){
+    function fpGo(){
+      if(fpFormat==='free'){
+        var pmap={stillness:'respira-poster-stillness.pdf',breathe:'respira-poster-breathe-in-slowly.pdf',movement:'respira-poster-movement.pdf',prosperity:'respira-poster-prosperity.pdf'};
+        var url='https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/'+pmap[fpPhrase];
+        var a=document.createElement('a'); a.href=url; a.download=''; a.target='_blank'; a.rel='noopener'; a.click();
+        return;
+      }
       var el=document.getElementById('fp-email'), email=el?el.value.trim():'';
       if(!email || email.indexOf('@')===-1){ if(el){ el.focus(); el.style.borderColor='#b5502f'; } return; }
-      try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'framed_print_preorder', email:email, phrase:FP_PHRASES[fpPhrase].label, frame:fpFrame, size:'18x24 medium', price:148, _subject:'respira framed print \u2014 pre-order interest'})}); }catch(e){}
-      if(typeof RESPIRA_STRIPE !== 'undefined' && stripeReady(RESPIRA_STRIPE.products.framed)){ stripeGo(RESPIRA_STRIPE.products.framed, {email:email}); return; }
+      var sz=FP_SIZES[fpSize], dep=Math.round(sz.price*0.10);
+      try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'framed_deposit', email:email, phrase:FP_PHRASES[fpPhrase].label, color:fpColor, frame:fpFrame, size:sz.label, price:sz.price, deposit:dep, _subject:'respira framed print — $'+dep+' deposit'})}); }catch(e){}
+      // 10% deposit via stripe, if the link is configured
+      if(typeof RESPIRA_STRIPE!=='undefined' && RESPIRA_STRIPE.deposit && stripeReady(RESPIRA_STRIPE.deposit[sz.stripe])){
+        stripeGo(RESPIRA_STRIPE.deposit[sz.stripe], {email:email}); return;
+      }
       var row=document.getElementById('fp-row'), t=document.getElementById('fp-thanks');
       if(row) row.style.display='none';
-      if(t) t.style.display='block';
+      if(t){ t.innerHTML='thank you &mdash; your $'+dep+' deposit link is coming to '+email+'. we&rsquo;ll notify you to pay the balance when it ships.'; t.style.display='block'; }
     }
     document.addEventListener('DOMContentLoaded', fpBuild);
     </script>
@@ -4599,6 +4672,10 @@ setInterval(function(){
    "let customers choose what to pay" enabled, for `custom`.
    ────────────────────────────────────────────────────────────────────── */
 var RESPIRA_STRIPE = {
+  deposit: {
+    framed_med: '',   /* stripe link: 12×18 framed · $10 deposit (10% of $99)  */
+    framed_lg:  ''    /* stripe link: 18×24 framed · $15 deposit (10% of $149) */
+  },
   donate: { 5:'', 10:'', 25:'', 54:'', custom:'' },
   products: {
     hoodie:  '',   /* the respira hoodie · $98  */
