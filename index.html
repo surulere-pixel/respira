@@ -1365,10 +1365,12 @@ body{transition:background-color .7s ease;}
       if(typeof radioAudio!=='undefined' && radioAudio && typeof radioCurrentSlug!=='undefined' && radioCurrentSlug){
         rp.innerHTML = radioAudio.paused ? '&#9655;' : '&#10074;&#10074;';
         var rb=document.getElementById('rnp-bar'), re=document.getElementById('rnp-elapsed'), rt=document.getElementById('rnp-total');
-        if(radioAudio.duration && !isNaN(radioAudio.duration)){
-          if(rb) rb.style.width=((radioAudio.currentTime/radioAudio.duration)*100)+'%';
-          if(re && typeof _miniFmt==='function') re.textContent=_miniFmt(radioAudio.currentTime);
-          if(rt && typeof _miniFmt==='function') rt.textContent=_miniFmt(radioAudio.duration);
+        var _d = radioAudio._bedTotal || radioAudio.duration;
+        var _c = radioAudio._bedTotal ? Math.min(_d, (Date.now()-radioAudio._bedStart)/1000) : radioAudio.currentTime;
+        if(_d && !isNaN(_d)){
+          if(rb) rb.style.width=((_c/_d)*100)+'%';
+          if(re && typeof _miniFmt==='function') re.textContent=_miniFmt(_c);
+          if(rt && typeof _miniFmt==='function') rt.textContent=_miniFmt(_d);
         }
       } else { rp.innerHTML='&#9655;'; }
     }, 500);
@@ -1381,8 +1383,8 @@ body{transition:background-color .7s ease;}
         <button class="station-card sc-drift" onclick="radioPlayStation('drift')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/drift.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">drift</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
         <button class="station-card sc-groove" onclick="radioPlayStation('groove')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/groove.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">groove</div><div class="station-cdesc">focus &amp; easy energy</div></button>
         
+        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-new">new</div><div class="station-play">&#9655;</div></div><div class="station-name">whisper</div><div class="station-cdesc">whispers weekly &middot; with dr. earl</div></button>
         <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">whisper</div><div class="station-cdesc">whispers weekly &middot; with dr. earl &middot; coming soon</div></button>
         <button class="station-card sc-diasporadique" onclick="radioPlayStation('diasporadique')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/diasporadique.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">diasporadique</div><div class="station-cdesc">sounds of the diaspora &middot; coming soon</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a station to begin.</div>
@@ -1418,6 +1420,7 @@ body{transition:background-color .7s ease;}
     .station-play{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;background:rgba(201,163,106,.96);color:#2a1f18;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transform:translateY(6px);transition:all .2s ease;box-shadow:0 6px 18px rgba(0,0,0,.45);z-index:2;}
     .station-card:hover .station-play,.station-card.active .station-play{opacity:1;transform:translateY(0);}
     .station-card.active .station-cover{outline:2px solid rgba(201,163,106,.85);outline-offset:2px;}
+    .station-new{position:absolute;left:10px;top:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.95);padding:4px 8px;border-radius:999px;z-index:2;}
     .station-soon{position:absolute;right:10px;bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);background:rgba(0,0,0,.35);padding:4px 8px;border-radius:999px;z-index:2;}
     .sc-drift .station-cover{background:linear-gradient(145deg,#123c3c,#081c22);}
     .sc-groove .station-cover{background:linear-gradient(145deg,#4a2f1a,#22140a);}
@@ -1469,7 +1472,6 @@ body{transition:background-color .7s ease;}
     function radioPlayStation(cat){
       setRoomWallpaper(cat);
       var d=document.getElementById('radio-station-desc');
-      if(cat==='whisper'){ if(d) d.textContent='whisper \u2014 coming soon.'; return; }
       radioCat=cat; buildQueue(radioShuffled);
       var t=radioQueue[0]; if(t) radioPlay(t.slug,t.name,t.cat);
       if(d) d.textContent=(radioStations[cat]||'');
@@ -1620,6 +1622,7 @@ var radioAllTracks = [
   {slug:'steady-rainfall', name:'steady rainfall', cat:'dust'},
   {slug:'wakanda-waves', name:'wakanda waves', cat:'dust'},
   {slug:'zanzibar-shallows', name:'zanzibar shallows', cat:'dust'},
+  {slug:'begin-again', name:'begin again', cat:'whisper'},
   // ── ADD NEW TRACKS HERE ──────────────────────────────────────────────────────
   // {slug:'your-file-name', name:'display name', cat:'drift|groove|iré|new-category'},
 ];
@@ -1705,6 +1708,11 @@ function radioShuffle(){
 }
 var radioAudio=null,radioCurrentSlug=null;
 var _radioNextPre=null,_xfTimer=null,_radioAdvancing=false,CROSSFADE_MS=3200;
+// dust is a room of soundscapes, not songs. the files are short loops —
+// loop each one until it has held the room for BED_MINUTES, then move on.
+var BED_MINUTES=7, _bedTimer=null;
+function _isBed(cat){ return radioNorm(cat)==='dust'; }
+function _clearBed(){ if(_bedTimer){ clearTimeout(_bedTimer); _bedTimer=null; } }
 var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
 buildQueue(true);
 
@@ -1752,7 +1760,8 @@ function _preloadNext(){
   _radioNextPre={slug:t.slug, audio:a};
 }
 function _xfWatch(){
-  var a=radioAudio; if(!a||!a.duration||isNaN(a.duration)||!isFinite(a.duration)) return;
+  var a=radioAudio; if(!a||a.loop) return;
+  if(!a.duration||isNaN(a.duration)||!isFinite(a.duration)) return;
   var xf=CROSSFADE_MS/1000;
   if(a.duration > xf+1.5 && a.currentTime >= a.duration - xf && !_radioAdvancing){
     _radioAdvancing=true;
@@ -1783,8 +1792,16 @@ function radioPlay(slug,name,cat){
   var audio;
   if(_radioNextPre && _radioNextPre.slug===slug){ audio=_radioNextPre.audio; _radioNextPre=null; }
   else { audio=new Audio(); audio.src=url; }
-  audio.loop=false; audio.volume=0;
+  var bed=_isBed(cat);
+  audio.loop=bed; audio.volume=0;
   _radioAdvancing=false;
+  _clearBed();
+  if(bed){
+    audio._bedTotal=BED_MINUTES*60; audio._bedStart=Date.now();
+    _bedTimer=setTimeout(function(){
+      if(radioAudio===audio && !_radioAdvancing){ _radioAdvancing=true; radioPlayNext(); }
+    }, Math.max(1000, audio._bedTotal*1000 - CROSSFADE_MS));
+  }
 
   var outgoing = radioAudio;
   radioAudio = audio;
@@ -1792,6 +1809,10 @@ function radioPlay(slug,name,cat){
 
   audio.addEventListener('timeupdate', _xfWatch);
   audio.addEventListener('ended', function(){ if(radioAudio===audio && !_radioAdvancing){ _radioAdvancing=true; radioPlayNext(); } });
+  // a missing file should never stall the room — step to the next track
+  audio.addEventListener('error', function(){
+    if(radioAudio===audio && !_radioAdvancing){ _radioAdvancing=true; _clearBed(); setTimeout(radioPlayNext, 300); }
+  });
 
   var p=audio.play(); if(p&&p.catch) p.catch(function(e){ if(e.name!=='AbortError') console.warn('radio:',e); });
 
@@ -1852,6 +1873,7 @@ function radioFadeOut(){
   var iv=setInterval(function(){ i++; try{ a.volume=Math.max(0, v0*(1-i/steps)); }catch(e){} if(i>=steps){ clearInterval(iv); radioStop(); var b=document.getElementById('radio-timer-btn'); if(b){ b.textContent='◷ timer'; b.style.opacity='0.5'; } _radioTimerMin=0; } }, 250);
 }
 function radioStop(){
+  _clearBed();
   if(_xfTimer){ clearInterval(_xfTimer); _xfTimer=null; }
   if(radioAudio){ try{radioAudio.pause();radioAudio.currentTime=0;radioAudio.src='';}catch(e){} }
   if(_radioNextPre && _radioNextPre.audio){ try{_radioNextPre.audio.pause();_radioNextPre.audio.src='';}catch(e){} _radioNextPre=null; }
@@ -2524,7 +2546,8 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .poster-card:hover .pc-dl{color:#a5442f;}
 .pc-sheet{aspect-ratio:3/4;border-radius:6px;display:flex;align-items:flex-end;padding:clamp(18px,2.4vw,28px);box-shadow:0 18px 44px rgba(55,42,29,.22);overflow:hidden;min-height:310px;position:relative;}
 .pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
-.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
+.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-align:left;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
+.pc-line[dir="rtl"],.pc-line[lang="ar"]{text-align:left;unicode-bidi:isolate;letter-spacing:0;}
 .pc-line-1{font-size:clamp(2.45rem,5.2vw,4.85rem);font-weight:600;line-height:.78;letter-spacing:-.065em;margin-bottom:.22em;}
 .pc-line-2{font-size:clamp(1.28rem,2.45vw,2rem);font-weight:420;opacity:.95;}
 .pc-line-3{font-size:clamp(1.08rem,2.05vw,1.64rem);font-weight:390;opacity:.88;}
@@ -4453,6 +4476,8 @@ function submitDonate(){
 .mc-groove{background:linear-gradient(145deg,#4a2f1a,#22140a);}
 .mc-ire{background:linear-gradient(145deg,#b06a2c,#5c2f14);}
 .mc-dust{background:linear-gradient(145deg,#2e4038,#26332e);}
+.mc-whisper{background:linear-gradient(145deg,#3d2b48,#1c1425);}
+.mc-diasporadique{background:linear-gradient(145deg,#a8452f,#2e1a2a);}
 @media(max-width:560px){.mini-time{display:none;}.mini-cover{width:38px;height:38px;}.mini-controls button{padding:7px 6px;}}
 </style>
 <script>
@@ -4473,9 +4498,11 @@ setInterval(function(){
   if(!radioAudio) return;
   var pp=document.getElementById('mini-playpause'); if(pp) pp.innerHTML = radioAudio.paused ? '&#9654;' : '&#10074;&#10074;';
   var bar=document.getElementById('mini-bar'), tm=document.getElementById('mini-time');
-  if(radioAudio.duration && !isNaN(radioAudio.duration)){
-    if(bar) bar.style.width=((radioAudio.currentTime/radioAudio.duration)*100)+'%';
-    if(tm) tm.textContent=_miniFmt(radioAudio.currentTime)+' / '+_miniFmt(radioAudio.duration);
+  var _d = radioAudio._bedTotal || radioAudio.duration;
+  var _c = radioAudio._bedTotal ? Math.min(_d, (Date.now()-radioAudio._bedStart)/1000) : radioAudio.currentTime;
+  if(_d && !isNaN(_d)){
+    if(bar) bar.style.width=((_c/_d)*100)+'%';
+    if(tm) tm.textContent=_miniFmt(_c)+' / '+_miniFmt(_d);
   }
 }, 500);
 </script>
