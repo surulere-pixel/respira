@@ -66,6 +66,17 @@ a{color:inherit;}
 
 /* ── stations ─────────────────────────────────────── */
 .sec-label{font-size:.55rem;letter-spacing:.2em;color:var(--gold);margin:0 0 16px;}
+.install-nudge{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 1.9rem;padding:16px 18px;background:linear-gradient(145deg,#2a2019,#1d1712);border:1px solid var(--gold);border-radius:16px;}
+.in-l{display:flex;align-items:center;gap:14px;min-width:0;}
+.in-badge{width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:19px;background:var(--gold);color:#221a13;}
+.in-title{font-family:var(--serif);font-size:1.35rem;font-weight:300;color:var(--gold);line-height:1;}
+.in-sub{font-size:8.5px;letter-spacing:.04em;color:var(--soft);line-height:1.7;margin-top:4px;max-width:52ch;}
+.in-acts{display:flex;align-items:center;gap:8px;flex:none;}
+.in-go{font-size:9px;letter-spacing:.12em;padding:11px 22px;border-radius:999px;background:var(--gold);color:#221a13;white-space:nowrap;}
+.in-go:hover{background:#dcb87c;}
+.in-x{width:34px;height:34px;border-radius:50%;color:var(--faint);font-size:16px;border:1px solid var(--line);}
+.in-x:hover{color:var(--gold);border-color:var(--gold);}
+@media(max-width:520px){.in-acts{width:100%;}.in-go{flex:1;}}
 .stations{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;}
 .st{position:relative;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .18s ease;}
 .st:hover{transform:translateY(-4px);}
@@ -193,6 +204,19 @@ a{color:inherit;}
 
   <!-- ── listen ── -->
   <section class="panel" id="p-listen" role="tabpanel">
+    <div id="installNudge" class="install-nudge" hidden>
+      <div class="in-l">
+        <div class="in-badge">&#8681;</div>
+        <div>
+          <div class="in-title">install respira radio</div>
+          <div class="in-sub" id="inSub">add it to your home screen &mdash; one tap, works offline, plays with the screen off.</div>
+        </div>
+      </div>
+      <div class="in-acts">
+        <button class="in-go" onclick="doInstall()">install</button>
+        <button class="in-x" onclick="dismissNudge()" aria-label="dismiss">&times;</button>
+      </div>
+    </div>
     <div class="sec-label">stations</div>
     <div class="stations" id="stations"></div>
 
@@ -546,6 +570,7 @@ function shareRadio(){
 }
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredPrompt=e; $('installBtn').hidden=false; });
+window.addEventListener('appinstalled', function(){ dismissNudge(); toast('installed \u2014 find it on your home screen'); });
 function doInstall(){
   if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.finally(function(){ deferredPrompt=null; $('installBtn').hidden=true; }); return; }
   var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -572,6 +597,21 @@ document.addEventListener('keydown', function(e){
 
 /* ── boot ── */
 renderStations(); renderTracks(); renderSet(); rfBuild(); buildQueue(null);
+
+/* first-visit install nudge */
+function dismissNudge(){ try{ localStorage.setItem('respira_nudge','1'); }catch(e){} var n=document.getElementById('installNudge'); if(n) n.hidden=true; }
+(function initNudge(){
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  var dismissed=false; try{ dismissed = localStorage.getItem('respira_nudge')==='1'; }catch(e){}
+  if(standalone || dismissed) return;
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var n=document.getElementById('installNudge');
+  if(ios){
+    document.getElementById('inSub').innerHTML='tap the <b style="color:var(--gold);font-weight:400;">share</b> icon below, then <b style="color:var(--gold);font-weight:400;">add to home screen</b>.';
+    document.querySelector('.in-go').style.display='none';
+  }
+  if(n) n.hidden=false;
+})();
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){ navigator.serviceWorker.register('/radio/sw.js', {scope:'/radio/'}).catch(function(){}); });
 }

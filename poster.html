@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Serif+SC:wght@300;400&family=Noto+Serif+KR:wght@300;400&family=Noto+Serif+Devanagari:wght@400&family=Noto+Serif+Hebrew:wght@400&family=Noto+Serif+Thai:wght@400&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -22,7 +22,7 @@
   --line:rgba(29,25,21,.12); --cream:#fffaf2; --sage:#8f9a7a; --sage-dark:#4f5a43;
   --gold:#c9a36a; --clay:#a5442f;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
-  --serif:'Cormorant Garamond',Georgia,serif;
+  --serif:'Cormorant Garamond','Noto Serif JP','Noto Serif SC','Noto Serif KR','Noto Serif Devanagari','Noto Serif Hebrew','Noto Serif Thai',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -77,6 +77,10 @@ a{color:inherit;}
 .ldel{font-size:.7rem;color:var(--faint);padding:2px 4px;line-height:1;}
 .ldel:hover{color:var(--clay);}
 
+.more-tongues{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px;}
+.mt-chip{font-size:.55rem;letter-spacing:.03em;color:var(--soft);border:1px dashed var(--line);background:transparent;border-radius:999px;padding:.34rem .7rem;transition:all .15s;display:inline-flex;align-items:center;gap:5px;}
+.mt-chip:hover{border-style:solid;border-color:var(--sage-dark);color:var(--ink);}
+.mt-chip::before{content:"+";opacity:.5;font-weight:500;}
 .addrow{display:grid;grid-template-columns:1fr 1.5fr auto;gap:6px;margin-top:9px;}
 .inp{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 11px;font-size:.62rem;outline:none;min-width:0;}
 .inp:focus{border-color:var(--sage-dark);}
@@ -125,9 +129,12 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .stage-meta span{border:1px solid var(--line);border-radius:999px;padding:.3rem .65rem;background:rgba(255,250,242,.7);}
 .frame{width:100%;max-width:min(560px,62vh*0.75);}
 .poster-wrap{position:relative;width:100%;box-shadow:0 30px 90px rgba(55,42,29,.22);}
+#poster.ready{opacity:1;}
 
 #poster{
   --s:1;
+  opacity:0;
+  transition:opacity .5s ease, background-color .45s ease;
   position:relative;
   width:calc(var(--s) * 1296px);
   height:calc(var(--s) * 1728px);
@@ -136,10 +143,10 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 #glow{position:absolute;inset:0;pointer-events:none;}
-.pline{position:absolute;left:0;right:0;text-align:center;font-family:var(--serif);font-weight:300;line-height:1;white-space:nowrap;}
+.pline{position:absolute;left:0;right:0;text-align:center;font-family:var(--serif);font-weight:300;line-height:1;white-space:nowrap;transition:color .45s ease, top .3s cubic-bezier(.4,0,.2,1), font-size .3s cubic-bezier(.4,0,.2,1);}
 .pline.ar{font-family:'Noto Naskh Arabic',var(--serif);font-weight:400;}
-#pEyebrow,#pFooter{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-weight:300;line-height:1;white-space:nowrap;}
-#pRule{position:absolute;left:50%;transform:translateX(-50%);}
+#pEyebrow,#pFooter{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-weight:300;line-height:1;white-space:nowrap;transition:color .45s ease;}
+#pRule{position:absolute;left:50%;transform:translateX(-50%);transition:background .45s ease, top .3s ease;}
 
 /* ── toast ───────────────────────────────────────── */
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-size:.58rem;letter-spacing:.08em;padding:12px 20px;border-radius:999px;z-index:200;transition:all .3s;}
@@ -184,6 +191,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
     <section class="grp">
       <div class="grp-label"><span>the tongues</span><span class="grp-hint">tap to include · type to edit</span></div>
       <div class="lines" id="lineList"></div>
+      <div class="more-tongues" id="moreTongues"></div>
       <div class="addrow">
         <input class="inp" id="newLang" placeholder="language" aria-label="language name">
         <input class="inp" id="newText" placeholder="your translation" aria-label="translation">
@@ -270,7 +278,7 @@ const SPEC = {
   ruleW: 132, ruleH: 2,
   footerY: 1600, footerSize: 25, footerLS: .20
 };
-const SERIF = '"Cormorant Garamond", Georgia, serif';
+const SERIF = '"Cormorant Garamond", "Noto Serif JP", "Noto Serif SC", "Noto Serif KR", "Noto Serif Devanagari", "Noto Serif Hebrew", "Noto Serif Thai", Georgia, serif';
 const ARABIC = '"Noto Naskh Arabic", "Cormorant Garamond", serif';
 const MONO   = '"IBM Plex Mono", monospace';
 const isArabic = s => /[\u0600-\u06FF\u0750-\u077F]/.test(s);
@@ -335,6 +343,43 @@ const PRESETS = [
   { id:'coral',  name:'coral chalk',  bg:'#b85a4b', text:'#faebd7', muted:'#833d31' }
 ];
 const PRESET_OF = id => PRESETS.find(p => p.id === id) || PRESETS[0];
+
+/* extra ready translations — add without typing. keyed by phrase. */
+const EXTRA = {
+  stillness: [
+    ['deutsch','stille = nahrung'], ['italiano','quiete = nutrimento'],
+    ['português','quietude = sustento'], ['中文','宁静 = 养分'],
+    ['한국어','고요함 = 영양'], ['日本語','静けさ = 栄養'],
+    ['हिन्दी','शांति = पोषण'], ['עברית','שקט = תזונה'],
+    ['ελληνικά','γαλήνη = τροφή'], ['русский','тишина = пища'],
+    ['türkçe','sessizlik = besin'], ['tiếng việt','tĩnh lặng = dưỡng chất'],
+    ['nederlands','stilte = voeding'], ['polski','cisza = pokarm'],
+    ['bahasa','keheningan = rezeki'], ['ไทย','ความเงียบ = สารอาหาร']
+  ],
+  breathe: [
+    ['deutsch','atme langsam ein'], ['italiano','respira lentamente'],
+    ['português','respire devagar'], ['中文','慢慢呼吸'],
+    ['한국어','천천히 숨을 쉬어'], ['日本語','ゆっくり息を吸って'],
+    ['हिन्दी','धीरे-धीरे साँस लो'], ['русский','дыши медленно'],
+    ['nederlands','adem langzaam in'], ['türkçe','yavaşça nefes al']
+  ],
+  movement: [
+    ['deutsch','bewegung = medizin'], ['italiano','movimento = medicina'],
+    ['português','movimento = remédio'], ['中文','运动 = 良药'],
+    ['한국어','움직임 = 약'], ['日本語','動き = 薬'],
+    ['हिन्दी','गति = औषधि'], ['русский','движение = лекарство'],
+    ['nederlands','beweging = medicijn'], ['türkçe','hareket = ilaç']
+  ],
+  prosperity: [
+    ['deutsch','wohlstand ist ein menschenrecht'], ['italiano','la prosperità è un diritto umano'],
+    ['português','a prosperidade é um direito humano'], ['中文','繁荣是一项人权'],
+    ['한국어','번영은 인권이다'], ['日本語','繁栄は人権である'],
+    ['русский','процветание — право человека'], ['nederlands','welvaart is een mensenrecht']
+  ]
+};
+// which extra langs are already added (by name)
+function activeLangNames(){ return S.lines.map(l => l.lang.toLowerCase()); }
+
 
 /* ── state ── */
 const DEFAULT_PHRASE = 'stillness';
@@ -500,10 +545,30 @@ function buildLines(){
     const del = document.createElement('button');
     del.className = 'ldel'; del.textContent = '✕';
     del.setAttribute('aria-label', 'remove ' + l.lang);
-    del.onclick = () => { S.lines.splice(i, 1); buildLines(); render(); };
+    del.onclick = () => { S.lines.splice(i, 1); buildLines(); buildMoreTongues(); render(); };
 
     row.append(tick, body, del);
     list.appendChild(row);
+  });
+}
+
+
+function buildMoreTongues(){
+  const wrap = $('moreTongues');
+  if(!wrap) return;
+  const phrase = PHRASES[S.phrase] ? S.phrase : null;
+  const pool = phrase ? EXTRA[phrase] : null;
+  if(!pool){ wrap.innerHTML=''; return; }
+  const have = activeLangNames();
+  const avail = pool.filter(([lang]) => have.indexOf(lang.toLowerCase()) < 0);
+  wrap.innerHTML = avail.map(([lang,text],i) =>
+    `<button class="mt-chip" data-i="${i}">${lang}</button>`).join('');
+  [...wrap.querySelectorAll('.mt-chip')].forEach((b,i) => {
+    b.onclick = () => {
+      const [lang,text] = avail[i];
+      S.lines.push({ lang, text, on:true });
+      buildLines(); buildMoreTongues(); render();
+    };
   });
 }
 
@@ -535,7 +600,7 @@ function syncColors(){
 function press(el, on){ el.setAttribute('aria-pressed', String(on)); }
 
 function syncAll(){
-  buildPhraseChips(); buildLines(); syncColors();
+  buildPhraseChips(); buildLines(); buildMoreTongues(); syncColors();
   $('eyebrowText').value = S.eyebrow;
   $('footerText').value = S.footer;
   $('rSize').value = S.size; $('vSize').textContent = S.size + '%';
@@ -551,7 +616,7 @@ $('addLine').onclick = () => {
   if (!text) { toast('add the words first'); return; }
   S.lines.push({ lang: lang || 'your tongue', text, on: true });
   $('newLang').value = ''; $('newText').value = '';
-  markCustom(); buildLines(); render();
+  markCustom(); buildLines(); buildMoreTongues(); render();
 };
 $('newText').addEventListener('keydown', e => { if (e.key === 'Enter') $('addLine').click(); });
 
@@ -685,6 +750,9 @@ async function fontsReady(){
       document.fonts.load('300 62px "Cormorant Garamond"'),
       document.fonts.load('400 62px "Noto Naskh Arabic"'),
       document.fonts.load('300 26px "IBM Plex Mono"'),
+      document.fonts.load('400 62px "Noto Serif JP"').catch(()=>{}),
+      document.fonts.load('400 62px "Noto Serif SC"').catch(()=>{}),
+      document.fonts.load('400 62px "Noto Serif KR"').catch(()=>{}),
       document.fonts.ready
     ]);
   } catch(e){}
@@ -701,8 +769,10 @@ async function fontsReady(){
     : freshState(p && PHRASES[p] ? p : DEFAULT_PHRASE);
 
   syncAll();
+  fit();
   await fontsReady();
-  render(); fit();                       // re-measure once real fonts land
+  render(); fit();                       // measure with the REAL fonts, not a fallback
+  requestAnimationFrame(() => poster.classList.add('ready'));  // fade in, no mangled flash
   if (restored) toast('someone made this for you');
 })();
 </script>
