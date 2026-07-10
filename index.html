@@ -2326,12 +2326,13 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
     <div class="poster-maker-head">
       <div>
         <div class="goods-tier t2">poster maker</div>
-        <p class="poster-intro">choose a phrase. the first line leads; each translation steps down so the print reads clearly from across the room.</p>
+        <p class="poster-intro">choose a phrase, add your mother tongue, pick your colors &mdash; then print it at 18&Prime;&times;24&Prime;. the four originals stay one tap away.</p>
       </div>
-      <div class="poster-spec">18&Prime;&times;24&Prime; pdf · print-ready</div>
+      <a class="poster-spec" href="/poster">open the studio &rarr;</a>
     </div>
     <div class="poster-grid">
-      <a class="poster-card pp-cream" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-breathe-in-slowly.pdf" download target="_blank" rel="noopener">
+      <div class="poster-card pp-cream">
+        <a class="pc-link" href="/poster?p=breathe" aria-label="open in the poster studio">
         <div class="pc-sheet">
           <div class="pc-stack" aria-label="breathe in slowly poster preview">
             <span class="pc-line pc-line-1">breathe in slowly</span>
@@ -2346,9 +2347,12 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="pc-name">breathe in slowly</div>
         <div class="pc-desc">the invitation, in eight mother tongues.</div>
-        <div class="pc-dl">open / download &rarr;</div>
-      </a>
-      <a class="poster-card pp-amber" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-stillness.pdf" download target="_blank" rel="noopener">
+        <div class="pc-hover">make it yours &rarr;</div>
+        </a>
+        <div class="pc-acts"><a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-breathe-in-slowly.pdf" download target="_blank" rel="noopener">original pdf &darr;</a><a class="pc-studio" href="/poster?p=breathe">studio &rarr;</a></div>
+      </div>
+      <div class="poster-card pp-amber">
+        <a class="pc-link" href="/poster?p=stillness" aria-label="open in the poster studio">
         <div class="pc-sheet">
           <div class="pc-stack" aria-label="stillness equals sustenance poster preview">
             <span class="pc-line pc-line-1">stillness = sustenance</span>
@@ -2363,9 +2367,12 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="pc-name">stillness = sustenance</div>
         <div class="pc-desc">the breathing room, in eight mother tongues.</div>
-        <div class="pc-dl">open / download &rarr;</div>
-      </a>
-      <a class="poster-card pp-sage" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-movement.pdf" download target="_blank" rel="noopener">
+        <div class="pc-hover">make it yours &rarr;</div>
+        </a>
+        <div class="pc-acts"><a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-stillness.pdf" download target="_blank" rel="noopener">original pdf &darr;</a><a class="pc-studio" href="/poster?p=stillness">studio &rarr;</a></div>
+      </div>
+      <div class="poster-card pp-sage">
+        <a class="pc-link" href="/poster?p=movement" aria-label="open in the poster studio">
         <div class="pc-sheet">
           <div class="pc-stack" aria-label="movement equals medicine poster preview">
             <span class="pc-line pc-line-1">movement = medicine</span>
@@ -2380,9 +2387,12 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="pc-name">movement = medicine</div>
         <div class="pc-desc">the flow room, in eight mother tongues.</div>
-        <div class="pc-dl">open / download &rarr;</div>
-      </a>
-      <a class="poster-card pp-coffee" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-prosperity.pdf" download target="_blank" rel="noopener">
+        <div class="pc-hover">make it yours &rarr;</div>
+        </a>
+        <div class="pc-acts"><a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-movement.pdf" download target="_blank" rel="noopener">original pdf &darr;</a><a class="pc-studio" href="/poster?p=movement">studio &rarr;</a></div>
+      </div>
+      <div class="poster-card pp-coffee">
+        <a class="pc-link" href="/poster?p=prosperity" aria-label="open in the poster studio">
         <div class="pc-sheet">
           <div class="pc-stack" aria-label="prosperity is a human right poster preview">
             <span class="pc-line pc-line-1">prosperity is a human right</span>
@@ -2397,8 +2407,10 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
         </div>
         <div class="pc-name">prosperity is a human right</div>
         <div class="pc-desc">the belief, in eight mother tongues.</div>
-        <div class="pc-dl">open / download &rarr;</div>
-      </a>
+        <div class="pc-hover">make it yours &rarr;</div>
+        </a>
+        <div class="pc-acts"><a class="pc-dl" href="https://raw.githubusercontent.com/surulere-pixel/respira/main/posters/respira-poster-prosperity.pdf" download target="_blank" rel="noopener">original pdf &darr;</a><a class="pc-studio" href="/poster?p=prosperity">studio &rarr;</a></div>
+      </div>
     </div>
 
     <div class="fp-head">
@@ -2542,12 +2554,12 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .poster-maker-head{display:flex;align-items:end;justify-content:space-between;gap:1.2rem;margin:2.75rem 0 1.4rem;flex-wrap:wrap;}.poster-intro{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--soft);line-height:1.9;max-width:50ch;margin:0;}.poster-spec{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:#7a3a22;border:1px solid rgba(122,58,34,.18);border-radius:999px;padding:8px 13px;background:rgba(255,250,242,.36);white-space:nowrap;}
 .poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
 .poster-card{display:block;text-decoration:none;transition:transform .18s ease,filter .18s ease;outline:none;}
+.pc-hover{border-radius:6px;}
 .poster-card:hover,.poster-card:focus-visible{transform:translateY(-4px);filter:saturate(1.04);}.poster-card:focus-visible .pc-sheet{outline:2px solid rgba(42,31,24,.45);outline-offset:4px;}
 .poster-card:hover .pc-dl{color:#a5442f;}
 .pc-sheet{aspect-ratio:3/4;border-radius:6px;display:flex;align-items:flex-end;padding:clamp(18px,2.4vw,28px);box-shadow:0 18px 44px rgba(55,42,29,.22);overflow:hidden;min-height:310px;position:relative;}
 .pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
-.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-align:left;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
-.pc-line[dir="rtl"],.pc-line[lang="ar"]{text-align:left;unicode-bidi:isolate;letter-spacing:0;}
+.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
 .pc-line-1{font-size:clamp(2.45rem,5.2vw,4.85rem);font-weight:600;line-height:.78;letter-spacing:-.065em;margin-bottom:.22em;}
 .pc-line-2{font-size:clamp(1.28rem,2.45vw,2rem);font-weight:420;opacity:.95;}
 .pc-line-3{font-size:clamp(1.08rem,2.05vw,1.64rem);font-weight:390;opacity:.88;}
@@ -2562,7 +2574,15 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .pp-coffee{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
 .pc-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;color:var(--ink);margin-top:12px;line-height:1.2;}
 .pc-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);line-height:1.7;margin-top:4px;}
-.pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;margin-top:8px;transition:color .18s;}
+.pc-link{display:block;text-decoration:none;position:relative;}
+.pc-hover{position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:#fffaf2;background:rgba(0,0,0,.42);opacity:0;transition:opacity .2s ease;border-radius:6px;pointer-events:none;}
+.poster-card:hover .pc-hover,.pc-link:focus-visible .pc-hover{opacity:1;}
+.pc-acts{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;}
+.pc-studio{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:var(--sage-dark);text-decoration:none;transition:color .18s;}
+.pc-studio:hover{color:var(--ink);}
+a.poster-spec{text-decoration:none;transition:all .15s;}
+a.poster-spec:hover{background:rgba(255,250,242,.7);border-color:rgba(122,58,34,.4);}
+.pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;text-decoration:none;transition:color .18s;}
 @media(max-width:560px){.poster-maker-head{align-items:flex-start;}.poster-spec{white-space:normal;}.poster-grid{grid-template-columns:1fr;}.pc-sheet{min-height:390px;padding:26px;}.pc-line-1{font-size:clamp(3rem,13vw,4.7rem);}.pc-line-2{font-size:clamp(1.45rem,7vw,2.2rem);}}
 .fp-head{display:flex;align-items:end;justify-content:space-between;gap:1.2rem;margin:2.75rem 0 1.4rem;flex-wrap:wrap;}
 .fp-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,30px);align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:22px;padding:clamp(14px,2.5vw,22px);}
