@@ -939,6 +939,19 @@ body{transition:background-color .7s ease;}
   letter-spacing:.14em;color:var(--faint);text-transform:lowercase;
 }
 </style>
+
+<style>
+#nav-radio-btn{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.4rem .9rem;border-radius:999px;border:1px solid rgba(201,163,106,.3);background:#2a1f18;color:rgba(201,163,106,.85);cursor:pointer;transition:all .2s;white-space:nowrap;line-height:1;flex-shrink:0;}
+#nav-radio-btn:hover{color:var(--gold);border-color:rgba(201,163,106,.6);}
+.nav-links{min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.nav-links::-webkit-scrollbar{display:none;}
+@media(max-width:680px){
+  #nav-radio-btn{font-size:.55rem;padding:.38rem .7rem;}
+  #nav-radio-btn .nrb-word{display:none;}
+  .nav-beta-pill{display:none;}
+  .nav-links a{padding:.4rem .5rem;font-size:.55rem;}
+}
+</style>
 </head>
 
 <body>
@@ -952,7 +965,7 @@ body{transition:background-color .7s ease;}
     <div class="nav-links">
       <a href="#guides" class="beta-badge" title="the orb is yours — about respira &amp; the voices">about</a>
       <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
-      <button id="nav-radio-btn" onclick="navRadioToggle()" style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.4rem .9rem;border-radius:999px;border:1px solid rgba(201,163,106,.3);background:#2a1f18;color:rgba(201,163,106,.8);cursor:pointer;transition:all .2s;">&#9655; play radio</button>
+      <button id="nav-radio-btn" onclick="navRadioToggle()">&#9655; <span class="nrb-word">play </span>radio</button>
     </div>
   </div>
 </nav>
@@ -1380,22 +1393,22 @@ body{transition:background-color .7s ease;}
     <div class="radio-player">
       <div class="section-label">stations</div>
       <div class="station-grid">
-        <button class="station-card sc-drift" onclick="radioPlayStation('drift')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/drift.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">drift</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
-        <button class="station-card sc-groove" onclick="radioPlayStation('groove')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/groove.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">groove</div><div class="station-cdesc">focus &amp; easy energy</div></button>
+        <button class="station-card sc-drift" onclick="radioPlayStation('drift')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/drift.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">drift</div><div class="station-cdesc">wind-down &amp; slow movement</div></button>
+        <button class="station-card sc-groove" onclick="radioPlayStation('groove')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/groove.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">groove</div><div class="station-cdesc">focus &amp; easy energy</div></button>
         
-        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-new">new</div><div class="station-play">&#9655;</div></div><div class="station-name">whisper</div><div class="station-cdesc">whispers weekly &middot; with dr. earl</div></button>
-        <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
-        <button class="station-card sc-diasporadique" onclick="radioPlayStation('diasporadique')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/diasporadique.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">diasporadique</div><div class="station-cdesc">sounds of the diaspora &middot; coming soon</div></button>
+        <button class="station-card sc-whisper" onclick="radioPlayStation('whisper')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/whisper.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div><div class="station-new">new</div></div><div class="station-name">whisper</div><div class="station-cdesc">whispers weekly &middot; with dr. earl</div></button>
+        <button class="station-card sc-dust" onclick="radioPlayStation('dust')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/dust.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span><div class="station-play">&#9655;</div></div><div class="station-name">dust</div><div class="station-cdesc">meditation &amp; deep rest</div></button>
+        <button class="station-card sc-diasporadique" onclick="radioPlayStation('diasporadique')"><div class="station-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/rooms/diasporadique.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span><div class="station-soon">soon</div></div><div class="station-name">diasporadique</div><div class="station-cdesc">sounds of the diaspora &middot; coming soon</div></button>
       </div>
       <div id="radio-station-desc" class="radio-station-desc">tap a station to begin.</div>
 
       <div class="section-label" style="margin-top:2.75rem;">collections &middot; from the soundlab</div>
       <div class="collection-row">
-        <div class="album-card ac-1"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/siddartha-in-soweto.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">siddartha in soweto</div><div class="album-sub">60 min &middot; coming soon</div></div>
-        <div class="album-card ac-2"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/southern-fried-downdogs.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">southern fried downdogs</div><div class="album-sub">90 min &middot; coming soon</div></div>
-        <div class="album-card ac-3"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/slow-arrival.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">slow arrival &mdash; african time</div><div class="album-sub">45 min &middot; coming soon</div></div>
-        <div class="album-card ac-4"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/rasta-savasana.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">rasta savasana</div><div class="album-sub">75 min &middot; coming soon</div></div>
-        <div class="album-card ac-5"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/sazon-con-asana.jpg" onerror="this.remove()" alt=""><span class="station-tri"></span></div><div class="album-title">sazón con asana</div><div class="album-sub">65 min &middot; coming soon</div></div>
+        <div class="album-card ac-1"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/siddartha-in-soweto.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span></div><div class="album-title">siddartha in soweto</div><div class="album-sub">60 min &middot; coming soon</div></div>
+        <div class="album-card ac-2"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/southern-fried-downdogs.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span></div><div class="album-title">southern fried downdogs</div><div class="album-sub">90 min &middot; coming soon</div></div>
+        <div class="album-card ac-3"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/slow-arrival.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span></div><div class="album-title">slow arrival &mdash; african time</div><div class="album-sub">45 min &middot; coming soon</div></div>
+        <div class="album-card ac-4"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/rasta-savasana.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span></div><div class="album-title">rasta savasana</div><div class="album-sub">75 min &middot; coming soon</div></div>
+        <div class="album-card ac-5"><div class="album-cover"><img class="cover-img" src="https://raw.githubusercontent.com/surulere-pixel/respira/main/radio/collections/sazon-con-asana.jpg" onerror="this.style.display='none'" alt=""><span class="station-tri"></span></div><div class="album-title">sazón con asana</div><div class="album-sub">65 min &middot; coming soon</div></div>
       </div>
 
       <div class="section-label" style="margin-top:2.75rem;">spotlight</div>
@@ -1411,7 +1424,9 @@ body{transition:background-color .7s ease;}
     .station-grid,.collection-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px;}
     .station-card{position:relative;border:none;background:none;padding:0;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .2s ease;}
     .station-card:hover{transform:translateY(-4px);}
-    .station-cover,.album-cover{aspect-ratio:1;border-radius:16px;position:relative;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.4);}
+    .station-cover,.album-cover{aspect-ratio:1;min-height:120px;width:100%;background-color:#2a1f18;border-radius:16px;position:relative;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.4);}
+    .station-card{min-width:0;}
+    .cover-img{background:#2a1f18;}
     .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
     .station-cover::after,.album-cover::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.20),transparent 62%);}
     .station-tri{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:58%;height:58%;clip-path:polygon(50% 0,100% 100%,0 100%);opacity:.20;background:rgba(255,255,255,.92);}
@@ -1419,21 +1434,23 @@ body{transition:background-color .7s ease;}
     .station-cdesc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:rgba(95,85,75,.6);line-height:1.5;}
     .station-play{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;background:rgba(201,163,106,.96);color:#2a1f18;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transform:translateY(6px);transition:all .2s ease;box-shadow:0 6px 18px rgba(0,0,0,.45);z-index:2;}
     .station-card:hover .station-play,.station-card.active .station-play{opacity:1;transform:translateY(0);}
+    .station-card:hover .station-new{opacity:0;}
+    .station-new{transition:opacity .2s;}
     .station-card.active .station-cover{outline:2px solid rgba(201,163,106,.85);outline-offset:2px;}
-    .station-new{position:absolute;left:10px;top:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.95);padding:4px 8px;border-radius:999px;z-index:2;}
+    .station-new{position:absolute;right:10px;bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.95);padding:4px 8px;border-radius:999px;z-index:2;}
     .station-soon{position:absolute;right:10px;bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);background:rgba(0,0,0,.35);padding:4px 8px;border-radius:999px;z-index:2;}
-    .sc-drift .station-cover{background:linear-gradient(145deg,#123c3c,#081c22);}
-    .sc-groove .station-cover{background:linear-gradient(145deg,#4a2f1a,#22140a);}
+    .sc-drift .station-cover{background-color:#0d2c30;background-image:linear-gradient(145deg,#123c3c,#081c22);}
+    .sc-groove .station-cover{background-color:#33210f;background-image:linear-gradient(145deg,#4a2f1a,#22140a);}
     .sc-ire .station-cover{background:linear-gradient(145deg,#b06a2c,#5c2f14);}
-    .sc-dust .station-cover{background:linear-gradient(145deg,#41605655,#26332e);background-color:#2e4038;}
-    .sc-whisper .station-cover{background:linear-gradient(145deg,#3d2b48,#1c1425);}
-    .sc-diasporadique .station-cover{background:linear-gradient(145deg,#a8452f,#2e1a2a);}
+    .sc-dust .station-cover{background-color:#2e4038;background-image:linear-gradient(145deg,rgba(65,96,86,.33),#26332e);}
+    .sc-whisper .station-cover{background-color:#2b1e35;background-image:linear-gradient(145deg,#3d2b48,#1c1425);}
+    .sc-diasporadique .station-cover{background-color:#6b2f2c;background-image:linear-gradient(145deg,#a8452f,#2e1a2a);}
     .album-card{display:flex;flex-direction:column;gap:8px;}
     .album-cover{display:flex;align-items:flex-end;padding:14px;}
     .album-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1;position:relative;z-index:2;}
     .album-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.2rem;font-weight:300;color:#33372a;line-height:1;}
     .album-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:rgba(95,85,75,.55);}
-    .ac-1 .album-cover{background:linear-gradient(145deg,#c9a36a,#7a5426);}
+    .ac-1 .album-cover{background-color:#a0824a;background-image:linear-gradient(145deg,#c9a36a,#7a5426);}
     .ac-2 .album-cover{background:linear-gradient(145deg,#2f4a44,#152420);}
     .ac-3 .album-cover{background:linear-gradient(145deg,#8a4326,#3a1a10);}
     .ac-4 .album-cover{background:linear-gradient(145deg,#3c3c56,#1c1c2c);}
@@ -2553,7 +2570,7 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 @media(max-width:600px){ .goods-flagship{grid-template-columns:1fr;} }
 .poster-maker-head{display:flex;align-items:end;justify-content:space-between;gap:1.2rem;margin:2.75rem 0 1.4rem;flex-wrap:wrap;}.poster-intro{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--soft);line-height:1.9;max-width:50ch;margin:0;}.poster-spec{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:#7a3a22;border:1px solid rgba(122,58,34,.18);border-radius:999px;padding:8px 13px;background:rgba(255,250,242,.36);white-space:nowrap;}
 .poster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
-.poster-card{display:block;text-decoration:none;transition:transform .18s ease,filter .18s ease;outline:none;}
+.poster-card{display:block;background:none;text-decoration:none;transition:transform .18s ease,filter .18s ease;outline:none;}
 .pc-hover{border-radius:6px;}
 .poster-card:hover,.poster-card:focus-visible{transform:translateY(-4px);filter:saturate(1.04);}.poster-card:focus-visible .pc-sheet{outline:2px solid rgba(42,31,24,.45);outline-offset:4px;}
 .poster-card:hover .pc-dl{color:#a5442f;}
@@ -2568,10 +2585,10 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 .pc-line-6{font-size:clamp(.8rem,1.3vw,1.02rem);font-weight:320;opacity:.70;}
 .pc-line-7{font-size:clamp(.74rem,1.16vw,.92rem);font-weight:310;opacity:.64;}
 .pc-line-8{font-size:clamp(.68rem,1vw,.84rem);font-weight:300;opacity:.58;}
-.pp-cream{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
-.pp-amber{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
-.pp-sage{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
-.pp-coffee{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
+.pp-cream .pc-sheet{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
+.pp-amber .pc-sheet{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
+.pp-sage .pc-sheet{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
+.pp-coffee .pc-sheet{background:#11100e;} .pp-coffee .pc-line{color:#b99664;}
 .pc-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;color:var(--ink);margin-top:12px;line-height:1.2;}
 .pc-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint);line-height:1.7;margin-top:4px;}
 .pc-link{display:block;text-decoration:none;position:relative;}
@@ -2589,6 +2606,7 @@ a.poster-spec:hover{background:rgba(255,250,242,.7);border-color:rgba(122,58,34,
 .fp-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(10px,2vw,22px);background:#efe7da;border-radius:16px;}
 .fp-frame{width:min(100%,300px);border:1px solid;border-radius:3px;padding:clamp(9px,1.6vw,14px);box-shadow:0 20px 46px rgba(55,42,29,.26);transition:background .2s ease,border-color .2s ease;}
 .fp-mat{background:#fdfaf3;padding:clamp(11px,2vw,18px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);}
+.fp-sheet.pp-cream{background:#8f4a2d;}.fp-sheet.pp-amber{background:#24170f;}.fp-sheet.pp-sage{background:#263025;}.fp-sheet.pp-coffee{background:#11100e;}
 .fp-sheet{aspect-ratio:3/4;display:flex;align-items:flex-end;padding:clamp(11px,1.8vw,16px);overflow:hidden;}
 .fp-sheet .pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
 .fp-shadow{width:70%;height:10px;margin-top:14px;border-radius:50%;background:radial-gradient(ellipse,rgba(55,42,29,.16),transparent 70%);}
