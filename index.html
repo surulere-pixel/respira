@@ -556,7 +556,7 @@ body{transition:background-color .7s ease;}
 .entry-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:min(100%,760px);margin:0 auto;}
 @media(max-width:560px){.entry-grid{grid-template-columns:1fr;width:min(100%,360px);}}
 .entry-tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;min-height:118px;justify-content:flex-end;}
-.entry-tile:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(55,42,29,.14);}
+.entry-tile:hover{box-shadow:0 22px 50px rgba(55,42,29,.2);}
 .entry-icon{font-size:1.4rem;line-height:1;margin-bottom:auto;opacity:.85;}
 .entry-label{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6rem;font-weight:300;line-height:1;}
 .entry-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;opacity:.7;}
@@ -964,6 +964,21 @@ body{transition:background-color .7s ease;}
 .nav-share:hover{color:var(--ink);background:var(--line);}
 .nav-share:focus-visible{outline:2px solid var(--sage-dark);outline-offset:2px;}
 </style>
+<style>
+/* cart only floats once something is in it (id rule was overriding [hidden]) */
+#rc-fab[hidden]{display:none!important;}
+/* dreamy floating drift for the hero + voice cards — like they're on a slow wave */
+@media(prefers-reduced-motion:no-preference){
+  @keyframes respiraDrift{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  .entry-tile{animation:respiraDrift 7.5s ease-in-out infinite;will-change:transform;}
+  .entry-tile:nth-child(2){animation-duration:8.6s;animation-delay:-2.4s;}
+  .entry-tile:nth-child(3){animation-duration:6.8s;animation-delay:-4.6s;}
+  .guide-card{animation:respiraDrift 7s ease-in-out infinite;will-change:transform;}
+  .guide-card:nth-child(2){animation-duration:8.2s;animation-delay:-1.8s;}
+  .guide-card:nth-child(3){animation-duration:6.4s;animation-delay:-3.7s;}
+  .guide-card:nth-child(4){animation-duration:7.7s;animation-delay:-5.1s;}
+}
+</style>
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo-wrap">
@@ -977,14 +992,14 @@ body{transition:background-color .7s ease;}
       <div class="nav-menu-wrap">
         <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
-          <a href="/find" role="menuitem">find a practice</a>
-          <a href="#lend" role="menuitem" onclick="closeNavMenu()">lend your voice</a>
-          <a href="/poster" role="menuitem">poster maker</a>
-          <a href="/goods" role="menuitem">goods</a>
-          <a href="/open-floor" role="menuitem">open floor</a>
-          <a href="/about" role="menuitem">about</a>
-          <a href="/support" role="menuitem">support</a>
-          <a href="/help" role="menuitem">help</a>
+          <a href="/find" role="menuitem" style="--sect:#cfe3d6">find a practice</a>
+          <a href="#lend" role="menuitem" onclick="closeNavMenu()" style="--sect:#e6d3c9">lend your voice</a>
+          <a href="/poster" role="menuitem" style="--sect:#efe0c4">poster maker</a>
+          <a href="/goods" role="menuitem" style="--sect:#f0dcb8">goods</a>
+          <a href="/open-floor" role="menuitem" style="--sect:#e0d3e8">open floor</a>
+          <a href="/about" role="menuitem" style="--sect:#e8e2d6">about</a>
+          <a href="/support" role="menuitem" style="--sect:#f0d9c9">support</a>
+          <a href="/help" role="menuitem" style="--sect:#dfe3d6">help</a>
         </div>
       </div>
     </div>
@@ -996,7 +1011,7 @@ body{transition:background-color .7s ease;}
 .nav-menu{position:fixed;background:var(--bg,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:12px;padding:6px;min-width:156px;box-shadow:0 16px 40px rgba(42,31,24,.16);display:flex;flex-direction:column;z-index:2000;}
 .nav-menu[hidden]{display:none;}
 .nav-menu a{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft,#5f554b);text-decoration:none;padding:10px 12px;border-radius:8px;transition:color .12s,background .12s;}
-.nav-menu a:hover,.nav-menu a:focus-visible{background:var(--line,rgba(29,25,21,.08));color:var(--ink,#1d1915);outline:none;}
+.nav-menu a:hover,.nav-menu a:focus-visible{background:var(--sect,var(--line,rgba(29,25,21,.08)));color:#211c19;outline:none;}
 </style>
 <script>
 function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m||!b) return; var closed=m.hasAttribute('hidden'); if(closed){ var r=b.getBoundingClientRect(); m.style.top=(r.bottom+8)+'px'; m.style.right=Math.max(8,(window.innerWidth-r.right))+'px'; m.style.left='auto'; m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
@@ -1391,7 +1406,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
         <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(95,85,75,.5);line-height:1.8;max-width:28ch;text-align:right;margin:0;">free for studios, practices &amp; community spaces.<br>from the mmaadd soundlab.</p>
-        <button class="share-pill" onclick="respiraShare('radio')">&#8599; share the radio</button>
+        <button class="share-pill ico" onclick="respiraShare('radio')" aria-label="share the radio" title="share the radio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"></line><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"></line></svg></button>
       </div>
     </div>
 
@@ -1949,7 +1964,7 @@ if(rvol)rvol.addEventListener('input',function(){if(radioAudio)radioAudio.volume
 .guides-note{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--faint);line-height:1.8;max-width:36ch;text-align:right;}
 .guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2vw,20px);align-items:start;}
 .guide-card{display:flex;flex-direction:column;background:linear-gradient(158deg,#2b211a 0%,#1a130f 100%);border:1px solid rgba(201,163,106,.2);border-radius:22px;padding:22px;box-shadow:0 22px 46px rgba(28,18,12,.32);transition:transform .2s ease,box-shadow .2s ease;}
-.guide-card:hover{transform:translateY(-5px);box-shadow:0 32px 64px rgba(28,18,12,.42);}
+.guide-card:hover{box-shadow:0 36px 72px rgba(28,18,12,.5);}
 .guide-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
 .guide-portrait{width:64px;height:64px;border-radius:50%;background-size:cover;background-position:center top;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;box-shadow:0 0 0 1px rgba(201,163,106,.4),0 6px 16px rgba(0,0,0,.35);}
 .guide-mono{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.9rem;font-weight:300;color:rgba(201,163,106,.95);}
@@ -2293,7 +2308,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
         <div class="goods-tier t2">poster maker</div>
         <h3 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:var(--ink);line-height:1.05;margin:6px 0 4px;">make the words your own.</h3>
         <p class="poster-intro">choose the phrase, languages and colors. download your version free &mdash; or have it framed and delivered.</p>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;"><a class="poster-spec" href="/poster">open poster maker &rarr;</a><button class="share-pill" onclick="respiraShare('poster')">&#8599; share</button></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;"><a class="poster-spec" href="/poster">open poster maker &rarr;</a><button class="share-pill ico" onclick="respiraShare('poster')" aria-label="share" title="share"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"></line><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"></line></svg></button></div>
       </div>
       <div class="poster-spec" id="fp-spec">18&Prime;&times;24&Prime;</div>
     </div>
@@ -2364,6 +2379,21 @@ document.addEventListener('DOMContentLoaded', renderGuides);
     };
     var fpPhrase='stillness', fpColor='cocoa', fpFrame='oak', fpFormat='framed', fpSize='med';
 
+    // scale the poster type to fit the frame (like the /poster page), so it never clips
+    function fpFit(){
+      var sheet=document.getElementById('fp-sheet'), stack=document.getElementById('fp-stack');
+      if(!sheet||!stack||!stack.children.length||!sheet.clientHeight) return;   // wait for real content + layout
+      var cs=getComputedStyle(sheet);
+      var availH=sheet.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+      var base=sheet.clientWidth*0.12;
+      stack.style.fontSize=base+'px';
+      var guard=0;
+      while(guard<60 && stack.getBoundingClientRect().height>availH){ base*=0.95; stack.style.fontSize=base+'px'; guard++; }
+    }
+    var _fpFitT; function fpFitSoon(){ clearTimeout(_fpFitT); _fpFitT=setTimeout(fpFit,60); }
+    window.addEventListener('resize', fpFitSoon);
+    window.addEventListener('load', fpFitSoon);
+    (function(){ var s=document.getElementById('fp-sheet'); if(s && window.ResizeObserver){ new ResizeObserver(fpFitSoon).observe(s); } })();
     function fpRender(){
       var p=FP_PHRASES[fpPhrase], c=FP_COLORS.filter(function(x){return x.id===fpColor;})[0];
       var sheet=document.getElementById('fp-sheet');
@@ -2374,6 +2404,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
         var ar=(i===4)?' lang="ar" dir="rtl"':'';
         return '<span class="pc-line pc-line-'+(i+1)+'"'+ar+' style="color:'+c.ink+'">'+l+'</span>';
       }).join('');
+      requestAnimationFrame(fpFit);
       // frame vs free-print mat treatment
       var fr=document.getElementById('fp-frame'), mat=fr.querySelector('.fp-mat');
       if(fpFormat==='framed'){
@@ -2498,14 +2529,14 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .pc-sheet{aspect-ratio:3/4;border-radius:6px;display:flex;align-items:flex-end;padding:clamp(18px,2.4vw,28px);box-shadow:0 18px 44px rgba(55,42,29,.22);overflow:hidden;min-height:310px;position:relative;}
 .pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
 .pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
-.pc-line-1{font-size:clamp(2.45rem,5.2vw,4.85rem);font-weight:600;line-height:.78;letter-spacing:-.065em;margin-bottom:.22em;}
-.pc-line-2{font-size:clamp(1.28rem,2.45vw,2rem);font-weight:420;opacity:.95;}
-.pc-line-3{font-size:clamp(1.08rem,2.05vw,1.64rem);font-weight:390;opacity:.88;}
-.pc-line-4{font-size:clamp(.96rem,1.75vw,1.38rem);font-weight:360;opacity:.82;}
-.pc-line-5{font-size:clamp(.88rem,1.52vw,1.18rem);font-weight:340;opacity:.76;}
-.pc-line-6{font-size:clamp(.8rem,1.3vw,1.02rem);font-weight:320;opacity:.70;}
-.pc-line-7{font-size:clamp(.74rem,1.16vw,.92rem);font-weight:310;opacity:.64;}
-.pc-line-8{font-size:clamp(.68rem,1vw,.84rem);font-weight:300;opacity:.58;}
+.pc-line-1{font-size:2.35em;font-weight:600;line-height:.9;letter-spacing:-.05em;margin-bottom:.32em;}
+.pc-line-2{font-size:1.58em;font-weight:420;opacity:.95;}
+.pc-line-3{font-size:1.42em;font-weight:390;opacity:.88;}
+.pc-line-4{font-size:1.3em;font-weight:360;opacity:.82;}
+.pc-line-5{font-size:1.2em;font-weight:340;opacity:.76;}
+.pc-line-6{font-size:1.12em;font-weight:320;opacity:.70;}
+.pc-line-7{font-size:1.05em;font-weight:310;opacity:.64;}
+.pc-line-8{font-size:1em;font-weight:300;opacity:.58;}
 .pp-cream .pc-sheet{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
 .pp-amber .pc-sheet{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
 .pp-sage .pc-sheet{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
@@ -2521,15 +2552,15 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 a.poster-spec{text-decoration:none;transition:all .15s;}
 a.poster-spec:hover{background:rgba(255,250,242,.7);border-color:rgba(122,58,34,.4);}
 .pc-dl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:lowercase;color:#9a7a3a;text-decoration:none;transition:color .18s;}
-@media(max-width:560px){.poster-maker-head{align-items:flex-start;}.poster-spec{white-space:normal;}.poster-grid{grid-template-columns:1fr;}.pc-sheet{min-height:390px;padding:26px;}.pc-line-1{font-size:clamp(3rem,13vw,4.7rem);}.pc-line-2{font-size:clamp(1.45rem,7vw,2.2rem);}}
+@media(max-width:560px){.poster-spec{white-space:normal;}}
 .fp-head{display:flex;align-items:end;justify-content:space-between;gap:1.2rem;margin:2.75rem 0 1.4rem;flex-wrap:wrap;}
 .fp-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,30px);align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:22px;padding:clamp(14px,2.5vw,22px);}
 .fp-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(10px,2vw,22px);background:#efe7da;border-radius:16px;}
 .fp-frame{width:min(100%,300px);border:1px solid;border-radius:3px;padding:clamp(9px,1.6vw,14px);box-shadow:0 20px 46px rgba(55,42,29,.26);transition:background .2s ease,border-color .2s ease;}
 .fp-mat{background:#fdfaf3;padding:clamp(11px,2vw,18px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);}
 .fp-sheet.pp-cream{background:#8f4a2d;}.fp-sheet.pp-amber{background:#24170f;}.fp-sheet.pp-sage{background:#263025;}.fp-sheet.pp-coffee{background:#11100e;}
-.fp-sheet{aspect-ratio:3/4;display:flex;align-items:flex-end;padding:clamp(11px,1.8vw,16px);overflow:hidden;}
-.fp-sheet .pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
+.fp-sheet{aspect-ratio:3/4;display:flex;align-items:flex-start;padding:18px 16px;overflow:hidden;container-type:inline-size;}
+.fp-sheet .pc-stack{width:100%;margin-top:0;display:flex;flex-direction:column;gap:.4em;font-size:15px;}
 .fp-shadow{width:70%;height:10px;margin-top:14px;border-radius:50%;background:radial-gradient(ellipse,rgba(55,42,29,.16),transparent 70%);}
 .fp-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:var(--faint);margin:18px 0 8px;}
 .fp-opts{display:flex;flex-wrap:wrap;gap:7px;}
@@ -4511,6 +4542,8 @@ setInterval(function(){
 #r-toast.on{opacity:1;transform:translate(-50%,0);}
 .share-pill{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;padding:10px 18px;border-radius:999px;border:1px solid rgba(106,59,40,.4);background:#fffaf2;color:#6a3b28;cursor:pointer;transition:all .18s;text-decoration:none;white-space:nowrap;}
 .share-pill:hover{background:#fff;border-color:#6a3b28;transform:translateY(-1px);}
+.share-pill.ico{padding:10px 12px;gap:0;}
+.share-pill.ico svg{display:block;}
 .share-pill.on-dark{background:transparent;border-color:rgba(201,163,106,.45);color:rgba(201,163,106,.92);}
 .share-pill.on-dark:hover{background:rgba(201,163,106,.12);border-color:rgba(201,163,106,.8);}
 </style>
