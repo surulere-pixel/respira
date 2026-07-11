@@ -10,3 +10,8 @@ CREATE TABLE IF NOT EXISTS directory_submissions (
   website TEXT, booking_url TEXT, description TEXT, virtual INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'submitted'
 );
+CREATE TABLE IF NOT EXISTS room_requests (
+  id TEXT PRIMARY KEY, created_at TEXT NOT NULL, practice_name TEXT NOT NULL, contact_name TEXT,
+  email TEXT NOT NULL, phone TEXT, city TEXT, country TEXT, practice_type TEXT,
+  requested_domain TEXT, config TEXT, status TEXT NOT NULL DEFAULT 'submitted'
+);

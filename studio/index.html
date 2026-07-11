@@ -384,18 +384,75 @@ function bpOpt(btn){
   for(var i=0;i<opts.length;i++){ opts[i].classList.remove('on'); }
   btn.classList.add('on');
 }
+function blueprintConfig(){
+  var cfg={}; var rows=document.querySelectorAll('#blueprint .bp-row');
+  for(var i=0;i<rows.length;i++){ var r=rows[i],mod=r.getAttribute('data-mod'),on=r.getAttribute('data-on')==='1'; var opt=r.querySelector('.bp-opt.on'); cfg[mod]= on?(opt?opt.getAttribute('data-val'):'on'):'off'; }
+  return cfg;
+}
+function roomClose(){ var m=document.getElementById('roomModal'); if(m) m.remove(); document.removeEventListener('keydown', roomKey); }
+function roomKey(e){ if(e.key==='Escape') roomClose(); }
 function blueprintStart(){
-  var cfg = {};
-  var rows = document.querySelectorAll('#blueprint .bp-row');
-  for(var i=0;i<rows.length;i++){
-    var r = rows[i], mod = r.getAttribute('data-mod'), on = r.getAttribute('data-on')==='1';
-    var opt = r.querySelector('.bp-opt.on');
-    cfg[mod] = on ? (opt ? opt.getAttribute('data-val') : 'on') : 'off';
-  }
-  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'blueprint_interest', config:cfg, _subject:'respira blueprint: a guide configured their own room'})}); }catch(e){}
-  var b=document.querySelector('.bp-cta'), t=document.getElementById('bp-thanks');
-  if(b){ b.style.display='none'; }
-  if(t){ t.style.display='block'; }
+  window._roomCfg = blueprintConfig();
+  roomClose();
+  var fld="width:100%;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1d1915;background:#fffaf2;border:1px solid rgba(29,25,21,.14);border-radius:10px;padding:12px 14px;outline:none;";
+  var lab="display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:#5f554b;margin:0 0 6px;";
+  var er="color:#a5442f;font-size:8.5px;margin-top:4px;font-family:'IBM Plex Mono',monospace;";
+  var wrap=document.createElement('div'); wrap.id='roomModal';
+  wrap.setAttribute('role','dialog'); wrap.setAttribute('aria-label','set up your room'); wrap.setAttribute('aria-modal','true');
+  wrap.style.cssText="position:fixed;inset:0;z-index:10000;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;background:rgba(27,24,20,.55);backdrop-filter:blur(4px);padding:24px 16px;";
+  wrap.innerHTML='<div id="rm-panel" style="background:#fffaf2;border:1px solid rgba(29,25,21,.14);border-radius:20px;max-width:520px;width:100%;padding:26px;box-shadow:0 30px 80px rgba(42,31,24,.3);">'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;"><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#c9a36a;">launch my room</div><h3 style="font-family:\'Cormorant Garamond\',Georgia,serif;font-weight:300;font-size:1.9rem;color:#1d1915;margin:4px 0 0;line-height:1.05;">your practice, powered by respira.</h3></div><button aria-label="close" onclick="roomClose()" style="background:none;border:none;font-size:22px;line-height:1;color:#b3a99c;cursor:pointer;">&times;</button></div>'
+    +'<p style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#5f554b;line-height:1.8;margin:8px 0 18px;">tell us where to reach you. we’ll set up your room from these details and follow the project with you — you’ll get a reference to track it.</p>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'
+      +'<div style="grid-column:1/-1;"><label style="'+lab+'">practice / studio name *</label><input id="rm-name" style="'+fld+'"><div id="rme-name" style="'+er+'"></div></div>'
+      +'<div><label style="'+lab+'">your name</label><input id="rm-contact" style="'+fld+'"></div>'
+      +'<div><label style="'+lab+'">email *</label><input id="rm-email" type="email" style="'+fld+'"><div id="rme-email" style="'+er+'"></div></div>'
+      +'<div><label style="'+lab+'">phone / whatsapp</label><input id="rm-phone" type="tel" style="'+fld+'"></div>'
+      +'<div><label style="'+lab+'">city</label><input id="rm-city" style="'+fld+'"></div>'
+      +'<div><label style="'+lab+'">country</label><input id="rm-country" style="'+fld+'"></div>'
+      +'<div><label style="'+lab+'">practice type</label><input id="rm-type" placeholder="yoga studio, coach…" style="'+fld+'"></div>'
+      +'<div style="grid-column:1/-1;"><label style="'+lab+'">requested room address</label><div style="display:flex;align-items:stretch;"><input id="rm-domain" placeholder="your-practice" style="'+fld+'border-top-right-radius:0;border-bottom-right-radius:0;"><span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#5f554b;background:rgba(29,25,21,.06);border:1px solid rgba(29,25,21,.14);border-left:none;border-radius:0 10px 10px 0;padding:0 12px;display:flex;align-items:center;white-space:nowrap;">.openrespira.org</span></div></div>'
+    +'</div>'
+    +'<button onclick="roomSubmit()" id="rm-send" style="width:100%;margin-top:18px;font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:.12em;text-transform:lowercase;padding:15px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.96);cursor:pointer;">submit my room →</button>'
+    +'<div id="rm-err" style="color:#a5442f;font-family:\'IBM Plex Mono\',monospace;font-size:11px;text-align:center;margin-top:10px;text-transform:lowercase;"></div>'
+    +'</div>';
+  wrap.addEventListener('click',function(e){ if(e.target===wrap) roomClose(); });
+  document.body.appendChild(wrap);
+  document.addEventListener('keydown', roomKey);
+  var n=document.getElementById('rm-name'); if(n) n.focus();
+}
+function roomSubmit(){
+  var g=function(id){var e=document.getElementById(id);return e?e.value.trim():'';};
+  var name=g('rm-name'), email=g('rm-email');
+  document.getElementById('rme-name').textContent=''; document.getElementById('rme-email').textContent=''; document.getElementById('rm-err').textContent='';
+  var ok=true;
+  if(!name){ document.getElementById('rme-name').textContent='please add your practice name'; ok=false; }
+  if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ document.getElementById('rme-email').textContent='a valid email so we can reach you'; ok=false; }
+  if(!ok) return;
+  var body={ practice_name:name, contact_name:g('rm-contact'), email:email, phone:g('rm-phone'), city:g('rm-city'), country:g('rm-country'), practice_type:g('rm-type'), requested_domain:g('rm-domain'), config:window._roomCfg||{} };
+  var btn=document.getElementById('rm-send'), label=btn.textContent; btn.disabled=true; btn.textContent='submitting…';
+  fetch('/api/room',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+    .then(function(res){
+      if(res.ok&&res.d.id){ roomSuccess(res.d.id, name, email, body.requested_domain); return; }
+      if(res.status===503){ document.getElementById('rm-err').textContent='room requests aren’t switched on yet — please try again soon.'; }
+      else if(res.d&&res.d.fields){ if(res.d.fields.practice_name) document.getElementById('rme-name').textContent='required'; if(res.d.fields.email) document.getElementById('rme-email').textContent='valid email required'; }
+      else { document.getElementById('rm-err').textContent='that didn’t save — nothing was submitted. please try again.'; }
+      btn.disabled=false; btn.textContent=label;
+    })
+    .catch(function(){ document.getElementById('rm-err').textContent='network error — nothing was submitted. please try again.'; btn.disabled=false; btn.textContent=label; });
+}
+function roomSuccess(id, name, email, domain){
+  var p=document.getElementById('rm-panel'); if(!p) return;
+  var dom = domain ? (domain+'.openrespira.org') : 'your requested address';
+  p.innerHTML='<div style="text-align:center;padding:8px 4px 4px;">'
+    +'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#c9a36a;margin-bottom:8px;">submitted</div>'
+    +'<h3 style="font-family:\'Cormorant Garamond\',Georgia,serif;font-weight:300;font-size:2rem;color:#1d1915;margin:0 0 14px;">your room is in motion.</h3>'
+    +'<div style="display:inline-block;font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:.14em;color:#4f5a43;border:1px dashed #4f5a43;border-radius:10px;padding:10px 18px;margin-bottom:16px;">'+id+'</div>'
+    +'<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#5f554b;line-height:1.8;max-width:40ch;margin:0 auto 8px;">saved for <b>'+name+'</b>. we’ll review your setup and reach out at '+email+' with next steps for <b>'+dom+'</b>. keep this reference to follow your project.</p>'
+    +'<p style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:#b3a99c;line-height:1.7;margin:10px auto 0;max-width:38ch;">next: we confirm your details, gather any assets, and share a private preview before launch.</p>'
+    +'<button onclick="roomClose()" style="margin-top:18px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:12px 26px;border-radius:999px;border:1px solid rgba(29,25,21,.14);background:transparent;color:#1d1915;cursor:pointer;">back to studio</button>'
+    +'</div>';
 }
 </script>
 
