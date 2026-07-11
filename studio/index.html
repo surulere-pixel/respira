@@ -388,7 +388,7 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
 
     <div class="bp-cta-wrap">
       <button class="bp-cta" onclick="blueprintStart()">open your room &rarr;</button>
-      <div class="bp-thanks" id="bp-thanks">thank you &mdash; we&rsquo;ll be in touch about your room.</div>
+      <button class="bp-track" onclick="roomTrackOpen()">already requested? track your room &rarr;</button>
     </div>
     <p class="bp-foot">an open blueprint from respira &middot; built with mmaadd &middot; an initiative of the birthright project</p>
   </div>
@@ -511,6 +511,80 @@ function roomSuccess(id, name, email, domain){
     +'<p style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:#b3a99c;line-height:1.7;margin:10px auto 0;max-width:38ch;">next: we confirm your details, gather any assets, and share a private preview before launch.</p>'
     +'<button onclick="roomClose()" style="margin-top:18px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:12px 26px;border-radius:999px;border:1px solid rgba(29,25,21,.14);background:transparent;color:#1d1915;cursor:pointer;">back to studio</button>'
     +'</div>';
+}
+</script>
+
+<style>
+.bp-track{display:block;margin:14px auto 0;background:none;border:none;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;color:rgba(240,228,207,.7);cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+.bp-track:hover{color:#f0e4cf;}
+.rt-stage{display:flex;gap:12px;align-items:flex-start;padding:9px 0;}
+.rt-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(29,25,21,.2);flex:none;margin-top:2px;background:#fffaf2;}
+.rt-stage.done .rt-dot{background:#4f5a43;border-color:#4f5a43;}
+.rt-stage.cur .rt-dot{background:#c9a36a;border-color:#c9a36a;box-shadow:0 0 0 4px rgba(201,163,106,.2);}
+.rt-name{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:lowercase;color:#b3a99c;}
+.rt-stage.done .rt-name,.rt-stage.cur .rt-name{color:#1d1915;}
+.rt-desc{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:#5f554b;line-height:1.6;margin-top:2px;display:none;}
+.rt-stage.cur .rt-desc{display:block;}
+</style>
+<script>
+var ROOM_STAGES=[
+  ['submitted','we have your request and reference on file.'],
+  ['reviewing assets','we’re reviewing your setup and any assets you sent.'],
+  ['building','your room is being built.'],
+  ['preview ready','a private preview is ready for you to review.'],
+  ['changes requested','we’re applying the revisions you asked for.'],
+  ['approved','approved — preparing for launch.'],
+  ['preparing launch','final checks before your room goes live.'],
+  ['live','your room is live.']
+];
+function _rtEsc(s){ return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function roomTrackClose(){ var m=document.getElementById('rtModal'); if(m) m.remove(); document.removeEventListener('keydown', roomTrackKey); }
+function roomTrackKey(e){ if(e.key==='Escape') roomTrackClose(); }
+function roomTrackOpen(){
+  roomTrackClose();
+  var fld="width:100%;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1d1915;background:#fffaf2;border:1px solid rgba(29,25,21,.14);border-radius:10px;padding:12px 14px;outline:none;";
+  var lab="display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:#5f554b;margin:0 0 6px;";
+  var w=document.createElement('div'); w.id='rtModal'; w.setAttribute('role','dialog'); w.setAttribute('aria-label','track your room'); w.setAttribute('aria-modal','true');
+  w.style.cssText="position:fixed;inset:0;z-index:10000;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;background:rgba(27,24,20,.55);backdrop-filter:blur(4px);padding:24px 16px;";
+  w.innerHTML='<div id="rt-panel" style="background:#fffaf2;border:1px solid rgba(29,25,21,.14);border-radius:20px;max-width:460px;width:100%;padding:26px;box-shadow:0 30px 80px rgba(42,31,24,.3);">'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;"><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#c9a36a;">my room</div><h3 style="font-family:\'Cormorant Garamond\',Georgia,serif;font-weight:300;font-size:1.7rem;color:#1d1915;margin:4px 0 0;">track your room.</h3></div><button aria-label="close" onclick="roomTrackClose()" style="background:none;border:none;font-size:22px;line-height:1;color:#b3a99c;cursor:pointer;">&times;</button></div>'
+    +'<p style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#5f554b;line-height:1.8;margin:8px 0 16px;">enter your reference (starts with ROOM-) and the email you used.</p>'
+    +'<div style="margin-bottom:12px;"><label style="'+lab+'">reference</label><input id="rt-id" placeholder="ROOM-XXXXXXXX" style="'+fld+'"></div>'
+    +'<div style="margin-bottom:14px;"><label style="'+lab+'">email</label><input id="rt-email" type="email" style="'+fld+'"></div>'
+    +'<button id="rt-send" onclick="roomTrackSubmit()" style="width:100%;font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:.12em;text-transform:lowercase;padding:14px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.96);cursor:pointer;">look it up →</button>'
+    +'<div id="rt-err" style="color:#a5442f;font-family:\'IBM Plex Mono\',monospace;font-size:10px;text-align:center;margin-top:10px;text-transform:lowercase;"></div>'
+    +'</div>';
+  w.addEventListener('click',function(e){ if(e.target===w) roomTrackClose(); });
+  document.body.appendChild(w); document.addEventListener('keydown', roomTrackKey);
+  var i=document.getElementById('rt-id'); if(i) i.focus();
+}
+function roomTrackSubmit(){
+  var id=(document.getElementById('rt-id').value||'').trim();
+  var email=(document.getElementById('rt-email').value||'').trim();
+  var err=document.getElementById('rt-err'); err.textContent='';
+  if(!id || !email){ err.textContent='enter your reference and email'; return; }
+  var btn=document.getElementById('rt-send'), label=btn.textContent; btn.disabled=true; btn.textContent='looking…';
+  fetch('/api/room-status?id='+encodeURIComponent(id)+'&email='+encodeURIComponent(email))
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+    .then(function(res){
+      if(res.ok && res.d.id){ roomTrackRender(res.d); return; }
+      if(res.status===503) err.textContent='room tracking isn’t switched on yet.';
+      else if(res.status===404) err.textContent='no request found with that reference + email. check both and try again.';
+      else err.textContent='couldn’t look that up — please try again.';
+      btn.disabled=false; btn.textContent=label;
+    })
+    .catch(function(){ err.textContent='network error — please try again.'; btn.disabled=false; btn.textContent=label; });
+}
+function roomTrackRender(row){
+  var p=document.getElementById('rt-panel'); if(!p) return;
+  var curIdx=0; for(var i=0;i<ROOM_STAGES.length;i++){ if(ROOM_STAGES[i][0]===row.status){ curIdx=i; break; } }
+  var dom=row.requested_domain?(row.requested_domain+'.openrespira.org'):'your requested address';
+  var stages=ROOM_STAGES.map(function(s,i){
+    var cls=i<curIdx?'done':(i===curIdx?'cur':'');
+    return '<div class="rt-stage '+cls+'"><div class="rt-dot"></div><div><div class="rt-name">'+s[0]+'</div><div class="rt-desc">'+s[1]+'</div></div></div>';
+  }).join('');
+  p.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;"><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:#c9a36a;">'+_rtEsc(row.id)+'</div><h3 style="font-family:\'Cormorant Garamond\',Georgia,serif;font-weight:300;font-size:1.6rem;color:#1d1915;margin:4px 0 0;">'+_rtEsc(row.practice_name)+'</h3><div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:#5f554b;margin-top:4px;">'+_rtEsc(dom)+'</div></div><button aria-label="close" onclick="roomTrackClose()" style="background:none;border:none;font-size:22px;line-height:1;color:#b3a99c;cursor:pointer;">&times;</button></div>'
+    +'<div style="border-top:1px solid rgba(29,25,21,.1);padding-top:12px;">'+stages+'</div>';
 }
 </script>
 
