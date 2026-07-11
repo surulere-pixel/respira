@@ -224,6 +224,27 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
     </button>
   </div>
 
+  <style>
+  .class-lib{margin:0 0 2.2rem;}
+  .cl-head{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:var(--soft,#5f554b);margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+  .cl-note{color:var(--faint,#b3a99c);font-size:8px;border:1px solid var(--line,rgba(29,25,21,.14));border-radius:999px;padding:3px 9px;}
+  .cl-empty{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--faint,#b3a99c);line-height:1.5;border:1px dashed var(--line,rgba(29,25,21,.16));border-radius:16px;padding:22px;}
+  .cl-empty b{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--soft,#5f554b);}
+  .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+  .cl-card{background:var(--cream,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:16px;padding:18px;}
+  .cl-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:400;color:var(--ink,#1d1915);line-height:1.1;}
+  .cl-meta{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.05em;text-transform:lowercase;color:var(--soft,#5f554b);margin-top:5px;}
+  .cl-when{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint,#b3a99c);margin-top:3px;text-transform:lowercase;}
+  .cl-acts{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:12px;}
+  .cl-acts button{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.08em;text-transform:lowercase;color:var(--sage-dark,#4f5a43);background:none;border:none;padding:0;cursor:pointer;}
+  .cl-acts button:hover{text-decoration:underline;}
+  .cl-acts .cl-del{color:var(--faint,#b3a99c);}
+  .cl-acts .cl-del:hover{color:#a5442f;}
+  #studioToast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;padding:12px 20px;border-radius:999px;z-index:300;transition:all .3s;}
+  #studioToast.on{opacity:1;transform:translate(-50%,0);}
+  </style>
+  <div id="classLib" class="class-lib"></div>
+
   <div class="tk">
     <div class="tk-label">studios + coaches</div>
     <div class="tk-grid">
@@ -292,6 +313,7 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
 
     <div class="cx-transport">
       <div class="cx-total">runtime <b id="cxRuntime">60 min</b></div>
+      <button class="cx-pdf" onclick="saveClass()">save class</button>
       <button class="cx-pdf" onclick="window.print()">save pdf</button>
       <button class="cx-go" onclick="startClass()">&#9655; start class</button>
     </div>
@@ -708,4 +730,53 @@ if('serviceWorker' in navigator){ window.addEventListener('load', function(){ na
 
 // init
 buildDisc(); genArc();
+
+/* ── class save + library (local, on this device) ── */
+var CLASSES_KEY='studio_classes_v1';
+window._curClassId=null;
+function _clLoad(){ try{ return JSON.parse(localStorage.getItem(CLASSES_KEY))||[]; }catch(e){ return []; } }
+function _clSave(a){ try{ localStorage.setItem(CLASSES_KEY, JSON.stringify(a)); }catch(e){} }
+function _clId(){ return 'c'+Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-4); }
+function _esc(s){ return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function studioToast(m){ var t=document.getElementById('studioToast'); if(!t){ t=document.createElement('div'); t.id='studioToast'; document.body.appendChild(t); } t.textContent=m; t.classList.add('on'); clearTimeout(window._stT); window._stT=setTimeout(function(){ t.classList.remove('on'); },2400); }
+function saveClass(){
+  var el=document.getElementById('cname'); var name=(el&&el.value||'').trim();
+  if(!name){ if(el){ el.focus(); el.style.borderColor='#a5442f'; } studioToast('name your class first'); return; }
+  var list=_clLoad();
+  var payload={ name:name, minutes:state.minutes, disc:state.disc, blocks:JSON.parse(JSON.stringify(state.blocks)), savedAt:Date.now() };
+  var idx=-1; if(window._curClassId){ for(var i=0;i<list.length;i++){ if(list[i].id===window._curClassId){ idx=i; break; } } }
+  if(idx>=0){ payload.id=list[idx].id; payload.createdAt=list[idx].createdAt||Date.now(); list[idx]=payload; }
+  else { payload.id=_clId(); payload.createdAt=Date.now(); window._curClassId=payload.id; list.unshift(payload); }
+  _clSave(list); renderLibrary(); studioToast('saved on this device');
+}
+function loadClass(id){
+  var list=_clLoad(), c=null; for(var i=0;i<list.length;i++){ if(list[i].id===id){ c=list[i]; break; } }
+  if(!c) return;
+  window._curClassId=c.id; state.minutes=c.minutes; state.disc=c.disc; state.blocks=JSON.parse(JSON.stringify(c.blocks));
+  var nm=document.getElementById('cname'); if(nm) nm.value=c.name;
+  var pt=document.getElementById('pdf-title'); if(pt) pt.textContent=c.name;
+  var mvEl=document.getElementById('minsVal'); if(mvEl) mvEl.textContent=c.minutes;
+  var lr=document.getElementById('lenRange'); if(lr) lr.value=Math.min(90,Math.max(30,c.minutes));
+  cxSel=-1; buildDisc(); renderBlocks();
+  var b=document.getElementById('builder'); if(b) b.scrollIntoView({behavior:'smooth',block:'start'});
+  studioToast('loaded · saved on this device');
+}
+function teachClass(id){ loadClass(id); startClass(); }
+function dupClass(id){ var list=_clLoad(); for(var i=0;i<list.length;i++){ if(list[i].id===id){ var c=JSON.parse(JSON.stringify(list[i])); c.id=_clId(); c.name=c.name+' (copy)'; c.savedAt=Date.now(); c.createdAt=Date.now(); list.unshift(c); _clSave(list); renderLibrary(); studioToast('duplicated'); return; } } }
+function deleteClass(id){ var list=_clLoad().filter(function(c){return c.id!==id;}); _clSave(list); if(window._curClassId===id) window._curClassId=null; renderLibrary(); studioToast('deleted'); }
+function _fmtWhen(ts){ if(!ts) return ''; var d=Date.now()-ts; if(d<60000) return 'just now'; if(d<3600000) return Math.round(d/60000)+'m ago'; if(d<86400000) return Math.round(d/3600000)+'h ago'; return Math.round(d/86400000)+'d ago'; }
+function renderLibrary(){
+  var wrap=document.getElementById('classLib'); if(!wrap) return;
+  var list=_clLoad(), dl={}; DISCIPLINES.forEach(function(d){ dl[d[0]]=d[1]; });
+  var bst=document.querySelector('.dc-build .dc-status'); if(bst) bst.textContent = list.length ? (list.length+' saved '+(list.length===1?'class':'classes')) : 'a fresh class is ready';
+  if(!list.length){ wrap.innerHTML='<div class="cl-head">your classes</div><div class="cl-empty">your class library starts here. build a class below and hit <b>save class</b> — it stays on this device.</div>'; return; }
+  wrap.innerHTML='<div class="cl-head">your classes <span class="cl-note">saved on this device</span></div><div class="cl-grid">'+list.map(function(c){
+    return '<div class="cl-card"><div class="cl-name">'+_esc(c.name)+'</div>'
+      +'<div class="cl-meta">'+_esc(dl[c.disc]||c.disc)+' &middot; '+c.minutes+' min &middot; '+(c.blocks?c.blocks.length:0)+' sections</div>'
+      +'<div class="cl-when">edited '+_fmtWhen(c.savedAt)+'</div>'
+      +'<div class="cl-acts"><button onclick="loadClass(\''+c.id+'\')">open</button><button onclick="teachClass(\''+c.id+'\')">teach</button><button onclick="dupClass(\''+c.id+'\')">duplicate</button><button class="cl-del" onclick="deleteClass(\''+c.id+'\')">delete</button></div>'
+      +'</div>';
+  }).join('')+'</div>';
+}
+renderLibrary();
 </script></body></html>
