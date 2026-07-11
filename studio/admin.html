@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>respira studio · admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{ --bg:#1a130e; --panel:#241a13; --ink:#f0e4cf; --soft:#b9a488; --faint:#7a6a54; --line:rgba(240,228,207,.14); --gold:#c9a36a; --sage:#8f9a7a; --clay:#c9654a; --mono:'IBM Plex Mono',monospace; --serif:'Cormorant Garamond',Georgia,serif; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:var(--gold);}
+.wrap{max-width:1200px;margin:0 auto;padding:24px clamp(14px,3vw,32px) 60px;}
+.top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px;}
+.top h1{font-family:var(--serif);font-weight:300;font-size:1.9rem;color:var(--ink);}
+.top h1 em{font-style:italic;color:var(--gold);}
+.top .sub{font-size:9px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);}
+.top a.back{font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);text-decoration:none;}
+/* gate */
+#gate{max-width:360px;margin:12vh auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center;}
+#gate h2{font-family:var(--serif);font-weight:300;font-size:1.6rem;margin-bottom:6px;}
+#gate p{font-size:10px;color:var(--soft);letter-spacing:.04em;margin-bottom:16px;line-height:1.7;}
+#gate input{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;outline:none;margin-bottom:12px;}
+#gate input:focus{border-color:var(--gold);}
+#gate button{width:100%;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:13px;border-radius:999px;border:none;background:var(--gold);color:#211a13;cursor:pointer;}
+#gate .err{color:var(--clay);font-size:10px;margin-top:10px;min-height:0;text-transform:lowercase;}
+/* tabs */
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.tab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:lowercase;color:var(--soft);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;}
+.tab.on{background:rgba(201,163,106,.16);border-color:var(--gold);color:var(--ink);}
+.tab .n{color:var(--faint);margin-left:5px;}
+.meta{font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:var(--faint);margin-bottom:12px;}
+/* table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;}
+table{border-collapse:collapse;width:100%;min-width:760px;}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);font-size:11px;vertical-align:top;}
+th{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:500;white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+td.ref{font-family:var(--mono);color:var(--gold);white-space:nowrap;}
+td .em{color:var(--soft);}
+td .muted{color:var(--faint);font-size:9px;}
+select.st{font-family:var(--mono);font-size:10px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 8px;outline:none;cursor:pointer;}
+select.st:focus{border-color:var(--gold);}
+td.saved{color:var(--sage);font-size:9px;}
+.empty{padding:30px;text-align:center;color:var(--faint);font-family:var(--serif);font-style:italic;font-size:1.1rem;}
+a.wlink{color:var(--soft);text-decoration:none;}
+a.wlink:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+<div id="gate">
+  <h2>respira <em>· admin</em></h2>
+  <p>internal — enter the admin token to view room requests and submissions.</p>
+  <input id="tok" type="password" placeholder="admin token" autocomplete="off">
+  <button onclick="unlock()">unlock →</button>
+  <div class="err" id="gateErr"></div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="top">
+    <div><h1>respira <em>studio · admin</em></h1><div class="sub">room requests · open floor · directory</div></div>
+    <div style="display:flex;gap:16px;align-items:center;"><a class="back" href="/studio">← studio</a><a class="back" href="#" onclick="lock();return false;">lock</a></div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-res="rooms" onclick="switchTab('rooms',this)">room requests</button>
+    <button class="tab" data-res="open_floor" onclick="switchTab('open_floor',this)">open floor</button>
+    <button class="tab" data-res="directory" onclick="switchTab('directory',this)">directory</button>
+  </div>
+  <div class="meta" id="meta"></div>
+  <div class="tbl-wrap"><table id="tbl"><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+</div>
+
+<script>
+var TOKEN='';
+var COLS={
+  rooms:[['id','ref'],['created_at','when'],['practice_name','practice'],['email','email'],['city','city'],['requested_domain','domain'],['config','features']],
+  open_floor:[['id','ref'],['created_at','when'],['name','name'],['email','email'],['contribution_type','type'],['links','links']],
+  directory:[['id','ref'],['created_at','when'],['name','practice'],['email','email'],['city','city'],['ownership','ownership']]
+};
+var cur='rooms';
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function fmtDate(s){ if(!s) return ''; try{ var d=new Date(s); return (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }catch(e){ return esc(s.slice(0,10)); } }
+function cell(col,v){
+  if(col==='created_at') return '<span class="muted">'+fmtDate(v)+'</span>';
+  if(col==='id') return esc(v);
+  if(col==='config'){ try{ var o=JSON.parse(v||'{}'); var on=Object.keys(o).filter(function(k){return o[k]&&o[k]!=='off';}); return '<span class="muted">'+esc(on.join(', ')||'—')+'</span>'; }catch(e){ return '<span class="muted">—</span>'; } }
+  if(col==='links'){ if(!v) return '<span class="muted">—</span>'; var u=String(v).split(/\s+/)[0]; return '<a class="wlink" href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(String(v).slice(0,40))+'</a>'; }
+  if(col==='email') return '<span class="em">'+esc(v)+'</span>';
+  return esc(v);
+}
+function unlock(){
+  var t=document.getElementById('tok').value.trim();
+  if(!t){ document.getElementById('gateErr').textContent='enter the token'; return; }
+  TOKEN=t;
+  load(cur, function(ok){
+    if(ok){ try{ sessionStorage.setItem('respira_admin_token',t); }catch(e){} document.getElementById('gate').style.display='none'; document.getElementById('app').hidden=false; }
+    else { document.getElementById('gateErr').textContent='that token was rejected.'; TOKEN=''; }
+  });
+}
+function lock(){ TOKEN=''; try{ sessionStorage.removeItem('respira_admin_token'); }catch(e){} document.getElementById('app').hidden=true; document.getElementById('gate').style.display='block'; document.getElementById('tok').value=''; }
+function switchTab(res,btn){ cur=res; [].forEach.call(document.querySelectorAll('.tab'),function(b){b.classList.toggle('on',b===btn);}); load(res); }
+function load(res, cb){
+  fetch('/api/admin?resource='+res,{headers:{'x-admin-token':TOKEN}})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,status:r.status,d:d}; }); })
+    .then(function(x){
+      if(!x.ok){ if(cb) cb(false); if(x.status===401&&!cb) lock(); return; }
+      if(cb) cb(true);
+      render(res, x.d);
+    })
+    .catch(function(){ if(cb) cb(false); });
+}
+function render(res, data){
+  var cols=COLS[res], statuses=data.statuses||[];
+  document.getElementById('meta').textContent=(data.count||0)+' '+res.replace('_',' ')+' · newest first';
+  document.getElementById('thead').innerHTML='<tr>'+cols.map(function(c){return '<th>'+c[1]+'</th>';}).join('')+'<th>status</th></tr>';
+  var rows=data.rows||[];
+  if(!rows.length){ document.getElementById('tbody').innerHTML='<tr><td colspan="'+(cols.length+1)+'"><div class="empty">nothing here yet.</div></td></tr>'; return; }
+  document.getElementById('tbody').innerHTML=rows.map(function(row){
+    var tds=cols.map(function(c){ var cls=c[0]==='id'?' class="ref"':''; return '<td'+cls+'>'+cell(c[0],row[c[0]])+'</td>'; }).join('');
+    var opts=statuses.map(function(s){ return '<option'+(s===row.status?' selected':'')+'>'+esc(s)+'</option>'; }).join('');
+    tds+='<td><select class="st" onchange="setStatus(\''+res+'\',\''+esc(row.id)+'\',this)">'+opts+'</select><span class="saved" id="sv-'+esc(row.id)+'"></span></td>';
+    return '<tr>'+tds+'</tr>';
+  }).join('');
+}
+function setStatus(res,id,sel){
+  var status=sel.value; var sv=document.getElementById('sv-'+id); if(sv) sv.textContent=' saving…';
+  fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json','x-admin-token':TOKEN},body:JSON.stringify({resource:res,id:id,status:status})})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
+    .then(function(x){ if(sv) sv.textContent = x.ok ? ' ✓ saved' : ' ✗ failed'; setTimeout(function(){ if(sv) sv.textContent=''; },2000); })
+    .catch(function(){ if(sv) sv.textContent=' ✗ error'; });
+}
+// auto-unlock if a token is remembered this session
+(function(){
+  var t=''; try{ t=sessionStorage.getItem('respira_admin_token')||''; }catch(e){}
+  if(t){ TOKEN=t; load(cur,function(ok){ if(ok){ document.getElementById('gate').style.display='none'; document.getElementById('app').hidden=false; } else { TOKEN=''; } }); }
+})();
+</script>
+</body>
+</html>
