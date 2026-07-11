@@ -2037,12 +2037,16 @@ function guidePortrait(g){
 }
 function guideActions(g){
   var bits = [];
-  if(g.book){ bits.push('<a class="guide-book" href="'+g.book+'" target="_blank" rel="noopener">book a session &rarr;</a>'); }
-  else { bits.push('<span class="guide-book guide-book-soon">booking soon</span>'); }
+  // booking only shows for voices that actually offer something
+  if(g.services && g.services.length){
+    if(g.book){ bits.push('<a class="guide-book" href="'+g.book+'" target="_blank" rel="noopener">book a session &rarr;</a>'); }
+    else { bits.push('<span class="guide-book guide-book-soon">booking soon</span>'); }
+  }
   if(g.contact){
     var c = g.contact, isEmail = c.indexOf('@') !== -1;
     bits.push('<a class="guide-contact" href="'+(isEmail?'mailto:'+c:c)+'"'+(isEmail?'':' target="_blank" rel="noopener"')+'>'+(isEmail?c:'contact &#8599;')+'</a>');
   }
+  if(!bits.length) return '';
   return '<div class="guide-actions">'+bits.join('')+'</div>';
 }
 function guideCard(g){
@@ -2669,14 +2673,14 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <!-- respira guides -->
-<div id="guides" style="background:#efd6b0;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);scroll-margin-top:70px;">
+<div id="guides" style="background:#e6d3c9;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);scroll-margin-top:70px;">
   <div class="inner">
     <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
       <div>
-        <div class="guides-eyebrow">the guides</div>
-        <h2 class="guides-h2">the orb is yours.<br><em>the voice is a companion.</em></h2>
+        <div class="guides-eyebrow">lend your voice</div>
+        <h2 class="guides-h2">the voice is a companion.<br><em>lend yours.</em></h2>
       </div>
-      <p class="guides-note">the breathing anchor stays universal — it's you.<br>the guiding voice is offered by people from across the diaspora.</p>
+      <p class="guides-note">these are the voices that companion the room, from across the diaspora.<br>speak a language they don't yet? add yours below.</p>
     </div>
     <div id="guides-grid" class="guides-grid"><!-- injected by js --></div>
 
@@ -2697,7 +2701,7 @@ document.addEventListener('DOMContentLoaded', function(){
     </style>
     <div class="lv-hero" id="lend" style="scroll-margin-top:80px;">
       <div class="lv-hero-mic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10v1a7 7 0 0 0 14 0v-1"></path><line x1="12" y1="18" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg></div>
-      <div class="lv-hero-eyebrow">lend your voice</div>
+      <div class="lv-hero-eyebrow">the mic</div>
       <div class="lv-hero-title">respira should speak <em>your language.</em></div>
       <div class="lv-hero-copy">you don&rsquo;t have to be a guide. choose a language, read a few lines aloud &mdash; about thirty seconds &mdash; and we&rsquo;ll teach the room to speak it. always yours, always credited.</div>
       <div id="lv-mount"><!-- recording flow injected by js --></div>
