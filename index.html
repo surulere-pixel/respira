@@ -1003,10 +1003,22 @@ body{transition:background-color .7s ease;}
           </header>
 
           <!-- screen: single entry -->
+          <style>
+          .start-headline{margin:0 auto 22px;max-width:40ch;}
+          .start-h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2.1rem,6vw,3.3rem);color:var(--ink);letter-spacing:-.02em;line-height:1.02;margin:0 0 10px;}
+          .start-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--soft);line-height:1.85;margin:0;text-transform:lowercase;}
+          @media(max-width:560px){.start-headline{margin-bottom:16px;}.start-sub{font-size:9px;}}
+          </style>
           <section class="screen active" id="screenStart">
             <div style="width:min(100%,760px);margin:0 auto;padding:0 clamp(16px,4vw,28px);text-align:center;position:relative;z-index:1;">
 
               <!-- streak removed from the initial experience (§8): no performance metric before a session is completed -->
+
+              <!-- persistent first-screen headline (§4/§7/§20) — frames the mode selector once the opening overlay dissolves -->
+              <div class="start-headline">
+                <h1 class="start-h1">a breathing room.</h1>
+                <p class="start-sub">put down what you&rsquo;re carrying. choose a few minutes for yourself.</p>
+              </div>
 
                             <div class="entry-grid">
                 <button class="entry-tile tile-breathe" id="pathBreathe">
