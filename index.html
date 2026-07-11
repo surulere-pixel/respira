@@ -972,12 +972,39 @@ body{transition:background-color .7s ease;}
     </div>
     <div class="nav-links">
       <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
-      <a href="/about" class="beta-badge" title="about respira — happy sunday &amp; the birthright project">about</a>
+      <a href="/find" class="beta-badge" title="find a practice near you">find</a>
       <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
       <button id="nav-radio-btn" onclick="navRadioToggle()">&#9655; <span class="nrb-word">play </span>radio</button>
+      <div class="nav-menu-wrap">
+        <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
+        <div class="nav-menu" id="navMenu" role="menu" hidden>
+          <a href="/open-floor" role="menuitem">open floor</a>
+          <a href="/poster" role="menuitem">poster studio</a>
+          <a href="/goods" role="menuitem">goods</a>
+          <a href="/about" role="menuitem">about</a>
+          <a href="/support" role="menuitem">support</a>
+          <a href="/help" role="menuitem">help</a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
+<style>
+.nav-menu-wrap{position:relative;display:inline-flex;}
+.nav-menu-btn{cursor:pointer;}
+.nav-menu{position:absolute;right:0;top:calc(100% + 8px);background:var(--bg,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:12px;padding:6px;min-width:156px;box-shadow:0 16px 40px rgba(42,31,24,.16);display:flex;flex-direction:column;z-index:200;}
+.nav-menu[hidden]{display:none;}
+.nav-menu a{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft,#5f554b);text-decoration:none;padding:10px 12px;border-radius:8px;transition:color .12s,background .12s;}
+.nav-menu a:hover,.nav-menu a:focus-visible{background:var(--line,rgba(29,25,21,.08));color:var(--ink,#1d1915);outline:none;}
+</style>
+<script>
+function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m) return; var closed=m.hasAttribute('hidden'); if(closed){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
+(function(){
+  function close(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } }
+  document.addEventListener('click',function(e){ if(!(e.target.closest&&e.target.closest('.nav-menu-wrap'))) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
 
 <!-- opening sequence (fixed overlay, auto-dissolves into room) -->
 <div id="opening-hero">
