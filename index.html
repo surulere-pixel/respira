@@ -959,6 +959,11 @@ body{transition:background-color .7s ease;}
 
 <body>
 
+<style>
+.nav-share{background:none;border:none;cursor:pointer;color:var(--soft);display:flex;align-items:center;justify-content:center;padding:.4rem .5rem;border-radius:8px;transition:color .15s,background .15s;}
+.nav-share:hover{color:var(--ink);background:var(--line);}
+.nav-share:focus-visible{outline:2px solid var(--sage-dark);outline-offset:2px;}
+</style>
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo-wrap">
@@ -966,6 +971,7 @@ body{transition:background-color .7s ease;}
       <a href="#feedback" class="nav-beta-pill" title="building in public — tell us what to build next">v1 &middot; beta</a>
     </div>
     <div class="nav-links">
+      <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
       <a href="#guides" class="beta-badge" title="the orb is yours — about respira &amp; the voices">about</a>
       <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
       <button id="nav-radio-btn" onclick="navRadioToggle()">&#9655; <span class="nrb-word">play </span>radio</button>
@@ -1000,7 +1006,7 @@ body{transition:background-color .7s ease;}
           <section class="screen active" id="screenStart">
             <div style="width:min(100%,760px);margin:0 auto;padding:0 clamp(16px,4vw,28px);text-align:center;position:relative;z-index:1;">
 
-              <div id="streak-badge" class="streak-badge"><span class="streak-dot"></span><span class="streak-n">0</span>&nbsp;day streak</div>
+              <!-- streak removed from the initial experience (§8): no performance metric before a session is completed -->
 
                             <div class="entry-grid">
                 <button class="entry-tile tile-breathe" id="pathBreathe">
@@ -1309,23 +1315,20 @@ body{transition:background-color .7s ease;}
           <section class="screen" id="screenComplete">
             <div class="room-card center" style="overflow-y:auto;max-height:calc(100vh - 100px);">
               <div class="completion-mark"></div>
-              <div class="room-heading" id="completionHeading">thank you for breathing.</div>
-              <p class="small-copy">you stayed with yourself for a few minutes.</p>
+              <div class="room-heading" id="completionHeading">thank you for staying a few minutes.</div>
+              <p class="small-copy" id="completionSub">you made a little time for yourself today.</p>
 
               <!-- daily affirmation -->
               <div style="margin:32px auto 0;max-width:400px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
                 <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--faint);text-transform:lowercase;margin-bottom:12px;">a note from respira</div>
                 <p id="dailyAffirmation" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.05rem,2vw,1.25rem);font-weight:300;font-style:italic;color:var(--ink);line-height:1.6;margin:0;"></p>
-                <div id="completion-stats" class="completion-stats"><div class="cstat"><span class="cstat-n" id="cstat-streak">0</span><span class="cstat-l">day streak</span></div><div class="cstat"><span class="cstat-n" id="cstat-min">0</span><span class="cstat-l">total minutes</span></div></div>
+                <div id="completion-stats" class="completion-stats"><div class="cstat"><span class="cstat-n" id="cstat-today">0</span><span class="cstat-l">minutes today</span></div><div class="cstat"><span class="cstat-n" id="cstat-min">0</span><span class="cstat-l">total minutes</span></div></div>
               </div>
 
-              <!-- support -->
-              <div style="margin-top:28px;">
-                <button onclick="openDonate()" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:lowercase;padding:12px 28px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.9);cursor:pointer;">support respira →</button>
-              </div>
-
-              <div class="room-actions">
+              <div class="room-actions" style="flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px;">
                 <button class="primary-btn" id="breatheAgain">breathe again</button>
+                <button class="secondary-btn" onclick="document.getElementById('radio').scrollIntoView({behavior:'smooth'});">continue listening</button>
+                <button class="secondary-btn" onclick="respiraShare('site')">share respira</button>
               </div>
             </div>
           </section>
@@ -4483,8 +4486,8 @@ function submitDonate(){
       if(ns<1) ns=1;
       s.streak=ns; s.totalMinutes=(s.totalMinutes||0)+(window._respiraMin||0); s.totalSessions=(s.totalSessions||0)+1; s.lastSessionDate=t.toISOString();
       try{ localStorage.setItem(K, JSON.stringify(s)); }catch(e){}
-      var st=document.getElementById('cstat-streak'), mn=document.getElementById('cstat-min'), box=document.getElementById('completion-stats');
-      if(st) st.textContent=s.streak; if(mn) mn.textContent=s.totalMinutes; if(box) box.style.display='flex';
+      var st=document.getElementById('cstat-today'), mn=document.getElementById('cstat-min'), box=document.getElementById('completion-stats');
+      if(st) st.textContent=(window._respiraMin||0); if(mn) mn.textContent=s.totalMinutes; if(box) box.style.display='flex';
       window.respiraRenderStreak();
     }catch(e){}
   };
@@ -4656,7 +4659,7 @@ setInterval(function(){
 
 /* ── share ─────────────────────────────────────────────────────────────── */
 var RESPIRA_SHARE = {
-  site:   { title:'respira', text:'a breathing room. put down what you\u2019re carrying.', url:'https://openrespira.org' },
+  site:   { title:'respira', text:'a breathing room, wherever you are.', url:'https://openrespira.org' },
   radio:  { title:'respira radio', text:'soulful soundscapes for studios, practices and community spaces. free.', url:'https://openrespira.org/#radio' },
   poster: { title:'the respira poster studio', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' }
 };
@@ -4669,11 +4672,33 @@ function respiraShare(which){
   var d = RESPIRA_SHARE[which] || RESPIRA_SHARE.site;
   try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({event:'share', what:which, _subject:'respira: someone shared '+which})}); }catch(e){}
   if(navigator.share){ navigator.share(d).catch(function(){}); return; }
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(d.url).then(function(){ rToast('link copied \u2014 pass it on'); }).catch(function(){ rToast(d.url); });
-    return;
-  }
-  rToast(d.url);
+  respiraShareFallback(d);   // desktop / unsupported: copy \u00b7 whatsapp \u00b7 text \u00b7 email
+}
+function respiraShareFallback(d){
+  var old=document.getElementById('share-fallback'); if(old) old.remove();
+  var msg=d.text+' '+d.url, enc=encodeURIComponent(msg);
+  var wrap=document.createElement('div');
+  wrap.id='share-fallback'; wrap.setAttribute('role','dialog'); wrap.setAttribute('aria-label','share respira'); wrap.setAttribute('aria-modal','true');
+  wrap.style.cssText='position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:rgba(27,24,20,.5);backdrop-filter:blur(3px);padding:1.5rem;';
+  var row='display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:8px;border:1px solid var(--line);border-radius:10px;background:transparent;font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.06em;color:var(--ink);text-decoration:none;text-transform:lowercase;cursor:pointer;';
+  wrap.innerHTML='<div style="background:var(--cream,#fffaf2);border:1px solid var(--line);border-radius:18px;max-width:320px;width:100%;padding:22px;">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;"><span style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;color:var(--ink);">share respira</span><button data-x aria-label="close" style="background:none;border:none;font-size:20px;line-height:1;color:var(--faint);cursor:pointer;">&times;</button></div>'
+    +'<button data-copy style="'+row+'">copy link</button>'
+    +'<a href="https://wa.me/?text='+enc+'" target="_blank" rel="noopener" style="'+row+'">whatsapp</a>'
+    +'<a href="sms:?&body='+enc+'" style="'+row+'">text message</a>'
+    +'<a href="mailto:?subject='+encodeURIComponent('a breathing room')+'&body='+enc+'" style="'+row+'margin-bottom:0;">email</a>'
+    +'</div>';
+  function close(){ wrap.remove(); document.removeEventListener('keydown', onKey); }
+  function onKey(e){ if(e.key==='Escape') close(); }
+  wrap.addEventListener('click', function(e){ if(e.target===wrap || e.target.hasAttribute('data-x')) close(); });
+  wrap.querySelector('[data-copy]').addEventListener('click', function(){
+    if(navigator.clipboard){ navigator.clipboard.writeText(d.url).then(function(){ rToast('link copied \u2014 pass it on'); }).catch(function(){ rToast(d.url); }); }
+    else rToast(d.url);
+    close();
+  });
+  [].forEach.call(wrap.querySelectorAll('a'), function(a){ a.addEventListener('click', close); });
+  document.addEventListener('keydown', onKey);
+  document.body.appendChild(wrap);
 }
 </script>
 <!-- ══════════════════════ shopping cart ══════════════════════ -->
