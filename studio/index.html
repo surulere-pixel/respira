@@ -176,6 +176,58 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
   .sb-hero::after{display:none;}.sb-eye,.sb-h{color:var(--ink);}.wrap{max-width:100%;}
 }
 </style><body>
+<style>
+/* ══ studio app shell — rail · topbar · views ══ */
+:root{ --st-bone:#f2eee6; --st-chalk:#faf8f3; --st-cocoa:#241c18; --st-clay:#d8c8b9; --st-terra:#b85f3f; --st-nk:#211c19; }
+body{background:var(--st-bone)!important;padding-left:212px;padding-top:52px;}
+.hd{display:none!important;}
+.wrap{max-width:940px!important;padding-top:1.4rem!important;}
+.st-rail{position:fixed;left:0;top:0;bottom:0;width:212px;background:linear-gradient(180deg,#2b211a,#160f09);border-right:1px solid rgba(201,163,106,.15);display:flex;flex-direction:column;padding:22px 14px;z-index:60;}
+.st-rail-brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;color:#f0e4cf;padding:2px 10px 18px;line-height:1;}
+.st-rail-brand em{font-style:italic;color:#c9a36a;}
+.st-rail-nav{display:flex;flex-direction:column;gap:3px;}
+.st-rail-item{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:lowercase;color:rgba(240,228,207,.62);background:none;border:none;text-align:left;width:100%;padding:11px 12px;border-radius:10px;cursor:pointer;transition:background .14s,color .14s;text-decoration:none;}
+.st-rail-item:hover{background:rgba(201,163,106,.09);color:#f0e4cf;}
+.st-rail-item.on{background:var(--st-terra);color:#fbf3ea;}
+.st-rail-ico{width:16px;text-align:center;opacity:.85;font-size:12px;}
+.st-rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:14px;border-top:1px solid rgba(240,228,207,.1);}
+.st-topbar{position:fixed;top:0;left:212px;right:0;height:52px;background:rgba(242,238,230,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(33,28,25,.1);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:55;}
+.st-top-class{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--st-nk);text-transform:lowercase;display:flex;align-items:center;gap:10px;min-width:0;}
+.st-top-class #st-top-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw;}
+.st-autosave{font-size:8px;color:#6f8a5f;letter-spacing:.1em;}
+.st-top-right{display:flex;align-items:center;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(33,28,25,.5);text-transform:lowercase;}
+.st-live{display:flex;align-items:center;gap:6px;}
+.st-live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--st-terra);box-shadow:0 0 0 3px rgba(184,95,63,.22);}
+@media(max-width:820px){
+  body{padding-left:0;padding-top:52px;padding-bottom:66px;}
+  .st-rail{left:0;right:0;top:auto;bottom:0;width:auto;height:66px;flex-direction:row;padding:0 6px;border-right:none;border-top:1px solid rgba(201,163,106,.18);}
+  .st-rail-brand,.st-rail-foot{display:none;}
+  .st-rail-nav{flex-direction:row;gap:2px;flex:1;justify-content:space-around;align-items:center;}
+  .st-rail-item{flex-direction:column;gap:3px;font-size:7.5px;padding:8px 5px;width:auto;text-align:center;}
+  .st-rail-item[data-v="classes"],.st-rail-item[data-v="resources"]{display:none;}
+  .st-topbar{left:0;}
+}
+</style>
+<aside class="st-rail" aria-label="studio">
+  <div class="st-rail-brand">res<em>pira</em> · studio</div>
+  <nav class="st-rail-nav">
+    <button class="st-rail-item on" data-v="overview" onclick="studioView('overview')"><span class="st-rail-ico">&#9672;</span>overview</button>
+    <button class="st-rail-item" data-v="build" onclick="studioView('build')"><span class="st-rail-ico">&#9998;</span>class builder</button>
+    <button class="st-rail-item" data-v="classes" onclick="studioView('overview')"><span class="st-rail-ico">&#9636;</span>classes</button>
+    <button class="st-rail-item" onclick="startClass()"><span class="st-rail-ico">&#9654;</span>teach</button>
+    <button class="st-rail-item" data-v="room" onclick="studioView('room')"><span class="st-rail-ico">&#9750;</span>my room</button>
+    <button class="st-rail-item" data-v="resources" onclick="studioView('resources')"><span class="st-rail-ico">&#8943;</span>resources</button>
+  </nav>
+  <div class="st-rail-foot">
+    <button class="st-rail-item" onclick="studioInstall()"><span class="st-rail-ico">&#8681;</span>install</button>
+    <a class="st-rail-item" href="/"><span class="st-rail-ico">&#8592;</span>respira</a>
+  </div>
+</aside>
+<div class="st-topbar">
+  <div class="st-top-class"><span id="st-top-name">untitled class</span><span class="st-autosave" id="st-autosave"></span></div>
+  <div class="st-top-right"><span class="st-live">studio live</span><span id="st-clock">--:--</span></div>
+</div>
+
 <div class="wrap" id="top">
   <div class="hd"><div class="hd-logo">res<em>pira</em> · studio</div><div class="hd-row"><button class="hd-install" id="hdInstall" hidden onclick="studioInstall()">&#8681; install</button><a class="hd-back" href="/">&larr; back to respira</a></div></div>
   <style>
@@ -201,7 +253,7 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
     <p class="dash-sub">build from a starting point, open teaching mode, or launch a room of your own. <a href="/respira-for-studios.pdf" download style="color:var(--sage-dark,#4f5a43);">download the packet &darr;</a></p>
   </div>
   <div class="dash-cards">
-    <a class="dash-card dc-build" href="#builder">
+    <a class="dash-card dc-build" href="#builder" onclick="studioView('build');return false;">
       <span class="dc-eye">build</span>
       <span class="dc-h">create a complete class</span>
       <span class="dc-copy">shape the arc, set timing, add cues &amp; sound, then save it to teach from.</span>
@@ -248,8 +300,8 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
   <div class="tk">
     <div class="tk-label">studios + coaches</div>
     <div class="tk-grid">
-      <a class="tk-tool" href="#builder"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
-      <a class="tk-tool" href="#blueprint"><b>your own app</b><span>a branded breathing room, built for you</span></a>
+      <a class="tk-tool" href="#builder" onclick="studioView('build');return false;"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
+      <a class="tk-tool" href="#blueprint" onclick="studioView('room');return false;"><b>your own app</b><span>a branded breathing room, built for you</span></a>
       <a class="tk-tool" href="https://openrespira.org/#radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
       <a class="tk-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><b>helpdesk &#8599;</b><span>support, answered with warmth</span></a>
       <a class="tk-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><b>pages &#8599;</b><span>happy sunday&rsquo;s directory of care</span></a>
@@ -917,4 +969,18 @@ function renderLibrary(){
   }).join('')+'</div>';
 }
 renderLibrary();
+
+/* ── studio app shell: view switching + clock + topbar ── */
+var STUDIO_VIEWS={ overview:['.dash-head','.dash-cards','#classLib'], build:['#builder','.console','#blocks'], room:['#blueprint'], resources:['.tk'] };
+function studioView(v){
+  Object.keys(STUDIO_VIEWS).forEach(function(k){ STUDIO_VIEWS[k].forEach(function(sel){ var el=document.querySelector(sel); if(el) el.style.display=(k===v)?'':'none'; }); });
+  [].forEach.call(document.querySelectorAll('.st-rail-item[data-v]'),function(b){ b.classList.toggle('on', b.getAttribute('data-v')===v); });
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+window.studioView=studioView;
+function stClock(){ var d=new Date(); var h=d.getHours(),m=d.getMinutes(); var el=document.getElementById('st-clock'); if(el) el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
+stClock(); setInterval(stClock,1000);
+(function(){ var cn=document.getElementById('cname'), tn=document.getElementById('st-top-name'); if(cn&&tn){ var sync=function(){ tn.textContent=(cn.value||'untitled class'); }; cn.addEventListener('input',sync); sync(); } })();
+(function(){ var _t=studioToast; studioToast=function(m){ if(_t)_t(m); var a=document.getElementById('st-autosave'); if(a && /saved/.test(m)){ a.textContent='· saved'; setTimeout(function(){ a.textContent=''; },2600); } }; })();
+studioView('overview');
 </script></body></html>
