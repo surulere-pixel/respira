@@ -2273,6 +2273,51 @@ function dirSetOwn(o,btn){ dirOwn=o; var ps=document.querySelectorAll('#dir-owns
 })();
 </script>
 
+<!-- three ways into respira (ecosystem pathways · §13) -->
+<style>
+.paths-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+.path-card{display:flex;flex-direction:column;gap:8px;background:var(--cream,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:20px;padding:26px 24px;text-decoration:none;color:inherit;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.path-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(42,31,24,.12);border-color:rgba(122,58,34,.35);}
+.path-card:focus-visible{outline:2px solid var(--sage-dark,#4f5a43);outline-offset:3px;}
+.pc-ico{font-size:22px;line-height:1;color:var(--sage-dark,#4f5a43);}
+.pc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.95);}
+.pc-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.7rem;font-weight:300;line-height:1.05;color:var(--ink,#1d1915);}
+.pc-copy{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:var(--soft,#5f554b);line-height:1.85;flex:1;}
+.pc-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:#7a3a22;margin-top:6px;}
+.path-card:hover .pc-cta{color:var(--clay,#a5442f);}
+</style>
+<div style="background:#fbf6ec;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
+  <div class="inner">
+    <div style="text-align:center;margin-bottom:2.4rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--faint);margin-bottom:.6rem;">three ways in</div>
+      <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:var(--ink);letter-spacing:-.02em;line-height:1.05;margin:0;">a room &mdash; and a <em style="font-style:italic;color:var(--sage-dark);">whole world</em> around it.</h2>
+    </div>
+    <div class="paths-grid">
+      <a class="path-card" href="/find">
+        <span class="pc-ico">&#9737;</span>
+        <span class="pc-eyebrow">find a room</span>
+        <span class="pc-h">discover a practice near you</span>
+        <span class="pc-copy">studios, instructors and community spaces across the diaspora, gathered in respira 100.</span>
+        <span class="pc-cta">find a practice &rarr;</span>
+      </a>
+      <a class="path-card" href="/studio">
+        <span class="pc-ico">&#9635;</span>
+        <span class="pc-eyebrow">run a practice</span>
+        <span class="pc-h">build classes, run the room</span>
+        <span class="pc-copy">a free workspace to plan classes, teach with voice and sound, and launch your own respira-powered room.</span>
+        <span class="pc-cta">open respira studio &rarr;</span>
+      </a>
+      <a class="path-card" href="/open-floor">
+        <span class="pc-ico">&#9834;</span>
+        <span class="pc-eyebrow">bring your sound</span>
+        <span class="pc-h">contribute to the sound world</span>
+        <span class="pc-copy">artists, poets, producers and guides across the diaspora shape the respira sound world. add yours.</span>
+        <span class="pc-cta">visit open floor &rarr;</span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- respira goods -->
 <div id="goods" style="background:#f0dcb8;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner">
@@ -2791,7 +2836,9 @@ document.addEventListener('DOMContentLoaded', function(){
     <nav aria-label="explore respira" style="display:flex;flex-wrap:wrap;gap:14px 20px;margin-top:2.6rem;padding-top:1.8rem;border-top:1px solid rgba(201,163,106,.16);">
       <a href="/" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">room</a>
       <a href="/#radio" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">radio</a>
+      <a href="/find" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">find a practice</a>
       <a href="/studio" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">for studios</a>
+      <a href="/open-floor" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">open floor</a>
       <a href="/poster" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">poster</a>
       <a href="/goods" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">goods</a>
       <a href="/about" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:lowercase;color:rgba(248,244,237,.72);text-decoration:none;">about</a>
