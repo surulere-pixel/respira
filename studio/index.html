@@ -178,14 +178,50 @@ input[type=range]{width:100%;accent-color:var(--terra);margin-top:.6rem;height:4
 </style><body>
 <div class="wrap" id="top">
   <div class="hd"><div class="hd-logo">res<em>pira</em> · studio</div><div class="hd-row"><button class="hd-install" id="hdInstall" hidden onclick="studioInstall()">&#8681; install</button><a class="hd-back" href="/">&larr; back to respira</a></div></div>
-  <div class="sb-hero">
-    <div class="sb-eye">for studios &middot; coaches &middot; spaces</div>
-    <div class="sb-h">bring respira into your practice.</div>
-    <div class="sb-lede">a free toolkit for the people holding space &mdash; audio for your rooms, your own branded app, a directory that sends you clients, and a class builder you can teach from. built by happy sunday, given freely.</div>
-    <div class="sb-ctas">
-      <a href="#builder" class="sb-cta">build a class &rarr;</a>
-      <a href="/respira-for-studios.pdf" class="sb-cta sb-cta2" download>download the packet &darr;</a>
-    </div>
+  <style>
+  .dash-head{padding:1.4rem 0 1.8rem;}
+  .dash-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold,#c9a36a);margin-bottom:.7rem;}
+  .dash-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(1.9rem,4.5vw,3rem);color:var(--ink,#1d1915);letter-spacing:-.02em;line-height:1.02;margin:0;}
+  .dash-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--soft,#5f554b);line-height:1.8;margin:.8rem 0 0;text-transform:lowercase;}
+  .dash-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:2.2rem;}
+  .dash-card{position:relative;display:flex;flex-direction:column;gap:7px;text-align:left;text-decoration:none;background:var(--cream,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:20px;padding:24px 22px 22px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;overflow:hidden;font:inherit;color:inherit;}
+  .dash-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,#a5442f);}
+  .dash-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(42,31,24,.14);border-color:var(--accent,#a5442f);}
+  .dash-card:focus-visible{outline:2px solid var(--accent,#a5442f);outline-offset:3px;}
+  .dc-build{--accent:#a5442f;} .dc-teach{--accent:#4f5a43;} .dc-launch{--accent:#c9a36a;}
+  .dc-eye{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent,#a5442f);}
+  .dc-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.5rem;line-height:1.1;color:var(--ink,#1d1915);}
+  .dc-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--soft,#5f554b);line-height:1.75;flex:1;}
+  .dc-status{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:var(--soft,#5f554b);border:1px solid var(--line,rgba(29,25,21,.14));border-radius:999px;padding:5px 11px;align-self:flex-start;margin-top:4px;}
+  .dc-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:var(--accent,#a5442f);margin-top:8px;}
+  </style>
+  <div class="dash-head">
+    <div class="dash-eye">respira &middot; studio</div>
+    <h1 class="dash-h">what are you teaching today?</h1>
+    <p class="dash-sub">build from a starting point, open teaching mode, or launch a room of your own. <a href="/respira-for-studios.pdf" download style="color:var(--sage-dark,#4f5a43);">download the packet &darr;</a></p>
+  </div>
+  <div class="dash-cards">
+    <a class="dash-card dc-build" href="#builder">
+      <span class="dc-eye">build</span>
+      <span class="dc-h">create a complete class</span>
+      <span class="dc-copy">shape the arc, set timing, add cues &amp; sound, then save it to teach from.</span>
+      <span class="dc-status">a fresh class is ready</span>
+      <span class="dc-cta">open class builder &rarr;</span>
+    </a>
+    <button type="button" class="dash-card dc-teach" onclick="startClass()">
+      <span class="dc-eye">teach</span>
+      <span class="dc-h">walk in. press play. teach.</span>
+      <span class="dc-copy">a distraction-free view with section timing, cues and sound.</span>
+      <span class="dc-status">opens teaching mode</span>
+      <span class="dc-cta">start a session &rarr;</span>
+    </button>
+    <button type="button" class="dash-card dc-launch" onclick="blueprintStart()">
+      <span class="dc-eye">launch</span>
+      <span class="dc-h">a room around your practice</span>
+      <span class="dc-copy">your identity, tools, voices, sound and booking — in one branded room.</span>
+      <span class="dc-status">not configured yet</span>
+      <span class="dc-cta">launch my room &rarr;</span>
+    </button>
   </div>
 
   <div class="tk">
