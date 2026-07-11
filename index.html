@@ -972,15 +972,16 @@ body{transition:background-color .7s ease;}
     </div>
     <div class="nav-links">
       <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
-      <a href="/find" class="beta-badge" title="find a practice near you">find</a>
       <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
       <button id="nav-radio-btn" onclick="navRadioToggle()">&#9655; <span class="nrb-word">play </span>radio</button>
       <div class="nav-menu-wrap">
         <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
-          <a href="/open-floor" role="menuitem">open floor</a>
-          <a href="/poster" role="menuitem">poster studio</a>
+          <a href="/find" role="menuitem">find a practice</a>
+          <a href="#lend" role="menuitem" onclick="closeNavMenu()">lend your voice</a>
+          <a href="/poster" role="menuitem">poster maker</a>
           <a href="/goods" role="menuitem">goods</a>
+          <a href="/open-floor" role="menuitem">open floor</a>
           <a href="/about" role="menuitem">about</a>
           <a href="/support" role="menuitem">support</a>
           <a href="/help" role="menuitem">help</a>
@@ -999,6 +1000,7 @@ body{transition:background-color .7s ease;}
 </style>
 <script>
 function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m||!b) return; var closed=m.hasAttribute('hidden'); if(closed){ var r=b.getBoundingClientRect(); m.style.top=(r.bottom+8)+'px'; m.style.right=Math.max(8,(window.innerWidth-r.right))+'px'; m.style.left='auto'; m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
+function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m) m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); }
 (function(){
   function close(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } }
   document.addEventListener('click',function(e){ if(!(e.target.closest&&e.target.closest('.nav-menu-wrap'))) close(); });
@@ -2287,7 +2289,7 @@ document.addEventListener('DOMContentLoaded', renderGuides);
         <div class="goods-tier t2">poster maker</div>
         <h3 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:var(--ink);line-height:1.05;margin:6px 0 4px;">make the words your own.</h3>
         <p class="poster-intro">choose the phrase, languages and colors. download your version free &mdash; or have it framed and delivered.</p>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;"><a class="poster-spec" href="/poster">open poster studio &rarr;</a><button class="share-pill" onclick="respiraShare('poster')">&#8599; share</button></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;"><a class="poster-spec" href="/poster">open poster maker &rarr;</a><button class="share-pill" onclick="respiraShare('poster')">&#8599; share</button></div>
       </div>
       <div class="poster-spec" id="fp-spec">18&Prime;&times;24&Prime;</div>
     </div>
@@ -2693,7 +2695,7 @@ document.addEventListener('DOMContentLoaded', function(){
     #lv-mount .lv-collapse{background:#faf8f3;border:1px solid rgba(29,25,21,.1);border-radius:16px;padding:20px;margin-top:16px;text-align:left;}
     #lv-mount .guide-join-thanks{color:rgba(201,163,106,.95);}
     </style>
-    <div class="lv-hero">
+    <div class="lv-hero" id="lend" style="scroll-margin-top:80px;">
       <div class="lv-hero-mic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10v1a7 7 0 0 0 14 0v-1"></path><line x1="12" y1="18" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg></div>
       <div class="lv-hero-eyebrow">lend your voice</div>
       <div class="lv-hero-title">respira should speak <em>your language.</em></div>
@@ -4522,7 +4524,7 @@ setInterval(function(){
 var RESPIRA_SHARE = {
   site:   { title:'respira', text:'a breathing room, wherever you are.', url:'https://openrespira.org' },
   radio:  { title:'respira radio', text:'soulful soundscapes for studios, practices and community spaces. free.', url:'https://openrespira.org/#radio' },
-  poster: { title:'the respira poster studio', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' }
+  poster: { title:'the respira poster maker', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' }
 };
 function rToast(msg){
   var t=document.getElementById('r-toast'); if(!t) return;

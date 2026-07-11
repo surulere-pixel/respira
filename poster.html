@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>poster studio · respira</title>
+<title>poster maker · respira</title>
 <meta name="description" content="make your own respira poster. four phrases, eight mother tongues, your colors. 18″×24″, print-ready, free.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%232a1f18%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%278%27%20fill%3D%27%23c9a36a%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2713%27%20r%3D%273%27%20fill%3D%27%23e6d3ac%27%20opacity%3D%270.55%27%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#f8f4ed">
-<meta property="og:title" content="poster studio · respira">
+<meta property="og:title" content="poster maker · respira">
 <meta property="og:description" content="four phrases, eight mother tongues, your colors. 18″×24″, print-ready, free.">
 <meta property="og:url" content="https://openrespira.org/poster">
 <meta property="og:type" content="website">
@@ -168,7 +168,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 <nav class="nav">
   <div class="nav-inner">
     <a class="nav-logo" href="/">resp<em>i</em>ra</a>
-    <span class="nav-badge">poster studio · 18″ × 24″</span>
+    <span class="nav-badge">poster maker · 18″ × 24″</span>
     <a class="nav-back" href="/#goods">← back to goods</a>
   </div>
 </nav>
@@ -193,8 +193,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
       <div class="lines" id="lineList"></div>
       <div class="more-tongues" id="moreTongues"></div>
       <div class="addrow">
-        <input class="inp" id="newLang" placeholder="language" aria-label="language name">
-        <input class="inp" id="newText" placeholder="your translation" aria-label="translation">
+        <input class="inp" id="newLang" placeholder="language" aria-label="language name" maxlength="24">
+        <input class="inp" id="newText" placeholder="your words" aria-label="your words" maxlength="42">
         <button class="btn-s" id="addLine">add</button>
       </div>
     </section>
@@ -264,7 +264,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 
 <script>
 /* ══════════════════════════════════════════════════
-   respira poster studio
+   respira poster maker
    one layout engine → preview, print, png, svg.
    poster units: 1296 × 1728 (18″×24″ at 72dpi)
    ══════════════════════════════════════════════════ */
@@ -611,9 +611,20 @@ function syncAll(){
 }
 
 /* wire it up */
+// keep it kind + printable: basic profanity guard. word-boundary matching so legit
+// words like "peacock"/"scunthorpe" aren't false-flagged; catches severe slurs even when spaced out.
+const POSTER_BAD = /\b(f+u+c+k\w*|sh[i1!]t\w*|b[i1!]tch\w*|c+u+n+t\w*|assh[o0]le\w*|n[i1!]gg+(a|er)\w*|f+a+gg?([o0]t)?s?|d[i1!]cks?|pu+ss+y|wh[o0]res?|sluts?|retard\w*|b[a@]stards?|c+o+cks?|tw[a@]ts?|w[a@]nk\w*)\b/i;
+const POSTER_SLUR = /(n[i1!]gg+(a|er)|f+a+gg?([o0]t)?|c+u+n+t)/i; // caught even collapsed/spaced
+function posterClean(s){
+  const norm = (s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ');
+  const collapsed = (s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  return !POSTER_BAD.test(norm) && !POSTER_SLUR.test(collapsed);
+}
+const POSTER_MAX = 42;
 $('addLine').onclick = () => {
-  const lang = $('newLang').value.trim(), text = $('newText').value.trim();
+  const lang = $('newLang').value.trim().slice(0,24), text = $('newText').value.trim().slice(0,POSTER_MAX);
   if (!text) { toast('add the words first'); return; }
+  if (!posterClean(text) || !posterClean(lang)) { toast('let’s keep it kind — try other words'); return; }
   S.lines.push({ lang: lang || 'your tongue', text, on: true });
   $('newLang').value = ''; $('newText').value = '';
   markCustom(); buildLines(); buildMoreTongues(); render();
