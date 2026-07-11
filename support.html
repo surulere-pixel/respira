@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>support · respira</title>
+<meta name="description" content="Keep Respira free. Support the breathing room with a one-time contribution — securely through Stripe.">
+<meta property="og:title" content="support · respira">
+<meta property="og:description" content="keep the breathing room free.">
+<meta property="og:image" content="https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffaf2; --ink:#1d1915; --soft:#5f554b; --faint:#b3a99c;
+  --line:rgba(29,25,21,.12); --cream:#fffaf2; --sage-dark:#4f5a43;
+  --gold:#c9a36a; --clay:#a5442f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none!important;animation:none!important;}}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-in{max-width:1100px;margin:0 auto;padding:14px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:400;text-decoration:none;color:var(--ink);letter-spacing:-.01em;}
+.logo em{font-style:italic;color:var(--sage-dark);}
+.nav-links{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
+.nav-links a{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;text-decoration:none;color:var(--soft);padding:.5rem .7rem;border-radius:8px;transition:color .15s,background .15s;}
+.nav-links a:hover{color:var(--ink);background:var(--line);}
+.wrap{max-width:760px;margin:0 auto;padding:clamp(2.6rem,7vw,5rem) clamp(20px,5vw,40px) 4rem;}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold);margin-bottom:1rem;}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,7vw,4rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:1.1rem;}
+h1 em{font-style:italic;color:var(--sage-dark);}
+.lede{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,3vw,1.6rem);color:var(--soft);line-height:1.5;max-width:52ch;margin-bottom:2.6rem;}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,4vw,2.1rem);margin:2.8rem 0 .9rem;letter-spacing:-.01em;}
+p{font-size:.92rem;color:var(--soft);line-height:1.85;margin-bottom:1.1rem;max-width:60ch;}
+p strong{color:var(--ink);font-weight:500;}
+/* donate card */
+.donate{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,32px);margin-top:1.5rem;box-shadow:0 20px 50px rgba(42,31,24,.06);}
+.amounts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.amt{flex:1;min-width:74px;font-family:var(--mono);font-size:14px;padding:14px 8px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer;transition:all .15s;}
+.amt:hover{border-color:var(--sage-dark);}
+.amt.sel{background:rgba(79,90,67,.1);border-color:var(--sage-dark);color:var(--ink);}
+.custom-row{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin-bottom:16px;}
+.custom-row span{font-family:var(--serif);font-size:1.2rem;color:var(--soft);}
+.custom-row input{flex:1;border:none;background:transparent;outline:none;font-family:var(--mono);font-size:14px;color:var(--ink);padding:10px 0;min-width:0;}
+.give{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:lowercase;padding:16px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.96);cursor:pointer;transition:opacity .2s;}
+.give:hover{opacity:.92;}
+.give[disabled]{opacity:.55;cursor:default;}
+.fineprint{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;color:var(--faint);text-transform:lowercase;margin-top:12px;text-align:center;}
+.give-msg{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--sage-dark);text-align:center;margin-top:14px;line-height:1.4;min-height:0;}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:1.5rem;}
+.tier{border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(255,250,242,.5);}
+.tier h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin-bottom:4px;}
+.tier .t-amt{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--gold);text-transform:lowercase;margin-bottom:10px;}
+.tier p{font-size:.82rem;margin-bottom:14px;}
+.tier button{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:all .15s;}
+.tier button:hover{border-color:var(--sage-dark);}
+.rule{height:1px;background:var(--line);border:none;margin:3rem 0;}
+.inst a{color:var(--sage-dark);}
+footer{border-top:1px solid var(--line);background:rgba(29,25,21,.02);}
+.foot-in{max-width:1100px;margin:0 auto;padding:2.6rem clamp(20px,5vw,40px);display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:space-between;align-items:center;}
+.foot-links{display:flex;flex-wrap:wrap;gap:1rem;}
+.foot-links a{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);text-decoration:none;}
+.foot-links a:hover{color:var(--ink);}
+.foot-note{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--faint);line-height:1.8;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="logo">res<em>pira</em></a>
+    <div class="nav-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">for studios</a><a href="/about">about</a><a href="/help">help</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="eyebrow">support respira</div>
+  <h1>keep the room <em>free.</em></h1>
+  <p class="lede">respira's breathing room, movement flows and radio are free to use. contributions keep the servers running, the voices recording and the tools open to everyone.</p>
+
+  <h2>make a contribution</h2>
+  <p>a one-time gift, in any amount. payments are handled securely by <strong>stripe</strong> — respira never sees your card details.</p>
+  <div class="donate">
+    <div class="amounts" id="amounts">
+      <button class="amt" data-amt="5">$5</button>
+      <button class="amt" data-amt="10">$10</button>
+      <button class="amt sel" data-amt="25">$25</button>
+      <button class="amt" data-amt="54">$54</button>
+    </div>
+    <div class="custom-row"><span>$</span><input id="custom" type="number" min="1" step="1" inputmode="numeric" placeholder="other amount" aria-label="custom amount"></div>
+    <button class="give" id="give" onclick="give()">continue to secure checkout &rarr;</button>
+    <div class="fineprint">secured by stripe &middot; one-time &middot; no account needed</div>
+    <div class="give-msg" id="giveMsg" role="status" aria-live="polite"></div>
+  </div>
+
+  <h2>bigger ways to give</h2>
+  <p>suggested contributions toward specific parts of the work. every gift is a general contribution to respira &mdash; these are framings, not earmarked accounts.</p>
+  <div class="tiers">
+    <div class="tier">
+      <h3>fund a mat</h3>
+      <div class="t-amt">$145</div>
+      <p>the cost of a reunion mat, given so a community space can practise on real ground.</p>
+      <button onclick="giveAmount(145)">give $145 &rarr;</button>
+    </div>
+    <div class="tier">
+      <h3>fund a room</h3>
+      <div class="t-amt">$500</div>
+      <p>help stand up a respira-powered room for a studio or community that couldn't otherwise afford one.</p>
+      <button onclick="giveAmount(500)">give $500 &rarr;</button>
+    </div>
+    <div class="tier">
+      <h3>sustaining gift</h3>
+      <div class="t-amt">$1,000</div>
+      <p>underwrite a season of free breathing, movement and sound for everyone who walks in.</p>
+      <button onclick="giveAmount(1000)">give $1,000 &rarr;</button>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <h2 class="inst">institutional &amp; sponsorship</h2>
+  <p class="inst">foundations, workplaces and cultural institutions can sponsor rooms, mats and access programs at scale. write to <a href="mailto:hello@openrespira.org?subject=respira%20partnership">hello@openrespira.org</a> and we'll send a partnership outline. for anything else, the <a href="/help">help page</a> has a contact form.</p>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">studio</a>
+      <a href="/poster">poster</a><a href="/about">about</a><a href="/help">help</a>
+    </div>
+    <div class="foot-note">respira &middot; by happy sunday, an initiative of the birthright project.</div>
+  </div>
+</footer>
+
+<script>
+var amount=25;
+function paint(){var b=document.querySelectorAll('.amt');for(var i=0;i<b.length;i++){b[i].classList.toggle('sel', Number(b[i].dataset.amt)===amount && !document.getElementById('custom').value);}}
+document.querySelectorAll('.amt').forEach(function(b){b.addEventListener('click',function(){amount=Number(b.dataset.amt);document.getElementById('custom').value='';paint();});});
+document.getElementById('custom').addEventListener('input',function(){var v=parseFloat(this.value);amount=(v>0)?v:0;paint();});
+function giveAmount(n){amount=n;document.getElementById('custom').value='';paint();give();}
+function give(){
+  if(!(amount>0)){document.getElementById('custom').focus();return;}
+  var btn=document.getElementById('give'), msg=document.getElementById('giveMsg');
+  btn.disabled=true; var label=btn.textContent; btn.textContent='taking you to checkout…';
+  fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({donation:Math.round(amount*100)})})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+    .then(function(res){
+      if(res.ok && res.d.url){ window.location.href=res.d.url; return; }
+      msg.textContent = (res.status===503) ? 'donations aren’t switched on yet — thank you, though.' : 'couldn’t start checkout — please try again.';
+      btn.disabled=false; btn.textContent=label;
+    })
+    .catch(function(){ msg.textContent='network error — please try again.'; btn.disabled=false; btn.textContent=label; });
+}
+// reflect a returned donation
+try{var q=new URLSearchParams(location.search);if(q.get('order')==='success'){document.getElementById('giveMsg').textContent='thank you — truly. your gift keeps the room open.';history.replaceState({},'',location.pathname);}}catch(e){}
+</script>
+</body>
+</html>

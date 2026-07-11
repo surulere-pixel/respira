@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>help · respira</title>
+<meta name="description" content="Respira help — playback, studio, accessibility and account support, plus a way to reach a human.">
+<meta property="og:title" content="help · respira">
+<meta property="og:image" content="https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffaf2; --ink:#1d1915; --soft:#5f554b; --faint:#b3a99c;
+  --line:rgba(29,25,21,.12); --cream:#fffaf2; --sage-dark:#4f5a43;
+  --gold:#c9a36a; --clay:#a5442f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none!important;animation:none!important;}}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-in{max-width:1100px;margin:0 auto;padding:14px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:400;text-decoration:none;color:var(--ink);letter-spacing:-.01em;}
+.logo em{font-style:italic;color:var(--sage-dark);}
+.nav-links{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
+.nav-links a{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;text-decoration:none;color:var(--soft);padding:.5rem .7rem;border-radius:8px;transition:color .15s,background .15s;}
+.nav-links a:hover{color:var(--ink);background:var(--line);}
+.wrap{max-width:760px;margin:0 auto;padding:clamp(2.6rem,7vw,5rem) clamp(20px,5vw,40px) 4rem;}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold);margin-bottom:1rem;}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,7vw,4rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:1.1rem;}
+.lede{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,3vw,1.6rem);color:var(--soft);line-height:1.5;max-width:52ch;margin-bottom:2.2rem;}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,4vw,2.1rem);margin:2.8rem 0 .5rem;letter-spacing:-.01em;}
+p{font-size:.92rem;color:var(--soft);line-height:1.85;margin-bottom:1.1rem;max-width:60ch;}
+p strong{color:var(--ink);font-weight:500;}
+.faq{border-top:1px solid var(--line);margin-top:.6rem;}
+.faq details{border-bottom:1px solid var(--line);}
+.faq summary{cursor:pointer;list-style:none;padding:16px 0;font-family:var(--serif);font-size:1.15rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-family:var(--mono);font-size:1.1rem;color:var(--gold);}
+.faq details[open] summary::after{content:"\2013";}
+.faq .ans{padding:0 0 16px;}
+.faq .ans p{margin-bottom:.5rem;font-size:.88rem;}
+.rule{height:1px;background:var(--line);border:none;margin:3rem 0;}
+/* contact form */
+.form{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,32px);margin-top:1.4rem;box-shadow:0 20px 50px rgba(42,31,24,.06);}
+.field{margin-bottom:14px;}
+.field label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:var(--soft);margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--sage-dark);}
+.field input.err,.field textarea.err{border-color:var(--clay);}
+.field .msg{font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:var(--clay);margin-top:5px;min-height:0;text-transform:lowercase;}
+.send{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:lowercase;padding:15px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.96);cursor:pointer;transition:opacity .2s;}
+.send:hover{opacity:.92;}
+.send[disabled]{opacity:.55;cursor:default;}
+.form-status{font-family:var(--serif);font-style:italic;font-size:1.05rem;text-align:center;margin-top:14px;line-height:1.45;}
+.form-status.ok{color:var(--sage-dark);}
+.form-status.bad{color:var(--clay);font-style:normal;font-family:var(--mono);font-size:.75rem;}
+footer{border-top:1px solid var(--line);background:rgba(29,25,21,.02);}
+.foot-in{max-width:1100px;margin:0 auto;padding:2.6rem clamp(20px,5vw,40px);display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:space-between;align-items:center;}
+.foot-links{display:flex;flex-wrap:wrap;gap:1rem;}
+.foot-links a{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);text-decoration:none;}
+.foot-links a:hover{color:var(--ink);}
+.foot-note{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--faint);line-height:1.8;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="logo">res<em>pira</em></a>
+    <div class="nav-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">for studios</a><a href="/about">about</a><a href="/support">support</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="eyebrow">help &amp; support</div>
+  <h1>need a hand?</h1>
+  <p class="lede">answers to the most common questions — and a way to reach a real person if you're still stuck.</p>
+
+  <h2>playback &amp; sound</h2>
+  <div class="faq">
+    <details><summary>no sound is playing</summary><div class="ans"><p>check your device isn't on silent, and that the in-page volume isn't muted. on iphone, the physical silent switch can mute web audio — flick it off. tap play once directly (browsers block audio until you interact with the page).</p></div></details>
+    <details><summary>audio stops when i lock my screen</summary><div class="ans"><p>use the <strong>install</strong> option (add respira to your home screen) for the most reliable background playback. some mobile browsers pause web audio when the tab is backgrounded.</p></div></details>
+    <details><summary>two things are playing at once</summary><div class="ans"><p>starting a new sound should stop the previous one. if you hear overlap, refresh the page — and let us know below which two sources overlapped, so we can fix it.</p></div></details>
+  </div>
+
+  <h2>respira studio</h2>
+  <div class="faq">
+    <details><summary>do i need an account to build a class?</summary><div class="ans"><p>no — you can build and save a class on your device without signing in. an account lets you keep a class library across devices and request a branded room.</p></div></details>
+    <details><summary>where did my saved class go?</summary><div class="ans"><p>guest classes are saved in your browser on this device. clearing site data or switching browsers will remove them. sign-in (coming to studio) keeps them synced.</p></div></details>
+  </div>
+
+  <h2>accessibility</h2>
+  <div class="faq">
+    <details><summary>i use reduced motion</summary><div class="ans"><p>respira respects your system's reduced-motion setting — animations are minimized automatically when it's on.</p></div></details>
+    <details><summary>keyboard &amp; screen readers</summary><div class="ans"><p>controls are keyboard-navigable with visible focus, and icon-only buttons carry text labels. if you hit a barrier, tell us below — accessibility fixes go to the front of the queue.</p></div></details>
+  </div>
+
+  <h2>orders &amp; poster downloads</h2>
+  <div class="faq">
+    <details><summary>are poster downloads free?</summary><div class="ans"><p>yes — every digital poster format is free and downloads immediately, no checkout. only <strong>framed prints</strong> (printed and shipped) are paid.</p></div></details>
+    <details><summary>a question about an order</summary><div class="ans"><p>order receipts come from stripe. for anything about a hoodie, mat or framed print, message us below with your email and we'll find it.</p></div></details>
+  </div>
+
+  <hr class="rule">
+  <h2>still stuck? write to us</h2>
+  <p>we read every message. we'll reply to the email you leave — usually within a couple of days.</p>
+  <form class="form" id="contactForm" novalidate>
+    <div class="field">
+      <label for="cf-name">your name</label>
+      <input id="cf-name" name="name" type="text" autocomplete="name">
+      <div class="msg" id="err-name"></div>
+    </div>
+    <div class="field">
+      <label for="cf-email">your email (so we can reply)</label>
+      <input id="cf-email" name="email" type="email" autocomplete="email">
+      <div class="msg" id="err-email"></div>
+    </div>
+    <div class="field">
+      <label for="cf-topic">topic</label>
+      <select id="cf-topic" name="topic">
+        <option>playback / sound</option>
+        <option>respira studio</option>
+        <option>accessibility</option>
+        <option>an order</option>
+        <option>something else</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="cf-msg">what's going on?</label>
+      <textarea id="cf-msg" name="message" rows="4"></textarea>
+      <div class="msg" id="err-msg"></div>
+    </div>
+    <button class="send" type="submit" id="cf-send">send message &rarr;</button>
+    <div class="form-status" id="cf-status" role="status" aria-live="polite"></div>
+  </form>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">studio</a>
+      <a href="/poster">poster</a><a href="/about">about</a><a href="/support">support</a>
+    </div>
+    <div class="foot-note">respira &middot; by happy sunday, an initiative of the birthright project.</div>
+  </div>
+</footer>
+
+<script>
+var form=document.getElementById('contactForm');
+function setErr(id,txt){var el=document.getElementById('err-'+id);var inp=document.getElementById('cf-'+id);if(el)el.textContent=txt||'';if(inp)inp.classList.toggle('err',!!txt);}
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var name=document.getElementById('cf-name').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var message=document.getElementById('cf-msg').value.trim();
+  var topic=document.getElementById('cf-topic').value;
+  var ok=true;
+  setErr('name',''); setErr('email',''); setErr('msg','');
+  if(!name){ setErr('name','please add your name'); ok=false; }
+  if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ setErr('email','a valid email so we can reply'); ok=false; }
+  if(message.length<5){ setErr('msg','tell us a little more'); ok=false; }
+  if(!ok) return;
+
+  var btn=document.getElementById('cf-send'), status=document.getElementById('cf-status');
+  status.className='form-status'; status.textContent='';
+  btn.disabled=true; var label=btn.textContent; btn.textContent='sending…';
+  fetch('https://formspree.io/f/mykqjrjw',{
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({event:'help_contact', name:name, email:email, topic:topic, message:message, _subject:'respira help: '+topic+' — '+name})
+  }).then(function(r){
+    if(r.ok){
+      form.reset();
+      status.className='form-status ok';
+      status.textContent='thank you, '+name.split(' ')[0]+' — your message is in. we’ll reply to '+email+'.';
+      btn.textContent=label; btn.disabled=false;
+    } else {
+      throw new Error('bad status');
+    }
+  }).catch(function(){
+    status.className='form-status bad';
+    status.textContent='that didn’t send — your message wasn’t saved. please try again, or email hello@openrespira.org.';
+    btn.textContent=label; btn.disabled=false;
+  });
+});
+</script>
+</body>
+</html>
