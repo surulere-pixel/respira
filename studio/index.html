@@ -588,19 +588,45 @@ function roomTrackRender(row){
 }
 </script>
 
+<style>
+.rn-top{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:rgba(240,228,207,.55);margin-bottom:.3rem;}
+.rn-nextcue{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:rgba(240,228,207,.34);margin-top:.6rem;max-width:26ch;min-height:1.4em;}
+.rn-ctrl button{min-height:52px;min-width:52px;}
+.rn-ctrl2{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:center;}
+.rn-ctrl2 button{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:lowercase;color:rgba(240,228,207,.6);background:none;border:1px solid rgba(240,228,207,.16);border-radius:999px;padding:9px 15px;cursor:pointer;}
+.rn-ctrl2 button.on{color:#211a13;background:rgba(201,163,106,.9);border-color:transparent;}
+.rn-notes{margin:14px auto 0;max-width:34ch;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.9;color:rgba(240,228,207,.72);text-align:left;border-top:1px solid rgba(240,228,207,.12);padding-top:12px;}
+.rn-done-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2.4rem,7vw,3.6rem);color:#f0e4cf;margin-bottom:.4rem;}
+.rn-done-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(240,228,207,.5);margin-bottom:1.8rem;text-transform:lowercase;}
+.rn-done-acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.rn-done-acts button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:lowercase;color:#f0e4cf;background:none;border:1px solid rgba(201,163,106,.45);border-radius:999px;padding:13px 24px;cursor:pointer;}
+.rn-done-acts button.pri{background:#c9a36a;color:#211a13;border-color:transparent;}
+</style>
 <div id="runner">
   <div class="rn-prog" id="rnProg"></div>
-  <button class="rn-x" onclick="stopClass()">end &times;</button>
-  <div class="rn-block" id="rnBlock">—</div>
-  <div class="rn-time" id="rnTime">0:00</div>
-  <div class="rn-cue" id="rnCue"></div>
-  <div class="rn-next" id="rnNext"></div>
-  <div class="rn-ctrl">
-    <button onclick="rnPrev()">&#9198; prev</button>
-    <button onclick="rnPause()" id="rnPauseBtn">&#10074;&#10074; pause</button>
-    <button onclick="rnNext()">next &#9197;</button>
+  <button class="rn-x" onclick="rnEndConfirm()">end &times;</button>
+  <div id="rnStage">
+    <div class="rn-top" id="rnOverall">0:00 / 0:00</div>
+    <div class="rn-block" id="rnBlock">—</div>
+    <div class="rn-time" id="rnTime">0:00</div>
+    <div class="rn-cue" id="rnCue"></div>
+    <div class="rn-next" id="rnNext"></div>
+    <div class="rn-nextcue" id="rnNextCue"></div>
+    <div class="rn-ctrl">
+      <button onclick="rnPrev()" aria-label="previous section">&#9198;</button>
+      <button onclick="rnAddMin(-1)" aria-label="subtract a minute">&minus;1</button>
+      <button onclick="rnPause()" id="rnPauseBtn">&#10074;&#10074; pause</button>
+      <button onclick="rnAddMin(1)" aria-label="add a minute">+1</button>
+      <button onclick="rnNext()" aria-label="next section">&#9197;</button>
+    </div>
+    <div class="rn-ctrl2">
+      <button onclick="rnToggleNotes()" id="rnNotesBtn">cues</button>
+      <button onclick="rnToggleMute()" id="rnMuteBtn">mute music</button>
+    </div>
+    <div class="rn-notes" id="rnNotes" hidden></div>
+    <div class="rn-music mono" id="rnMusic"></div>
   </div>
-  <div class="rn-music mono" id="rnMusic"></div>
+  <div id="rnDone" class="rn-done" hidden></div>
 </div>
 <script>
 var radioBase="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
@@ -756,41 +782,79 @@ function playCurTrack(){
 }
 function startClass(){
   if(!state.blocks.length) return;
-  rn.idx=0; rn.paused=false; rn.queue=musicQueue(); rn.qi=0;
+  rn.idx=0; rn.paused=false; rn.queue=musicQueue(); rn.qi=0; rn.muted=false;
+  rn.total=state.blocks.reduce(function(a,b){return a+b.mins*60;},0);
+  var d=document.getElementById('rnDone'); d.hidden=true; d.innerHTML='';
+  document.getElementById('rnStage').hidden=false;
+  var mb=document.getElementById('rnMuteBtn'); if(mb){ mb.textContent='mute music'; mb.classList.remove('on'); }
+  var nb=document.getElementById('rnNotesBtn'); if(nb) nb.classList.remove('on');
+  document.getElementById('rnNotes').hidden=true;
   document.getElementById('runner').classList.add('on');
   playCurTrack(); enterBlock();
   rn.timer=setInterval(tick,1000);
+  rnWakeLock();
+}
+function paintOverall(){
+  var before=0; for(var i=0;i<rn.idx;i++) before+=state.blocks[i].mins*60;
+  var curTot=state.blocks[rn.idx]?state.blocks[rn.idx].mins*60:0;
+  var e=before+Math.max(0,curTot-rn.left), t=rn.total||1;
+  function f(x){ x=Math.max(0,Math.round(x)); var m=Math.floor(x/60),s=x%60; return m+':'+(s<10?'0':'')+s; }
+  var el=document.getElementById('rnOverall'); if(el) el.textContent=f(e)+' / '+f(t)+' · class';
 }
 function enterBlock(){
-  var b=state.blocks[rn.idx]; if(!b){ stopClass(); return; }
+  var b=state.blocks[rn.idx]; if(!b){ rnComplete(); return; }
   rn.left=b.mins*60;
   document.getElementById('rnBlock').textContent=(rn.idx+1)+' / '+state.blocks.length+' · '+b.name;
   var nb=state.blocks[rn.idx+1];
   document.getElementById('rnNext').textContent=nb?('next: '+nb.name):'last section';
   document.getElementById('rnProg').style.width=((rn.idx)/state.blocks.length*100)+'%';
+  rn.cues=(b.cues||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
+  rn.ci=0;
+  var nEl=document.getElementById('rnNotes'); if(nEl && !nEl.hidden) rnRenderNotes();
   cueCycle(b);
-  paintTime();
+  paintTime(); paintOverall();
 }
 function cueCycle(b){
   if(rn.cueTimer) clearInterval(rn.cueTimer);
-  var lines=(b.cues||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
-  if(!lines.length){ document.getElementById('rnCue').textContent=''; return; }
-  var ci=0, cue=document.getElementById('rnCue');
-  function show(){ cue.style.opacity=0; setTimeout(function(){ cue.textContent=lines[ci%lines.length]; cue.style.opacity=1; ci++; },400); }
+  var lines=rn.cues||[], cue=document.getElementById('rnCue'), nx=document.getElementById('rnNextCue');
+  if(!lines.length){ cue.textContent=''; if(nx) nx.textContent=''; return; }
+  function show(){ cue.style.opacity=0; setTimeout(function(){ cue.textContent=lines[rn.ci%lines.length]; cue.style.opacity=1; if(nx) nx.textContent=lines.length>1?('next cue · '+lines[(rn.ci+1)%lines.length]):''; rn.ci++; },400); }
   show();
-  var iv=Math.max(8, Math.floor((state.blocks[rn.idx].mins*60)/Math.max(lines.length,4)));
+  var iv=Math.max(8, Math.floor((b.mins*60)/Math.max(lines.length,4)));
   rn.cueTimer=setInterval(function(){ if(!rn.paused) show(); }, iv*1000);
 }
 function paintTime(){ var m=Math.floor(rn.left/60), s=rn.left%60; document.getElementById('rnTime').textContent=m+':'+(s<10?'0':'')+s; }
-function tick(){ if(rn.paused) return; rn.left--; if(rn.left<0){ rnNext(); return; } paintTime(); }
-function rnNext(){ if(rn.idx>=state.blocks.length-1){ stopClass(); return; } rn.idx++; enterBlock(); }
+function tick(){ if(rn.paused) return; rn.left--; if(rn.left<0){ rnNext(); return; } paintTime(); paintOverall(); }
+function rnNext(){ if(rn.idx>=state.blocks.length-1){ rnComplete(); return; } rn.idx++; enterBlock(); }
 function rnPrev(){ if(rn.idx>0){ rn.idx--; enterBlock(); } }
+function rnAddMin(dm){ rn.left=Math.max(0, rn.left + dm*60); paintTime(); paintOverall(); }
 function rnPause(){ rn.paused=!rn.paused; document.getElementById('rnPauseBtn').innerHTML=rn.paused?'&#9654; resume':'&#10074;&#10074; pause'; if(rn.audio){ rn.paused?rn.audio.pause():rn.audio.play().catch(function(){}); } }
+function rnToggleMute(){ rn.muted=!rn.muted; if(rn.audio) rn.audio.muted=rn.muted; var b=document.getElementById('rnMuteBtn'); if(b){ b.textContent=rn.muted?'unmute music':'mute music'; b.classList.toggle('on',rn.muted); } }
+function rnRenderNotes(){ var n=document.getElementById('rnNotes'); if(!n) return; var lines=rn.cues||[]; n.innerHTML=''; if(!lines.length){ n.textContent='no cues for this section'; return; } lines.forEach(function(l){ var d=document.createElement('div'); d.textContent='· '+l; n.appendChild(d); }); }
+function rnToggleNotes(){ var n=document.getElementById('rnNotes'), b=document.getElementById('rnNotesBtn'); if(!n) return; if(n.hidden){ rnRenderNotes(); n.hidden=false; if(b) b.classList.add('on'); } else { n.hidden=true; if(b) b.classList.remove('on'); } }
+function rnEndConfirm(){ if(confirm('end the class now?')) stopClass(); }
+function rnComplete(){
+  if(rn.timer) clearInterval(rn.timer); if(rn.cueTimer) clearInterval(rn.cueTimer);
+  if(rn.audio){ rn.audio.pause(); }
+  document.getElementById('rnProg').style.width='100%';
+  var mins=Math.round((rn.total||0)/60);
+  var d=document.getElementById('rnDone');
+  d.innerHTML='<div class="rn-done-h">class complete.</div>'
+    +'<div class="rn-done-sub">'+mins+' minutes &middot; '+state.blocks.length+' sections &middot; nicely held.</div>'
+    +'<div class="rn-done-acts"><button class="pri" onclick="saveClass()">save changes</button><button onclick="stopClass()">return to studio</button></div>';
+  document.getElementById('rnStage').hidden=true; d.hidden=false;
+}
 function stopClass(){
   if(rn.timer) clearInterval(rn.timer); if(rn.cueTimer) clearInterval(rn.cueTimer);
   if(rn.audio){ rn.audio.pause(); rn.audio=null; }
+  rnWakeRelease();
   document.getElementById('runner').classList.remove('on');
+  document.getElementById('rnStage').hidden=false;
+  var d=document.getElementById('rnDone'); d.hidden=true; d.innerHTML='';
 }
+function rnWakeLock(){ try{ if('wakeLock' in navigator){ navigator.wakeLock.request('screen').then(function(w){ rn._wake=w; }).catch(function(){}); } }catch(e){} }
+function rnWakeRelease(){ try{ if(rn._wake){ rn._wake.release(); rn._wake=null; } }catch(e){} }
+document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible' && document.getElementById('runner') && document.getElementById('runner').classList.contains('on')) rnWakeLock(); });
 
 // ---- PWA install ----
 var _sPrompt=null;
