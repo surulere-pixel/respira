@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>open floor · respira</title>
+<meta name="description" content="Open Floor — original sound, spoken word, guided voice and collections from artists across the diaspora. Bring your sound to the Respira community.">
+<meta property="og:title" content="open floor · respira">
+<meta property="og:image" content="https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffaf2; --ink:#1d1915; --soft:#5f554b; --faint:#b3a99c;
+  --line:rgba(29,25,21,.12); --cream:#fffaf2; --sage-dark:#4f5a43;
+  --gold:#c9a36a; --clay:#a5442f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none!important;animation:none!important;}}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-in{max-width:1100px;margin:0 auto;padding:14px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.logo{font-family:var(--serif);font-size:1.5rem;font-weight:400;text-decoration:none;color:var(--ink);letter-spacing:-.01em;}
+.logo em{font-style:italic;color:var(--sage-dark);}
+.nav-links{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
+.nav-links a{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;text-decoration:none;color:var(--soft);padding:.5rem .7rem;border-radius:8px;transition:color .15s,background .15s;}
+.nav-links a:hover{color:var(--ink);background:var(--line);}
+.wrap{max-width:720px;margin:0 auto;padding:clamp(2.4rem,6vw,4.5rem) clamp(20px,5vw,40px) 4rem;}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold);margin-bottom:1rem;}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,7vw,4rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:1rem;}
+h1 em{font-style:italic;color:var(--sage-dark);}
+.lede{font-family:var(--serif);font-weight:300;font-size:clamp(1.15rem,3vw,1.5rem);color:var(--soft);line-height:1.5;max-width:52ch;margin-bottom:2rem;}
+p{font-size:.9rem;color:var(--soft);line-height:1.8;margin-bottom:1rem;max-width:60ch;}
+.types{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2.4rem;}
+.type-chip{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:lowercase;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:8px 14px;}
+/* form */
+.form{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,32px);box-shadow:0 20px 50px rgba(42,31,24,.06);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+.field{margin-bottom:14px;}
+.field label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:var(--soft);margin-bottom:6px;}
+.field label .req{color:var(--clay);}
+.field input,.field select,.field textarea{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--sage-dark);}
+.field input.err,.field textarea.err,.field select.err{border-color:var(--clay);}
+.field .msg{font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:var(--clay);margin-top:5px;text-transform:lowercase;}
+.check{display:flex;gap:10px;align-items:flex-start;margin:6px 0 16px;}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--sage-dark);flex:none;}
+.check label{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--soft);line-height:1.6;text-transform:none;}
+.send{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:lowercase;padding:15px;border-radius:999px;border:none;background:#2a1f18;color:rgba(201,163,106,.96);cursor:pointer;transition:opacity .2s;}
+.send:hover{opacity:.92;}
+.send[disabled]{opacity:.55;cursor:default;}
+/* success */
+.done{display:none;background:var(--cream);border:1px solid var(--sage-dark);border-radius:20px;padding:clamp(24px,4vw,36px);text-align:center;}
+.done.on{display:block;}
+.done h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);margin-bottom:12px;}
+.done .refbox{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sage-dark);border:1px dashed var(--sage-dark);border-radius:10px;padding:10px 18px;margin:6px 0 16px;}
+.done p{margin:0 auto;max-width:44ch;}
+.form-error{font-family:var(--mono);font-size:.75rem;color:var(--clay);text-align:center;margin-top:12px;text-transform:lowercase;min-height:0;}
+footer{border-top:1px solid var(--line);background:rgba(29,25,21,.02);margin-top:3rem;}
+.foot-in{max-width:1100px;margin:0 auto;padding:2.6rem clamp(20px,5vw,40px);display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:space-between;align-items:center;}
+.foot-links{display:flex;flex-wrap:wrap;gap:1rem;}
+.foot-links a{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft);text-decoration:none;}
+.foot-links a:hover{color:var(--ink);}
+.foot-note{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--faint);line-height:1.8;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="logo">res<em>pira</em></a>
+    <div class="nav-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">for studios</a><a href="/about">about</a><a href="/support">support</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="eyebrow">open floor</div>
+  <h1>bring your sound to <em>the community.</em></h1>
+  <p class="lede">respira's sound world is built by artists across the diaspora. if you make music, hold a voice, or carry a practice worth sharing — this is your door in.</p>
+  <p>send us your work and a little about you. we listen to everything, and we'll reach out before anything goes live. you keep your rights and you're always credited.</p>
+  <div class="types">
+    <span class="type-chip">original sound</span><span class="type-chip">spoken word</span><span class="type-chip">guided voice</span><span class="type-chip">remix</span><span class="type-chip">collection</span><span class="type-chip">other</span>
+  </div>
+
+  <form class="form" id="ofForm" novalidate>
+    <div class="grid2">
+      <div class="field"><label for="of-name">your name <span class="req">*</span></label><input id="of-name" name="name" type="text" autocomplete="name"><div class="msg" id="e-name"></div></div>
+      <div class="field"><label for="of-project">artist / project name</label><input id="of-project" name="project_name" type="text"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label for="of-email">email <span class="req">*</span></label><input id="of-email" name="email" type="email" autocomplete="email"><div class="msg" id="e-email"></div></div>
+      <div class="field"><label for="of-phone">phone / whatsapp</label><input id="of-phone" name="phone" type="tel" autocomplete="tel"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label for="of-city">city</label><input id="of-city" name="city" type="text"></div>
+      <div class="field"><label for="of-country">country</label><input id="of-country" name="country" type="text"></div>
+    </div>
+    <div class="field"><label for="of-type">what are you sharing? <span class="req">*</span></label>
+      <select id="of-type" name="contribution_type">
+        <option value="">choose one…</option>
+        <option>original sound</option><option>spoken word</option><option>guided voice</option>
+        <option>remix</option><option>collection</option><option>other</option>
+      </select><div class="msg" id="e-type"></div>
+    </div>
+    <div class="field"><label for="of-links">links to your work <span style="color:var(--faint)">(soundcloud, drive, instagram, a website…)</span></label><input id="of-links" name="links" type="text" placeholder="paste one or more links"></div>
+    <div class="field"><label for="of-desc">tell us about it</label><textarea id="of-desc" name="description" rows="4" placeholder="the sound, the story, what it's for…"></textarea></div>
+    <div class="field"><label for="of-credit">how should we credit you?</label><input id="of-credit" name="credit" type="text" placeholder="the name you'd want on it"></div>
+    <div class="check">
+      <input id="of-rights" type="checkbox">
+      <label for="of-rights">i own or have the rights to the work i'm submitting, and i'm okay with respira reviewing it. i keep my rights.</label>
+    </div>
+    <div class="msg" id="e-rights" style="margin:-10px 0 12px;"></div>
+    <button class="send" type="submit" id="of-send">send my submission &rarr;</button>
+    <div class="form-error" id="of-err"></div>
+  </form>
+
+  <div class="done" id="ofDone">
+    <h2>your submission is in.</h2>
+    <div class="refbox" id="ofRef">OF-000000</div>
+    <p id="ofDoneMsg">saved and safe. we've got your details and we'll reach out before anything goes live — keep this reference for your records.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-links">
+      <a href="/">room</a><a href="/#radio">radio</a><a href="/studio">studio</a>
+      <a href="/poster">poster</a><a href="/about">about</a><a href="/support">support</a><a href="/help">help</a>
+    </div>
+    <div class="foot-note">respira &middot; by happy sunday, an initiative of the birthright project.</div>
+  </div>
+</footer>
+
+<script>
+var form=document.getElementById('ofForm');
+function setErr(k,txt){var el=document.getElementById('e-'+k);var inp=document.getElementById('of-'+k);if(el)el.textContent=txt||'';if(inp&&inp.classList)inp.classList.toggle('err',!!txt);}
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var v={
+    name:document.getElementById('of-name').value.trim(),
+    email:document.getElementById('of-email').value.trim(),
+    phone:document.getElementById('of-phone').value.trim(),
+    city:document.getElementById('of-city').value.trim(),
+    country:document.getElementById('of-country').value.trim(),
+    project_name:document.getElementById('of-project').value.trim(),
+    contribution_type:document.getElementById('of-type').value,
+    links:document.getElementById('of-links').value.trim(),
+    description:document.getElementById('of-desc').value.trim(),
+    credit:document.getElementById('of-credit').value.trim(),
+    rights_confirmed:document.getElementById('of-rights').checked
+  };
+  var ok=true;
+  ['name','email','type','rights'].forEach(function(k){setErr(k,'');});
+  document.getElementById('of-err').textContent='';
+  if(!v.name){setErr('name','please add your name');ok=false;}
+  if(!v.email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)){setErr('email','a valid email so we can reach you');ok=false;}
+  if(!v.contribution_type){setErr('type','pick what you’re sharing');ok=false;}
+  if(!v.rights_confirmed){setErr('rights','please confirm your rights to submit');ok=false;}
+  if(!ok) return;
+
+  var btn=document.getElementById('of-send'), label=btn.textContent;
+  btn.disabled=true; btn.textContent='sending…';
+  fetch('/api/open-floor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v)})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,status:r.status,d:d};});})
+    .then(function(res){
+      if(res.ok && res.d.id){
+        document.getElementById('ofRef').textContent=res.d.id;
+        document.getElementById('ofDoneMsg').innerHTML='saved and safe. we’ve got your details ('+v.email+') and we’ll reach out before anything goes live — keep this reference for your records.';
+        form.style.display='none';
+        var done=document.getElementById('ofDone'); done.classList.add('on'); done.scrollIntoView({behavior:'smooth',block:'center'});
+        return;
+      }
+      if(res.status===503){ document.getElementById('of-err').textContent='submissions aren’t switched on yet — please try again soon.'; }
+      else if(res.d && res.d.fields){ for(var k in res.d.fields){ var m={contribution_type:'type',rights_confirmed:'rights'}[k]||k; setErr(m, res.d.fields[k]); } }
+      else { document.getElementById('of-err').textContent='that didn’t save — nothing was submitted. please try again.'; }
+      btn.disabled=false; btn.textContent=label;
+    })
+    .catch(function(){ document.getElementById('of-err').textContent='network error — nothing was submitted. please try again.'; btn.disabled=false; btn.textContent=label; });
+});
+</script>
+</body>
+</html>

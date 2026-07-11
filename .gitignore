@@ -1,1 +1,3 @@
 .wrangler/
+wrangler.toml
+schema.sql
