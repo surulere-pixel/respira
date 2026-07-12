@@ -2251,6 +2251,54 @@ document.addEventListener('DOMContentLoaded', renderGuides);
   </div>
 </div>
 
+<!-- respira studio · the teaching hook (§ real utility for teachers) -->
+<style>
+.sh-band{background:#f4ece0;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);}
+.sh-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.6rem,4vw,3.2rem);align-items:center;}
+@media(max-width:800px){.sh-grid{grid-template-columns:1fr;}}
+.sh-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.95);margin-bottom:.7rem;}
+.sh-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.9rem,4.2vw,3rem);font-weight:300;color:var(--ink);letter-spacing:-.02em;line-height:1.02;margin:0;}
+.sh-h em{font-style:italic;color:var(--sage-dark);}
+.sh-p{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.03em;color:var(--soft);line-height:1.9;max-width:42ch;margin:1.1rem 0 0;}
+.sh-cta-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:1.6rem;}
+.sh-go{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;padding:13px 24px;border-radius:999px;background:#2a1f18;color:rgba(201,163,106,.96);text-decoration:none;transition:transform .16s,box-shadow .16s;}
+.sh-go:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(42,31,24,.22);}
+.sh-community{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:lowercase;color:var(--faint);margin-top:1.1rem;line-height:1.7;}
+/* teleprompter mock — a still of the real teaching screen */
+.sh-mock{background:radial-gradient(circle at 50% 24%,#2f2319,#191009 80%);border:1px solid rgba(201,163,106,.2);border-radius:20px;padding:26px 24px 20px;box-shadow:0 26px 60px rgba(28,18,10,.26);text-align:center;}
+.sh-mock-top{display:flex;align-items:center;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.55);}
+.sh-mock-live{display:flex;align-items:center;gap:6px;color:rgba(201,163,106,.85);}
+.sh-mock-dot{width:6px;height:6px;border-radius:50%;background:#c9a36a;box-shadow:0 0 8px #c9a36a;}
+.sh-mock-sec{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.8);margin-top:1.4rem;}
+.sh-mock-sec b{color:#f0e4cf;font-weight:400;}
+.sh-mock-cue{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(1.6rem,3.6vw,2.3rem);line-height:1.2;color:#f8f2e6;margin:1.4rem 0;}
+.sh-mock-next{border-top:1px solid rgba(240,228,207,.13);padding-top:12px;}
+.sh-mock-nlab{font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,163,106,.6);}
+.sh-mock-ncue{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.05rem;color:rgba(240,228,207,.5);margin-top:4px;}
+.sh-mock-foot{display:flex;align-items:center;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:rgba(240,228,207,.4);margin-top:18px;padding-top:12px;border-top:1px solid rgba(240,228,207,.08);text-transform:lowercase;}
+</style>
+<div class="sh-band">
+  <div class="inner sh-grid">
+    <div>
+      <div class="sh-eye">respira studio · for teachers</div>
+      <h2 class="sh-h">your class.<br>one <em>calm</em> screen.</h2>
+      <p class="sh-p">plan the arc, then teach from a screen that carries you — the current cue held large, the next one waiting, section timing and radio underneath. it advances itself, so you can stay with the room. free for every teacher.</p>
+      <div class="sh-cta-row">
+        <a class="sh-go" href="/studio">open respira studio &rarr;</a>
+        <button class="share-pill ico" onclick="respiraShare('studio')" aria-label="share respira studio" title="share respira studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"></line><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"></line></svg></button>
+      </div>
+      <div class="sh-community">share it with a teacher &mdash; that&rsquo;s how the room grows.</div>
+    </div>
+    <div class="sh-mock" aria-hidden="true">
+      <div class="sh-mock-top"><span>sunday slow flow</span><span class="sh-mock-live"><span class="sh-mock-dot"></span>studio live</span></div>
+      <div class="sh-mock-sec">grounding &middot; <b>3:42</b> remaining</div>
+      <div class="sh-mock-cue">soften your shoulders.</div>
+      <div class="sh-mock-next"><div class="sh-mock-nlab">next</div><div class="sh-mock-ncue">let the weight of the body settle.</div></div>
+      <div class="sh-mock-foot"><span>&#9834; drift radio</span><span>section 1 of 6</span><span>08:18 / 60:00</span></div>
+    </div>
+  </div>
+</div>
+
 <!-- respira goods -->
 <div id="goods" style="background:#f0dcb8;border-top:1px solid var(--line);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);">
   <div class="inner">
@@ -4569,7 +4617,8 @@ setInterval(function(){
 var RESPIRA_SHARE = {
   site:   { title:'respira', text:'a breathing room, wherever you are.', url:'https://openrespira.org' },
   radio:  { title:'respira radio', text:'soulful soundscapes for studios, practices and community spaces. free.', url:'https://openrespira.org/#radio' },
-  poster: { title:'the respira poster maker', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' }
+  poster: { title:'the respira poster maker', text:'make your own poster \u2014 eight mother tongues, your colors, print-ready at 18\u2033\u00d724\u2033.', url:'https://openrespira.org/poster' },
+  studio: { title:'respira studio', text:'a free studio for teachers \u2014 plan classes, teach from a calm cue screen, sound underneath. pass it to a teacher you know.', url:'https://openrespira.org/studio' }
 };
 function rToast(msg){
   var t=document.getElementById('r-toast'); if(!t) return;
