@@ -1,0 +1,272 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>respira radio — soulful soundscapes</title>
+<meta name="description" content="respira radio — soulful soundscapes for studios, practices and community spaces. free, from the mmaadd soundlab.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%232a1f18%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%278%27%20fill%3D%27%23c9a36a%27%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--ink:#33372a;--soft:#5f554b;--faint:rgba(95,85,75,.5);--gold:#9a7a3a;--line:rgba(95,85,75,.16);--cocoa:#2a1f18;}
+body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(180deg,#ece3f6 0%,#e1d4f0 60%,#d6c6e8 100%);background-attachment:fixed;color:var(--ink);-webkit-font-smoothing:antialiased;padding-left:212px;padding-top:52px;min-height:100vh;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+/* ── room shell: rail · topbar ── */
+.rail{position:fixed;left:0;top:0;bottom:0;width:212px;background:linear-gradient(180deg,#2b211a,#160f09);border-right:1px solid rgba(201,163,106,.15);display:flex;flex-direction:column;padding:22px 14px;z-index:60;}
+.rail-brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;color:#f0e4cf;padding:2px 10px 18px;line-height:1;text-decoration:none;}
+.rail-brand em{font-style:italic;color:#c9a36a;}
+.rail-nav{display:flex;flex-direction:column;gap:3px;}
+.rail-item{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:lowercase;color:rgba(240,228,207,.9);background:none;border:none;text-align:left;width:100%;padding:11px 12px;border-radius:10px;cursor:pointer;transition:background .14s,color .14s;text-decoration:none;}
+.rail-item:hover{background:rgba(201,163,106,.1);color:#fff6e6;}
+.rail-item.on{background:#7c5aa6;color:#fbf3ea;}
+.rail-ico{width:16px;text-align:center;opacity:.9;font-size:12px;}
+.rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:14px;border-top:1px solid rgba(240,228,207,.1);}
+.topbar{position:fixed;top:0;left:212px;right:0;height:52px;background:rgba(233,224,244,.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(33,28,25,.1);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:55;}
+.top-room{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;color:#211c19;text-transform:lowercase;}
+.top-right{display:flex;align-items:center;gap:14px;}
+.top-share{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:lowercase;color:#7c5aa6;background:none;border:1px solid rgba(124,90,166,.4);border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .15s;}
+.top-share:hover{background:rgba(124,90,166,.12);border-color:#7c5aa6;}
+.top-share svg{display:block;}
+.top-live{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(33,28,25,.5);text-transform:lowercase;}
+.top-live::before{content:'';width:7px;height:7px;border-radius:50%;background:#7c5aa6;box-shadow:0 0 0 3px rgba(124,90,166,.2);}
+.wrap{max-width:940px;margin:0 auto;padding:clamp(1.6rem,4vw,2.6rem) clamp(1.2rem,4vw,2rem) 120px;}
+/* ── hero ── */
+.r-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:lowercase;color:#7c5aa6;}
+.r-h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2.2rem,5.5vw,3.6rem);letter-spacing:-.02em;line-height:1.02;color:#352748;margin:.5rem 0 0;}
+.r-h1 em{font-style:italic;color:#8a5a2a;}
+.r-lede{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.03em;line-height:1.9;color:#5f5182;margin:1rem 0 0;max-width:52ch;text-transform:lowercase;}
+/* ── stations ── */
+.r-lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:#6f5e8a;margin:2.4rem 0 1rem;}
+.stations{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+.station{position:relative;border:none;background:none;padding:0;cursor:pointer;text-align:left;font:inherit;}
+.station-cover{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 34px rgba(40,30,55,.22);transition:transform .18s ease,box-shadow .18s ease;}
+.station:hover .station-cover{transform:translateY(-4px);box-shadow:0 22px 46px rgba(40,30,55,.3);}
+.sc-drift{background:linear-gradient(145deg,#123c3c,#081c22);}
+.sc-groove{background:linear-gradient(145deg,#4a2f1a,#22140a);}
+.sc-dust{background:linear-gradient(145deg,#41604e,#26332e);}
+.sc-all{background:linear-gradient(145deg,#8a5a2a,#4a3018);}
+.station-play{width:44px;height:44px;border-radius:50%;background:rgba(255,250,242,.92);color:#241c18;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transform:scale(.85);transition:all .2s ease;}
+.station:hover .station-play,.station.playing .station-play{opacity:1;transform:scale(1);}
+.station.playing .station-play{background:#c9a36a;}
+.station-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:400;color:#352748;margin-top:11px;line-height:1;}
+.station-desc{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.04em;color:#6f5e8a;margin-top:4px;text-transform:lowercase;line-height:1.5;}
+.station-eq{display:flex;gap:2px;align-items:flex-end;height:14px;position:absolute;top:12px;left:12px;opacity:0;}
+.station.playing .station-eq{opacity:1;}
+.station-eq span{width:3px;background:rgba(255,250,242,.9);border-radius:2px;animation:eq 1s ease-in-out infinite;}
+.station-eq span:nth-child(2){animation-delay:.2s;}.station-eq span:nth-child(3){animation-delay:.4s;}
+@keyframes eq{0%,100%{height:4px;}50%{height:14px;}}
+/* ── player (docked) ── */
+.player{position:fixed;left:212px;right:0;bottom:0;z-index:58;background:linear-gradient(180deg,#2e2219,#191009);border-top:1px solid rgba(201,163,106,.25);padding:12px clamp(16px,4vw,32px);display:flex;align-items:center;gap:16px;box-shadow:0 -12px 40px rgba(20,12,6,.3);}
+.pl-btn{flex-shrink:0;border:none;background:none;color:rgba(240,228,207,.82);cursor:pointer;font-size:15px;line-height:1;padding:6px;transition:color .14s;}
+.pl-btn:hover{color:#f0e4cf;}
+.pl-play{width:46px;height:46px;border-radius:50%;background:rgba(201,163,106,.95);color:#241c18;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.pl-play:hover{background:#dcb87c;color:#241c18;}
+.pl-mid{flex:1;min-width:0;}
+.pl-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;font-weight:300;color:rgba(248,244,237,.96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pl-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(240,228,207,.5);text-transform:lowercase;margin-top:2px;}
+.pl-time{display:flex;align-items:center;gap:9px;margin-top:6px;}
+.pl-time span{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(248,244,237,.55);flex-shrink:0;}
+.pl-bar{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;cursor:pointer;}
+.pl-fill{height:100%;width:0;background:rgba(201,163,106,.9);}
+.pl-vol{flex-shrink:0;display:flex;align-items:center;gap:7px;}
+.pl-vol input{width:78px;accent-color:#c9a36a;cursor:pointer;}
+@media(max-width:640px){.pl-vol{display:none;}}
+/* ── track list ── */
+.tracks{margin-top:1rem;border:1px solid rgba(124,90,166,.2);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.28);}
+.track{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid rgba(124,90,166,.12);cursor:pointer;transition:background .14s;}
+.track:last-child{border-bottom:none;}
+.track:hover{background:rgba(124,90,166,.08);}
+.track.on{background:rgba(124,90,166,.14);}
+.track-idx{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#8a7ba2;width:20px;flex-shrink:0;}
+.track.on .track-idx{color:#7c5aa6;}
+.track-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;color:#352748;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.track-cat{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:lowercase;color:#8a7ba2;flex-shrink:0;}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;padding:11px 18px;border-radius:999px;z-index:300;transition:all .3s;}
+#toast.on{opacity:1;transform:translate(-50%,0);}
+@media(max-width:820px){
+  body{padding-left:0;padding-top:52px;padding-bottom:150px;}
+  .rail{left:0;right:0;top:auto;bottom:0;width:auto;height:60px;flex-direction:row;padding:0 6px;border-right:none;border-top:1px solid rgba(201,163,106,.18);z-index:59;}
+  .rail-brand,.rail-foot{display:none;}
+  .rail-nav{flex-direction:row;gap:2px;flex:1;justify-content:space-around;align-items:center;}
+  .rail-item{flex-direction:column;gap:3px;font-size:7.5px;padding:7px 4px;width:auto;text-align:center;}
+  .topbar{left:0;}
+  .player{left:0;bottom:60px;}
+}
+</style>
+</head>
+<body>
+<aside class="rail" aria-label="respira rooms">
+  <a class="rail-brand" href="/">res<em>pira</em></a>
+  <nav class="rail-nav">
+    <a class="rail-item" href="/#breathe"><span class="rail-ico">&#9711;</span>breathe</a>
+    <a class="rail-item" href="/#flow"><span class="rail-ico">&#8767;</span>flow</a>
+    <a class="rail-item on" href="/radio"><span class="rail-ico">&#9834;</span>radio</a>
+    <a class="rail-item" href="/voices"><span class="rail-ico">&#9678;</span>voices</a>
+    <a class="rail-item" href="/shelf"><span class="rail-ico">&#9636;</span>shelf</a>
+    <a class="rail-item" href="/studio"><span class="rail-ico">&#9645;</span>studio</a>
+  </nav>
+  <div class="rail-foot">
+    <a class="rail-item" href="/"><span class="rail-ico">&#8592;</span>home</a>
+  </div>
+</aside>
+<div class="topbar">
+  <div class="top-room">respira radio</div>
+  <div class="top-right">
+    <button class="top-share" onclick="radioShare()" aria-label="share respira radio"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"></line><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"></line></svg>share</button>
+    <span class="top-live">on air</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="r-eye">respira radio</div>
+  <h1 class="r-h1">soulful soundscapes<br><em>for studios &amp; spaces.</em></h1>
+  <p class="r-lede">free for studios, practices and community spaces — from the mmaadd soundlab. pick a room, or shuffle the whole station.</p>
+
+  <div class="r-lab">the rooms</div>
+  <div class="stations" id="stations"></div>
+
+  <div class="r-lab" id="tracksLab" style="display:none;">now in rotation</div>
+  <div class="tracks" id="tracks"></div>
+</div>
+
+<div class="player" id="player">
+  <button class="pl-btn" onclick="radioPrev()" aria-label="previous">&#9198;</button>
+  <button class="pl-btn pl-play" id="plPlay" onclick="radioToggle()" aria-label="play / pause">&#9655;</button>
+  <button class="pl-btn" onclick="radioNext()" aria-label="next">&#9197;</button>
+  <div class="pl-mid">
+    <div class="pl-name" id="plName">respira radio</div>
+    <div class="pl-sub" id="plSub">pick a room to begin</div>
+    <div class="pl-time">
+      <span id="plElapsed">0:00</span>
+      <div class="pl-bar" id="plBar" onclick="radioSeek(event)"><div class="pl-fill" id="plFill"></div></div>
+      <span id="plTotal">0:00</span>
+    </div>
+  </div>
+  <div class="pl-vol">
+    <span class="pl-btn" style="cursor:default;">&#9834;</span>
+    <input type="range" min="0" max="1" step="0.01" value="0.7" id="plVol" oninput="radioVol(this.value)" aria-label="volume">
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+var RADIO_BASE="https://raw.githubusercontent.com/surulere-pixel/respira/main/";
+var TRACKS=[
+  {slug:"945-in-kingston",name:"945 in kingston",cat:"drift",file:"radio/rooms/drift/945-in-kingston.mp3"},
+  {slug:"a-man-a-guitar-and-vuvuzela-went-to-a-bar",name:"a man, a guitar and vuvuzela went to a bar",cat:"groove",file:"radio/rooms/groove/a-man-a-guitar-and-vuvuzela-went-to-a-bar.mp3"},
+  {slug:"cello-phane-again",name:"cello phane again",cat:"drift",file:"radio/rooms/drift/cello-phane-again.mp3"},
+  {slug:"cello-phane-clouds",name:"cello phane clouds",cat:"drift",file:"radio/rooms/drift/cello-phane-clouds.mp3"},
+  {slug:"coastal-breath-01",name:"coastal breath 01",cat:"drift",file:"radio/rooms/drift/coastal-breath-01.mp3"},
+  {slug:"coastal-breath-02",name:"coastal breath 02",cat:"drift",file:"radio/rooms/drift/coastal-breath-02.mp3"},
+  {slug:"coastal-breath-03",name:"coastal breath 03",cat:"drift",file:"radio/rooms/drift/coastal-breath-03.mp3"},
+  {slug:"coastal-breath-04",name:"coastal breath 04",cat:"drift",file:"radio/rooms/drift/coastal-breath-04.mp3"},
+  {slug:"coastal-breath-05",name:"coastal breath 05",cat:"drift",file:"radio/rooms/drift/coastal-breath-05.mp3"},
+  {slug:"coastal-breath-06",name:"coastal breath 06",cat:"drift",file:"radio/rooms/drift/coastal-breath-06.mp3"},
+  {slug:"coastal-breath-07",name:"coastal breath 07",cat:"drift",file:"radio/rooms/drift/coastal-breath-07.mp3"},
+  {slug:"coco-coconut",name:"coco coconut",cat:"groove",file:"radio/rooms/groove/coco-coconut.mp3"},
+  {slug:"kizomba-my-heart",name:"kizomba my heart",cat:"groove",file:"radio/rooms/groove/kizomba-my-heart.mp3"},
+  {slug:"lagos-quiet-hour",name:"lagos quiet hour",cat:"drift",file:"radio/rooms/drift/lagos-quiet-hour.mp3"},
+  {slug:"rasta-savasana",name:"rasta savasana",cat:"drift",file:"radio/rooms/drift/rasta-savasana.mp3"},
+  {slug:"rastas-nightmare",name:"rastas nightmare",cat:"drift",file:"radio/rooms/drift/rastas-nightmare.mp3"},
+  {slug:"riverbend-808",name:"riverbend 808",cat:"groove",file:"radio/rooms/groove/riverbend-808.mp3"},
+  {slug:"road-trip-to-zamfara",name:"road trip to zamfara",cat:"groove",file:"radio/rooms/groove/road-trip-to-zamfara.mp3"},
+  {slug:"slow-african-lofi-beats-with-bird-and-ocean-waves",name:"slow african lofi beats with bird and ocean waves",cat:"drift",file:"radio/rooms/drift/slow-african-lofi-beats-with-bird-and-ocean-waves.mp3"},
+  {slug:"still-ground-01",name:"still ground 01",cat:"drift",file:"radio/rooms/drift/still-ground-01.mp3"},
+  {slug:"still-ground-02",name:"still ground 02",cat:"drift",file:"radio/rooms/drift/still-ground-02.mp3"},
+  {slug:"sunday-slow-01",name:"sunday slow 01",cat:"drift",file:"radio/rooms/drift/sunday-slow-01.mp3"},
+  {slug:"sunday-slow-02",name:"sunday slow 02",cat:"drift",file:"radio/rooms/drift/sunday-slow-02.mp3"},
+  {slug:"sunset-no-delay",name:"sunset no delay",cat:"drift",file:"radio/rooms/drift/sunset-no-delay.mp3"},
+  {slug:"the-serpent-ate-the-treasure",name:"the serpent ate the treasure",cat:"drift",file:"radio/rooms/drift/the-serpent-ate-the-treasure.mp3"},
+  {slug:"they-said-buddha-cant-run",name:"they said buddha cant run",cat:"drift",file:"radio/rooms/drift/they-said-buddha-cant-run.mp3"},
+  {slug:"township-morning-02",name:"township morning 02",cat:"groove",file:"radio/rooms/groove/township-morning-02.mp3"},
+  {slug:"water-no-get-enemy-01",name:"water no get enemy 01",cat:"groove",file:"radio/rooms/groove/water-no-get-enemy-01.mp3"},
+  {slug:"water-no-get-enemy-02",name:"water no get enemy 02",cat:"groove",file:"radio/rooms/groove/water-no-get-enemy-02.mp3"},
+  {slug:"we-were-here-yesterday-01",name:"we were here yesterday 01",cat:"drift",file:"radio/rooms/drift/we-were-here-yesterday-01.mp3"},
+  {slug:"we-were-here-yesterday-02",name:"we were here yesterday 02",cat:"drift",file:"radio/rooms/drift/we-were-here-yesterday-02.mp3"},
+  {slug:"yanya-yingi",name:"yanya yingi",cat:"groove",file:"radio/rooms/groove/yanya-yingi.mp3"},
+  {slug:"yingi-yanga",name:"yingi yanga",cat:"groove",file:"radio/rooms/groove/yingi-yanga.mp3"},
+  {slug:"yogapiano",name:"yogapiano",cat:"groove",file:"radio/rooms/groove/yogapiano.mp3"},
+  {slug:"zouk-asana",name:"zouk asana",cat:"groove",file:"radio/rooms/groove/zouk-asana.mp3"},
+  {slug:"ancestor-hum",name:"ancestor hum",cat:"dust",file:"radio/rooms/dust/ancestor-hum.mp3"},
+  {slug:"calm-shore",name:"calm shore",cat:"dust",file:"radio/rooms/dust/calm-shore.mp3"},
+  {slug:"cartagena-breeze",name:"cartagena breeze",cat:"dust",file:"radio/rooms/dust/cartagena-breeze.mp3"},
+  {slug:"kingston-raindrops",name:"kingston raindrops",cat:"dust",file:"radio/rooms/dust/kingston-raindrops.mp3"},
+  {slug:"lagos-downpour",name:"lagos downpour",cat:"dust",file:"radio/rooms/dust/lagos-downpour.mp3"},
+  {slug:"steady-rainfall",name:"steady rainfall",cat:"dust",file:"radio/rooms/dust/steady-rainfall.mp3"},
+  {slug:"wakanda-waves",name:"wakanda waves",cat:"dust",file:"radio/rooms/dust/wakanda-waves.mp3"},
+  {slug:"zanzibar-shallows",name:"zanzibar shallows",cat:"dust",file:"radio/rooms/dust/zanzibar-shallows.mp3"}
+];
+var STATIONS=[
+  {id:"all",cls:"sc-all",name:"shuffle all",desc:"the whole station, on random"},
+  {id:"drift",cls:"sc-drift",name:"drift",desc:"wind-down &amp; slow movement"},
+  {id:"groove",cls:"sc-groove",name:"groove",desc:"focus &amp; easy energy"},
+  {id:"dust",cls:"sc-dust",name:"dust",desc:"meditation &amp; deep rest"}
+];
+var queue=[],qi=0,audio=null,playing=false,curCat=null,vol=0.7;
+function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fmt(t){t=Math.max(0,Math.floor(t||0));var m=Math.floor(t/60),s=t%60;return m+':'+(s<10?'0':'')+s;}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function stationTracks(cat){return cat==='all'?TRACKS.slice():TRACKS.filter(function(t){return t.cat===cat;});}
+
+function renderStations(){
+  document.getElementById('stations').innerHTML=STATIONS.map(function(s){
+    return '<button class="station" data-cat="'+s.id+'" onclick="playStation(\''+s.id+'\')">'
+      +'<div class="station-cover '+s.cls+'"><div class="station-eq"><span></span><span></span><span></span></div><div class="station-play">&#9655;</div></div>'
+      +'<div class="station-name">'+s.name+'</div><div class="station-desc">'+s.desc+'</div></button>';
+  }).join('');
+}
+function markStation(){
+  [].forEach.call(document.querySelectorAll('.station'),function(b){ b.classList.toggle('playing', b.getAttribute('data-cat')===curCat && playing); });
+}
+function renderTracks(){
+  var lab=document.getElementById('tracksLab'); lab.style.display=curCat?'block':'none';
+  document.getElementById('tracks').innerHTML=queue.map(function(t,i){
+    return '<div class="track'+(i===qi?' on':'')+'" onclick="radioJump('+i+')"><span class="track-idx">'+(i+1)+'</span><span class="track-name">'+esc(t.name)+'</span><span class="track-cat">'+t.cat+'</span></div>';
+  }).join('');
+}
+function playStation(cat){
+  curCat=cat; queue=shuffle(stationTracks(cat)); qi=0; playCur(); renderTracks();
+}
+function playCur(){
+  var t=queue[qi]; if(!t) return;
+  if(audio){ try{audio.pause();}catch(e){} }
+  audio=new Audio(RADIO_BASE+t.file); audio.volume=vol;
+  audio.addEventListener('ended', radioNext);
+  audio.addEventListener('timeupdate', paintTime);
+  audio.play().then(function(){ playing=true; paint(); }).catch(function(){ playing=false; paint(); });
+  document.getElementById('plName').textContent=t.name;
+  document.getElementById('plSub').textContent=(catLabel(t.cat))+' · respira radio';
+  renderTracks();
+}
+function catLabel(c){return c==='drift'?'drift':c==='groove'?'groove':c==='dust'?'dust':c;}
+function radioToggle(){
+  if(!audio){ playStation(curCat||'all'); return; }
+  if(playing){ audio.pause(); playing=false; } else { audio.play().catch(function(){}); playing=true; }
+  paint();
+}
+function radioNext(){ if(!queue.length) return; qi=(qi+1)%queue.length; playCur(); }
+function radioPrev(){ if(!queue.length) return; qi=(qi-1+queue.length)%queue.length; playCur(); }
+function radioJump(i){ qi=i; playCur(); }
+function radioVol(v){ vol=parseFloat(v); if(audio) audio.volume=vol; }
+function radioSeek(e){ if(!audio||!audio.duration) return; var bar=document.getElementById('plBar'); var r=bar.getBoundingClientRect(); var p=(e.clientX-r.left)/r.width; audio.currentTime=Math.max(0,Math.min(1,p))*audio.duration; }
+function paint(){
+  document.getElementById('plPlay').innerHTML=playing?'&#10074;&#10074;':'&#9655;';
+  markStation(); renderTracks();
+}
+function paintTime(){
+  if(!audio) return;
+  var d=audio.duration||0, c=audio.currentTime||0;
+  document.getElementById('plElapsed').textContent=fmt(c);
+  document.getElementById('plTotal').textContent=isFinite(d)?fmt(d):'--:--';
+  document.getElementById('plFill').style.width=(d?(c/d*100):0)+'%';
+}
+function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(window._tt); window._tt=setTimeout(function(){t.classList.remove('on');},2400); }
+function radioShare(){
+  var d={title:'respira radio',text:'soulful soundscapes for studios, practices and community spaces. free.',url:'https://openrespira.org/radio'};
+  if(navigator.share){ navigator.share(d).catch(function(){}); return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(d.url).then(function(){toast('link copied — pass it on');}).catch(function(){toast(d.url);}); } else toast(d.url);
+}
+renderStations();
+// autoplay when arriving via the "play" pill (?play=1) — a real user gesture on the prior page
+(function(){ try{ if(/[?&]play=1/.test(location.search)){ playStation('all'); } }catch(e){} })();
+</script>
+</body></html>

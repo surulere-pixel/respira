@@ -316,21 +316,28 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   animation:heroDoorOpen 1.4s ease forwards;
   pointer-events:none;
 }
-/* ── four-panel door: breathe · move · listen · teach ── */
-#door{position:fixed;inset:0;z-index:9998;display:flex;opacity:0;pointer-events:none;transition:opacity .8s ease;}
+/* ── the door = home · a mocha header (logo + pills) over four room panels ── */
+#door{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .8s ease;}
 #door.open{opacity:1;pointer-events:auto;}
 #door.closing{opacity:0;pointer-events:none;transition:opacity .7s ease;}
-.door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
+.door-top{flex:none;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;flex-direction:column;align-items:center;gap:11px;padding:15px 20px 17px;box-shadow:0 8px 26px rgba(30,20,12,.2);z-index:5;}
+.door-brand{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.7rem;line-height:1;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}
+.door-brand em{font-style:italic;color:#c9a36a;}
+.door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
+.door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
+.door-panels{position:relative;flex:1;min-height:0;display:flex;}
+.door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;text-decoration:none;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
 .door-half:last-of-type{border-right:none;}
-.door-breathe{background:linear-gradient(165deg,#fbf5ea,#f4dcae 72%,#eecb8f);}
+.door-breathe{background:linear-gradient(180deg,#fefdfa,#f8f3ea 70%,#f1ebde);}
 .door-move{background:linear-gradient(165deg,#e0e9d3,#c8d9ad 70%,#b2c893);}
 .door-listen{background:linear-gradient(165deg,#eddce8,#dcc2d5 68%,#ccabc2);}
 .door-studio{background:linear-gradient(165deg,#e6d2ae,#cbad7e 62%,#b18e5f);}
 @media(hover:hover){
-  #door:hover .door-half{flex-basis:16%;filter:brightness(.92) saturate(.92);}
-  #door:hover .door-half:hover{flex-basis:52%;filter:brightness(1.02) saturate(1);}
-  #door:hover .door-half:not(:hover) .door-cta{opacity:0;}
-  #door:hover .door-half:not(:hover) .door-inner{opacity:.6;transition:opacity .5s ease;}
+  .door-panels:hover .door-half{flex-basis:16%;filter:brightness(.92) saturate(.92);}
+  .door-panels:hover .door-half:hover{flex-basis:52%;filter:brightness(1.02) saturate(1);}
+  .door-panels:hover .door-half:not(:hover) .door-cta{opacity:0;}
+  .door-panels:hover .door-half:not(:hover) .door-inner{opacity:.6;transition:opacity .5s ease;}
 }
 .door-half:focus-visible{outline:2px solid rgba(90,63,136,.55);outline-offset:-8px;}
 .door-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;max-width:26ch;}
@@ -361,12 +368,12 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-studio .door-ico{color:#8a5a29;}
 .door-hint{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
 @media(max-width:760px){
-  #door{flex-direction:column;}
+  .door-panels{flex-direction:column;}
   .door-half{flex:1 1 25%;border-right:none;border-bottom:1px solid rgba(55,42,29,.08);padding:clamp(1rem,4vw,2rem);}
   .door-half:last-of-type{border-bottom:none;}
-  #door:hover .door-half,#door:hover .door-half:hover{flex-basis:25%;filter:none;}
-  #door:hover .door-half:not(:hover) .door-inner{opacity:1;}
-  #door:hover .door-half:not(:hover) .door-cta{opacity:1;}
+  .door-panels:hover .door-half,.door-panels:hover .door-half:hover{flex-basis:25%;filter:none;}
+  .door-panels:hover .door-half:not(:hover) .door-inner{opacity:1;}
+  .door-panels:hover .door-half:not(:hover) .door-cta{opacity:1;}
   .door-inner{max-width:none;flex-direction:row;align-items:center;gap:14px;}
   .door-ico{margin-bottom:0;flex:none;}
   .door-htext{display:flex;flex-direction:column;gap:3px;}
@@ -374,6 +381,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   .door-sub{font-size:9px;}
   .door-cta{display:none;}
   .door-hint{display:none;}
+  .door-top{padding:12px 16px 14px;gap:9px;}
+  .door-brand{font-size:1.5rem;}
 }
 @media(prefers-reduced-motion:reduce){.door-half,.door-orb{transition:none;animation:none;}}
 .opening-orb{
@@ -1049,7 +1058,7 @@ body{transition:background-color .7s ease;}
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo-wrap">
-      <a href="#" class="nav-logo">res<em>pira</em></a>
+      <a href="/" id="navHomeLogo" class="nav-logo" aria-label="respira · home">res<em>pira</em></a>
       <a href="#feedback" class="nav-beta-pill" title="building in public — tell us what to build next">v1 &middot; beta</a>
     </div>
     <div class="nav-links">
@@ -1103,8 +1112,18 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
   </div>
 </div>
 
-<!-- four-panel door · breathe ┆ move ┆ listen ┆ teach -->
+<!-- the door = home · mocha header (logo + pills) over four room panels -->
 <div id="door">
+  <header class="door-top">
+    <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em></a>
+    <nav class="door-nav">
+      <button class="door-pill" onclick="respiraShare('site')">share</button>
+      <a class="door-pill" href="/radio">play</a>
+      <a class="door-pill" href="/voices">voices</a>
+      <a class="door-pill" href="/shelf">shelf</a>
+    </nav>
+  </header>
+  <div class="door-panels">
   <button class="door-half door-breathe" id="doorBreathe" aria-label="breathe">
     <span class="door-orb"></span>
     <span class="door-inner">
@@ -1122,14 +1141,14 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
     <span class="door-inner">
       <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13q2.4-5 4.8 0t4.8 0 4.8 0 4.8 0"></path></svg></span>
       <span class="door-htext">
-        <span class="door-eye">gentle movement</span>
+        <span class="door-eye">respira flow</span>
         <span class="door-h">move.</span>
         <span class="door-sub">movement = medicine</span>
       </span>
       <span class="door-cta">enter &rarr;</span>
     </span>
   </button>
-  <button class="door-half door-listen" id="doorListen" aria-label="listen">
+  <a class="door-half door-listen" href="/radio" aria-label="listen · respira radio">
     <span class="door-orb"></span>
     <span class="door-inner">
       <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"></path><circle cx="6.4" cy="18" r="2.6"></circle><circle cx="16.4" cy="16" r="2.6"></circle></svg></span>
@@ -1140,7 +1159,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
       </span>
       <span class="door-cta">enter &rarr;</span>
     </span>
-  </button>
+  </a>
   <button class="door-half door-studio" id="doorStudio" aria-label="respira studio">
     <span class="door-orb"></span>
     <span class="door-inner">
@@ -1153,6 +1172,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
       <span class="door-cta">enter &rarr;</span>
     </span>
   </button>
+  </div>
   <div class="door-hint">roll across &middot; tap to enter</div>
 </div>
 
@@ -4473,9 +4493,11 @@ function stopPoseBreath(){
     dismiss(function(){ toProto(); var pb=document.getElementById('pathBreathe'); if(pb) pb.click(); });
   });
   on('doorMove', function(){ dismiss(function(){ toProto(); var pm=document.getElementById('pathMove'); if(pm) pm.click(); }); });
-  on('doorListen', function(){ dismiss(function(){ var r=document.getElementById('radio'); if(r) r.scrollIntoView({behavior:'smooth',block:'start'}); }); });
   on('doorStudio', function(){ window.location.href='/studio'; });
+  // listen is a real link to /radio (its own room) — no JS needed
 })();
+// the in-app logo / "home" returns to the door
+(function(){ var l=document.getElementById('navHomeLogo'); if(l) l.addEventListener('click',function(e){ e.preventDefault(); if(window.reopenDoor){ window.reopenDoor(); try{ document.body.scrollTop=0; window.scrollTo(0,0); }catch(_){} } }); })();
 </script>
 
 <script>
