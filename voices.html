@@ -60,6 +60,33 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
 .lend-cta{display:inline-flex;align-items:center;gap:8px;margin-top:1.5rem;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;color:#211a13;background:#c9a36a;border:none;border-radius:999px;padding:14px 28px;cursor:pointer;text-decoration:none;transition:all .16s;}
 .lend-cta:hover{background:#dcb87c;transform:translateY(-1px);}
 .lend-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:rgba(240,228,207,.4);margin-top:.9rem;text-transform:lowercase;}
+/* the recorder */
+.lend-rec{margin-top:1.4rem;max-width:460px;}
+.lend-slab{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,163,106,.72);margin:15px 0 8px;}
+.lend-slab:first-child{margin-top:0;}
+.lv-select,.lv-email{width:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;padding:12px 14px;border-radius:12px;border:1px solid rgba(201,163,106,.3);background:rgba(255,250,242,.06);color:#f0e4cf;outline:none;}
+.lv-select{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a36a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.lv-select option{background:#211a15;color:#f0e4cf;}
+.lv-select:focus,.lv-email:focus{border-color:rgba(201,163,106,.6);}
+.lv-email::placeholder{color:rgba(240,228,207,.4);}
+.lv-script{width:100%;display:block;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.12rem;color:rgba(244,236,224,.92);line-height:1.7;background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.22);border-left:2px solid rgba(201,163,106,.5);border-radius:10px;padding:16px 18px;transition:opacity .25s ease;text-align:left;outline:none;resize:vertical;min-height:120px;}
+.lv-script:focus{border-color:rgba(201,163,106,.5);}
+.lend-hint{font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:7.5px;letter-spacing:.04em;color:rgba(240,228,207,.4);text-transform:none;}
+.lv-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.lv-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:11px 20px;border-radius:999px;border:1px solid rgba(201,163,106,.45);background:transparent;color:#f0e4cf;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.lv-btn:hover{border-color:rgba(201,163,106,.75);}
+.lv-btn.rec{background:#a5604a;border-color:transparent;color:#fff;}
+.lv-audio{height:36px;max-width:220px;}
+.lv-meter{height:5px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;margin:10px 0 6px;}
+.lv-bar{height:100%;width:0;background:rgba(201,163,106,.9);transition:width .25s linear;}
+.lv-count{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.05em;color:rgba(240,228,207,.5);text-transform:lowercase;}
+.lv-consent{display:flex;align-items:flex-start;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:9px;line-height:1.6;color:rgba(240,228,207,.72);cursor:pointer;margin:2px 0 12px;}
+.lv-consent input{margin-top:2px;flex-shrink:0;accent-color:#c9a36a;}
+.lv-email{margin-bottom:11px;}
+.lv-send{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:lowercase;padding:13px 26px;border-radius:999px;border:none;background:#c9a36a;color:#211a13;cursor:pointer;transition:all .16s;}
+.lv-send:hover{background:#dcb87c;transform:translateY(-1px);}
+.lv-note{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:rgba(240,228,207,.4);margin-top:11px;text-transform:lowercase;line-height:1.75;}
+.lv-thanks{display:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.2rem;color:rgba(201,163,106,.95);margin-top:14px;}
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#2a1f18;color:rgba(201,163,106,.95);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;padding:11px 18px;border-radius:999px;z-index:300;transition:all .3s;}
 #toast.on{opacity:1;transform:translate(-50%,0);}
 @media(max-width:820px){
@@ -109,9 +136,23 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
       <div class="lend-eye">lend your voice</div>
       <div class="lend-h">teach the room to speak your mother tongue.</div>
       <p class="lend-p">you don&rsquo;t have to be a guide. choose a language, read a few lines aloud — about thirty seconds — and respira can begin to breathe in your tongue. always yours, always credited.</p>
-      <div class="lend-steps"><span class="lend-step">1 · choose your language</span><span class="lend-step">2 · read the lines aloud</span><span class="lend-step">3 · we teach the room</span></div>
-      <a class="lend-cta" href="/open-floor">lend your voice &rarr;</a>
-      <div class="lend-note">recorded on your device · reviewed with care · nothing goes live without your yes.</div>
+      <div class="lend-rec">
+        <div class="lend-slab">1 &middot; choose your language</div>
+        <select id="lv-lang" class="lv-select" onchange="lvLang()"></select>
+        <input type="text" id="lv-otherlang" class="lv-email" placeholder="name your language (e.g. tshiluba, ewe, tigrinya, hmong…)" style="display:none;margin-top:10px;">
+        <div class="lend-slab">2 &middot; read this aloud <span class="lend-hint">— tweak the wording if you&rsquo;d say it more naturally</span></div>
+        <textarea id="lv-script" class="lv-script" rows="6" spellcheck="false"></textarea>
+        <div class="lend-slab">3 &middot; record</div>
+        <div class="lv-controls"><button id="lv-rec" class="lv-btn" onclick="lvToggle()">&#9679; record</button><audio id="lv-audio" class="lv-audio" controls style="display:none;"></audio></div>
+        <div class="lv-meter"><div class="lv-bar" id="lv-bar"></div></div>
+        <div class="lv-count" id="lv-count">read for about thirty seconds.</div>
+        <div class="lend-slab">4 &middot; send it</div>
+        <label class="lv-consent"><input type="checkbox" id="lv-consent"> i confirm this is my voice, and i agree respira may use this recording to guide sessions.</label>
+        <input type="email" id="lv-email" class="lv-email" placeholder="your email — so we can send it to you first">
+        <button class="lv-send" onclick="lvSubmit()">send my voice &rarr;</button>
+        <div class="lv-note">recorded on your device &middot; reviewed with care &middot; nothing goes live without your yes. contributors are always credited.</div>
+      </div>
+      <div id="lv-thanks" class="lv-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>
     </div>
   </div>
 </div>
@@ -140,6 +181,121 @@ function voicesShare(){
   if(navigator.share){navigator.share(d).catch(function(){});return;}
   if(navigator.clipboard){navigator.clipboard.writeText(d.url).then(function(){toast('link copied — pass it on');}).catch(function(){toast(d.url);});}else toast(d.url);
 }
+
+/* ── lend your voice · the recorder ── */
+// the same short breathing script, offered in many mother tongues. the text is
+// editable — a native speaker can refine the wording before they read + record.
+var LV_SCRIPTS={
+  'english':{dir:'ltr',text:"come to a comfortable seat, and let the shoulders soften. take one slow breath in, and a slower breath out. feel the ground beneath you, steady and patient. there is nothing to fix, and nowhere else to be. breathe in — two, three, four. and out — two, three, four, five, six. let the body settle. you are exactly where you need to be."},
+  // ─ africa ─
+  'kiswahili':{dir:'ltr',text:"kaa mahali pazuri, na acha mabega yalegee. vuta pumzi polepole, na uitoe polepole zaidi. hisi ardhi chini yako, imara na yenye subira. hakuna cha kurekebisha, wala mahali pengine pa kuwa. vuta pumzi — mbili, tatu, nne. na toa — mbili, tatu, nne, tano, sita. acha mwili utulie. uko pale unapohitajika kuwa."},
+  'yorùbá':{dir:'ltr',text:"jókòó sí ibi ìtura, kí o sì jẹ́ kí èjìká rẹ rọ̀. mí èémí lọ́ra, kí o sì tú u jáde lọ́ra síi. fara balẹ̀ lórí ilẹ̀ tí ó wà lábẹ́ rẹ, tí ó dúró ṣinṣin. kò sí ohun tí ó yẹ kí a tún ṣe, kò sì sí ibòmíràn tí o gbọ́dọ̀ wà. mí sínú — méjì, mẹ́ta, mẹ́rin. kí o sì tú jáde — méjì, mẹ́ta, mẹ́rin, márùn-ún, mẹ́fà. jẹ́ kí ara rẹ balẹ̀. o wà níbi tí o yẹ kí o wà."},
+  'igbo':{dir:'ltr',text:"nọdụ ala n’ebe dị mma, hapụ ubu gị ka ọ dajụọ. kuo ume nwayọọ, ma tufuo ya nwayọọ karịa. chee ala dị n’okpuru gị, nke kwụsiri ike ma nwee ndidi. o nweghị ihe ị ga-edozi, o nweghịkwa ebe ọzọ ị ga-anọ. kuo ume — abụọ, atọ, anọ. tufuo — abụọ, atọ, anọ, ise, isii. hapụ ahụ gị ka ọ dajụọ. ị nọ kpọmkwem ebe ị kwesịrị ịnọ."},
+  'hausa':{dir:'ltr',text:"zauna a wuri mai daɗi, ka bar kafaɗunka su sassauta. ja numfashi a hankali, ka fitar da shi a hankali sosai. ji ƙasa a ƙarƙashinka, tsayayye da haƙuri. babu abin da za a gyara, kuma babu wani wuri da za ka kasance. ja numfashi — biyu, uku, huɗu. ka fitar — biyu, uku, huɗu, biyar, shida. bar jiki ya kwanta. kana daidai inda ya kamata ka kasance."},
+  'አማርኛ (amharic)':{dir:'ltr',text:"ምቹ በሆነ ቦታ ተቀመጥ፣ ትከሻዎችህም እንዲላሉ ፍቀድ። ቀስ ብለህ ተንፍስ፣ ከዚያም ይበልጥ ቀስ ብለህ አውጣ። ከበታችህ ያለውን መሬት ተሰማህ፣ ጽኑና ታጋሽ። የሚስተካከል ምንም ነገር የለም፣ መሆን ያለብህም ሌላ ቦታ የለም። ተንፍስ — ሁለት፣ ሦስት፣ አራት። አውጣም — ሁለት፣ ሦስት፣ አራት፣ አምስት፣ ስድስት። ሰውነትህ እንዲረጋጋ ፍቀድ። መሆን በሚገባህ ቦታ በትክክል ነህ።"},
+  'soomaali':{dir:'ltr',text:"fadhiiso meel raaxo leh, oo garbahaaga u oggolow inay debcaan. neefso si tartiib ah, kana saar si ka sii tartiib badan. dareen dhulka kaa hooseeya, xasilloon oo dulqaad leh. wax la hagaajiyo ma jiro, meel kalena ma jirto oo aad joogto. neefso — laba, saddex, afar. kana saar — laba, saddex, afar, shan, lix. jidhku ha degto. waxaad si sax ah ugu jirtaa meesha aad ku jirto."},
+  'isizulu':{dir:'ltr',text:"hlala endaweni ekhululekile, uvumele amahlombe akho athambe. donsa umoya kancane, uwukhiphe kancane nakakhulu. zwa umhlabathi ngaphansi kwakho, uqinile futhi ubekezela. akukho okudinga ukulungiswa, akukho nenye indawo okumele ube kuyo. ngenisa umoya — kubili, kuthathu, kune. uphume — kubili, kuthathu, kune, kuhlanu, isithupha. vumela umzimba uzinze. ukhona ncamashi lapho okumele ube khona."},
+  'isixhosa':{dir:'ltr',text:"hlala kwindawo ekhululekileyo, uvumele amagxa akho athambe. tsala umphefumlo ngokucothayo, uwukhuphe ngokucotha nangakumbi. ziva umhlaba ngaphantsi kwakho, uzinzile unomonde. akukho nto ifuna ukulungiswa, akukho nayindawo yimbi omele ube kuyo. ngenisa umoya — mbini, ntathu, ne. uphume — mbini, ntathu, ne, ntlanu, ntandathu. yiyeke umzimba uzole. ukhona kanye apho umele ube khona."},
+  'chishona':{dir:'ltr',text:"gara panzvimbo yakanaka, urege mapfudzi ako aregedze. fema zvishoma nezvishoma, wobudisa mweya zvakanyanya kunonoka. nzwa pasi pauri, pakasimba uye pane mwoyo murefu. hapana chinofanira kugadziriswa, uye hapana kumwe kwaunofanira kunge uri. fema uchipinza — piri, tatu, ina. uye budisa — piri, tatu, ina, shanu, tanhatu. rega muviri ugadzikane. uri chaizvo panzvimbo pauri kufanira kunge uri."},
+  'kinyarwanda':{dir:'ltr',text:"icara ahantu heza, ureke ibitugu byawe biruhuke. huhuta umwuka buhoro, uwusohore buhoro cyane. umva ubutaka buri munsi yawe, bukomeye kandi bwihangana. nta kintu gikeneye gukosorwa, kandi nta handi ugomba kuba. injiza umwuka — kabiri, gatatu, kane. usohore — kabiri, gatatu, kane, gatanu, gatandatu. reka umubiri utuze. uri neza aho ugomba kuba."},
+  'luganda':{dir:'ltr',text:"tuula mu kifo ekirungi, oleke ebibegabega byo biwummule. ssika omukka mpola, era gufulumye mpola nnyo. wulira ettaka wansi wo, linywevu era ligumiikiriza. tewali kya kutereeza, era tewali walala w’oteekwa kubeera. ssika omukka — bbiri, ssatu, nnya. era gufulumye — bbiri, ssatu, nnya, ttaano, mukaaga. leka omubiri gutereere. oli mu kifo kyennyini w’oteekwa kubeera."},
+  'lingala':{dir:'ltr',text:"fanda esika ya malamu, tika mapeka na yo elemba. benda mopepe malembe, mpe bimisa yango malembe koleka. yoka mabele na se na yo, makasi mpe na motema molai. eloko ya kobongisa ezali te, mpe esika mosusu ya kozala ezali te. benda mopepe — mibale, misato, minei. mpe bimisa — mibale, misato, minei, mitano, motoba. tika nzoto epema. ozali kaka na esika oyo osengeli kozala."},
+  'chichewa':{dir:'ltr',text:"khalani pamalo abwino, ndipo lolani mapewa anu afewe. pumani mwapang’onopang’ono, ndi kutulutsa mpweya mocheperapo. mverani nthaka pansi panu, yolimba komanso yoleza mtima. palibe choti mukonze, ndipo palibe kwina koti mukhale. lowetsani mpweya — awiri, atatu, anayi. ndi kutulutsa — awiri, atatu, anayi, asanu, asanu ndi limodzi. lolani thupi likhazikike. muli pamalo enieni pomwe muyenera kukhala."},
+  'afaan oromoo':{dir:'ltr',text:"iddoo mijaawaa taa’i, gateettiin kees akka boqotu godhi. suuta of keessatti harkisi, kanaa olimmoo suuta gadi baasi. lafa si jala jiru dhaga’i, jabaa fi obsa qabu. wanti sirreeffamu hin jiru, iddoon biraa ati jirtus hin jiru. harkisi — lama, sadii, afur. gadi baasi — lama, sadii, afur, shan, ja’a. qaamni kee akka tasgabbaa’u godhi. ati sirriitti iddoo jiraachuu qabdu jirta."},
+  'afrikaans':{dir:'ltr',text:"kom sit gemaklik, en laat die skouers sag word. haal stadig asem in, en stadiger uit. voel die grond onder jou, standvastig en geduldig. daar is niks om reg te maak nie, en nêrens anders om te wees nie. haal in — twee, drie, vier. en uit — twee, drie, vier, vyf, ses. laat die liggaam bedaar. jy is presies waar jy moet wees."},
+  'kreyòl':{dir:'ltr',text:"chita yon kote ki konfòtab, epi kite zepòl ou vin dou. pran yon souf dousman, epi lage l pi dousman. santi tè a anba ou, fèm epi pasyan. pa gen anyen pou repare, e pa gen lòt kote pou ou ye. respire — de, twa, kat. epi ekspire — de, twa, kat, senk, sis. kite kò a poze. ou egzakteman kote ou bezwen ye."},
+  // ─ asia ─
+  '中文 (mandarin)':{dir:'ltr',text:"找一个舒适的坐姿，让肩膀放松下来。慢慢地吸一口气，再更慢地呼出去。感受你脚下的大地，坚定而有耐心。没有什么需要修补，也没有别的地方需要去。吸气——二，三，四。呼气——二，三，四，五，六。让身体安定下来。你正处在你需要在的地方。"},
+  '日本語 (japanese)':{dir:'ltr',text:"楽な姿勢で座り、肩の力を抜きましょう。ゆっくりと息を吸い、さらにゆっくりと吐きます。足もとの大地を感じてください、しっかりと、辛抱強く。直すものは何もなく、ほかにいるべき場所もありません。吸って——二、三、四。吐いて——二、三、四、五、六。体を落ち着かせましょう。あなたは今、いるべき場所にちゃんといます。"},
+  '한국어 (korean)':{dir:'ltr',text:"편안한 자리에 앉아 어깨의 힘을 풀어 주세요. 천천히 숨을 들이쉬고, 더 천천히 내쉽니다. 당신 아래의 땅을 느껴 보세요, 단단하고 인내심 있게. 고칠 것도 없고, 다른 어디에 있을 필요도 없습니다. 들이쉬고 — 둘, 셋, 넷. 내쉬고 — 둘, 셋, 넷, 다섯, 여섯. 몸을 가라앉게 두세요. 당신은 있어야 할 바로 그 자리에 있습니다."},
+  'हिन्दी (hindi)':{dir:'ltr',text:"आराम से बैठ जाइए, और कंधों को ढीला छोड़ दीजिए। धीरे-धीरे साँस अंदर लीजिए, और उससे भी धीरे बाहर छोड़िए। अपने नीचे की ज़मीन को महसूस कीजिए, स्थिर और धैर्यवान। कुछ भी ठीक करने को नहीं है, और कहीं और होने की ज़रूरत नहीं। साँस अंदर — दो, तीन, चार। और बाहर — दो, तीन, चार, पाँच, छह। शरीर को शांत होने दीजिए। आप ठीक वहीं हैं जहाँ आपको होना चाहिए।"},
+  'اردو (urdu)':{dir:'rtl',text:"آرام سے بیٹھ جائیں، اور کندھوں کو ڈھیلا چھوڑ دیں۔ آہستہ سے سانس اندر لیں، اور اس سے بھی آہستہ باہر نکالیں۔ اپنے نیچے زمین کو محسوس کریں، مضبوط اور صابر۔ کچھ ٹھیک کرنے کو نہیں، اور کہیں اور ہونے کی ضرورت نہیں۔ سانس اندر — دو، تین، چار۔ اور باہر — دو، تین، چار، پانچ، چھ۔ جسم کو ٹھہرنے دیں۔ آپ بالکل وہیں ہیں جہاں آپ کو ہونا چاہیے۔"},
+  'বাংলা (bengali)':{dir:'ltr',text:"আরাম করে বসুন, আর কাঁধ দুটো শিথিল হতে দিন। ধীরে ধীরে শ্বাস নিন, আর আরও ধীরে ছাড়ুন। নিজের নিচে মাটি অনুভব করুন, স্থির আর ধৈর্যশীল। ঠিক করার কিছু নেই, আর অন্য কোথাও থাকার দরকার নেই। শ্বাস নিন — দুই, তিন, চার। আর ছাড়ুন — দুই, তিন, চার, পাঁচ, ছয়। শরীরটাকে থিতু হতে দিন। আপনি ঠিক সেখানেই আছেন যেখানে আপনার থাকা দরকার।"},
+  'தமிழ் (tamil)':{dir:'ltr',text:"வசதியாக அமருங்கள், தோள்களைத் தளர விடுங்கள். மெதுவாக மூச்சை உள்ளிழுங்கள், இன்னும் மெதுவாக வெளியிடுங்கள். உங்களுக்குக் கீழே உள்ள தரையை உணருங்கள், உறுதியாகவும் பொறுமையாகவும். சரிசெய்ய எதுவும் இல்லை, வேறு எங்கும் இருக்க வேண்டியதில்லை. உள்ளிழுங்கள் — இரண்டு, மூன்று, நான்கு. வெளியிடுங்கள் — இரண்டு, மூன்று, நான்கு, ஐந்து, ஆறு. உடல் அமைதியடையட்டும். நீங்கள் இருக்க வேண்டிய இடத்தில் சரியாக இருக்கிறீர்கள்."},
+  'tiếng việt':{dir:'ltr',text:"hãy ngồi vào một tư thế thoải mái, và để cho đôi vai buông lỏng. hít vào thật chậm, rồi thở ra chậm hơn nữa. cảm nhận mặt đất bên dưới bạn, vững vàng và kiên nhẫn. không có gì cần sửa, và không có nơi nào khác cần đến. hít vào — hai, ba, bốn. và thở ra — hai, ba, bốn, năm, sáu. hãy để cơ thể lắng lại. bạn đang ở đúng nơi bạn cần ở."},
+  'tagalog':{dir:'ltr',text:"umupo nang komportable, at hayaang lumambot ang mga balikat. huminga nang mabagal papasok, at mas mabagal palabas. damhin ang lupa sa ilalim mo, matatag at matiyaga. walang kailangang ayusin, at wala nang ibang dapat puntahan. huminga — dalawa, tatlo, apat. at ilabas — dalawa, tatlo, apat, lima, anim. hayaang huminahon ang katawan. nasa eksaktong lugar ka kung nasaan ka dapat."},
+  'bahasa indonesia':{dir:'ltr',text:"duduklah dengan nyaman, dan biarkan bahu melembut. tarik napas perlahan, dan hembuskan lebih perlahan lagi. rasakan tanah di bawahmu, kokoh dan sabar. tidak ada yang perlu diperbaiki, dan tidak ada tempat lain untuk berada. tarik napas — dua, tiga, empat. dan hembuskan — dua, tiga, empat, lima, enam. biarkan tubuh menenang. kamu berada tepat di tempat kamu perlu berada."},
+  'bahasa melayu':{dir:'ltr',text:"duduklah dengan selesa, dan biarkan bahu melembut. tarik nafas perlahan-lahan, dan hembuskan lebih perlahan lagi. rasakan tanah di bawahmu, teguh dan sabar. tiada apa yang perlu dibetulkan, dan tiada tempat lain untuk berada. tarik nafas — dua, tiga, empat. dan hembuskan — dua, tiga, empat, lima, enam. biarkan tubuh tenang. kamu berada tepat di tempat kamu perlu berada."},
+  'ภาษาไทย (thai)':{dir:'ltr',text:"นั่งในท่าที่สบาย และปล่อยให้ไหล่ผ่อนคลาย หายใจเข้าช้า ๆ แล้วหายใจออกช้ากว่าเดิม รู้สึกถึงพื้นดินใต้ตัวคุณ มั่นคงและอดทน ไม่มีอะไรต้องแก้ไข และไม่มีที่อื่นที่ต้องไป หายใจเข้า — สอง สาม สี่ และหายใจออก — สอง สาม สี่ ห้า หก ปล่อยให้ร่างกายสงบลง คุณอยู่ตรงที่ที่คุณควรอยู่พอดี"},
+  // ─ europe & the americas ─
+  'español':{dir:'ltr',text:"ven a un asiento cómodo, y deja que los hombros se suavicen. toma una inhalación lenta, y una exhalación más lenta. siente el suelo debajo de ti, firme y paciente. no hay nada que arreglar, ni ningún otro lugar donde estar. inhala — dos, tres, cuatro. y exhala — dos, tres, cuatro, cinco, seis. deja que el cuerpo se asiente. estás exactamente donde necesitas estar."},
+  'português':{dir:'ltr',text:"encontra um assento confortável, e deixa os ombros relaxarem. inspira devagar, e expira ainda mais devagar. sente o chão debaixo de ti, firme e paciente. não há nada para consertar, e nenhum outro lugar onde estar. inspira — dois, três, quatro. e expira — dois, três, quatro, cinco, seis. deixa o corpo assentar. estás exatamente onde precisas de estar."},
+  'français':{dir:'ltr',text:"installe-toi confortablement, et laisse les épaules s’adoucir. prends une inspiration lente, et une expiration plus lente. sens le sol sous toi, ferme et patient. il n’y a rien à réparer, et nulle part ailleurs où être. inspire — deux, trois, quatre. et expire — deux, trois, quatre, cinq, six. laisse le corps se poser. tu es exactement là où tu dois être."},
+  'italiano':{dir:'ltr',text:"mettiti in una posizione comoda, e lascia che le spalle si ammorbidiscano. fai un respiro lento, e un’espirazione più lenta. senti il terreno sotto di te, stabile e paziente. non c’è niente da sistemare, e nessun altro posto dove stare. inspira — due, tre, quattro. ed espira — due, tre, quattro, cinque, sei. lascia che il corpo si posi. sei esattamente dove devi essere."},
+  'deutsch':{dir:'ltr',text:"setz dich bequem hin, und lass die schultern weich werden. atme langsam ein, und noch langsamer aus. spür den boden unter dir, fest und geduldig. es gibt nichts zu richten, und keinen anderen ort zu sein. atme ein — zwei, drei, vier. und aus — zwei, drei, vier, fünf, sechs. lass den körper zur ruhe kommen. du bist genau dort, wo du sein musst."},
+  'русский':{dir:'ltr',text:"сядь поудобнее и позволь плечам расслабиться. сделай медленный вдох и ещё более медленный выдох. почувствуй землю под собой, устойчивую и терпеливую. ничего не нужно исправлять, и негде больше быть. вдох — два, три, четыре. и выдох — два, три, четыре, пять, шесть. позволь телу успокоиться. ты именно там, где тебе нужно быть."},
+  'العربية':{dir:'rtl',text:"اجلس في وضع مريح، ودع الكتفين يسترخيان. خذ شهيقاً بطيئاً، وزفيراً أبطأ. اشعر بالأرض تحتك، ثابتة وصبورة. لا شيء يحتاج إلى إصلاح، ولا مكان آخر تكون فيه. استنشق — اثنان، ثلاثة، أربعة. وازفر — اثنان، ثلاثة، أربعة، خمسة، ستة. دع الجسد يهدأ. أنت في المكان الذي ينبغي أن تكون فيه."}
+};
+function lvLang(){
+  var sel=document.getElementById('lv-lang'); if(!sel) return;
+  var box=document.getElementById('lv-script'); if(!box) return;
+  var other=document.getElementById('lv-otherlang'), isOther=(sel.value==='other');
+  if(other) other.style.display=isOther?'block':'none';
+  var e = isOther ? {dir:'ltr',text:LV_SCRIPTS['english'].text} : (LV_SCRIPTS[sel.value]||LV_SCRIPTS['english']);
+  box.style.opacity=0;
+  setTimeout(function(){
+    box.value=e.text;
+    box.setAttribute('dir',e.dir);
+    box.style.textAlign=(e.dir==='rtl')?'right':'left';
+    box.style.borderLeftWidth=(e.dir==='rtl')?'0':'2px';
+    box.style.borderRightWidth=(e.dir==='rtl')?'2px':'0';
+    box.style.opacity=1;
+  },120);
+}
+var _lvRec=null,_lvChunks=[],_lvBlob=null,LV_TARGET=30,LV_CAP=45,_lvStart=0,_lvMeterTimer=null;
+function _lvFmt(s){var m=Math.floor(s/60),x=s%60;return m+':'+(x<10?'0':'')+x;}
+function _lvTick(){
+  var el=Math.floor((Date.now()-_lvStart)/1000);
+  var bar=document.getElementById('lv-bar'),lab=document.getElementById('lv-count');
+  if(bar){ bar.style.width=Math.min(100,el/LV_TARGET*100)+'%'; bar.style.background=el>=LV_TARGET?'rgba(120,150,90,.9)':'rgba(201,163,106,.9)'; }
+  if(lab){ lab.innerHTML=_lvFmt(el)+(el>=LV_TARGET?' &middot; that’s plenty, you can stop.':' &middot; keep reading'); }
+  if(el>=LV_CAP && _lvRec && _lvRec.state==='recording'){ lvToggle(); }
+}
+function lvToggle(){
+  var btn=document.getElementById('lv-rec');
+  if(_lvRec && _lvRec.state==='recording'){ _lvRec.stop(); return; }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ if(btn) btn.textContent='recording not supported here'; return; }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    try{ _lvRec=new MediaRecorder(stream); }catch(err){ if(btn) btn.textContent='recording not supported here'; return; }
+    _lvChunks=[];
+    _lvRec.ondataavailable=function(ev){ if(ev.data && ev.data.size) _lvChunks.push(ev.data); };
+    _lvRec.onstop=function(){
+      if(_lvMeterTimer){ clearInterval(_lvMeterTimer); _lvMeterTimer=null; }
+      _lvBlob=new Blob(_lvChunks,{type:(_lvRec.mimeType||'audio/webm')});
+      var a=document.getElementById('lv-audio'); if(a){ a.src=URL.createObjectURL(_lvBlob); a.style.display='block'; }
+      if(btn){ btn.innerHTML='&#9679; re-record'; btn.classList.remove('rec'); }
+      stream.getTracks().forEach(function(t){ t.stop(); });
+    };
+    _lvRec.start();
+    _lvStart=Date.now(); if(_lvMeterTimer) clearInterval(_lvMeterTimer); _lvMeterTimer=setInterval(_lvTick,250);
+    if(btn){ btn.innerHTML='&#9632; stop'; btn.classList.add('rec'); }
+  }).catch(function(){ if(btn) btn.textContent='allow mic access to record'; });
+}
+function lvSubmit(){
+  var sel=document.getElementById('lv-lang');
+  var picked=(sel&&sel.value)||'english';
+  var custom=(document.getElementById('lv-otherlang')||{value:''}).value.trim();
+  var lang = (picked==='other') ? (custom || 'other (unnamed)') : picked;
+  var email=(document.getElementById('lv-email')||{value:''}).value||'';
+  var script=(document.getElementById('lv-script')||{value:''}).value||'';
+  var consent=document.getElementById('lv-consent');
+  var btn=document.getElementById('lv-rec');
+  if(picked==='other' && !custom){ var ol=document.getElementById('lv-otherlang'); if(ol){ ol.focus(); ol.style.borderColor='#e08a6a'; } toast('name your language first'); return; }
+  if(!_lvBlob){ if(btn){ btn.innerHTML='&#9679; record first'; } toast('record your voice first'); return; }
+  if(!consent || !consent.checked){ if(consent && consent.parentNode) consent.parentNode.style.color='#e08a6a'; toast('please tick the consent box'); return; }
+  var fd=new FormData();
+  fd.append('event','voice_contribution'); fd.append('language',lang); fd.append('script',script); fd.append('email',email);
+  fd.append('consent','voice usage waiver agreed'); fd.append('_subject','respira: a voice contribution — '+lang);
+  try{ fd.append('recording',_lvBlob,'respira-voice-'+(lang.toLowerCase().replace(/[^a-z0-9]+/g,'-')||'note')+'.webm'); }catch(e){}
+  try{ fetch('https://formspree.io/f/mykqjrjw',{method:'POST',headers:{'Accept':'application/json'},body:fd}); }catch(e){}
+  var r=document.querySelector('.lend-rec'); if(r) r.style.display='none';
+  var t=document.getElementById('lv-thanks'); if(t) t.style.display='block';
+}
+// populate the language menu (+ an "other" catch-all) and show the first script
+(function(){
+  var sel=document.getElementById('lv-lang');
+  if(sel){ sel.innerHTML=Object.keys(LV_SCRIPTS).map(function(k){return '<option value="'+k+'">'+k+'</option>';}).join('')+'<option value="other">＋ other — add your own language</option>'; lvLang(); }
+})();
 </script>
 <script src="/chrome.js" defer></script>
 </body></html>
