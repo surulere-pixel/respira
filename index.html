@@ -1077,15 +1077,16 @@ body{transition:background-color .7s ease;}
     <div class="nav-links">
       <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
       <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
-      <button id="nav-radio-btn" onclick="navRadioToggle()">&#9655; <span class="nrb-word">play </span>radio</button>
+      <button id="nav-radio-btn" onclick="location.href='/radio'">&#9655; <span class="nrb-word">play </span>radio</button>
       <div class="nav-menu-wrap">
         <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
           <a href="/studio" role="menuitem" class="nav-menu-studios" style="--sect:#e6dccb">for studios &rarr;</a>
           <a href="/find" role="menuitem" style="--sect:#cfe3d6">find a practice</a>
-          <a href="#lend" role="menuitem" onclick="closeNavMenu()" style="--sect:#e6d3c9">lend your voice</a>
+          <a href="/radio" role="menuitem" style="--sect:#e0d3e8">radio</a>
+          <a href="/voices" role="menuitem" style="--sect:#e6d3c9">voices</a>
+          <a href="/shelf" role="menuitem" style="--sect:#f0dcb8">shelf</a>
           <a href="/poster" role="menuitem" style="--sect:#efe0c4">poster maker</a>
-          <a href="/goods" role="menuitem" style="--sect:#f0dcb8">goods</a>
           <a href="/open-floor" role="menuitem" style="--sect:#e0d3e8">open floor</a>
           <a href="/about" role="menuitem" style="--sect:#e8e2d6">about</a>
           <a href="/support" role="menuitem" style="--sect:#f0d9c9">support</a>
@@ -1598,6 +1599,8 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
 </div>
 
 
+<!-- ══ legacy homepage sections — superseded by the dedicated rooms (/radio /shelf /voices /studio). hidden; kept in DOM so their scripts keep defining shared helpers. ══ -->
+<div id="hp-legacy" hidden style="display:none!important;">
 <!-- respira radio -->
 <div id="radio" style="background:linear-gradient(180deg,#f7f4ec,#efe9dd);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem);border-top:1px solid var(--line);transition:background 1.1s ease;">
   <div class="inner">
@@ -3076,6 +3079,7 @@ function fbSubmit(){
   var th=document.getElementById('fb-form-thanks'); if(th) th.style.display='block';
 }
 </script>
+</div><!-- /hp-legacy -->
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
