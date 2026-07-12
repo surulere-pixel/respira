@@ -322,7 +322,7 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 #door.closing{opacity:0;pointer-events:none;transition:opacity .7s ease;}
 .door-half{position:relative;flex:1 1 50%;border:none;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1.4rem,5vw,4rem);font:inherit;color:inherit;text-align:left;transition:flex-basis .6s cubic-bezier(.4,0,.2,1),filter .5s ease;}
 .door-breathe{background:linear-gradient(160deg,#f8f4ed,#efe7da 68%,#e8ddca);}
-.door-studio{background:linear-gradient(160deg,#e9e0f5,#dacfe9 58%,#cbb9e0);}
+.door-studio{background:linear-gradient(160deg,#e0cba6,#cbad7e 55%,#b18e5f);}
 @media(hover:hover){
   #door:hover .door-half{flex-basis:42%;filter:brightness(.975);}
   #door:hover .door-half:hover{flex-basis:58%;filter:brightness(1.03);}
@@ -331,18 +331,18 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:11px;max-width:30ch;}
 .door-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:lowercase;}
 .door-breathe .door-eye{color:rgba(154,118,58,.95);}
-.door-studio .door-eye{color:#6f52a0;}
+.door-studio .door-eye{color:#7a4f22;}
 .door-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2.6rem,7vw,4.6rem);letter-spacing:-.03em;line-height:1;color:var(--ink);}
-.door-studio .door-h{color:#352748;}
+.door-studio .door-h{color:#3a2a17;}
 .door-h em{font-style:italic;}
 .door-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;line-height:1.85;color:var(--soft);max-width:27ch;text-transform:lowercase;}
-.door-studio .door-sub{color:#5f5182;}
+.door-studio .door-sub{color:#5c4a30;}
 .door-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:lowercase;margin-top:6px;}
 .door-breathe .door-cta{color:#7a3a22;}
-.door-studio .door-cta{color:#523a80;}
+.door-studio .door-cta{color:#6a3f1a;}
 .door-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(72vh,72vw);height:min(72vh,72vw);border-radius:50%;pointer-events:none;z-index:0;animation:heroOrb 7s ease-in-out infinite;}
 .door-breathe .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.17),rgba(143,154,122,.06) 45%,transparent 72%);}
-.door-studio .door-orb{background:radial-gradient(circle at 42% 40%,rgba(140,110,190,.2),rgba(120,95,170,.07) 45%,transparent 72%);}
+.door-studio .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.24),rgba(122,79,34,.09) 45%,transparent 72%);}
 .door-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(55,42,29,.14);transform:translateX(-.5px);pointer-events:none;z-index:3;}
 .door-hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
 @media(max-width:720px){
