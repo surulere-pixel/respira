@@ -607,6 +607,16 @@ body{transition:background-color .7s ease;}
 .ai-badge-dot{width:4px;height:4px;border-radius:50%;background:var(--sage-dark);}
 
 .length-btn{min-height:36px;border:1px solid rgba(95,85,75,.15);background:rgba(255,250,242,.72);color:var(--soft);}
+/* pre-session settings (configure before the session begins) */
+.pre-set{margin:0 auto 14px;max-width:440px;text-align:left;background:rgba(255,250,242,.55);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:0 10px 30px rgba(55,42,29,.06);}
+.pre-set-lab{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:11px;}
+.pre-set-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px 14px;}
+@media(max-width:480px){.pre-set-grid{grid-template-columns:1fr;}}
+.pre-set-item{display:flex;flex-direction:column;gap:5px;}
+.pre-set-item>span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.06em;text-transform:lowercase;color:var(--soft);}
+.pre-set-item select{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none;cursor:pointer;width:100%;}
+.pre-set-item select:focus{border-color:var(--gold);}
+.pre-len-lab{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin-bottom:7px;}
 .breathing-layout{width:100%;min-height:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8px 0 0;isolation:isolate;animation:roomPulse 7s ease-in-out infinite;}
 @keyframes roomPulse{
   0%,100%{background:radial-gradient(ellipse at 50% 50%, rgba(201,163,106,.12) 0%, rgba(239,231,218,0) 68%);}
@@ -1232,6 +1242,51 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
               <div id="pathOptions">
               <!-- breathe options -->
               <div id="breatheOptions" style="display:none;margin-top:10px;">
+                <div class="pre-set">
+                  <div class="pre-set-lab">before you begin &middot; adjust to taste</div>
+                  <div class="pre-set-grid">
+                    <label class="pre-set-item"><span>voice &amp; language</span>
+                      <select onchange="preSet('#breathVoiceSelect',this.value)">
+                        <option value="woman_en">english</option>
+                        <option value="woman_es">español</option>
+                        <option value="swahili">kiswahili</option>
+                        <option value="french">français</option>
+                        <option value="arabic">العربية</option>
+                      </select>
+                    </label>
+                    <label class="pre-set-item"><span>guidance</span>
+                      <select onchange="preSet('.voiceFreqSelect',this.value)">
+                        <option value="none">none</option>
+                        <option value="minimal" selected>minimal</option>
+                        <option value="moderate">moderate</option>
+                        <option value="frequent">frequent</option>
+                      </select>
+                    </label>
+                    <label class="pre-set-item"><span>ambience</span>
+                      <select onchange="preSet('#soundSelect',this.value)">
+                        <option value="silence">silence</option>
+                        <option value="ancestor-hum" selected>ancestor hum</option>
+                        <option value="calm-shore">calm shore</option>
+                        <option value="cartagena-breeze">cartagena breeze</option>
+                        <option value="kingston-raindrops">kingston raindrops</option>
+                        <option value="lagos-downpour">lagos downpour</option>
+                        <option value="steady-rainfall">steady rainfall</option>
+                        <option value="wakanda-waves">wakanda waves</option>
+                        <option value="zanzibar-shallows">zanzibar shallows</option>
+                        <option value="respiraradio">respira radio</option>
+                      </select>
+                    </label>
+                    <label class="pre-set-item"><span>rhythm</span>
+                      <select onchange="preSet('#patternSelect',this.value)">
+                        <option value="446">4 · 4 · 6</option>
+                        <option value="478">4 · 7 · 8</option>
+                        <option value="box">box</option>
+                        <option value="inhale">inhale</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div class="pre-len-lab">choose a length to begin &darr;</div>
                 <div class="breathe-lengths">
                   <button class="length-btn" data-minutes="5">5 min</button>
                   <button class="length-btn" data-minutes="10">10 min</button>
@@ -4517,6 +4572,9 @@ function stopPoseBreath(){
 })();
 // the in-app logo / "home" returns to the door
 (function(){ var l=document.getElementById('navHomeLogo'); if(l) l.addEventListener('click',function(e){ e.preventDefault(); if(window.reopenDoor){ window.reopenDoor(); try{ document.body.scrollTop=0; window.scrollTo(0,0); }catch(_){} } }); })();
+// pre-session settings → mirror the chosen preference onto the live in-session control(s)
+function preSet(sel, val){ try{ document.querySelectorAll(sel).forEach(function(el){ el.value = val; }); }catch(e){} }
+window.preSet = preSet;
 </script>
 
 <script>
