@@ -316,41 +316,63 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   animation:heroDoorOpen 1.4s ease forwards;
   pointer-events:none;
 }
-/* ── split-door landing: breathe (left) · studio (right), equal footing ── */
+/* ── four-panel door: breathe · move · listen · teach ── */
 #door{position:fixed;inset:0;z-index:9998;display:flex;opacity:0;pointer-events:none;transition:opacity .8s ease;}
 #door.open{opacity:1;pointer-events:auto;}
 #door.closing{opacity:0;pointer-events:none;transition:opacity .7s ease;}
-.door-half{position:relative;flex:1 1 50%;border:none;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1.4rem,5vw,4rem);font:inherit;color:inherit;text-align:left;transition:flex-basis .6s cubic-bezier(.4,0,.2,1),filter .5s ease;}
-.door-breathe{background:linear-gradient(160deg,#f8f4ed,#efe7da 68%,#e8ddca);}
-.door-studio{background:linear-gradient(160deg,#e0cba6,#cbad7e 55%,#b18e5f);}
+.door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
+.door-half:last-of-type{border-right:none;}
+.door-breathe{background:linear-gradient(165deg,#fbf5ea,#f4dcae 72%,#eecb8f);}
+.door-move{background:linear-gradient(165deg,#e0e9d3,#c8d9ad 70%,#b2c893);}
+.door-listen{background:linear-gradient(165deg,#eddce8,#dcc2d5 68%,#ccabc2);}
+.door-studio{background:linear-gradient(165deg,#e6d2ae,#cbad7e 62%,#b18e5f);}
 @media(hover:hover){
-  #door:hover .door-half{flex-basis:42%;filter:brightness(.975);}
-  #door:hover .door-half:hover{flex-basis:58%;filter:brightness(1.03);}
+  #door:hover .door-half{flex-basis:16%;filter:brightness(.92) saturate(.92);}
+  #door:hover .door-half:hover{flex-basis:52%;filter:brightness(1.02) saturate(1);}
+  #door:hover .door-half:not(:hover) .door-cta{opacity:0;}
+  #door:hover .door-half:not(:hover) .door-inner{opacity:.6;transition:opacity .5s ease;}
 }
-.door-half:focus-visible{outline:2px solid rgba(90,63,136,.6);outline-offset:-8px;}
-.door-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:11px;max-width:30ch;}
-.door-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:lowercase;}
+.door-half:focus-visible{outline:2px solid rgba(90,63,136,.55);outline-offset:-8px;}
+.door-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;max-width:26ch;}
+.door-htext{display:flex;flex-direction:column;gap:9px;min-width:0;}
+.door-eye{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.22em;text-transform:lowercase;}
 .door-breathe .door-eye{color:rgba(154,118,58,.95);}
+.door-move .door-eye{color:#5e7a4a;}
+.door-listen .door-eye{color:#8a5f82;}
 .door-studio .door-eye{color:#7a4f22;}
-.door-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2.6rem,7vw,4.6rem);letter-spacing:-.03em;line-height:1;color:var(--ink);}
+.door-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2rem,3.4vw,3.1rem);letter-spacing:-.02em;line-height:1;color:var(--ink);}
 .door-studio .door-h{color:#3a2a17;}
-.door-h em{font-style:italic;}
-.door-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;line-height:1.85;color:var(--soft);max-width:27ch;text-transform:lowercase;}
-.door-studio .door-sub{color:#5c4a30;}
-.door-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:lowercase;margin-top:6px;}
+.door-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em;line-height:1.8;color:var(--soft);max-width:24ch;text-transform:lowercase;}
+.door-cta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:lowercase;margin-top:4px;transition:opacity .4s ease;}
 .door-breathe .door-cta{color:#7a3a22;}
+.door-move .door-cta{color:#47603a;}
+.door-listen .door-cta{color:#6f4a68;}
 .door-studio .door-cta{color:#6a3f1a;}
-.door-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(72vh,72vw);height:min(72vh,72vw);border-radius:50%;pointer-events:none;z-index:0;animation:heroOrb 7s ease-in-out infinite;}
-.door-breathe .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.17),rgba(143,154,122,.06) 45%,transparent 72%);}
-.door-studio .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.24),rgba(122,79,34,.09) 45%,transparent 72%);}
-.door-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(55,42,29,.14);transform:translateX(-.5px);pointer-events:none;z-index:3;}
-.door-hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
-@media(max-width:720px){
+.door-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(80vh,120%);height:min(80vh,120%);border-radius:50%;pointer-events:none;z-index:0;animation:heroOrb 7s ease-in-out infinite;}
+.door-breathe .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.18),transparent 66%);}
+.door-move .door-orb{background:radial-gradient(circle at 42% 40%,rgba(120,150,90,.16),transparent 66%);}
+.door-listen .door-orb{background:radial-gradient(circle at 42% 40%,rgba(150,110,150,.16),transparent 66%);}
+.door-studio .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.22),transparent 66%);}
+.door-ico{margin-bottom:14px;line-height:0;}
+.door-ico svg{display:block;}
+.door-breathe .door-ico{color:#bb8b4c;}
+.door-move .door-ico{color:#5e7a4a;}
+.door-listen .door-ico{color:#8a5f82;}
+.door-studio .door-ico{color:#8a5a29;}
+.door-hint{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
+@media(max-width:760px){
   #door{flex-direction:column;}
-  .door-half,.door-inner{max-width:none;}
-  #door:hover .door-half,#door:hover .door-half:hover{flex-basis:50%;filter:none;}
-  .door-seam{top:50%;left:0;right:0;bottom:auto;width:auto;height:1px;transform:translateY(-.5px);}
-  .door-h{font-size:clamp(2.2rem,11vw,3.4rem);}
+  .door-half{flex:1 1 25%;border-right:none;border-bottom:1px solid rgba(55,42,29,.08);padding:clamp(1rem,4vw,2rem);}
+  .door-half:last-of-type{border-bottom:none;}
+  #door:hover .door-half,#door:hover .door-half:hover{flex-basis:25%;filter:none;}
+  #door:hover .door-half:not(:hover) .door-inner{opacity:1;}
+  #door:hover .door-half:not(:hover) .door-cta{opacity:1;}
+  .door-inner{max-width:none;flex-direction:row;align-items:center;gap:14px;}
+  .door-ico{margin-bottom:0;flex:none;}
+  .door-htext{display:flex;flex-direction:column;gap:3px;}
+  .door-h{font-size:clamp(1.8rem,8vw,2.6rem);}
+  .door-sub{font-size:9px;}
+  .door-cta{display:none;}
   .door-hint{display:none;}
 }
 @media(prefers-reduced-motion:reduce){.door-half,.door-orb{transition:none;animation:none;}}
@@ -591,7 +613,8 @@ body{transition:background-color .7s ease;}
 .radio-station-desc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;color:#9a7a3a;text-align:center;margin:1.6rem auto 1.6rem;max-width:400px;line-height:1.6;}
 .radio-install-pill{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:#2a1f18;background:rgba(201,163,106,.95);border-radius:999px;padding:9px 18px;text-decoration:none;transition:all .16s ease;white-space:nowrap;}
 .radio-install-pill:hover{background:#c9a36a;transform:translateY(-1px);box-shadow:0 8px 20px rgba(55,42,29,.2);}
-.entry-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:min(100%,760px);margin:0 auto;}
+/* the 4-panel door replaces the old 3-card selector; buttons kept in DOM as machinery */
+.entry-grid{display:none!important;}
 @media(max-width:560px){.entry-grid{grid-template-columns:1fr;width:min(100%,360px);}}
 .entry-tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;min-height:118px;justify-content:flex-end;}
 .entry-tile:hover{box-shadow:0 22px 50px rgba(55,42,29,.2);}
@@ -986,11 +1009,17 @@ body{transition:background-color .7s ease;}
 #nav-radio-btn.playing{background:#6a3b28;border-color:#6a3b28;color:#fffaf2;}
 .nav-links{min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .nav-links::-webkit-scrollbar{display:none;}
+/* these live in the bar on desktop, in the dropdown on mobile — never both */
+.nav-menu-studios,.nav-menu-share{display:none;}
 @media(max-width:680px){
   #nav-radio-btn{font-size:.55rem;padding:.38rem .7rem;}
   #nav-radio-btn .nrb-word{display:none;}
   .nav-beta-pill{display:none;}
   .nav-links a{padding:.4rem .5rem;font-size:.55rem;}
+  /* declutter the bar so 'menu' is always visible & tappable */
+  .nav-share,.nav-links a.nav-studios{display:none!important;}
+  .nav-links{overflow-x:visible;gap:.4rem;}
+  .nav-menu-studios,.nav-menu-share{display:block;}
 }
 </style>
 </head>
@@ -1030,6 +1059,7 @@ body{transition:background-color .7s ease;}
       <div class="nav-menu-wrap">
         <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
+          <a href="/studio" role="menuitem" class="nav-menu-studios" style="--sect:#e6dccb">for studios &rarr;</a>
           <a href="/find" role="menuitem" style="--sect:#cfe3d6">find a practice</a>
           <a href="#lend" role="menuitem" onclick="closeNavMenu()" style="--sect:#e6d3c9">lend your voice</a>
           <a href="/poster" role="menuitem" style="--sect:#efe0c4">poster maker</a>
@@ -1038,6 +1068,7 @@ body{transition:background-color .7s ease;}
           <a href="/about" role="menuitem" style="--sect:#e8e2d6">about</a>
           <a href="/support" role="menuitem" style="--sect:#f0d9c9">support</a>
           <a href="/help" role="menuitem" style="--sect:#dfe3d6">help</a>
+          <a href="#" role="menuitem" class="nav-menu-share" onclick="respiraShare('site');closeNavMenu();return false;" style="--sect:#e8e2d6">share respira</a>
         </div>
       </div>
     </div>
@@ -1072,28 +1103,57 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
   </div>
 </div>
 
-<!-- split-door landing · breathe (left) ┆ studio (right) — same footing -->
+<!-- four-panel door · breathe ┆ move ┆ listen ┆ teach -->
 <div id="door">
-  <button class="door-half door-breathe" id="doorBreathe" aria-label="enter the breathing room">
+  <button class="door-half door-breathe" id="doorBreathe" aria-label="breathe">
     <span class="door-orb"></span>
     <span class="door-inner">
-      <span class="door-eye">the breathing room</span>
-      <span class="door-h">breathe.</span>
-      <span class="door-sub">put down what you&rsquo;re carrying. a few minutes for yourself.</span>
+      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"></circle><circle cx="12" cy="12" r="4.6" opacity=".55"></circle></svg></span>
+      <span class="door-htext">
+        <span class="door-eye">the breathing room</span>
+        <span class="door-h">breathe.</span>
+        <span class="door-sub">stillness = sustenance</span>
+      </span>
       <span class="door-cta">enter &rarr;</span>
     </span>
   </button>
-  <button class="door-half door-studio" id="doorStudio" aria-label="enter respira studio">
+  <button class="door-half door-move" id="doorMove" aria-label="move">
     <span class="door-orb"></span>
     <span class="door-inner">
-      <span class="door-eye">respira studio</span>
-      <span class="door-h">teach.</span>
-      <span class="door-sub">plan classes, teach from a calm cue screen, run your practice.</span>
+      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13q2.4-5 4.8 0t4.8 0 4.8 0 4.8 0"></path></svg></span>
+      <span class="door-htext">
+        <span class="door-eye">gentle movement</span>
+        <span class="door-h">move.</span>
+        <span class="door-sub">movement = medicine</span>
+      </span>
       <span class="door-cta">enter &rarr;</span>
     </span>
   </button>
-  <div class="door-seam" aria-hidden="true"></div>
-  <div class="door-hint">choose a room</div>
+  <button class="door-half door-listen" id="doorListen" aria-label="listen">
+    <span class="door-orb"></span>
+    <span class="door-inner">
+      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"></path><circle cx="6.4" cy="18" r="2.6"></circle><circle cx="16.4" cy="16" r="2.6"></circle></svg></span>
+      <span class="door-htext">
+        <span class="door-eye">respira radio</span>
+        <span class="door-h">listen.</span>
+        <span class="door-sub">soundscapes + whispers</span>
+      </span>
+      <span class="door-cta">enter &rarr;</span>
+    </span>
+  </button>
+  <button class="door-half door-studio" id="doorStudio" aria-label="respira studio">
+    <span class="door-orb"></span>
+    <span class="door-inner">
+      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="13" rx="2"></rect><line x1="6.5" y1="8.8" x2="13.5" y2="8.8"></line><line x1="6.5" y1="12.2" x2="17" y2="12.2"></line><line x1="9.5" y1="21" x2="14.5" y2="21"></line></svg></span>
+      <span class="door-htext">
+        <span class="door-eye">respira studio</span>
+        <span class="door-h">teach.</span>
+        <span class="door-sub">plan, teach + run your practice</span>
+      </span>
+      <span class="door-cta">enter &rarr;</span>
+    </span>
+  </button>
+  <div class="door-hint">roll across &middot; tap to enter</div>
 </div>
 
 <!-- prototype -->
@@ -3018,6 +3078,7 @@ document.addEventListener("DOMContentLoaded", function() {
     stopSession();
     resetPathSelector();
     showScreen("start");
+    if(window.reopenDoor) window.reopenDoor();  // 4-panel door is the room picker now
     const pq = document.getElementById("pulseQuestion");
     const pt = document.getElementById("pulseThank");
     if(pq) pq.style.display = "block";
@@ -4398,15 +4459,22 @@ function stopPoseBreath(){
     setTimeout(function(){ hero.style.display = 'none'; var door=document.getElementById('door'); if(door) door.classList.add('open'); }, 1400);
   }, 5500);
 })();
-// split-door choices
+// four-panel door choices — each panel enters its room directly (no second card screen)
 (function(){
   var door=document.getElementById('door'); if(!door) return;
-  var b=document.getElementById('doorBreathe'), s=document.getElementById('doorStudio');
-  if(b) b.addEventListener('click', function(){
-    door.classList.add('closing');
-    setTimeout(function(){ door.style.display='none'; var p=document.getElementById('prototype'); if(p) p.scrollIntoView({behavior:'smooth',block:'start'}); }, 700);
+  function dismiss(cb){ door.classList.add('closing'); setTimeout(function(){ door.style.display='none'; if(cb) cb(); }, 700); }
+  function toProto(){ var p=document.getElementById('prototype'); if(p) p.scrollIntoView({behavior:'smooth',block:'start'}); }
+  function on(id,fn){ var el=document.getElementById(id); if(el) el.addEventListener('click',fn); }
+  // reopening the door = "start over"
+  window.reopenDoor=function(){ door.style.display='flex'; door.classList.remove('closing'); void door.offsetWidth; door.classList.add('open'); };
+  on('doorBreathe', function(){
+    // a real user gesture — safe to play the welcome voice (mobile blocks timed autoplay)
+    try{ var a=new Audio((typeof radioBase!=='undefined'?radioBase:'')+'cue/en/breathe-in-slowly.mp3'); a.volume=.9; a.play().catch(function(){}); }catch(e){}
+    dismiss(function(){ toProto(); var pb=document.getElementById('pathBreathe'); if(pb) pb.click(); });
   });
-  if(s) s.addEventListener('click', function(){ window.location.href='/studio'; });
+  on('doorMove', function(){ dismiss(function(){ toProto(); var pm=document.getElementById('pathMove'); if(pm) pm.click(); }); });
+  on('doorListen', function(){ dismiss(function(){ var r=document.getElementById('radio'); if(r) r.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+  on('doorStudio', function(){ window.location.href='/studio'; });
 })();
 </script>
 
