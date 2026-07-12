@@ -1118,7 +1118,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
     <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em></a>
     <nav class="door-nav">
       <button class="door-pill" onclick="respiraShare('site')">share</button>
-      <a class="door-pill" href="/radio">play</a>
+      <a class="door-pill" href="/radio?play=1">play</a>
       <a class="door-pill" href="/voices">voices</a>
       <a class="door-pill" href="/shelf">shelf</a>
     </nav>
@@ -4495,6 +4495,16 @@ function stopPoseBreath(){
   on('doorMove', function(){ dismiss(function(){ toProto(); var pm=document.getElementById('pathMove'); if(pm) pm.click(); }); });
   on('doorStudio', function(){ window.location.href='/studio'; });
   // listen is a real link to /radio (its own room) — no JS needed
+  // deep-links from other rooms' rails: /#breathe /#flow open that panel directly
+  (function(){
+    var hash=(location.hash||'').replace('#','');
+    if(hash==='breathe'||hash==='flow'){
+      var hero=document.getElementById('opening-hero'); if(hero) hero.style.display='none';
+      door.style.display='none'; door.classList.remove('open');
+      var p=document.getElementById('prototype'); if(p) p.scrollIntoView({block:'start'});
+      var btn=document.getElementById(hash==='breathe'?'pathBreathe':'pathMove'); if(btn) btn.click();
+    }
+  })();
 })();
 // the in-app logo / "home" returns to the door
 (function(){ var l=document.getElementById('navHomeLogo'); if(l) l.addEventListener('click',function(e){ e.preventDefault(); if(window.reopenDoor){ window.reopenDoor(); try{ document.body.scrollTop=0; window.scrollTo(0,0); }catch(_){} } }); })();
