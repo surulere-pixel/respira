@@ -33,14 +33,28 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--bg);color:v
 .sb-cta:hover{transform:translateY(-2px);}
 .sb-cta2{background:transparent;color:rgba(248,244,237,.92);border:1px solid rgba(248,244,237,.4);}
 .tk{margin-bottom:1.6rem;}
-.tk-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:lowercase;color:var(--gold);margin-bottom:.8rem;}
-.tk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
-.tk-tool{display:block;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:15px 17px;text-decoration:none;transition:transform .15s,box-shadow .15s;}
-.tk-tool:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(55,42,29,.08);}
-.tk-tool b{display:block;font-family:'Cormorant Garamond';font-weight:400;font-size:1.2rem;color:var(--ink);}
-.tk-tool span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.02em;color:var(--soft);line-height:1.6;margin-top:3px;}
-.tk-new{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#2a1f18;background:rgba(201,163,106,.9);border-radius:999px;padding:2px 7px;vertical-align:middle;}
-.tk-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--faint);margin-top:1.2rem;}
+.tk-head{margin-bottom:1.6rem;}
+.tk-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold);margin-bottom:.7rem;}
+.tk-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(1.8rem,4.2vw,2.8rem);color:var(--ink);letter-spacing:-.02em;line-height:1.03;}
+.tk-title em{font-style:italic;color:var(--sage-dark);}
+.tk-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:var(--soft);line-height:1.85;margin-top:.7rem;text-transform:lowercase;max-width:52ch;}
+.tk-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:1.9rem 0 .95rem;}
+.tk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.tk-tool{position:relative;display:flex;flex-direction:column;gap:6px;background:linear-gradient(158deg,#2e2219,#191009);border:1px solid rgba(201,163,106,.2);border-radius:16px;padding:18px 18px 16px;text-decoration:none;overflow:hidden;box-shadow:0 16px 40px rgba(28,18,10,.22);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.tk-tool::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 8%,rgba(201,163,106,.13),transparent 58%);pointer-events:none;}
+.tk-tool:hover{transform:translateY(-5px)!important;box-shadow:0 26px 56px rgba(28,18,10,.34);border-color:rgba(201,163,106,.5);animation-play-state:paused;}
+.tk-tool>*{position:relative;z-index:1;}
+.tk-tool b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:1.3rem;color:#f5ecda;}
+.tk-tool span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.02em;color:rgba(240,228,207,.6);line-height:1.7;margin-top:3px;}
+.tk-new{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#211a13;background:rgba(201,163,106,.92);border-radius:999px;padding:2px 7px;vertical-align:middle;}
+.tk-foot{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--faint);margin-top:1.5rem;}
+@media(prefers-reduced-motion:no-preference){
+  .tk-tool{animation:stCardDrift 7.4s ease-in-out infinite;will-change:transform;}
+  .tk-tool:nth-child(2){animation-duration:8.4s;animation-delay:-2s;}
+  .tk-tool:nth-child(3){animation-duration:6.6s;animation-delay:-4.1s;}
+  .tk-tool:nth-child(4){animation-duration:7.9s;animation-delay:-1.3s;}
+  .tk-tool:nth-child(5){animation-duration:8.8s;animation-delay:-3.5s;}
+}
 .builder-head{margin-bottom:1.2rem;padding-top:.5rem;border-top:1px solid var(--line);padding-top:1.8rem;scroll-margin-top:20px;}
 .builder-title{font-family:'Cormorant Garamond';font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);letter-spacing:-.02em;margin:.3rem 0 0;}
 .builder-sub{font-family:'Cormorant Garamond';font-style:italic;font-size:1.05rem;color:var(--soft);margin:.4rem 0 0;}
@@ -357,7 +371,18 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
   .cl-empty{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--faint,#b3a99c);line-height:1.5;border:1px dashed var(--line,rgba(29,25,21,.16));border-radius:16px;padding:22px;}
   .cl-empty b{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--soft,#5f554b);}
   .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
-  .cl-card{background:var(--cream,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:16px;padding:18px;}
+  .cl-card{background:linear-gradient(158deg,#2e2219,#191009);border:1px solid rgba(201,163,106,.2);border-radius:16px;padding:18px;box-shadow:0 16px 40px rgba(28,18,10,.22);transition:transform .18s ease,box-shadow .18s ease;}
+  .cl-card:hover{transform:translateY(-5px)!important;box-shadow:0 26px 56px rgba(28,18,10,.34);animation-play-state:paused;}
+  .cl-card .cl-name{color:#f5ecda;}
+  .cl-card .cl-meta,.cl-card .cl-when{color:rgba(240,228,207,.55);}
+  .cl-card .cl-acts button{color:rgba(201,163,106,.9);}
+  .cl-card .cl-acts .cl-del{color:rgba(240,228,207,.4);}
+  @media(prefers-reduced-motion:no-preference){
+    .cl-card{animation:stCardDrift 7.6s ease-in-out infinite;will-change:transform;}
+    .cl-card:nth-child(2){animation-duration:8.3s;animation-delay:-2.2s;}
+    .cl-card:nth-child(3){animation-duration:6.7s;animation-delay:-4.3s;}
+    .cl-card:nth-child(4){animation-duration:7.8s;animation-delay:-1.1s;}
+  }
   .cl-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:400;color:var(--ink,#1d1915);line-height:1.1;}
   .cl-meta{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.05em;text-transform:lowercase;color:var(--soft,#5f554b);margin-top:5px;}
   .cl-when{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;color:var(--faint,#b3a99c);margin-top:3px;text-transform:lowercase;}
@@ -372,18 +397,23 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
   <div id="classLib" class="class-lib"></div>
 
   <div class="tk">
-    <div class="tk-label">studios + coaches</div>
+    <div class="tk-head">
+      <div class="tk-eye">resources</div>
+      <h1 class="tk-title">tools &amp; the <em>wider room.</em></h1>
+      <p class="tk-sub">everything around the practice — build tools, your own branded room, sound, support, and the community you belong to.</p>
+    </div>
+    <div class="tk-label">build &amp; teach</div>
     <div class="tk-grid">
       <a class="tk-tool" href="#builder" onclick="studioView('build');return false;"><b>class builder <span class="tk-new">beta</span></b><span>sections, cues &amp; music &mdash; then press play</span></a>
       <a class="tk-tool" href="#blueprint" onclick="studioView('room');return false;"><b>your own app</b><span>a branded breathing room, built for you</span></a>
-      <a class="tk-tool" href="https://openrespira.org/#radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
+      <a class="tk-tool" href="/radio"><b>respira radio</b><span>stations for your space &amp; sessions</span></a>
       <a class="tk-tool" href="https://dearhelpdesk.org" target="_blank" rel="noopener"><b>helpdesk &#8599;</b><span>support, answered with warmth</span></a>
       <a class="tk-tool" href="https://www.wearehappysunday.org" target="_blank" rel="noopener"><b>pages &#8599;</b><span>happy sunday&rsquo;s directory of care</span></a>
     </div>
-    <div class="tk-label" style="margin-top:1.4rem;">community</div>
+    <div class="tk-label">community</div>
     <div class="tk-grid">
-      <a class="tk-tool" href="https://openrespira.org/#guides"><b>guides</b><span>find &amp; book practitioners</span></a>
-      <a class="tk-tool" href="https://openrespira.org/#local"><b>respira 100</b><span>vetted &amp; always rotating &mdash; fresh each visit</span></a>
+      <a class="tk-tool" href="/voices"><b>voices</b><span>find &amp; book the guides who hold the room</span></a>
+      <a class="tk-tool" href="/find"><b>respira 100</b><span>vetted &amp; always rotating &mdash; fresh each visit</span></a>
     </div>
     <p class="tk-foot">powered by happy sunday &middot; an initiative of the birthright project</p>
   </div>
