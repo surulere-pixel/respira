@@ -1072,7 +1072,7 @@ body{transition:background-color .7s ease;}
   <div class="nav-inner">
     <div class="nav-logo-wrap">
       <a href="/" id="navHomeLogo" class="nav-logo" aria-label="respira · home">res<em>pira</em></a>
-      <a href="#feedback" class="nav-beta-pill" title="building in public — tell us what to build next">v1 &middot; beta</a>
+      <a href="/help" class="nav-beta-pill" title="building in public — tell us what to build next">v1 &middot; beta</a>
     </div>
     <div class="nav-links">
       <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
@@ -4566,12 +4566,17 @@ function stopPoseBreath(){
   // deep-links from other rooms' rails: /#breathe /#flow open that panel directly
   (function(){
     var hash=(location.hash||'').replace('#','');
-    if(hash==='breathe'||hash==='flow'){
-      var hero=document.getElementById('opening-hero'); if(hero) hero.style.display='none';
-      door.style.display='none'; door.classList.remove('open');
+    if(hash!=='breathe'&&hash!=='flow') return;
+    // hide the entry chrome immediately so there's no flash of the door/opening
+    var hero=document.getElementById('opening-hero'); if(hero) hero.style.display='none';
+    door.style.display='none'; door.classList.remove('open');
+    function go(){
       var p=document.getElementById('prototype'); if(p) p.scrollIntoView({block:'start'});
       var btn=document.getElementById(hash==='breathe'?'pathBreathe':'pathMove'); if(btn) btn.click();
     }
+    // defer the path selection until its click-listener is attached (binds on DOMContentLoaded)
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(go,0); });
+    else setTimeout(go,0);
   })();
 })();
 // the in-app logo / "home" returns to the door
