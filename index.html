@@ -3494,6 +3494,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var _entryGrid=document.querySelector(".entry-grid");
   if(_entryGrid) _entryGrid.addEventListener("mouseleave",function(){ document.body.style.backgroundColor=_committedBg; });
   pathBreathe.addEventListener("click", () => {
+    stopSession(); showScreen("start");   // ensure we leave any complete/active screen behind
     pathBreathe.classList.add("selected");
     pathMove.classList.remove("selected");
     breatheOptions.style.display = "block";
@@ -3504,6 +3505,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   pathMove.addEventListener("click", () => {
+    stopSession(); showScreen("start");   // ensure we leave any complete/active screen behind
     pathMove.classList.add("selected");
     pathBreathe.classList.remove("selected");
     moveOptions.style.display    = "block";
