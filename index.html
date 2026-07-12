@@ -2355,10 +2355,10 @@ document.addEventListener('DOMContentLoaded', renderGuides);
     </div>
     <script>
     var FP_PHRASES = {
-      stillness:{ label:'stillness = sustenance', sheet:'pp-amber', lines:['stillness = sustenance','quietud = sustento','le calme nourrit','utulivu = riziki','\u0627\u0644\u0633\u0643\u0648\u0646 = \u0627\u0644\u0642\u0648\u062a','ìdákẹ́jẹ́ = ìtọ́jú','trankilite = soutyen','udo = nri ndụ'] },
-      breathe:{ label:'breathe in slowly', sheet:'pp-cream', lines:['breathe in slowly','respira lentamente','respire lentement','pumua polepole','\u062a\u0646\u0641\u0651\u0633 \u0628\u0628\u0637\u0621','mí sínú lọ́ra','respire dousman','kuo ume nwayọọ'] },
-      movement:{ label:'movement = medicine', sheet:'pp-sage', lines:['movement = medicine','movimiento = medicina','mouvement = médecine','mwendo = dawa','\u0627\u0644\u062d\u0631\u0643\u0629 = \u062f\u0648\u0627\u0621','ìgbésẹ̀ = òògùn','mouvman = medikaman','mmegharị = ọgwụ'] },
-      prosperity:{ label:'prosperity is a human right', sheet:'pp-coffee', lines:['prosperity is a human right','la prosperidad es un derecho humano','la prospérité est un droit humain','ustawi ni haki ya binadamu','\u0627\u0644\u0627\u0632\u062f\u0647\u0627\u0631 \u062d\u0642 \u0625\u0646\u0633\u0627\u0646\u064a','aásìkí jẹ́ ẹ̀tọ́ ènìyàn','pwosperite se yon dwa moun','ọganihu bụ ikike mmadụ'] }
+      stillness:{ label:'stillness = sustenance', eyebrow:'t h e   b r e a t h e   r o o m', sheet:'pp-amber', lines:['stillness = sustenance','quietud = sustento','le calme nourrit','utulivu = riziki','\u0627\u0644\u0633\u0643\u0648\u0646 = \u0627\u0644\u0642\u0648\u062a','ìdákẹ́jẹ́ = ìtọ́jú','trankilite = soutyen','udo = nri ndụ'] },
+      breathe:{ label:'breathe in slowly', eyebrow:'r e s p i r a', sheet:'pp-cream', lines:['breathe in slowly','respira lentamente','respire lentement','pumua polepole','\u062a\u0646\u0641\u0651\u0633 \u0628\u0628\u0637\u0621','mí sínú lọ́ra','respire dousman','kuo ume nwayọọ'] },
+      movement:{ label:'movement = medicine', eyebrow:'t h e   f l o w   r o o m', sheet:'pp-sage', lines:['movement = medicine','movimiento = medicina','mouvement = médecine','mwendo = dawa','\u0627\u0644\u062d\u0631\u0643\u0629 = \u062f\u0648\u0627\u0621','ìgbésẹ̀ = òògùn','mouvman = medikaman','mmegharị = ọgwụ'] },
+      prosperity:{ label:'prosperity is a human right', eyebrow:'a   b e l i e f', sheet:'pp-coffee', lines:['prosperity is a human right','la prosperidad es un derecho humano','la prospérité est un droit humain','ustawi ni haki ya binadamu','\u0627\u0644\u0627\u0632\u062f\u0647\u0627\u0631 \u062d\u0642 \u0625\u0646\u0633\u0627\u0646\u064a','aásìkí jẹ́ ẹ̀tọ́ ènìyàn','pwosperite se yon dwa moun','ọganihu bụ ikike mmadụ'] }
     };
     // colorways = the poster palettes (sheet + ink), same as the free download cards
     var FP_COLORS = [
@@ -2385,10 +2385,16 @@ document.addEventListener('DOMContentLoaded', renderGuides);
       if(!sheet||!stack||!stack.children.length||!sheet.clientHeight) return;   // wait for real content + layout
       var cs=getComputedStyle(sheet);
       var availH=sheet.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
-      var base=sheet.clientWidth*0.12;
+      var availW=sheet.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+      var base=sheet.clientWidth*0.078;
       stack.style.fontSize=base+'px';
+      function over(){
+        if(stack.getBoundingClientRect().height>availH+0.5) return true;
+        var ls=stack.querySelectorAll('.pc-line'); for(var i=0;i<ls.length;i++){ if(ls[i].scrollWidth>availW+0.5) return true; }
+        return false;
+      }
       var guard=0;
-      while(guard<60 && stack.getBoundingClientRect().height>availH){ base*=0.95; stack.style.fontSize=base+'px'; guard++; }
+      while(guard<90 && over()){ base*=0.955; stack.style.fontSize=base+'px'; guard++; }
     }
     var _fpFitT; function fpFitSoon(){ clearTimeout(_fpFitT); _fpFitT=setTimeout(fpFit,60); }
     window.addEventListener('resize', fpFitSoon);
@@ -2400,10 +2406,15 @@ document.addEventListener('DOMContentLoaded', renderGuides);
       sheet.className='fp-sheet';
       sheet.style.background=c.sheet;
       var stack=document.getElementById('fp-stack');
-      stack.innerHTML=p.lines.map(function(l,i){
-        var ar=(i===4)?' lang="ar" dir="rtl"':'';
-        return '<span class="pc-line pc-line-'+(i+1)+'"'+ar+' style="color:'+c.ink+'">'+l+'</span>';
+      var lines=p.lines.map(function(l,i){
+        var ar=(i===4)?' class="pc-line ar" lang="ar" dir="rtl"':' class="pc-line"';
+        return '<div'+ar+'>'+l+'</div>';
       }).join('');
+      stack.innerHTML='<div class="pc-eyebrow">'+(p.eyebrow||'')+'</div>'
+        +'<div class="pc-body">'+lines+'</div>'
+        +'<div class="pc-rule"></div>'
+        +'<div class="pc-footer">openrespira.org</div>';
+      stack.style.color=c.ink;
       requestAnimationFrame(fpFit);
       // frame vs free-print mat treatment
       var fr=document.getElementById('fp-frame'), mat=fr.querySelector('.fp-mat');
@@ -2527,16 +2538,13 @@ document.addEventListener('DOMContentLoaded', renderGuides);
 .poster-card:hover,.poster-card:focus-visible{transform:translateY(-4px);filter:saturate(1.04);}.poster-card:focus-visible .pc-sheet{outline:2px solid rgba(42,31,24,.45);outline-offset:4px;}
 .poster-card:hover .pc-dl{color:#a5442f;}
 .pc-sheet{aspect-ratio:3/4;border-radius:6px;display:flex;align-items:flex-end;padding:clamp(18px,2.4vw,28px);box-shadow:0 18px 44px rgba(55,42,29,.22);overflow:hidden;min-height:310px;position:relative;}
-.pc-stack{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:.16em;}
-.pc-line{font-family:'Cormorant Garamond',Georgia,serif;display:block;line-height:.96;letter-spacing:-.028em;text-wrap:balance;overflow-wrap:break-word;hyphens:auto;}
-.pc-line-1{font-size:2.35em;font-weight:600;line-height:.9;letter-spacing:-.05em;margin-bottom:.32em;}
-.pc-line-2{font-size:1.58em;font-weight:420;opacity:.95;}
-.pc-line-3{font-size:1.42em;font-weight:390;opacity:.88;}
-.pc-line-4{font-size:1.3em;font-weight:360;opacity:.82;}
-.pc-line-5{font-size:1.2em;font-weight:340;opacity:.76;}
-.pc-line-6{font-size:1.12em;font-weight:320;opacity:.70;}
-.pc-line-7{font-size:1.05em;font-weight:310;opacity:.64;}
-.pc-line-8{font-size:1em;font-weight:300;opacity:.58;}
+.pc-stack{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;text-align:center;}
+.pc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.4em;font-weight:400;letter-spacing:.05em;opacity:.55;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6em;padding:.55em 0;min-height:0;}
+.pc-line{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1em;line-height:1;letter-spacing:-.008em;white-space:nowrap;}
+.pc-line.ar{font-family:'Noto Naskh Arabic','Cormorant Garamond',serif;font-weight:400;}
+.pc-rule{width:2.4em;height:1px;background:currentColor;opacity:.38;margin:0 auto .5em;flex:none;}
+.pc-footer{font-family:'IBM Plex Mono',monospace;font-size:.4em;font-weight:400;letter-spacing:.14em;opacity:.5;line-height:1;white-space:nowrap;flex:none;}
 .pp-cream .pc-sheet{background:#8f4a2d;} .pp-cream .pc-line{color:#f1c98f;}
 .pp-amber .pc-sheet{background:#24170f;} .pp-amber .pc-line{color:#c9a06f;}
 .pp-sage .pc-sheet{background:#263025;} .pp-sage .pc-line{color:#d2b98a;}
@@ -2559,8 +2567,8 @@ a.poster-spec:hover{background:rgba(255,250,242,.7);border-color:rgba(122,58,34,
 .fp-frame{width:min(100%,300px);border:1px solid;border-radius:3px;padding:clamp(9px,1.6vw,14px);box-shadow:0 20px 46px rgba(55,42,29,.26);transition:background .2s ease,border-color .2s ease;}
 .fp-mat{background:#fdfaf3;padding:clamp(11px,2vw,18px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);}
 .fp-sheet.pp-cream{background:#8f4a2d;}.fp-sheet.pp-amber{background:#24170f;}.fp-sheet.pp-sage{background:#263025;}.fp-sheet.pp-coffee{background:#11100e;}
-.fp-sheet{aspect-ratio:3/4;display:flex;align-items:flex-start;padding:18px 16px;overflow:hidden;container-type:inline-size;}
-.fp-sheet .pc-stack{width:100%;margin-top:0;display:flex;flex-direction:column;gap:.4em;font-size:15px;}
+.fp-sheet{aspect-ratio:3/4;display:flex;align-items:stretch;padding:clamp(14px,4%,20px);overflow:hidden;}
+.fp-sheet .pc-stack{width:100%;height:100%;font-size:15px;}
 .fp-shadow{width:70%;height:10px;margin-top:14px;border-radius:50%;background:radial-gradient(ellipse,rgba(55,42,29,.16),transparent 70%);}
 .fp-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:lowercase;color:var(--faint);margin:18px 0 8px;}
 .fp-opts{display:flex;flex-wrap:wrap;gap:7px;}
