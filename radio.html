@@ -141,6 +141,7 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
       <span id="plTotal">0:00</span>
     </div>
   </div>
+  <button class="pl-btn" onclick="radioShareTrack()" id="plShare" aria-label="share this track" title="share this track"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"></line><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"></line></svg></button>
   <div class="pl-vol">
     <span class="pl-btn" style="cursor:default;">&#9834;</span>
     <input type="range" min="0" max="1" step="0.01" value="0.7" id="plVol" oninput="radioVol(this.value)" aria-label="volume">
@@ -265,8 +266,31 @@ function radioShare(){
   if(navigator.share){ navigator.share(d).catch(function(){}); return; }
   if(navigator.clipboard){ navigator.clipboard.writeText(d.url).then(function(){toast('link copied — pass it on');}).catch(function(){toast(d.url);}); } else toast(d.url);
 }
+function radioShareTrack(){
+  var t=queue[qi];
+  if(!t){ radioShare(); return; }           // nothing cued yet → share the station
+  var url='https://openrespira.org/radio?t='+encodeURIComponent(t.slug);
+  var d={title:'respira radio',text:'“'+t.name+'” on respira radio',url:url};
+  if(navigator.share){ navigator.share(d).catch(function(){}); return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){toast('track link copied — pass it on');}).catch(function(){toast(url);}); } else toast(url);
+}
 renderStations();
-// autoplay when arriving via the "play" pill (?play=1) — a real user gesture on the prior page
-(function(){ try{ if(/[?&]play=1/.test(location.search)){ playStation('all'); } }catch(e){} })();
+// deep-link: ?t=<slug> opens straight to that track · ?play=1 shuffles the whole station
+(function(){
+  try{
+    var m=location.search.match(/[?&]t=([^&]+)/);
+    if(m){
+      var slug=decodeURIComponent(m[1]), hit=null;
+      for(var i=0;i<TRACKS.length;i++){ if(TRACKS[i].slug===slug){ hit=TRACKS[i]; break; } }
+      if(hit){
+        curCat=hit.cat; queue=stationTracks(hit.cat); qi=0;
+        for(var j=0;j<queue.length;j++){ if(queue[j].slug===slug){ qi=j; break; } }
+        renderTracks(); playCur(); return;
+      }
+    }
+    if(/[?&]play=1/.test(location.search)){ playStation('all'); }
+  }catch(e){}
+})();
 </script>
+<script src="/chrome.js" defer></script>
 </body></html>

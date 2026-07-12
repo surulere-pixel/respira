@@ -65,6 +65,38 @@ p strong{color:var(--ink);font-weight:500;}
 .btn-primary{background:#2a1f18;color:rgba(201,163,106,.96);border-color:#2a1f18;}
 .btn-primary:hover{background:#3a2c22;}
 
+/* global navigator — where respira sits in the birthright family */
+.nm{margin:2.8rem 0 0;background:radial-gradient(120% 100% at 50% 0,#2c2119,#160f08);border-radius:22px;padding:clamp(1.6rem,4vw,2.6rem);color:#f0e4cf;position:relative;overflow:hidden;}
+.nm::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(201,163,106,.16),transparent 55%);pointer-events:none;}
+.nm>*{position:relative;z-index:1;}
+.nm-eye{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:rgba(201,163,106,.9);margin-bottom:.6rem;}
+.nm-h{font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,4vw,2.1rem);color:#f5ecda;margin:0 0 .7rem;line-height:1.05;}
+.nm-h em{font-style:italic;color:#c9a36a;}
+.nm-p{font-size:.86rem;color:rgba(240,228,207,.66);line-height:1.8;max-width:56ch;margin:0 0 1.6rem;}
+.nm-root{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:lowercase;display:flex;flex-direction:column;gap:3px;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px dashed rgba(201,163,106,.25);}
+.nm-root b{color:#c9a36a;font-weight:500;}
+.nm-root span{color:rgba(240,228,207,.4);font-size:8.5px;letter-spacing:.06em;}
+.nm-ventures{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:640px){.nm-ventures{grid-template-columns:1fr;}}
+.nm-venture{display:block;text-decoration:none;background:rgba(255,250,242,.04);border:1px solid rgba(201,163,106,.16);border-radius:14px;padding:14px 16px;transition:all .16s;}
+.nm-venture:hover{border-color:rgba(201,163,106,.45);background:rgba(255,250,242,.07);transform:translateY(-2px);}
+.nm-venture b{font-family:var(--serif);font-weight:400;font-size:1.25rem;color:#f0e4cf;display:block;line-height:1;}
+.nm-venture>span{font-family:var(--mono);font-size:8px;letter-spacing:.05em;color:rgba(240,228,207,.5);text-transform:lowercase;display:block;margin-top:6px;line-height:1.55;}
+.nm-venture.on{border-color:rgba(201,163,106,.7);background:linear-gradient(160deg,rgba(201,163,106,.17),rgba(201,163,106,.03));box-shadow:0 0 0 1px rgba(201,163,106,.3),0 14px 34px rgba(120,80,20,.22);}
+.nm-here{margin-top:11px;padding-top:10px;border-top:1px solid rgba(201,163,106,.22);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:lowercase;color:#f0e4cf;display:flex;align-items:center;gap:8px;}
+.nm-here::before{content:"";width:6px;height:6px;border-radius:50%;background:#c9a36a;box-shadow:0 0 9px #c9a36a;animation:nmPulse 2.4s ease-in-out infinite;flex:none;}
+@keyframes nmPulse{0%,100%{opacity:.45;}50%{opacity:1;}}
+.nm-here b{color:#c9a36a;font-weight:500;}
+.nm-regions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:1.3rem;}
+@media(max-width:640px){.nm-regions{grid-template-columns:1fr 1fr;}}
+.nm-region{border:1px solid rgba(201,163,106,.14);border-radius:12px;padding:11px 13px;}
+.nm-region b{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:#c9a36a;display:flex;align-items:center;gap:6px;}
+.nm-region b::before{content:"";width:5px;height:5px;border-radius:50%;background:#c9a36a;box-shadow:0 0 7px rgba(201,163,106,.95);flex:none;}
+.nm-region span{font-family:var(--mono);font-size:8px;letter-spacing:.03em;color:rgba(240,228,207,.55);display:block;margin-top:6px;line-height:1.7;text-transform:lowercase;}
+.nm-cta{margin-top:1.5rem;}
+.nm-cta a{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:lowercase;text-decoration:none;color:#f0e4cf;border:1px solid rgba(201,163,106,.4);border-radius:999px;padding:12px 22px;display:inline-flex;align-items:center;gap:7px;transition:all .16s;}
+.nm-cta a:hover{background:rgba(201,163,106,.14);border-color:rgba(201,163,106,.7);}
+
 /* footer */
 footer{border-top:1px solid var(--line);background:rgba(29,25,21,.02);}
 .foot-in{max-width:1100px;margin:0 auto;padding:2.6rem clamp(20px,5vw,40px);display:flex;flex-wrap:wrap;gap:1.4rem;justify-content:space-between;align-items:center;}
@@ -101,6 +133,26 @@ footer{border-top:1px solid var(--line);background:rgba(29,25,21,.02);}
 
   <h2>who makes it</h2>
   <p>respira is offered by <strong>happy sunday</strong>, an initiative of the <strong>birthright project</strong>. the work sits inside a simple belief: stillness is sustenance, movement is medicine, and prosperity — including the everyday prosperity of a calm nervous system — is a human right.</p>
+
+  <section class="nm" aria-label="where respira sits">
+    <div class="nm-eye">where respira sits</div>
+    <h2 class="nm-h" style="margin:0 0 .7rem;">one room in a <em>global</em> house.</h2>
+    <p class="nm-p">happy sunday is the everyday-wellbeing collective of the birthright project — which builds economic dignity across culture, care and finance. respira is one of its rooms, made alongside sister ventures in creative enterprise and financial autonomy, across connected communities on four continents.</p>
+    <div class="nm-root"><b>the birthright project</b><span>economic dignity, built.</span></div>
+    <div class="nm-ventures">
+      <a class="nm-venture" href="https://mmaadd.haus" target="_blank" rel="noopener"><b>mmaadd</b><span>creative talent &rarr; digital enterprise</span></a>
+      <div class="nm-venture on"><b>happy sunday</b><span>everyday wellbeing &rarr; community infrastructure</span><div class="nm-here">respira &middot; <b>you are here</b></div></div>
+      <a class="nm-venture" href="https://softerbread.com" target="_blank" rel="noopener"><b>softerbread</b><span>skills + support &rarr; financial autonomy</span></a>
+    </div>
+    <div class="nm-eye" style="margin:1.7rem 0 .7rem;">built across connected communities</div>
+    <div class="nm-regions">
+      <div class="nm-region"><b>africa</b><span>nigeria &middot; ghana &middot; kenya</span></div>
+      <div class="nm-region"><b>latin america</b><span>colombia &middot; mexico &middot; brazil</span></div>
+      <div class="nm-region"><b>caribbean</b><span>jamaica &middot; trinidad &amp; tobago</span></div>
+      <div class="nm-region"><b>diaspora</b><span>atlanta &middot; houston &middot; new york &middot; london</span></div>
+    </div>
+    <div class="nm-cta"><a href="https://www.thebirthrightproject.org" target="_blank" rel="noopener">visit the birthright project &#8599;</a></div>
+  </section>
 
   <h2>the access model</h2>
   <p>the core experience is <strong>free</strong> where stated — breathing, movement, radio and the poster maker's digital downloads. respira also offers tools for the people who deliver practice (see <a href="/studio" style="color:var(--sage-dark);">respira studio</a>) and a small line of physical goods, which help sustain the free tools. nothing essential is placed behind a paywall.</p>
@@ -146,5 +198,6 @@ function shareRespira(){
   rToast(d.url);
 }
 </script>
+<script src="/chrome.js" defer></script>
 </body>
 </html>
