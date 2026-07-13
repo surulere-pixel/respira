@@ -18,6 +18,10 @@ const RES = {
     table: 'directory_submissions',
     statuses: ['submitted', 'reviewing', 'listed', 'declined'],
   },
+  templates: {
+    table: 'class_templates',
+    statuses: ['pending', 'reviewing', 'approved', 'declined'],
+  },
 };
 
 function json(d, s) {

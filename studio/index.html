@@ -301,6 +301,7 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
   <div class="st-rail-brand">res<em>pira</em> · studio</div>
   <nav class="st-rail-nav">
     <button class="st-rail-item on" data-v="overview" onclick="studioView('overview')"><span class="st-rail-ico">&#9672;</span>overview</button>
+    <button class="st-rail-item" data-v="templates" onclick="studioView('templates')"><span class="st-rail-ico">&#9635;</span>templates</button>
     <button class="st-rail-item" data-v="build" onclick="studioView('build')"><span class="st-rail-ico">&#9998;</span>class builder</button>
     <button class="st-rail-item" data-v="classes" onclick="studioView('overview')"><span class="st-rail-ico">&#9636;</span>classes</button>
     <button class="st-rail-item" data-v="room" onclick="studioView('room')"><span class="st-rail-ico">&#9750;</span>my room</button>
@@ -376,6 +377,10 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
       <span class="dc-cta">launch my room &rarr;</span>
     </button>
   </div>
+  <div class="dash-actions" style="display:flex;flex-wrap:wrap;gap:12px;margin:1rem 0 1.6rem;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:lowercase;">
+    <button type="button" onclick="studioView('templates')" style="color:var(--sage-dark,#4f5a43);background:none;border:1px solid var(--line,rgba(29,25,21,.14));border-radius:999px;padding:8px 16px;cursor:pointer;">&#9635; start from a template &rarr;</button>
+    <button type="button" onclick="openTrackShare()" style="color:var(--sage-dark,#4f5a43);background:none;border:1px solid var(--line,rgba(29,25,21,.14));border-radius:999px;padding:8px 16px;cursor:pointer;">&#9834; share a track for radio &rarr;</button>
+  </div>
 
   <style>
   .class-lib{margin:0 0 2.2rem;}
@@ -409,6 +414,44 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
   </style>
   <div id="classLib" class="class-lib"></div>
 
+  <div id="templatesView" class="tpl-view" style="display:none;">
+    <div class="tpl-head">
+      <div class="tpl-eye">templates</div>
+      <h1 class="tpl-title">start from a <em>ready template.</em></h1>
+      <p class="tpl-sub">a running library of class plans — by intensity and length. pick one, tweak it, then teach.</p>
+    </div>
+    <div class="tpl-label">starter templates</div>
+    <div class="tpl-grid" id="tplStarters"></div>
+    <div class="tpl-label" style="margin-top:2.2rem;">from the community <span class="tpl-note">approved &amp; shared by other teachers</span></div>
+    <div class="tpl-grid" id="tplCommunity"><div class="tpl-empty">loading community templates&hellip;</div></div>
+    <p class="tpl-foot">built your own you'd like to share? save a class, then hit <b>share as template</b> in your library.</p>
+  </div>
+  <style>
+  .tpl-view{margin:0 0 2.6rem;}
+  .tpl-head{margin-bottom:1.6rem;}
+  .tpl-eye{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:lowercase;color:var(--gold,#c9a36a);margin-bottom:.7rem;}
+  .tpl-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(1.8rem,4.2vw,2.8rem);color:var(--ink);letter-spacing:-.02em;line-height:1.03;}
+  .tpl-title em{font-style:italic;color:var(--sage-dark,#4f5a43);}
+  .tpl-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:var(--soft,#5f554b);line-height:1.85;margin-top:.7rem;text-transform:lowercase;max-width:56ch;}
+  .tpl-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold,#c9a36a);margin:1.6rem 0 .95rem;display:flex;align-items:baseline;gap:12px;}
+  .tpl-note{font-size:7.5px;letter-spacing:.08em;color:var(--faint,#b3a99c);text-transform:lowercase;}
+  .tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+  .tpl-card{background:linear-gradient(158deg,#2e2219,#191009);border:1px solid rgba(201,163,106,.2);border-radius:16px;padding:18px 18px 16px;box-shadow:0 16px 40px rgba(28,18,10,.22);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;position:relative;overflow:hidden;}
+  .tpl-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 8%,rgba(201,163,106,.13),transparent 58%);pointer-events:none;}
+  .tpl-card:hover{transform:translateY(-5px);box-shadow:0 26px 56px rgba(28,18,10,.34);border-color:rgba(201,163,106,.5);}
+  .tpl-card>*{position:relative;z-index:1;}
+  .tpl-card .tc-tag{font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,163,106,.85);display:flex;gap:8px;align-items:center;}
+  .tpl-card .tc-tag b{color:#241a13;background:rgba(201,163,106,.92);border-radius:999px;padding:2px 8px;font-weight:500;}
+  .tpl-card .tc-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.35rem;font-weight:400;color:#f5ecda;line-height:1.1;margin:8px 0 4px;}
+  .tpl-card .tc-meta{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em;color:rgba(240,228,207,.6);line-height:1.7;}
+  .tpl-card .tc-blocks{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.03em;color:rgba(240,228,207,.5);margin-top:8px;line-height:1.6;}
+  .tpl-card .tc-cta{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:lowercase;color:rgba(201,163,106,.9);background:none;border:none;padding:0;cursor:pointer;margin-top:12px;}
+  .tpl-card .tc-cta:hover{color:#f7efdd;text-decoration:underline;}
+  .tpl-empty{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1rem;color:var(--faint,#b3a99c);border:1px dashed var(--line,rgba(29,25,21,.16));border-radius:16px;padding:22px;grid-column:1/-1;}
+  .tpl-foot{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--faint,#b3a99c);margin-top:1.6rem;text-transform:lowercase;line-height:1.8;}
+  .tpl-foot b{color:var(--soft,#5f554b);font-weight:500;}
+  </style>
+
   <div class="tk">
     <div class="tk-head">
       <div class="tk-eye">resources</div>
@@ -427,6 +470,8 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
     <div class="tk-grid">
       <a class="tk-tool" href="/voices"><b>voices</b><span>find &amp; book the guides who hold the room</span></a>
       <a class="tk-tool" href="/find"><b>respira 100</b><span>vetted &amp; always rotating &mdash; fresh each visit</span></a>
+      <a class="tk-tool" href="#" onclick="openTrackShare();return false;"><b>share a track <span class="tk-new">new</span></b><span>your original sound, in the radio room &mdash; approved &amp; shared with teachers</span></a>
+      <a class="tk-tool" href="#" onclick="studioView('templates');return false;"><b>use a template <span class="tk-new">new</span></b><span>ready class plans &mdash; by intensity &amp; length</span></a>
     </div>
     <p class="tk-foot">powered by happy sunday &middot; an initiative of the birthright project</p>
   </div>
@@ -453,12 +498,13 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
       <div class="cx-pod">
         <div class="cx-pod-lab">discipline</div>
         <div class="cx-discs" id="discRow"></div>
-        <div class="cx-pod-lab" style="margin-top:16px;">music</div>
+        <div class="cx-pod-lab" style="margin-top:16px;">sound <span style="font-size:8px;letter-spacing:.06em;color:var(--faint,#b3a99c);text-transform:none;">— optional</span></div>
         <select class="cx-music" id="music">
-          <option value="all">respira radio · shuffle</option>
-          <option value="drift">wind-down · drift</option>
-          <option value="groove">energy · groove</option>
-          <option value="dust">meditation · dust</option>
+          <option value="silence" selected>no sound &middot; silence</option>
+          <option value="all">respira radio &middot; shuffle</option>
+          <option value="drift">wind-down &middot; drift</option>
+          <option value="groove">energy &middot; groove</option>
+          <option value="dust">meditation &middot; dust</option>
         </select>
       </div>
     </div>
@@ -968,7 +1014,7 @@ function genCues(i){
 var rn={idx:0,left:0,timer:null,paused:false,audio:null,queue:[],qi:0,ci:0,cues:[],muted:false,started:false,total:0,_wake:null};
 var LIVE_KEY='studio_live_v1';
 function fmtClock(x){ x=Math.max(0,Math.round(x)); var m=Math.floor(x/60),s=x%60; return m+':'+(s<10?'0':'')+s; }
-function musicLabelText(){ var m=document.getElementById('music').value; return m==='all'?'respira radio':(m==='drift'?'drift radio':(m==='groove'?'groove radio':(m==='dust'?'dust radio':m+' radio'))); }
+function musicLabelText(){ var m=document.getElementById('music').value; return m==='silence'?'silence':(m==='all'?'respira radio':(m==='drift'?'drift radio':(m==='groove'?'groove radio':(m==='dust'?'dust radio':m+' radio')))); }
 function discLabelText(){ for(var i=0;i<DISCIPLINES.length;i++){ if(DISCIPLINES[i][0]===state.disc) return DISCIPLINES[i][1]; } return state.disc; }
 // parse a section's cue lines into an ordered {t(seconds),text} timeline.
 // honours an explicit leading "mm:ss" timestamp; otherwise distributes evenly across the section.
@@ -989,6 +1035,7 @@ function parseSectionCues(raw, durSec){
 /* ---- audio ---- */
 function musicQueue(){
   var m=document.getElementById('music').value;
+  if(m==='silence') return [];
   var list=radioAllTracks.filter(function(t){ return m==='all' ? true : (t.cat===m); });
   if(!list.length) list=radioAllTracks.slice();
   for(var i=list.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=list[i]; list[i]=list[j]; list[j]=t; }
@@ -997,11 +1044,13 @@ function musicQueue(){
 function trackUrl(t){ return radioBase + (t.file || _tf(t.slug)); }
 function playNextTrack(){ if(!rn.queue.length) return; rn.qi=(rn.qi+1)%rn.queue.length; playCurTrack(); }
 function playCurTrack(){
-  var t=rn.queue[rn.qi]; if(!t) return;
+  var t=rn.queue[rn.qi];
+  var mm=document.getElementById('rnMusicMini');
+  if(!t){ if(rn.audio){ try{rn.audio.pause();}catch(e){} rn.audio=null; } if(mm) mm.innerHTML='&#9678; silence'; return; }
   if(rn.audio){ rn.audio.pause(); }
   rn.audio=new Audio(trackUrl(t)); rn.audio.volume=0.7; rn.audio.muted=!!rn.muted;
   rn.audio.onended=playNextTrack; rn.audio.play().catch(function(){});
-  var mm=document.getElementById('rnMusicMini'); if(mm) mm.innerHTML='&#9834; '+_esc(t.name);
+  if(mm) mm.innerHTML='&#9834; '+_esc(t.name);
 }
 
 /* ---- opening a class is NOT starting it: show the ready screen ---- */
@@ -1041,7 +1090,7 @@ function rrToggleSound(){
   var el=document.getElementById('rrSound');
   if(!el.hidden){ el.hidden=true; return; }
   var cur=document.getElementById('music').value;
-  var opts=[['all','respira radio · shuffle'],['drift','wind-down · drift'],['groove','energy · groove'],['dust','meditation · dust']];
+  var opts=[['silence','no sound · silence'],['all','respira radio · shuffle'],['drift','wind-down · drift'],['groove','energy · groove'],['dust','meditation · dust']];
   el.innerHTML='<label>sound</label><select onchange="rrSetSound(this.value)">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>';
   el.hidden=false;
 }
@@ -1049,6 +1098,7 @@ function rrSetSound(v){
   document.getElementById('music').value=v;
   var mins=state.blocks.reduce(function(a,b){return a+b.mins;},0);
   document.getElementById('rrSum').textContent=mins+'-minute '+discLabelText()+' · '+state.blocks.length+' sections · '+musicLabelText();
+  if(rn && rn.started){ rn.queue=musicQueue(); rn.qi=0; playCurTrack(); }
 }
 function rrEdit(){ rnClose(); studioView('build'); var b=document.getElementById('builder'); if(b) b.scrollIntoView({behavior:'smooth',block:'start'}); }
 function rnLeaveReady(){ rnClose(); }
@@ -1318,14 +1368,175 @@ function renderLibrary(){
     return '<div class="cl-card"><div class="cl-name">'+_esc(c.name)+'</div>'
       +'<div class="cl-meta">'+_esc(dl[c.disc]||c.disc)+' &middot; '+c.minutes+' min &middot; '+(c.blocks?c.blocks.length:0)+' sections</div>'
       +'<div class="cl-when">edited '+_fmtWhen(c.savedAt)+'</div>'
-      +'<div class="cl-acts"><button onclick="loadClass(\''+c.id+'\')">open</button><button onclick="teachClass(\''+c.id+'\')">teach</button><button onclick="dupClass(\''+c.id+'\')">duplicate</button><button class="cl-del" onclick="deleteClass(\''+c.id+'\')">delete</button></div>'
+      +'<div class="cl-acts"><button onclick="loadClass(\''+c.id+'\')">open</button><button onclick="teachClass(\''+c.id+'\')">teach</button><button onclick="dupClass(\''+c.id+'\')">duplicate</button><button onclick="shareAsTemplate(\''+c.id+'\')">share as template</button><button class="cl-del" onclick="deleteClass(\''+c.id+'\')">delete</button></div>'
       +'</div>';
   }).join('')+'</div>';
 }
 renderLibrary();
 
+/* ── starter templates ── */
+var STARTER_TEMPLATES = [
+  { id:'st-gentle-15', name:'gentle · quick reset', intensity:'gentle', minutes:15, disc:'breathwork',
+    blocks:[
+      {name:'settle',mins:3,kind:'arrival',cues:'arrive to the mat.\nlet the breath find you.\nnothing to fix.'},
+      {name:'foundation breath',mins:7,kind:'breath',cues:'inhale for four.\nexhale for six.\nkeep it steady and easy.\nno straining.'},
+      {name:'integration',mins:3,kind:'wind',cues:'let the breath return to natural.\nnotice how the body has shifted.'},
+      {name:'rest',mins:2,kind:'rest',cues:'lie back or sit.\nlet the practice land.'}
+    ]},
+  { id:'st-gentle-30', name:'gentle · restorative flow', intensity:'gentle', minutes:30, disc:'mobility',
+    blocks:[
+      {name:'arrive & breath',mins:4,kind:'arrival',cues:'come to a comfortable seat.\nlet the breath settle.\narrive fully.'},
+      {name:'gentle warm-up',mins:6,kind:'warm',cues:'wake the spine slowly.\nsmall circles, small waves.\nno forcing.'},
+      {name:'easy mobility',mins:10,kind:'core',cues:'move through joints softly.\nquality over range.\nbreathe with each movement.'},
+      {name:'wind down',mins:6,kind:'wind',cues:'lengthen each exhale.\nlet the body ease.\nprepare for rest.'},
+      {name:'rest',mins:4,kind:'rest',cues:'lie back completely.\nnothing to hold.\nstay as long as you need.'}
+    ]},
+  { id:'st-gentle-45', name:'gentle · deep meditation', intensity:'gentle', minutes:45, disc:'meditation',
+    blocks:[
+      {name:'arrival',mins:7,kind:'arrival',cues:'settle into the seat.\nclose the eyes or soften the gaze.\narrive with no agenda.'},
+      {name:'settling',mins:8,kind:'settle',cues:'let the mind slow.\nnotice the body sitting.\nfollow one breath at a time.'},
+      {name:'practice',mins:20,kind:'meditate',cues:'rest attention on the breath.\nwhen the mind wanders, return.\nno judgment, just returning.\nstay soft and aware.'},
+      {name:'deepening',mins:7,kind:'deep',cues:'let stillness grow.\nless effort now.\njust being here.'},
+      {name:'return',mins:3,kind:'return',cues:'notice sounds around you.\nsmall movements return.\ncarry this calm with you.'}
+    ]},
+  { id:'st-moderate-15', name:'moderate · morning wake-up', intensity:'moderate', minutes:15, disc:'flow',
+    blocks:[
+      {name:'warm-up',mins:3,kind:'warm',cues:'start to move.\nwake up the spine.\nsmall movements first.'},
+      {name:'sun salutations',mins:5,kind:'build',cues:'find your rhythm.\none breath, one movement.\nbuild heat.'},
+      {name:'peak',mins:4,kind:'peak',cues:'strong and steady.\nbreathe through the effort.\nstay present.'},
+      {name:'rest',mins:3,kind:'rest',cues:'lie back.\nlet the heart settle.\nsavor the calm.'}
+    ]},
+  { id:'st-moderate-30', name:'moderate · steady flow', intensity:'moderate', minutes:30, disc:'flow',
+    blocks:[
+      {name:'warm-up',mins:5,kind:'warm',cues:'wake the body slowly.\nfollow the breath.\nno forcing.'},
+      {name:'sun salutations',mins:7,kind:'build',cues:'link breath to movement.\nfind your rhythm.\nbuild heat.'},
+      {name:'standing & peak',mins:10,kind:'peak',cues:'this is the fullest part.\nstrong and steady.\nbreathe through it.'},
+      {name:'floor',mins:5,kind:'floor',cues:'come down to the mat.\nlonger, deeper holds.\nsoften into each shape.'},
+      {name:'rest',mins:3,kind:'rest',cues:'let go completely.\nnothing to hold.\nstay heavy.'}
+    ]},
+  { id:'st-moderate-45', name:'moderate · full arc flow', intensity:'moderate', minutes:45, disc:'flow',
+    blocks:[
+      {name:'arrival & breath',mins:4,kind:'arrival',cues:'come to a comfortable position.\nlet the breath settle.\narrive fully.'},
+      {name:'warm-up',mins:7,kind:'warm',cues:'wake the spine.\nsmall movements, no forcing.\nfollow the breath.'},
+      {name:'sun salutations',mins:8,kind:'build',cues:'find your rhythm.\nlink one breath to one movement.\nstay smooth and steady.'},
+      {name:'standing & peak',mins:12,kind:'peak',cues:'this is the fullest part.\nstrong and steady.\nbreathe through the effort.'},
+      {name:'balance',mins:4,kind:'balance',cues:'find one point.\nroot down to rise up.\nit is okay to wobble.'},
+      {name:'floor & deep',mins:6,kind:'floor',cues:'come down to the mat.\nlonger holds now.\nsoften into each shape.'},
+      {name:'rest',mins:4,kind:'rest',cues:'lie back. let go completely.\nnothing to hold, nowhere to be.\nstay as long as you need.'}
+    ]}
+];
+var COMMUNITY_TEMPLATES = [];
+
+function _tplCard(t, isCommunity){
+  var authored = isCommunity && t.author ? ' &middot; by '+_esc(t.author) : '';
+  var blocksSum = (t.blocks||[]).map(function(b){return _esc(b.name);}).slice(0,4).join(' &middot; ') + ((t.blocks||[]).length>4?'&hellip;':'');
+  return '<div class="tpl-card">'
+    + '<div class="tc-tag"><b>'+_esc(t.intensity||'moderate')+'</b> '+t.minutes+' min &middot; '+_esc(t.disc||'flow')+'</div>'
+    + '<div class="tc-name">'+_esc(t.name)+'</div>'
+    + '<div class="tc-meta">'+(t.blocks?t.blocks.length:0)+' sections'+authored+'</div>'
+    + '<div class="tc-blocks">'+blocksSum+'</div>'
+    + '<button class="tc-cta" onclick="useTemplate(\''+t.id+'\','+(isCommunity?'true':'false')+')">use this template &rarr;</button>'
+    + '</div>';
+}
+function renderTemplates(){
+  var s=document.getElementById('tplStarters');
+  if(s) s.innerHTML=STARTER_TEMPLATES.map(function(t){return _tplCard(t,false);}).join('');
+  var c=document.getElementById('tplCommunity');
+  if(!c) return;
+  if(!COMMUNITY_TEMPLATES.length){ c.innerHTML='<div class="tpl-empty">no community templates yet. be the first to share one — save a class, then hit <b>share as template</b> in your library.</div>'; return; }
+  c.innerHTML=COMMUNITY_TEMPLATES.map(function(t){return _tplCard(t,true);}).join('');
+}
+function useTemplate(id, isCommunity){
+  var src = isCommunity ? COMMUNITY_TEMPLATES : STARTER_TEMPLATES;
+  var t=null; for(var i=0;i<src.length;i++){ if(src[i].id===id){ t=src[i]; break; } }
+  if(!t){ studioToast('template not found'); return; }
+  window._curClassId=null;
+  state.minutes=t.minutes; state.disc=t.disc; state.blocks=JSON.parse(JSON.stringify(t.blocks));
+  var nm=document.getElementById('cname'); if(nm) nm.value=t.name;
+  var pt=document.getElementById('pdf-title'); if(pt) pt.textContent=t.name;
+  var mvEl=document.getElementById('minsVal'); if(mvEl) mvEl.textContent=t.minutes;
+  var lr=document.getElementById('lenRange'); if(lr) lr.value=Math.min(90,Math.max(30,t.minutes));
+  cxSel=-1; buildDisc(); renderBlocks();
+  studioView('build');
+  studioToast('template loaded — tweak and save as your own');
+}
+function fetchCommunityTemplates(){
+  try{
+    fetch('/api/templates').then(function(r){ return r.ok?r.json():{templates:[]}; }).then(function(d){
+      COMMUNITY_TEMPLATES = (d && d.templates) || [];
+      renderTemplates();
+    }).catch(function(){});
+  }catch(e){}
+}
+renderTemplates();
+fetchCommunityTemplates();
+
+/* ── share as template (submit to community) ── */
+function shareAsTemplate(id){
+  var list=_clLoad(), c=null; for(var i=0;i<list.length;i++){ if(list[i].id===id){ c=list[i]; break; } }
+  if(!c){ studioToast('class not found'); return; }
+  var name=prompt('name for the template', c.name);
+  if(!name) return;
+  var intensity=prompt('intensity — gentle, moderate, or deep', 'moderate');
+  if(!intensity) return;
+  intensity=String(intensity).toLowerCase().trim();
+  if(['gentle','moderate','deep'].indexOf(intensity)<0){ studioToast('intensity must be gentle, moderate, or deep'); return; }
+  var email=prompt('your email (so we can confirm approval)', '');
+  if(!email) return;
+  var author=prompt('your name or studio (shown on the card)', '');
+  var payload={ name:name, intensity:intensity, disc:c.disc, minutes:c.minutes, blocks:c.blocks, email:email, author:author||'' };
+  studioToast('sending for review…');
+  fetch('/api/templates', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
+    .then(function(r){ if(r.ok){ studioToast('thanks — we\'ll review and add it to the community gallery.'); } else { studioToast('couldn\'t submit. try again in a moment.'); } })
+    .catch(function(){ studioToast('couldn\'t submit. check your connection.'); });
+}
+
+/* ── share a track for community radio (formspree) ── */
+function openTrackShare(){
+  var m=document.getElementById('trackShareModal');
+  if(!m){
+    m=document.createElement('div'); m.id='trackShareModal';
+    m.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,10,6,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    m.innerHTML='<form id="trackShareForm" style="background:linear-gradient(160deg,#2e2219,#1a110a);border:1px solid rgba(201,163,106,.28);border-radius:20px;padding:26px;max-width:440px;width:100%;color:#f5ecda;font-family:\'IBM Plex Mono\',monospace;">'
+      + '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.5rem;font-weight:300;color:#f5ecda;line-height:1.1;margin-bottom:.4rem;">share a track</div>'
+      + '<p style="font-size:9.5px;letter-spacing:.03em;line-height:1.8;color:rgba(240,228,207,.7);margin-bottom:1.2rem;text-transform:lowercase;">upload an original piece (yours, or one you have rights to). approved tracks join respira radio for teachers to use in class.</p>'
+      + '<label style="display:block;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.85);margin-bottom:5px;">track title</label>'
+      + '<input name="track_title" required style="width:100%;font-family:inherit;font-size:12px;padding:10px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(201,163,106,.22);border-radius:10px;color:#f5ecda;margin-bottom:12px;">'
+      + '<label style="display:block;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.85);margin-bottom:5px;">your name / artist</label>'
+      + '<input name="artist" required style="width:100%;font-family:inherit;font-size:12px;padding:10px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(201,163,106,.22);border-radius:10px;color:#f5ecda;margin-bottom:12px;">'
+      + '<label style="display:block;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.85);margin-bottom:5px;">email</label>'
+      + '<input type="email" name="email" required style="width:100%;font-family:inherit;font-size:12px;padding:10px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(201,163,106,.22);border-radius:10px;color:#f5ecda;margin-bottom:12px;">'
+      + '<label style="display:block;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.85);margin-bottom:5px;">station fit — drift · groove · dust</label>'
+      + '<select name="station" style="width:100%;font-family:inherit;font-size:12px;padding:10px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(201,163,106,.22);border-radius:10px;color:#f5ecda;margin-bottom:12px;"><option value="drift">drift — wind-down &amp; slow</option><option value="groove">groove — focus &amp; easy energy</option><option value="dust">dust — meditation &amp; deep rest</option></select>'
+      + '<label style="display:block;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(201,163,106,.85);margin-bottom:5px;">audio file (mp3, wav — up to 25mb)</label>'
+      + '<input type="file" name="audio" accept="audio/*" required style="width:100%;font-family:inherit;font-size:11px;padding:8px 0;color:#f5ecda;margin-bottom:12px;">'
+      + '<label style="display:flex;gap:8px;align-items:flex-start;font-size:9px;letter-spacing:.03em;line-height:1.7;color:rgba(240,228,207,.7);margin:8px 0 18px;text-transform:lowercase;"><input type="checkbox" name="rights_confirm" required style="margin-top:3px;flex:none;">i own this recording (or have rights to share it) and consent to it playing on respira radio.</label>'
+      + '<div style="display:flex;gap:10px;justify-content:flex-end;">'
+      +   '<button type="button" onclick="closeTrackShare()" style="font-family:inherit;font-size:9.5px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.72);background:none;border:1px solid rgba(201,163,106,.28);border-radius:999px;padding:9px 18px;cursor:pointer;">cancel</button>'
+      +   '<button type="submit" style="font-family:inherit;font-size:9.5px;letter-spacing:.1em;text-transform:lowercase;color:#241a13;background:rgba(201,163,106,.92);border:none;border-radius:999px;padding:9px 22px;cursor:pointer;">send for review</button>'
+      + '</div>'
+      + '<p id="trackShareMsg" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-style:italic;font-size:.98rem;color:rgba(240,228,207,.85);margin-top:12px;text-align:center;min-height:1.4em;"></p>'
+      + '</form>';
+    document.body.appendChild(m);
+    document.getElementById('trackShareForm').addEventListener('submit', submitTrackShare);
+    m.addEventListener('click', function(e){ if(e.target===m) closeTrackShare(); });
+  }
+  m.style.display='flex';
+}
+function closeTrackShare(){ var m=document.getElementById('trackShareModal'); if(m) m.style.display='none'; }
+function submitTrackShare(e){
+  e.preventDefault();
+  var f=e.target, msg=document.getElementById('trackShareMsg');
+  msg.textContent='sending…';
+  var fd=new FormData(f);
+  fd.append('_subject','respira · new track submission');
+  fetch('https://formspree.io/f/mvgryqjy', { method:'POST', body:fd, headers:{'Accept':'application/json'} })
+    .then(function(r){ if(r.ok){ msg.textContent='received — thank you. we\'ll be in touch.'; f.reset(); setTimeout(closeTrackShare,2400); } else { msg.textContent='couldn\'t send. try again in a moment.'; } })
+    .catch(function(){ msg.textContent='couldn\'t send. check your connection.'; });
+}
+
 /* ── studio app shell: view switching + clock + topbar ── */
-var STUDIO_VIEWS={ overview:['.dash-head','.dash-cards','#classLib'], build:['#builder','.console','#blocks'], room:['#blueprint'], resources:['.tk'] };
+var STUDIO_VIEWS={ overview:['.dash-head','.dash-cards','.dash-actions','#classLib'], templates:['#templatesView'], build:['#builder','.console','#blocks'], room:['#blueprint'], resources:['.tk'] };
 function studioView(v){
   Object.keys(STUDIO_VIEWS).forEach(function(k){ STUDIO_VIEWS[k].forEach(function(sel){ var el=document.querySelector(sel); if(el) el.style.display=(k===v)?'':'none'; }); });
   [].forEach.call(document.querySelectorAll('.st-rail-item[data-v]'),function(b){ b.classList.toggle('on', b.getAttribute('data-v')===v); });
@@ -1339,5 +1550,5 @@ stClock(); setInterval(stClock,1000);
 studioView('overview');
 // after a refresh mid-session, offer resume/restart/end — never auto-start
 checkLive();
-</script><script src="/chrome.js" defer></script>
+</script><script src="/chrome.js?v=7" defer></script>
 </body></html>

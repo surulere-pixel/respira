@@ -15,3 +15,8 @@ CREATE TABLE IF NOT EXISTS room_requests (
   email TEXT NOT NULL, phone TEXT, city TEXT, country TEXT, practice_type TEXT,
   requested_domain TEXT, config TEXT, status TEXT NOT NULL DEFAULT 'submitted'
 );
+CREATE TABLE IF NOT EXISTS class_templates (
+  id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL, intensity TEXT NOT NULL,
+  disc TEXT NOT NULL, minutes INTEGER NOT NULL, blocks TEXT NOT NULL,
+  author TEXT, email TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending'
+);
