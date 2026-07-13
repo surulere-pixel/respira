@@ -18,11 +18,11 @@
 <meta property="og:site_name" content="happy sunday">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://openrespira.org">
-<meta property="og:image" content="https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg">
+<meta property="og:image" content="https://openrespira.org/hero-bg.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="respira · by happy sunday">
 <meta name="twitter:description" content="a breathing room by happy sunday. for whatever you're carrying today.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg">
+<meta name="twitter:image" content="https://openrespira.org/hero-bg.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,7 +50,7 @@
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);
-  background-image:url('https://raw.githubusercontent.com/surulere-pixel/respira/main/hero-bg.jpg');
+  background-image:url('https://openrespira.org/hero-bg.jpg');
   background-size:cover;
   background-position:center;
   background-attachment:fixed;
@@ -63,55 +63,32 @@ body{
 button,input,textarea,select{font:inherit;}
 button{cursor:pointer;}
 
-/* nav */
+/* nav — dark mocha strip (matches door-top) */
 .nav{
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(248,244,237,.96);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-  padding:0 clamp(1.5rem,5vw,5rem);
-}
-.nav-inner{
-  max-width:1180px;
-  margin:0 auto;
-  height:66px;
+  background:linear-gradient(180deg,#2a1f18,#221a12);
+  padding:0 clamp(14px,3vw,28px);
+  height:48px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:1.5rem;
+  box-shadow:0 4px 16px rgba(30,20,12,.15);
 }
+.nav-inner{display:contents;}
 .nav-logo{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.6rem;
+  font-size:1.4rem;
   font-weight:300;
-  color:var(--ink);
+  color:#f0e4cf;
   text-decoration:none;
-  letter-spacing:-.03em;
+  letter-spacing:.01em;
 }
-.nav-logo em{font-style:italic;color:var(--sage-dark);}
-.nav-badge{
-  font-size:.52rem;
-  letter-spacing:.12em;
-  color:var(--faint);
-  border:1px solid var(--line);
-  padding:.3rem .7rem;
-  border-radius:999px;
-  white-space:nowrap;
-}
-.nav-links{display:flex;align-items:center;gap:.5rem;flex-wrap:nowrap;justify-content:center;}
-.nav-links a{
-  font-size:.6rem;
-  letter-spacing:.05em;
-  color:var(--soft);
-  text-decoration:none;
-  padding:.4rem .65rem;
-  border-radius:999px;
-  transition:all .15s;
-  white-space:nowrap;
-}
-.nav-links a:hover{color:var(--ink);background:var(--line);}
+.nav-logo em{font-style:italic;color:#c9a36a;}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:6px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;}
+.nav-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
 
 /* sections */
 .pad{padding:clamp(5rem,9vw,9rem) clamp(1.5rem,5vw,5rem);border-bottom:1px solid var(--line);}
@@ -320,20 +297,21 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 #door{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .8s ease;}
 #door.open{opacity:1;pointer-events:auto;}
 #door.closing{opacity:0;pointer-events:none;transition:opacity .7s ease;}
-.door-top{flex:none;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;flex-direction:column;align-items:center;gap:20px;padding:18px 20px 18px;box-shadow:0 8px 26px rgba(30,20,12,.2);z-index:5;}
-.door-brand{position:relative;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.8rem;line-height:1;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}
+.door-top{flex:none;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:14px;padding:0 clamp(14px,3vw,28px);height:48px;box-shadow:0 4px 16px rgba(30,20,12,.15);z-index:5;}
+.door-brand{position:relative;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.4rem;line-height:1;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}
 .door-brand em{font-style:italic;color:#c9a36a;}
 .door-beta{font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a36a;vertical-align:super;margin-left:4px;opacity:.9;}
 .door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
+.door-right{display:flex;align-items:center;gap:8px;}
 .door-menu-wrap{position:relative;display:inline-flex;}
 .door-roomsbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;}
 .door-caret{font-size:8px;line-height:1;transition:transform .18s ease;opacity:.8;}
 .door-roomsbtn[aria-expanded="true"] .door-caret{transform:rotate(180deg);}
-.door-menu{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:20;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;animation:doorMenuIn .16s ease;}
+.door-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:20;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;animation:doorMenuIn .16s ease;}
 .door-menu[hidden]{display:none;}
-@keyframes doorMenuIn{from{opacity:0;transform:translate(-50%,-6px);}to{opacity:1;transform:translate(-50%,0);}}
+@keyframes doorMenuIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
 .door-menu a,.door-menu button{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);background:none;border:none;text-align:left;text-decoration:none;padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .13s,color .13s;}
 .door-menu a:hover,.door-menu button:hover,.door-menu a:focus-visible,.door-menu button:focus-visible{background:rgba(201,163,106,.15);color:#f7efdd;outline:none;}
 .door-panels{position:relative;flex:1;min-height:0;display:flex;}
@@ -395,9 +373,9 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   .door-sub{font-size:9px;}
   .door-cta{display:none;}
   .door-hint{display:none;}
-  .door-top{padding:14px 16px 16px;gap:16px;}
-  .door-brand{font-size:1.5rem;}
-  .door-nav{gap:7px;}
+  .door-top{padding:0 12px;height:44px;gap:10px;}
+  .door-brand{font-size:1.2rem;}
+  .door-pill{font-size:8px;padding:5px 10px;}
 }
 @media(prefers-reduced-motion:reduce){.door-half,.door-orb{transition:none;animation:none;}}
 .opening-orb{
@@ -1082,43 +1060,32 @@ body{transition:background-color .7s ease;}
 </style>
 <nav class="nav">
   <div class="nav-inner">
-    <div class="nav-logo-wrap">
-      <a href="/" id="navHomeLogo" class="nav-logo" aria-label="respira · home">res<em>pira</em></a>
-      <a href="/help" class="nav-beta-pill" title="building in public — tell us what to build next">v1 &middot; beta</a>
-    </div>
+    <a href="/" class="nav-logo" aria-label="respira · home">res<em>pira</em></a>
     <div class="nav-links">
-      <button class="nav-share" onclick="respiraShare('site')" aria-label="share respira" title="share respira"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="10.7" x2="15.42" y2="6.3"></line><line x1="8.59" y1="13.3" x2="15.42" y2="17.7"></line></svg></button>
-      <a href="/studio" class="beta-badge nav-studios" title="tools for studios, coaches & spaces">for studios &rarr;</a>
-      <button id="nav-radio-btn" onclick="location.href='/radio'">&#9655; <span class="nrb-word">play </span>radio</button>
-      <div class="nav-menu-wrap">
-        <button class="nav-menu-btn beta-badge" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="navMenu">menu</button>
+      <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
+      <div class="nav-menu-wrap" style="position:relative;display:inline-flex;">
+        <button class="nav-pill" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;">rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;">&#9662;</span></button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
-          <a href="/studio" role="menuitem" class="nav-menu-studios" style="--sect:#e6dccb">for studios &rarr;</a>
-          <a href="/find" role="menuitem" style="--sect:#cfe3d6">find a practice</a>
-          <a href="/radio" role="menuitem" style="--sect:#e0d3e8">radio</a>
-          <a href="/voices" role="menuitem" style="--sect:#e6d3c9">voices</a>
-          <a href="/shelf" role="menuitem" style="--sect:#f0dcb8">shelf</a>
-          <a href="/poster" role="menuitem" style="--sect:#efe0c4">poster maker</a>
-          <a href="/open-floor" role="menuitem" style="--sect:#e0d3e8">open floor</a>
-          <a href="/about" role="menuitem" style="--sect:#e8e2d6">about</a>
-          <a href="/support" role="menuitem" style="--sect:#f0d9c9">support</a>
-          <a href="/help" role="menuitem" style="--sect:#dfe3d6">help</a>
-          <a href="#" role="menuitem" class="nav-menu-share" onclick="respiraShare('site');closeNavMenu();return false;" style="--sect:#e8e2d6">share respira</a>
+          <a href="/about" role="menuitem">about</a>
+          <a href="/radio" role="menuitem">radio</a>
+          <a href="/voices" role="menuitem">voices</a>
+          <a href="/shelf" role="menuitem">shelf</a>
+          <a href="/studio" role="menuitem">studio</a>
+          <a href="/support" role="menuitem">give</a>
         </div>
       </div>
+      <button class="nav-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
     </div>
   </div>
 </nav>
 <style>
-.nav-menu-wrap{position:relative;display:inline-flex;}
-.nav-menu-btn{cursor:pointer;}
-.nav-menu{position:fixed;background:var(--bg,#fffaf2);border:1px solid var(--line,rgba(29,25,21,.12));border-radius:12px;padding:6px;min-width:156px;box-shadow:0 16px 40px rgba(42,31,24,.16);display:flex;flex-direction:column;z-index:2000;}
+.nav-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:2000;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;}
 .nav-menu[hidden]{display:none;}
-.nav-menu a{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:lowercase;color:var(--soft,#5f554b);text-decoration:none;padding:10px 12px;border-radius:8px;transition:color .12s,background .12s;}
-.nav-menu a:hover,.nav-menu a:focus-visible{background:var(--sect,var(--line,rgba(29,25,21,.08)));color:#211c19;outline:none;}
+.nav-menu a,.nav-menu button{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);background:none;border:none;text-align:left;text-decoration:none;padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .13s,color .13s;}
+.nav-menu a:hover,.nav-menu button:hover,.nav-menu a:focus-visible,.nav-menu button:focus-visible{background:rgba(201,163,106,.15);color:#f7efdd;outline:none;}
 </style>
 <script>
-function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m||!b) return; var closed=m.hasAttribute('hidden'); if(closed){ var r=b.getBoundingClientRect(); m.style.top=(r.bottom+8)+'px'; m.style.right=Math.max(8,(window.innerWidth-r.right))+'px'; m.style.left='auto'; m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
+function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m||!b) return; if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
 function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m) m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); }
 (function(){
   function close(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } }
@@ -1141,18 +1108,21 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
 <!-- the door = home · mocha header (logo + pills) over four room panels -->
 <div id="door">
   <header class="door-top">
-    <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em><sup class="door-beta">beta v2</sup></a>
-    <div class="door-menu-wrap">
-      <button class="door-pill door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
-      <div class="door-menu" id="doorMenu" role="menu" hidden>
-        <a href="/about" role="menuitem">about</a>
-        <a href="/radio" role="menuitem">radio</a>
-        <a href="/voices" role="menuitem">voices</a>
-        <a href="/shelf" role="menuitem">shelf</a>
-        <a href="/studio" role="menuitem">studio</a>
-        <button role="menuitem" onclick="respiraShare('site')">share</button>
-        <a href="/support" role="menuitem">give</a>
+    <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em></a>
+    <div class="door-right">
+      <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
+      <div class="door-menu-wrap">
+        <button class="door-pill door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
+        <div class="door-menu" id="doorMenu" role="menu" hidden>
+          <a href="/about" role="menuitem">about</a>
+          <a href="/radio" role="menuitem">radio</a>
+          <a href="/voices" role="menuitem">voices</a>
+          <a href="/shelf" role="menuitem">shelf</a>
+          <a href="/studio" role="menuitem">studio</a>
+          <a href="/support" role="menuitem">give</a>
+        </div>
       </div>
+      <button class="door-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
     </div>
   </header>
   <div class="door-panels">
