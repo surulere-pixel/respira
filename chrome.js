@@ -45,22 +45,39 @@
     if(D.getElementById('door')) return;
     if(D.getElementById('respira-header')) return;
 
-    var pill = 'font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:6px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;';
+    var st = D.createElement('style');
+    st.id = 'respira-header-style';
+    st.textContent =
+      '#respira-header{position:sticky;top:0;z-index:200;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;align-items:center;justify-content:center;padding:0 clamp(14px,3vw,28px);height:48px;box-shadow:0 4px 16px rgba(30,20,12,.15);}'
+      + '#respira-header .rh-brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;font-size:1.6rem;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}'
+      + '#respira-header .rh-brand em{font-style:italic;color:#c9a36a;}'
+      + '#respira-header .rh-beta{font-family:"IBM Plex Mono",monospace;font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a36a;vertical-align:super;margin-left:4px;opacity:.9;}'
+      + '#respira-header .rh-right{position:absolute;right:clamp(14px,3vw,28px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;}'
+      + '#respira-header .rh-pill{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}'
+      + '#respira-header .rh-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}'
+      + '#respira-header .rh-pill.rh-gold{background:rgba(201,163,106,.92);border-color:rgba(201,163,106,.92);color:#241a13;}'
+      + '#respira-header .rh-pill.rh-gold:hover{background:#dcb87c;border-color:#dcb87c;color:#241a13;}'
+      + '#respira-header .rh-caret{font-size:8px;opacity:.8;}'
+      + '#respira-header .rh-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:210;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;}'
+      + '#respira-header .rh-menu[hidden]{display:none;}'
+      + '#respira-header .rh-menu a{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);text-decoration:none;padding:10px 14px;border-radius:9px;transition:background .13s,color .13s;}'
+      + '#respira-header .rh-menu a:hover{background:rgba(201,163,106,.15);color:#f7efdd;}'
+      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}}';
+    D.head.appendChild(st);
 
     var h = D.createElement('header');
     h.id = 'respira-header';
-    h.style.cssText = 'position:sticky;top:0;z-index:200;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);height:48px;box-shadow:0 4px 16px rgba(30,20,12,.15);';
     h.innerHTML =
-      '<a href="/" style="font-family:\'Cormorant Garamond\',Georgia,serif;font-weight:300;font-size:1.4rem;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;">res<em style="font-style:italic;color:#c9a36a;">pira</em></a>'
-      + '<div style="display:flex;align-items:center;gap:8px;">'
-      +   '<button onclick="respiraInstall()" style="'+pill+'" aria-label="install respira">&#8681; install</button>'
-      +   '<div style="position:relative;display:inline-flex;" id="rh-wrap">'
-      +     '<button id="rhBtn" onclick="rhToggle()" style="'+pill+'" aria-haspopup="true" aria-expanded="false">rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;" id="rhCaret">&#9662;</span></button>'
-      +     '<div id="rhMenu" hidden style="position:absolute;top:calc(100% + 8px);right:0;z-index:210;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;">'
+      '<a href="/" class="rh-brand">res<em>pira</em><sup class="rh-beta">beta v2</sup></a>'
+      + '<div class="rh-right">'
+      +   '<div id="rh-wrap" style="position:relative;display:inline-flex;">'
+      +     '<button id="rhBtn" class="rh-pill rh-gold" onclick="rhToggle()" aria-haspopup="true" aria-expanded="false">rooms <span class="rh-caret">&#9662;</span></button>'
+      +     '<div id="rhMenu" class="rh-menu" hidden>'
       +       _rhLink('/','breathe') + _rhLink('/#flow','flow') + _rhLink('/radio','radio') + _rhLink('/voices','voices') + _rhLink('/shelf','shelf') + _rhLink('/studio','studio') + _rhLink('/about','about') + _rhLink('/support','give')
       +     '</div>'
       +   '</div>'
-      +   '<button onclick="respiraChromeShare()" style="'+pill+'" aria-label="share respira">&#8599; share</button>'
+      +   '<button class="rh-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>'
+      +   '<button class="rh-pill" onclick="respiraChromeShare()" aria-label="share respira">&#8599; share</button>'
       + '</div>';
 
     var old = D.querySelectorAll('.nav, .topbar');
@@ -79,9 +96,7 @@
     D.body.insertBefore(h, D.body.firstChild);
   }
 
-  function _rhLink(href,label){
-    return '<a href="'+href+'" style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);background:none;border:none;text-align:left;text-decoration:none;padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .13s,color .13s;" onmouseover="this.style.background=\'rgba(201,163,106,.15)\';this.style.color=\'#f7efdd\'" onmouseout="this.style.background=\'none\';this.style.color=\'rgba(240,228,207,.82)\'">'+label+'</a>';
-  }
+  function _rhLink(href,label){ return '<a href="'+href+'">'+label+'</a>'; }
 
   window.rhToggle = function(){
     var m = D.getElementById('rhMenu'), b = D.getElementById('rhBtn');

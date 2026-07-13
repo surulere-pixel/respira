@@ -63,7 +63,7 @@ body{
 button,input,textarea,select{font:inherit;}
 button{cursor:pointer;}
 
-/* nav — dark mocha strip (matches door-top) */
+/* nav — dark mocha strip (matches door-top exactly) */
 .nav{
   position:sticky;
   top:0;
@@ -73,22 +73,25 @@ button{cursor:pointer;}
   height:48px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center;
   box-shadow:0 4px 16px rgba(30,20,12,.15);
 }
 .nav-inner{display:contents;}
 .nav-logo{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.4rem;
+  font-size:1.6rem;
   font-weight:300;
   color:#f0e4cf;
   text-decoration:none;
   letter-spacing:.01em;
 }
 .nav-logo em{font-style:italic;color:#c9a36a;}
-.nav-links{display:flex;align-items:center;gap:8px;}
-.nav-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:6px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;}
+.nav-links{position:absolute;right:clamp(14px,3vw,28px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;}
+.nav-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;}
 .nav-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
+.nav-pill-gold{background:rgba(201,163,106,.92);border-color:rgba(201,163,106,.92);color:#241a13;}
+.nav-pill-gold:hover{background:#dcb87c;border-color:#dcb87c;color:#241a13;}
+@media(max-width:640px){.nav{justify-content:space-between;padding:0 12px;height:44px;}.nav-logo{font-size:1.2rem;}.nav-logo sup{display:none;}.nav-links{position:static;transform:none;gap:5px;}.nav-pill{font-size:8px;padding:5px 10px;}}
 
 /* sections */
 .pad{padding:clamp(5rem,9vw,9rem) clamp(1.5rem,5vw,5rem);border-bottom:1px solid var(--line);}
@@ -304,6 +307,8 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
+.door-pill-gold{background:rgba(201,163,106,.92);border-color:rgba(201,163,106,.92);color:#241a13;}
+.door-pill-gold:hover{background:#dcb87c;border-color:#dcb87c;color:#241a13;}
 .door-right{position:absolute;right:clamp(14px,3vw,28px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;}
 .door-menu-wrap{position:relative;display:inline-flex;}
 .door-roomsbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;}
@@ -1062,11 +1067,10 @@ body{transition:background-color .7s ease;}
 </style>
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="respira · home">res<em>pira</em></a>
+    <a href="/" class="nav-logo" aria-label="respira · home">res<em>pira</em><sup style="font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a36a;vertical-align:super;margin-left:4px;opacity:.9;">beta v2</sup></a>
     <div class="nav-links">
-      <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <div class="nav-menu-wrap" style="position:relative;display:inline-flex;">
-        <button class="nav-pill" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;">rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;">&#9662;</span></button>
+        <button class="nav-pill nav-pill-gold" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;">rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;">&#9662;</span></button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
           <a href="/about" role="menuitem">about</a>
           <a href="/radio" role="menuitem">radio</a>
@@ -1076,6 +1080,7 @@ body{transition:background-color .7s ease;}
           <a href="/support" role="menuitem">give</a>
         </div>
       </div>
+      <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <button class="nav-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
     </div>
   </div>
@@ -1112,9 +1117,8 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
   <header class="door-top">
     <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em><sup class="door-beta">beta v2</sup></a>
     <div class="door-right">
-      <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <div class="door-menu-wrap">
-        <button class="door-pill door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
+        <button class="door-pill door-pill-gold door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
         <div class="door-menu" id="doorMenu" role="menu" hidden>
           <a href="/about" role="menuitem">about</a>
           <a href="/radio" role="menuitem">radio</a>
@@ -1124,6 +1128,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
           <a href="/support" role="menuitem">give</a>
         </div>
       </div>
+      <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <button class="door-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
     </div>
   </header>
