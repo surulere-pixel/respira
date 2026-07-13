@@ -309,6 +309,10 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
 .door-pill-gold{background:rgba(201,163,106,.92);border-color:rgba(201,163,106,.92);color:#241a13;}
 .door-pill-gold:hover{background:#dcb87c;border-color:#dcb87c;color:#241a13;}
+.door-play-btn{margin-left:4px;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:rgba(201,163,106,.92);border:none;color:#241a13;cursor:pointer;transition:transform .15s,background .15s;padding:0;}
+.door-play-btn:hover{background:#dcb87c;transform:scale(1.06);}
+.door-play-btn.is-playing{background:rgba(240,228,207,.16);color:#f0e4cf;box-shadow:0 0 0 2px rgba(201,163,106,.5);animation:doorPlayPulse 2.4s ease-in-out infinite;}
+@keyframes doorPlayPulse{0%,100%{box-shadow:0 0 0 2px rgba(201,163,106,.5);}50%{box-shadow:0 0 0 5px rgba(201,163,106,.25);}}
 .door-right{position:absolute;right:clamp(14px,3vw,28px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;}
 .door-menu-wrap{position:relative;display:inline-flex;}
 .door-roomsbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;}
@@ -1082,6 +1086,7 @@ body{transition:background-color .7s ease;}
       </div>
       <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <button class="nav-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
+      <button class="door-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></button>
     </div>
   </div>
 </nav>
@@ -1130,6 +1135,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
       </div>
       <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <button class="door-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
+      <button class="door-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></button>
     </div>
   </header>
   <div class="door-panels">
@@ -5077,6 +5083,6 @@ function respiraShareFallback(d){
   render();
 })();
 </script>
-<script src="/chrome.js?v=7" defer></script>
+<script src="/chrome.js?v=9" defer></script>
 </body>
 </html>

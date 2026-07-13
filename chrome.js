@@ -62,7 +62,12 @@
       + '#respira-header .rh-menu[hidden]{display:none;}'
       + '#respira-header .rh-menu a{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);text-decoration:none;padding:10px 14px;border-radius:9px;transition:background .13s,color .13s;}'
       + '#respira-header .rh-menu a:hover{background:rgba(201,163,106,.15);color:#f7efdd;}'
-      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}}';
+      + '#respira-header .rh-play-btn{margin-left:6px;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:rgba(201,163,106,.92);border:none;color:#241a13;cursor:pointer;transition:transform .15s,background .15s;padding:0;}'
+      + '#respira-header .rh-play-btn:hover{background:#dcb87c;transform:scale(1.06);}'
+      + '#respira-header .rh-play-btn.is-playing{background:rgba(240,228,207,.16);color:#f0e4cf;box-shadow:0 0 0 2px rgba(201,163,106,.5);animation:rhPulse 2.4s ease-in-out infinite;}'
+      + '@keyframes rhPulse{0%,100%{box-shadow:0 0 0 2px rgba(201,163,106,.5);}50%{box-shadow:0 0 0 5px rgba(201,163,106,.25);}}'
+      + '#respira-header .rh-nowplaying{position:absolute;right:clamp(58px,10vw,88px);top:calc(100% + 6px);font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.06em;text-transform:lowercase;color:rgba(201,163,106,.72);white-space:nowrap;pointer-events:none;max-width:40vw;overflow:hidden;text-overflow:ellipsis;}'
+      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}#respira-header .rh-play-btn{width:26px;height:26px;margin-left:3px;}#respira-header .rh-nowplaying{display:none;}}';
     D.head.appendChild(st);
 
     var h = D.createElement('header');
@@ -78,7 +83,9 @@
       +   '</div>'
       +   '<button class="rh-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>'
       +   '<button class="rh-pill" onclick="respiraChromeShare()" aria-label="share respira">&#8599; share</button>'
-      + '</div>';
+      +   '<button class="rh-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio">'+_playIcon()+'</button>'
+      + '</div>'
+      + '<span class="rh-nowplaying"></span>';
 
     var old = D.querySelectorAll('.nav, .topbar');
     for(var i=0;i<old.length;i++) old[i].style.display = 'none';
@@ -107,7 +114,211 @@
   D.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('#rh-wrap'))){ var m=D.getElementById('rhMenu'),b=D.getElementById('rhBtn'); if(m&&!m.hasAttribute('hidden')){m.setAttribute('hidden','');if(b)b.setAttribute('aria-expanded','false');} } });
   D.addEventListener('keydown', function(e){ if(e.key==='Escape'){ var m=D.getElementById('rhMenu'),b=D.getElementById('rhBtn'); if(m&&!m.hasAttribute('hidden')){m.setAttribute('hidden','');if(b)b.setAttribute('aria-expanded','false');} } });
 
-  /* ── footer — only if the page has none ── */
+  /* ────────────────────────────────────────────────────────
+     universal player — play from nav
+     - shuffles drift + groove + whisper as the main pool
+     - every 30 min: one dust track as a "pause"
+     - every 7 min: signature "breathe in slowly" drops over the transition
+     - long crossfade so tracks never gap
+     - state persists in localStorage so page-nav resumes near where you left off
+     ──────────────────────────────────────────────────────── */
+  var NP_KEY = 'respira_navplayer_v1';
+  var NP_CROSSFADE = 6;   // seconds
+  var NP_SIG_EVERY = 7 * 60 * 1000;
+  var NP_DUST_EVERY = 30 * 60 * 1000;
+  var NP_TARGET_VOL = 0.6;
+  var np = {
+    playing: false, a: null, b: null, active: 'a',
+    tracks: null, mainQueue: [], dustQueue: [], mainIdx: 0, dustIdx: 0,
+    currentTrack: null, lastSigAt: 0, lastDustAt: 0, sessionStartedAt: 0,
+    crossfading: false, watchTimer: null, sigAudio: null
+  };
+
+  function npLoad(){
+    try{
+      var raw = localStorage.getItem(NP_KEY); if(!raw) return null;
+      var s = JSON.parse(raw); if(!s) return null;
+      return s;
+    }catch(e){ return null; }
+  }
+  function npSave(){
+    try{
+      localStorage.setItem(NP_KEY, JSON.stringify({
+        playing: np.playing, lastSigAt: np.lastSigAt, lastDustAt: np.lastDustAt,
+        sessionStartedAt: np.sessionStartedAt, ts: Date.now()
+      }));
+    }catch(e){}
+  }
+
+  function npEnsureTracks(cb){
+    if(np.tracks){ cb(np.tracks); return; }
+    if(window.TRACKS && window.TRACKS.length){ np.tracks = window.TRACKS; cb(np.tracks); return; }
+    var s = D.createElement('script'); s.src = '/radio/tracks.js?v=8';
+    s.onload = function(){ np.tracks = (window.TRACKS || []); cb(np.tracks); };
+    s.onerror = function(){ np.tracks = []; cb([]); };
+    D.head.appendChild(s);
+  }
+
+  function _shuffle(a){ a = a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function npBuildQueues(){
+    var main = np.tracks.filter(function(t){ return t.cat==='drift' || t.cat==='groove' || t.cat==='whisper'; });
+    var dust = np.tracks.filter(function(t){ return t.cat==='dust'; });
+    np.mainQueue = _shuffle(main); np.mainIdx = 0;
+    np.dustQueue = _shuffle(dust); np.dustIdx = 0;
+  }
+
+  function npNextTrack(){
+    var now = Date.now();
+    // dust pause every 30 min
+    if(now - np.lastDustAt >= NP_DUST_EVERY && np.dustQueue.length){
+      var d = np.dustQueue[np.dustIdx % np.dustQueue.length]; np.dustIdx++;
+      np.lastDustAt = now;
+      return d;
+    }
+    if(!np.mainQueue.length) return null;
+    if(np.mainIdx >= np.mainQueue.length){ np.mainQueue = _shuffle(np.mainQueue); np.mainIdx = 0; }
+    var t = np.mainQueue[np.mainIdx]; np.mainIdx++;
+    return t;
+  }
+
+  function npTrackSrc(t){ return '/'+t.file; }
+
+  function _fade(audio, from, to, ms){
+    if(!audio) return;
+    try{ audio.volume = from; }catch(e){}
+    var steps = 40, i = 0, iv = ms/steps;
+    var timer = setInterval(function(){
+      i++;
+      try{ audio.volume = Math.max(0, Math.min(1, from + (to-from) * (i/steps))); }catch(e){}
+      if(i>=steps){ clearInterval(timer); if(to===0){ try{ audio.pause(); }catch(e){} } }
+    }, iv);
+  }
+
+  function npPlayInitial(track){
+    np.currentTrack = track;
+    var el = new Audio(npTrackSrc(track));
+    el.preload = 'auto';
+    el.crossOrigin = 'anonymous';
+    el.addEventListener('ended', function(){ if(!np.crossfading) npCrossfade(); });
+    el.addEventListener('timeupdate', npWatch);
+    np.a = el; np.active = 'a';
+    _fade(el, 0, NP_TARGET_VOL, 800);
+    el.play().catch(function(){ /* autoplay blocked */ np.playing=false; npUpdateBtn(); });
+    npUpdateNowPlaying();
+  }
+
+  function npWatch(){
+    var cur = np[np.active];
+    if(!cur || !cur.duration || isNaN(cur.duration)) return;
+    var remaining = cur.duration - cur.currentTime;
+    // maybe drop signature at 7-min mark (only if enough runway to layer it)
+    var now = Date.now();
+    if(np.sessionStartedAt && (now - np.lastSigAt) >= NP_SIG_EVERY && remaining < NP_CROSSFADE + 4 && !np.crossfading){
+      npPlaySignature();
+      np.lastSigAt = now; npSave();
+    }
+    if(remaining <= NP_CROSSFADE && !np.crossfading){
+      npCrossfade();
+    }
+  }
+
+  function npCrossfade(){
+    if(np.crossfading) return;
+    var next = npNextTrack();
+    if(!next){ return; }
+    np.crossfading = true;
+    var incoming = new Audio(npTrackSrc(next));
+    incoming.preload = 'auto';
+    incoming.crossOrigin = 'anonymous';
+    incoming.volume = 0;
+    incoming.addEventListener('ended', function(){ if(!np.crossfading) npCrossfade(); });
+    incoming.play().catch(function(){});
+    var outgoing = np[np.active];
+    var otherKey = (np.active==='a')?'b':'a';
+    np[otherKey] = incoming;
+    np.active = otherKey;
+    np.currentTrack = next;
+    _fade(incoming, 0, NP_TARGET_VOL, NP_CROSSFADE*1000);
+    _fade(outgoing, outgoing?outgoing.volume:NP_TARGET_VOL, 0, NP_CROSSFADE*1000);
+    setTimeout(function(){
+      np.crossfading = false;
+      incoming.addEventListener('timeupdate', npWatch);
+      if(outgoing){ try{ outgoing.pause(); }catch(e){} outgoing.src=''; }
+      var oldKey = (np.active==='a')?'b':'a'; np[oldKey] = null;
+      npUpdateNowPlaying();
+    }, NP_CROSSFADE*1000 + 200);
+  }
+
+  function npPlaySignature(){
+    try{
+      if(np.sigAudio){ try{ np.sigAudio.pause(); }catch(e){} }
+      var s = new Audio('/cue/en/breathe-in-slowly.mp3');
+      s.preload = 'auto';
+      s.volume = 0.85;
+      np.sigAudio = s;
+      s.play().catch(function(){});
+    }catch(e){}
+  }
+
+  window.respiraNavPlay = function(){
+    if(np.playing){ respiraNavPause(); return; }
+    npEnsureTracks(function(tracks){
+      if(!tracks || !tracks.length){ _toast('no tracks available'); return; }
+      npBuildQueues();
+      np.playing = true;
+      var now = Date.now();
+      np.sessionStartedAt = now; np.lastSigAt = now; np.lastDustAt = now;
+      var first = npNextTrack(); if(!first) return;
+      npPlayInitial(first);
+      npUpdateBtn();
+      npSave();
+    });
+  };
+
+  window.respiraNavPause = function(){
+    np.playing = false;
+    if(np.a){ _fade(np.a, np.a.volume||NP_TARGET_VOL, 0, 500); }
+    if(np.b){ _fade(np.b, np.b.volume||NP_TARGET_VOL, 0, 500); }
+    if(np.sigAudio){ try{ np.sigAudio.pause(); }catch(e){} }
+    setTimeout(function(){ if(np.a){try{np.a.pause();}catch(e){} np.a=null;} if(np.b){try{np.b.pause();}catch(e){} np.b=null;} }, 700);
+    npUpdateBtn(); npUpdateNowPlaying();
+    npSave();
+  };
+
+  function npUpdateBtn(){
+    var btns = D.querySelectorAll('.rh-play-btn, .door-play-btn');
+    for(var i=0;i<btns.length;i++){
+      btns[i].innerHTML = np.playing ? _pauseIcon() : _playIcon();
+      btns[i].setAttribute('aria-label', np.playing ? 'pause respira radio' : 'play respira radio');
+      btns[i].classList.toggle('is-playing', np.playing);
+    }
+  }
+  function npUpdateNowPlaying(){
+    var n = np.currentTrack ? np.currentTrack.name : '';
+    var els = D.querySelectorAll('.rh-nowplaying');
+    for(var i=0;i<els.length;i++){ els[i].textContent = np.playing && n ? n : ''; }
+  }
+  function _playIcon(){ return '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>'; }
+  function _pauseIcon(){ return '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4.2" height="16" rx="1"/><rect x="13.8" y="4" width="4.2" height="16" rx="1"/></svg>'; }
+
+  /* periodic save of live state (so page-nav can approximate resume timing) */
+  setInterval(function(){ if(np.playing) npSave(); }, 3000);
+
+  /* on page load, if we were playing recently, resume automatically (subject to autoplay policy) */
+  function npAutoResume(){
+    var s = npLoad(); if(!s) return;
+    if(!s.playing) return;
+    if(Date.now() - (s.ts||0) > 60*1000) return; // stale, don't resume
+    // preserve the signature/dust cadence relative to the session
+    np.lastSigAt = s.lastSigAt || 0;
+    np.lastDustAt = s.lastDustAt || 0;
+    np.sessionStartedAt = s.sessionStartedAt || Date.now();
+    // try to play; autoplay is often blocked without user gesture, so silently fall back
+    window.respiraNavPlay();
+  }
+
+
   function injectFooter(){
     if(D.querySelector('#respira-footer, footer, .site-footer, .rail, .st-rail, #door')) return;
     var fpill = 'font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.78);background:none;border:1px solid rgba(201,163,106,.3);border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;';
@@ -133,6 +344,8 @@
   function init(){
     injectHeader();
     injectFooter();
+    npUpdateBtn();
+    npAutoResume();
   }
   if(D.readyState === 'loading') D.addEventListener('DOMContentLoaded', init); else init();
 })();
