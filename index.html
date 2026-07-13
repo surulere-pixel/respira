@@ -327,6 +327,15 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
+.door-menu-wrap{position:relative;display:inline-flex;}
+.door-roomsbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;}
+.door-caret{font-size:8px;line-height:1;transition:transform .18s ease;opacity:.8;}
+.door-roomsbtn[aria-expanded="true"] .door-caret{transform:rotate(180deg);}
+.door-menu{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:20;background:linear-gradient(180deg,#302419,#241a12);border:1px solid rgba(201,163,106,.28);border-radius:14px;padding:7px;min-width:172px;box-shadow:0 22px 54px rgba(18,11,5,.55);display:flex;flex-direction:column;gap:2px;animation:doorMenuIn .16s ease;}
+.door-menu[hidden]{display:none;}
+@keyframes doorMenuIn{from{opacity:0;transform:translate(-50%,-6px);}to{opacity:1;transform:translate(-50%,0);}}
+.door-menu a,.door-menu button{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);background:none;border:none;text-align:left;text-decoration:none;padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .13s,color .13s;}
+.door-menu a:hover,.door-menu button:hover,.door-menu a:focus-visible,.door-menu button:focus-visible{background:rgba(201,163,106,.15);color:#f7efdd;outline:none;}
 .door-panels{position:relative;flex:1;min-height:0;display:flex;}
 .door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;text-decoration:none;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
 .door-half:last-of-type{border-right:none;}
@@ -1129,14 +1138,18 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
 <div id="door">
   <header class="door-top">
     <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em><sup class="door-beta">beta v2</sup></a>
-    <nav class="door-nav">
-      <a class="door-pill" href="/about">about</a>
-      <a class="door-pill" href="/radio">radio</a>
-      <a class="door-pill" href="/voices">voices</a>
-      <a class="door-pill" href="/shelf">shelf</a>
-      <button class="door-pill" onclick="respiraShare('site')">share</button>
-      <a class="door-pill" href="/support">give</a>
-    </nav>
+    <div class="door-menu-wrap">
+      <button class="door-pill door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
+      <div class="door-menu" id="doorMenu" role="menu" hidden>
+        <a href="/about" role="menuitem">about</a>
+        <a href="/radio" role="menuitem">radio</a>
+        <a href="/voices" role="menuitem">voices</a>
+        <a href="/shelf" role="menuitem">shelf</a>
+        <a href="/studio" role="menuitem">studio</a>
+        <button role="menuitem" onclick="respiraShare('site')">share</button>
+        <a href="/support" role="menuitem">give</a>
+      </div>
+    </div>
   </header>
   <div class="door-panels">
   <button class="door-half door-breathe" id="doorBreathe" aria-label="breathe">
@@ -4583,6 +4596,15 @@ function stopPoseBreath(){
 // pre-session settings → mirror the chosen preference onto the live in-session control(s)
 function preSet(sel, val){ try{ document.querySelectorAll(sel).forEach(function(el){ el.value = val; }); }catch(e){} }
 window.preSet = preSet;
+
+// door "rooms" dropdown
+function doorRoomsToggle(e){ if(e){ e.stopPropagation(); } var m=document.getElementById('doorMenu'), b=document.getElementById('doorRoomsBtn'); if(!m||!b) return; if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
+window.doorRoomsToggle = doorRoomsToggle;
+(function(){
+  function close(){ var m=document.getElementById('doorMenu'), b=document.getElementById('doorRoomsBtn'); if(m && !m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } }
+  document.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('.door-menu-wrap'))) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+})();
 </script>
 
 <script>
