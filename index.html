@@ -376,7 +376,11 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-move .door-ico{color:#5e7a4a;}
 .door-listen .door-ico{color:#8a5f82;}
 .door-studio .door-ico{color:#8a5a29;}
-.door-hint{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
+.door-hint{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
+.door-credit{position:absolute;left:50%;bottom:11px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.08em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;text-align:center;white-space:nowrap;}
+.door-credit a{color:rgba(122,79,34,.62);text-decoration:none;}
+.door-credit a:hover{color:#7a3a22;}
+@media(max-width:760px){.door-credit{display:none;}}
 @media(max-width:760px){
   .door-panels{flex-direction:column;}
   .door-half{flex:1 1 25%;border-right:none;border-bottom:1px solid rgba(55,42,29,.08);padding:clamp(1rem,4vw,2rem);}
@@ -1202,6 +1206,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
   </button>
   </div>
   <div class="door-hint">roll across &middot; tap to enter</div>
+  <div class="door-credit">by <a href="https://www.wearehappysunday.org" target="_blank" rel="noopener">happy sunday</a>, a <a href="https://www.thebirthrightproject.org" target="_blank" rel="noopener">birthright</a> venture</div>
 </div>
 
 <!-- prototype -->

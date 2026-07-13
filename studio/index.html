@@ -259,6 +259,9 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
 .st-rail-item.on{background:var(--st-terra);color:#fbf3ea;}
 .st-rail-ico{width:16px;text-align:center;opacity:1;color:#c9a36a;font-size:12px;}
 .st-rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:14px;border-top:1px solid rgba(240,228,207,.1);}
+.st-rail-credit{font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.07em;line-height:1.7;color:rgba(240,228,207,.4);padding:9px 12px 2px;text-transform:lowercase;}
+.st-rail-credit a{color:rgba(201,163,106,.72);text-decoration:none;}
+.st-rail-credit a:hover{color:rgba(201,163,106,.95);}
 .st-topbar{position:fixed;top:0;left:212px;right:0;height:52px;background:var(--st-room-bar,rgba(236,226,210,.9));backdrop-filter:blur(8px);border-bottom:1px solid rgba(33,28,25,.1);display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:55;}
 .st-top-class{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--st-nk);text-transform:lowercase;display:flex;align-items:center;gap:10px;min-width:0;}
 .st-top-class #st-top-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw;}
@@ -298,6 +301,7 @@ body{background:var(--st-room-bg,linear-gradient(180deg,#ece2d2 0%,#e2d4bd 60%,#
   <div class="st-rail-foot">
     <button class="st-rail-item" onclick="studioInstall()"><span class="st-rail-ico">&#8681;</span>install</button>
     <a class="st-rail-item" href="/"><span class="st-rail-ico">&#8592;</span>respira</a>
+    <div class="st-rail-credit">by <a href="https://www.wearehappysunday.org" target="_blank" rel="noopener">happy sunday</a>, a <a href="https://www.thebirthrightproject.org" target="_blank" rel="noopener">birthright</a> venture</div>
   </div>
 </aside>
 <div class="st-topbar">

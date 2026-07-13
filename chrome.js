@@ -42,7 +42,10 @@
 
   /* ── footer (respira · by happy sunday / birthright) — only if the page has none ── */
   function injectFooter(){
-    if(D.querySelector('#respira-footer, footer, .site-footer')) return;
+    // skip pages that already have a footer, and app-shell pages (rooms/studio)
+    // whose fixed rail + view-switching layout makes an appended footer float awkwardly —
+    // those carry their own rail navigation instead.
+    if(D.querySelector('#respira-footer, footer, .site-footer, .rail, .st-rail, #door')) return;
     var pill = 'font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.78);background:none;border:1px solid rgba(201,163,106,.3);border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;';
     function link(href,label){ return '<a href="'+href+'" style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.7);text-decoration:none;white-space:nowrap;">'+label+'</a>'; }
     var f = D.createElement('footer'); f.id = 'respira-footer';
