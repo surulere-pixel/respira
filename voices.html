@@ -72,6 +72,8 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
 .lv-script{width:100%;display:block;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.12rem;color:rgba(244,236,224,.92);line-height:1.7;background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.22);border-left:2px solid rgba(201,163,106,.5);border-radius:10px;padding:16px 18px;transition:opacity .25s ease;text-align:left;outline:none;resize:vertical;min-height:120px;}
 .lv-script:focus{border-color:rgba(201,163,106,.5);}
 .lend-hint{font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:7.5px;letter-spacing:.04em;color:rgba(240,228,207,.4);text-transform:none;}
+.lv-dialect{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.03em;line-height:1.75;color:rgba(201,163,106,.72);background:rgba(201,163,106,.07);border:1px solid rgba(201,163,106,.18);border-radius:10px;padding:10px 13px;margin-top:9px;text-transform:lowercase;}
+.lv-dialect em{font-style:italic;color:rgba(201,163,106,.95);}
 .lv-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .lv-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:11px 20px;border-radius:999px;border:1px solid rgba(201,163,106,.45);background:transparent;color:#f0e4cf;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .lv-btn:hover{border-color:rgba(201,163,106,.75);}
@@ -140,8 +142,9 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
         <div class="lend-slab">1 &middot; choose your language</div>
         <select id="lv-lang" class="lv-select" onchange="lvLang()"></select>
         <input type="text" id="lv-otherlang" class="lv-email" placeholder="name your language (e.g. tshiluba, ewe, tigrinya, hmong…)" style="display:none;margin-top:10px;">
-        <div class="lend-slab">2 &middot; read this aloud <span class="lend-hint">— tweak the wording if you&rsquo;d say it more naturally</span></div>
+        <div class="lend-slab">2 &middot; read this aloud <span class="lend-hint">— edit it first if you&rsquo;d say it differently</span></div>
         <textarea id="lv-script" class="lv-script" rows="6" spellcheck="false"></textarea>
+        <div class="lv-dialect">&#9662; a community starting point. languages &amp; dialects differ &mdash; change the words, spelling or numbers so it sounds like <em>home</em>, then read it in your own voice. you&rsquo;re the expert here.</div>
         <div class="lend-slab">3 &middot; record</div>
         <div class="lv-controls"><button id="lv-rec" class="lv-btn" onclick="lvToggle()">&#9679; record</button><audio id="lv-audio" class="lv-audio" controls style="display:none;"></audio></div>
         <div class="lv-meter"><div class="lv-bar" id="lv-bar"></div></div>
