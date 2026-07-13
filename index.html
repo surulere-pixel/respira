@@ -297,14 +297,14 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 #door{position:fixed;inset:0;z-index:9998;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .8s ease;}
 #door.open{opacity:1;pointer-events:auto;}
 #door.closing{opacity:0;pointer-events:none;transition:opacity .7s ease;}
-.door-top{flex:none;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:14px;padding:0 clamp(14px,3vw,28px);height:48px;box-shadow:0 4px 16px rgba(30,20,12,.15);z-index:5;}
-.door-brand{position:relative;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.4rem;line-height:1;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}
+.door-top{flex:none;background:linear-gradient(180deg,#2a1f18,#221a12);display:flex;flex-direction:row;align-items:center;justify-content:center;gap:14px;padding:0 clamp(14px,3vw,28px);height:48px;box-shadow:0 4px 16px rgba(30,20,12,.15);z-index:5;position:relative;}
+.door-brand{position:relative;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:1.6rem;line-height:1;color:#f0e4cf;text-decoration:none;letter-spacing:.01em;}
 .door-brand em{font-style:italic;color:#c9a36a;}
 .door-beta{font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a36a;vertical-align:super;margin-left:4px;opacity:.9;}
 .door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
-.door-right{display:flex;align-items:center;gap:8px;}
+.door-right{position:absolute;right:clamp(14px,3vw,28px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;}
 .door-menu-wrap{position:relative;display:inline-flex;}
 .door-roomsbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;}
 .door-caret{font-size:8px;line-height:1;transition:transform .18s ease;opacity:.8;}
@@ -373,9 +373,11 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   .door-sub{font-size:9px;}
   .door-cta{display:none;}
   .door-hint{display:none;}
-  .door-top{padding:0 12px;height:44px;gap:10px;}
+  .door-top{padding:0 12px;height:44px;gap:8px;justify-content:space-between;}
   .door-brand{font-size:1.2rem;}
+  .door-beta{display:none;}
   .door-pill{font-size:8px;padding:5px 10px;}
+  .door-right{position:static;transform:none;gap:5px;}
 }
 @media(prefers-reduced-motion:reduce){.door-half,.door-orb{transition:none;animation:none;}}
 .opening-orb{
@@ -1108,7 +1110,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
 <!-- the door = home · mocha header (logo + pills) over four room panels -->
 <div id="door">
   <header class="door-top">
-    <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em></a>
+    <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em><sup class="door-beta">beta v2</sup></a>
     <div class="door-right">
       <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
       <div class="door-menu-wrap">
