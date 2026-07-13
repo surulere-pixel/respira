@@ -327,8 +327,6 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .door-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:lowercase;color:rgba(240,228,207,.82);background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);border-radius:999px;padding:7px 16px;cursor:pointer;text-decoration:none;transition:all .15s;}
 .door-pill:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}
-.door-pill-give{background:rgba(201,163,106,.92);border-color:transparent;color:#241c18;}
-.door-pill-give:hover{background:#dcb87c;color:#241c18;}
 .door-panels{position:relative;flex:1;min-height:0;display:flex;}
 .door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;text-decoration:none;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
 .door-half:last-of-type{border-right:none;}
@@ -384,8 +382,9 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
   .door-sub{font-size:9px;}
   .door-cta{display:none;}
   .door-hint{display:none;}
-  .door-top{padding:12px 16px 14px;gap:9px;}
+  .door-top{padding:14px 16px 16px;gap:16px;}
   .door-brand{font-size:1.5rem;}
+  .door-nav{gap:7px;}
 }
 @media(prefers-reduced-motion:reduce){.door-half,.door-orb{transition:none;animation:none;}}
 .opening-orb{
@@ -1136,7 +1135,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
       <a class="door-pill" href="/voices">voices</a>
       <a class="door-pill" href="/shelf">shelf</a>
       <button class="door-pill" onclick="respiraShare('site')">share</button>
-      <a class="door-pill door-pill-give" href="/support">give</a>
+      <a class="door-pill" href="/support">give</a>
     </nav>
   </header>
   <div class="door-panels">
