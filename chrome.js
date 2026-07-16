@@ -66,8 +66,11 @@
       + '#respira-header .rh-play-btn:hover{background:#dcb87c;transform:scale(1.06);}'
       + '#respira-header .rh-play-btn.is-playing{background:rgba(240,228,207,.16);color:#f0e4cf;box-shadow:0 0 0 2px rgba(201,163,106,.5);animation:rhPulse 2.4s ease-in-out infinite;}'
       + '@keyframes rhPulse{0%,100%{box-shadow:0 0 0 2px rgba(201,163,106,.5);}50%{box-shadow:0 0 0 5px rgba(201,163,106,.25);}}'
+      + '#respira-header .rh-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.32);color:rgba(240,228,207,.82);cursor:pointer;padding:0;transition:all .15s;}'
+      + '#respira-header .rh-icon-btn svg{display:block;}'
+      + '#respira-header .rh-icon-btn:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}'
       + '#respira-header .rh-nowplaying{position:absolute;right:clamp(58px,10vw,88px);top:calc(100% + 6px);font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.06em;text-transform:lowercase;color:rgba(201,163,106,.72);white-space:nowrap;pointer-events:none;max-width:40vw;overflow:hidden;text-overflow:ellipsis;}'
-      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}#respira-header .rh-play-btn{width:26px;height:26px;margin-left:3px;}#respira-header .rh-nowplaying{display:none;}}';
+      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}#respira-header .rh-play-btn,#respira-header .rh-icon-btn{width:26px;height:26px;margin-left:3px;}#respira-header .rh-nowplaying{display:none;}}';
     D.head.appendChild(st);
 
     var h = D.createElement('header');
@@ -76,14 +79,14 @@
       '<a href="/" class="rh-brand">res<em>pira</em><sup class="rh-beta">beta v2</sup></a>'
       + '<div class="rh-right">'
       +   '<div id="rh-wrap" style="position:relative;display:inline-flex;">'
-      +     '<button id="rhBtn" class="rh-pill rh-gold" onclick="rhToggle()" aria-haspopup="true" aria-expanded="false">rooms <span class="rh-caret">&#9662;</span></button>'
+      +     '<button id="rhBtn" class="rh-pill rh-gold" onclick="rhToggle()" aria-haspopup="true" aria-expanded="false">visit rooms <span class="rh-caret">&#9662;</span></button>'
       +     '<div id="rhMenu" class="rh-menu" hidden>'
       +       _rhLink('/','breathe') + _rhLink('/#flow','flow') + _rhLink('/radio','radio') + _rhLink('/voices','voices') + _rhLink('/shelf','shelf') + _rhLink('/studio','studio') + _rhLink('/about','about') + _rhLink('/support','give')
       +     '</div>'
       +   '</div>'
-      +   '<button class="rh-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>'
-      +   '<button class="rh-pill" onclick="respiraChromeShare()" aria-label="share respira">&#8599; share</button>'
       +   '<button class="rh-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio">'+_playIcon()+'</button>'
+      +   '<button class="rh-icon-btn" onclick="respiraInstall()" aria-label="install respira" title="install">&#8681;</button>'
+      +   '<button class="rh-icon-btn" onclick="respiraChromeShare()" aria-label="share respira" title="share">&#8599;</button>'
       + '</div>'
       + '<span class="rh-nowplaying"></span>';
 

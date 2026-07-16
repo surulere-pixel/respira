@@ -44,13 +44,31 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
 .v-lede{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.03em;line-height:1.9;color:#6b4d42;margin:1rem 0 0;max-width:54ch;text-transform:lowercase;}
 .v-lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:lowercase;color:#8a6558;margin:2.4rem 0 1rem;}
 /* guide cards */
-.guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
-.gcard{display:flex;flex-direction:column;background:linear-gradient(158deg,#2b211a 0%,#1a130f 100%);border:1px solid rgba(201,163,106,.2);border-radius:20px;padding:20px;box-shadow:0 20px 44px rgba(40,20,12,.24);}
+.guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));grid-auto-rows:190px;grid-auto-flow:dense;gap:16px;}
+.gcard{position:relative;display:flex;flex-direction:column;background:linear-gradient(158deg,#2b211a 0%,#1a130f 100%);border:1px solid rgba(201,163,106,.2);border-radius:20px;padding:18px;box-shadow:0 20px 44px rgba(40,20,12,.24);transition:transform .18s ease,box-shadow .18s ease;overflow:hidden;}
+.gcard-featured{grid-row:span 2;}
+.gcard:not(.gcard-featured) .gtags,.gcard:not(.gcard-featured) .gbook{display:none;}
+.gcard:not(.gcard-featured) .grole{margin-top:auto;}
+.gcard:hover{transform:translateY(-5px)!important;box-shadow:0 30px 60px rgba(40,20,12,.34);animation-play-state:paused;}
+@media(prefers-reduced-motion:no-preference){
+  .gcard{animation:gCardDrift 7.6s ease-in-out infinite;will-change:transform;}
+  .gcard:nth-child(2){animation-duration:8.3s;animation-delay:-2.2s;}
+  .gcard:nth-child(3){animation-duration:6.7s;animation-delay:-4.3s;}
+  .gcard:nth-child(4){animation-duration:7.8s;animation-delay:-1.1s;}
+  .gcard:nth-child(5){animation-duration:8.6s;animation-delay:-3.6s;}
+  .gcard:nth-child(6){animation-duration:7.2s;animation-delay:-5.4s;}
+}
+@keyframes gCardDrift{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 .gtop{display:flex;gap:14px;align-items:center;}
-.gportrait{width:60px;height:60px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0;box-shadow:0 0 0 1px rgba(201,163,106,.3);}
+.gportrait{position:relative;width:60px;height:60px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0;box-shadow:0 0 0 1px rgba(201,163,106,.3);}
+.gbadge{position:absolute;top:12px;right:12px;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:.75rem;line-height:1;color:#f0e4cf;background:linear-gradient(160deg,#3a2a1c,#1a110a);border:1px solid rgba(201,163,106,.55);border-radius:999px;padding:5px 10px;letter-spacing:.01em;box-shadow:0 4px 10px rgba(0,0,0,.35);white-space:nowrap;}
+.gbadge em{font-style:italic;color:#c9a36a;}
+.gcard-featured{border-color:rgba(201,163,106,.45);box-shadow:0 20px 44px rgba(40,20,12,.24),0 0 0 1px rgba(201,163,106,.18);}
+.gcard-featured .gportrait{box-shadow:0 0 0 2px rgba(201,163,106,.55);}
 .gname{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:400;color:#f4ead6;line-height:1.05;}
 .gloc{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.06em;color:rgba(240,228,207,.55);margin-top:4px;text-transform:lowercase;}
 .grole{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.04em;color:rgba(201,163,106,.85);margin-top:12px;text-transform:lowercase;line-height:1.6;}
+.gcaps{text-transform:uppercase!important;}
 .gtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
 .gtag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.05em;text-transform:lowercase;color:rgba(240,228,207,.72);background:rgba(255,250,242,.06);border:1px solid rgba(201,163,106,.2);border-radius:999px;padding:5px 10px;}
 .gbook{display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:lowercase;color:#211a13;background:rgba(201,163,106,.95);border-radius:999px;padding:9px 16px;text-decoration:none;align-self:flex-start;transition:background .15s;}
@@ -80,7 +98,7 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
 .lv-select option{background:#211a15;color:#f0e4cf;}
 .lv-select:focus,.lv-email:focus{border-color:rgba(201,163,106,.6);}
 .lv-email::placeholder{color:rgba(240,228,207,.4);}
-.lv-script{width:100%;display:block;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.12rem;color:rgba(244,236,224,.92);line-height:1.7;background:rgba(255,250,242,.05);border:1px solid rgba(201,163,106,.22);border-left:2px solid rgba(201,163,106,.5);border-radius:10px;padding:16px 18px;transition:opacity .25s ease;text-align:left;outline:none;resize:vertical;min-height:120px;}
+.lv-script{width:100%;display:block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif !important;font-style:normal !important;font-weight:400;font-size:16px;color:#f4ead6;line-height:1.7;background:rgba(255,250,242,.06);border:1px solid rgba(201,163,106,.22);border-radius:10px;padding:16px 18px;text-align:left;outline:none;resize:vertical;min-height:130px;letter-spacing:0;}
 .lv-script:focus{border-color:rgba(201,163,106,.5);}
 .lend-hint{font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:7.5px;letter-spacing:.04em;color:rgba(240,228,207,.4);text-transform:none;}
 .lv-dialect{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.03em;line-height:1.75;color:rgba(201,163,106,.72);background:rgba(201,163,106,.07);border:1px solid rgba(201,163,106,.18);border-radius:10px;padding:10px 13px;margin-top:9px;text-transform:lowercase;}
@@ -109,6 +127,25 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
   .rail-nav{flex-direction:row;gap:2px;flex:1;justify-content:space-around;align-items:center;}
   .rail-item{flex-direction:column;gap:3px;font-size:7.5px;padding:7px 4px;width:auto;text-align:center;}
   .topbar{left:0;}
+  /* compact guide cards — no fixed masonry heights, no drift animation, tight rows */
+  .guides{grid-template-columns:1fr;grid-auto-rows:auto;gap:8px;}
+  .gcard,.gcard-featured{grid-row:auto;animation:none!important;transform:none!important;}
+  .gcard{padding:12px 14px;border-radius:14px;}
+  .gcard:hover{transform:none!important;box-shadow:0 20px 44px rgba(40,20,12,.24);}
+  .gtop{gap:10px;}
+  .gportrait{width:46px;height:46px;}
+  .gname{font-size:1.05rem;}
+  .gcard:not(.gcard-featured) .grole{margin-top:8px;}
+  .gcard:not(.gcard-featured) .gtags,.gcard:not(.gcard-featured) .gbook{display:flex;}
+  .grole{margin-top:8px;}
+  .gtags{margin-top:7px;gap:4px;}
+  .gtag{padding:4px 8px;}
+  .gbook{margin-top:8px;padding:7px 14px;}
+  .gbadge{padding:4px 9px;font-size:.68rem;top:9px;right:9px;}
+  /* tighten the lede + recorder block so the recording controls land sooner */
+  .v-lede{margin-top:.6rem;}
+  .v-lab{margin:1.6rem 0 .8rem;}
+  .lend{margin-top:0;}
 }
 </style>
 </head>
@@ -134,11 +171,8 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
 
 <div class="wrap">
   <div class="v-eye">respira voices</div>
-  <h1 class="v-h1">the voices who<br><em>hold the room.</em></h1>
+  <h1 class="v-h1">join the voices who<br><em>hold the room.</em></h1>
   <p class="v-lede">the guides who steady the breath, and the mother tongues that teach the room to speak. book a session, or lend your own voice.</p>
-
-  <div class="v-lab">the guides</div>
-  <div class="guides" id="guides"></div>
 
   <div class="v-lab">contribute</div>
   <div class="lend">
@@ -169,14 +203,20 @@ body{font-family:'Cormorant Garamond',Georgia,serif;background:linear-gradient(1
       <div id="lv-thanks" class="lv-thanks">thank you &mdash; your voice is on its way. we&rsquo;ll send it to you before anything goes live, and you&rsquo;ll be credited.</div>
     </div>
   </div>
+
+  <div class="v-lab">the guides</div>
+  <div class="guides" id="guides"></div>
 </div>
 <div id="toast"></div>
 
 <script>
 var GUIDES=[
-  {name:'simone floyd',location:'johannesburg, south africa',role:'voice of respira · entrepreneur in residence',langs:['english','español','kiswahili','français'],services:['breathwork','bodywork','language instruction','voice actor'],book:'',portrait:'https://raw.githubusercontent.com/surulere-pixel/respira/main/guides/simone.jpg'},
-  {name:'ade ajayi',location:'toronto, canada',role:'builder · philanthropist',langs:['english','yorùbá'],services:[],book:'',portrait:'https://raw.githubusercontent.com/surulere-pixel/respira/main/guides/ade.jpg'},
-  {name:'ola heavens',location:'abuja, nigeria',role:'community builder · entrepreneur · coach',langs:['english','yorùbá'],services:['counseling','public speaking'],book:'',portrait:'https://raw.githubusercontent.com/surulere-pixel/respira/main/guides/ola.jpg'}
+  {name:'simone floyd',location:'johannesburg, south africa',role:['<span class="gcaps">entrepreneur in residence, respira</span>','health educator · neuromuscular therapist · wellness guide'],langs:['english','español','kiswahili','français'],services:['breathwork','bodywork','language instruction','voice actor'],book:'',portrait:'/guides/simone.jpg',featured:true},
+  {name:'ade ajayi',location:'toronto, canada',role:'venture builder · philanthropist',langs:['english','yorùbá'],services:[],book:'',portrait:'/guides/ade.jpg'},
+  {name:'ola heavens',location:'abuja, nigeria',role:'community builder · entrepreneur · coach',langs:['english','yorùbá'],services:[],book:'',portrait:'/guides/ola.jpg'},
+  {name:'yinka omolade',location:'calgary, canada',role:'engineer · designer · advisor',langs:['english','yorùbá'],services:[],book:'',portrait:'/guides/yinka.jpg'},
+  {name:'aliyya suraleigh',location:"st. john's, antigua + charlotte, nc",role:'scientist · dreamer',langs:['english'],services:[],book:'',portrait:'/guides/aliyya.jpg'},
+  {name:'earl osuagwu, m.d.',location:'houston, texas',role:'engineer · doctor · coach',langs:['english'],services:[],book:'',portrait:'/guides/earl.jpg'}
 ];
 function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function card(g){
@@ -184,9 +224,10 @@ function card(g){
   var book='';
   if(g.services&&g.services.length){ book = g.book ? '<a class="gbook" href="'+esc(g.book)+'" target="_blank" rel="noopener">book a session &rarr;</a>' : '<span class="gbook gbook-soon">booking soon</span>'; }
   var pc=g.portrait?'background-image:url(\''+esc(g.portrait)+'\')':'background:linear-gradient(145deg,#4a2f1a,#22140a)';
-  return '<div class="gcard"><div class="gtop"><div class="gportrait" style="'+pc+'"></div>'
+  var badge=g.featured?'<div class="gbadge" title="voice of respira">res<em>pira</em></div>':'';
+  return '<div class="gcard'+(g.featured?' gcard-featured':'')+'">'+badge+'<div class="gtop"><div class="gportrait" style="'+pc+'"></div>'
     +'<div><div class="gname">'+esc(g.name)+'</div><div class="gloc">'+esc(g.location)+'</div></div></div>'
-    +'<div class="grole">'+esc(g.role)+'</div><div class="gtags">'+langs+'</div>'+book+'</div>';
+    +'<div class="grole">'+(Array.isArray(g.role)?g.role.join('<br>'):esc(g.role))+'</div><div class="gtags">'+langs+'</div>'+book+'</div>';
 }
 document.getElementById('guides').innerHTML=GUIDES.map(card).join('');
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(window._tt);window._tt=setTimeout(function(){t.classList.remove('on');},2400);}
@@ -311,5 +352,5 @@ function lvSubmit(){
   if(sel){ sel.innerHTML=Object.keys(LV_SCRIPTS).map(function(k){return '<option value="'+k+'">'+k+'</option>';}).join('')+'<option value="other">＋ other — add your own language</option>'; lvLang(); }
 })();
 </script>
-<script src="/chrome.js?v=9" defer></script>
+<script src="/chrome.js?v=11" defer></script>
 </body></html>
