@@ -1074,7 +1074,7 @@ body{transition:background-color .7s ease;}
     <a href="/" class="nav-logo" aria-label="respira · home">res<em>pira</em><sup style="font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a36a;vertical-align:super;margin-left:4px;opacity:.9;">beta v2</sup></a>
     <div class="nav-links">
       <div class="nav-menu-wrap" style="position:relative;display:inline-flex;">
-        <button class="nav-pill nav-pill-gold" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;">rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;">&#9662;</span></button>
+        <button class="nav-pill nav-pill-gold" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;">visit rooms <span style="font-size:8px;opacity:.8;transition:transform .18s;">&#9662;</span></button>
         <div class="nav-menu" id="navMenu" role="menu" hidden>
           <a href="/about" role="menuitem">about</a>
           <a href="/radio" role="menuitem">radio</a>
@@ -1084,9 +1084,17 @@ body{transition:background-color .7s ease;}
           <a href="/support" role="menuitem">give</a>
         </div>
       </div>
-      <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
-      <button class="nav-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
       <button class="door-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></button>
+      <div class="nav-menu-wrap" style="position:relative;display:inline-flex;">
+        <button class="nav-pill nav-pill-gold" id="navLangBtn" onclick="toggleNavLangMenu(event)" aria-haspopup="true" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;"><span class="rh-lang-cur">EN</span> <span style="font-size:8px;opacity:.8;">&#9662;</span></button>
+        <div class="nav-menu" id="navLangMenu" role="menu" hidden>
+          <a href="#" data-lang="en" role="menuitem" onclick="respiraSetLang('en');return false;">english</a>
+          <a href="#" data-lang="es" role="menuitem" onclick="respiraSetLang('es');return false;">español</a>
+          <a href="#" data-lang="sw" role="menuitem" onclick="respiraSetLang('sw');return false;">kiswahili</a>
+        </div>
+      </div>
+      <button class="nav-pill" onclick="respiraInstall()" aria-label="install respira" title="install">&#8681;</button>
+      <button class="nav-pill" onclick="respiraShare('site')" aria-label="share respira" title="share">&#8599;</button>
     </div>
   </div>
 </nav>
@@ -1099,9 +1107,15 @@ body{transition:background-color .7s ease;}
 <script>
 function toggleNavMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(!m||!b) return; if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
 function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m) m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); }
+function toggleNavLangMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('navLangMenu'),b=document.getElementById('navLangBtn'); if(!m||!b) return; if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
+function toggleDoorLangMenu(e){ if(e){e.stopPropagation();} var m=document.getElementById('doorLangMenu'),b=document.getElementById('doorLangBtn'); if(!m||!b) return; if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); } else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); } }
 (function(){
-  function close(){ var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); } }
-  document.addEventListener('click',function(e){ if(!(e.target.closest&&e.target.closest('.nav-menu-wrap'))) close(); });
+  function close(){
+    var m=document.getElementById('navMenu'),b=document.getElementById('navMenuBtn'); if(m&&!m.hasAttribute('hidden')){ m.setAttribute('hidden',''); if(b) b.setAttribute('aria-expanded','false'); }
+    var lm=document.getElementById('navLangMenu'),lb=document.getElementById('navLangBtn'); if(lm&&!lm.hasAttribute('hidden')){ lm.setAttribute('hidden',''); if(lb) lb.setAttribute('aria-expanded','false'); }
+    var dm=document.getElementById('doorLangMenu'),db=document.getElementById('doorLangBtn'); if(dm&&!dm.hasAttribute('hidden')){ dm.setAttribute('hidden',''); if(db) db.setAttribute('aria-expanded','false'); }
+  }
+  document.addEventListener('click',function(e){ if(!(e.target.closest&&(e.target.closest('.nav-menu-wrap')||e.target.closest('.door-menu-wrap')))) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
 })();
 </script>
@@ -1123,7 +1137,7 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
     <a class="door-brand" href="/" aria-label="respira · home">res<em>pira</em><sup class="door-beta">beta v2</sup></a>
     <div class="door-right">
       <div class="door-menu-wrap">
-        <button class="door-pill door-pill-gold door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">rooms <span class="door-caret">&#9662;</span></button>
+        <button class="door-pill door-pill-gold door-roomsbtn" id="doorRoomsBtn" onclick="doorRoomsToggle(event)" aria-haspopup="true" aria-expanded="false" aria-controls="doorMenu">visit rooms <span class="door-caret">&#9662;</span></button>
         <div class="door-menu" id="doorMenu" role="menu" hidden>
           <a href="/about" role="menuitem">about</a>
           <a href="/radio" role="menuitem">radio</a>
@@ -1133,9 +1147,17 @@ function closeNavMenu(){ var m=document.getElementById('navMenu'),b=document.get
           <a href="/support" role="menuitem">give</a>
         </div>
       </div>
-      <button class="door-pill" onclick="respiraInstall()" aria-label="install respira">&#8681; install</button>
-      <button class="door-pill" onclick="respiraShare('site')" aria-label="share respira">&#8599; share</button>
       <button class="door-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></button>
+      <div class="door-menu-wrap">
+        <button class="door-pill door-pill-gold" id="doorLangBtn" onclick="toggleDoorLangMenu(event)" aria-haspopup="true" aria-expanded="false"><span class="door-lang-cur">EN</span> <span class="door-caret">&#9662;</span></button>
+        <div class="door-menu" id="doorLangMenu" role="menu" hidden>
+          <a href="#" data-lang="en" role="menuitem" onclick="respiraSetLang('en');return false;">english</a>
+          <a href="#" data-lang="es" role="menuitem" onclick="respiraSetLang('es');return false;">español</a>
+          <a href="#" data-lang="sw" role="menuitem" onclick="respiraSetLang('sw');return false;">kiswahili</a>
+        </div>
+      </div>
+      <button class="door-pill" onclick="respiraInstall()" aria-label="install respira" title="install">&#8681;</button>
+      <button class="door-pill" onclick="respiraShare('site')" aria-label="share respira" title="share">&#8599;</button>
     </div>
   </header>
   <div class="door-panels">
@@ -5083,6 +5105,7 @@ function respiraShareFallback(d){
   render();
 })();
 </script>
+<script src="/i18n.js?v=4" defer></script>
 <script src="/chrome.js?v=11" defer></script>
 </body>
 </html>

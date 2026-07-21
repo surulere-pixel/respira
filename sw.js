@@ -6,7 +6,7 @@
    assets        → cache first, refreshed in background
    ══════════════════════════════════════════════════════════ */
 
-const CACHE = 'respira-v9';
+const CACHE = 'respira-v10';
 
 const PRECACHE = [
   '/',

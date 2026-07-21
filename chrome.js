@@ -70,7 +70,7 @@
       + '#respira-header .rh-icon-btn svg{display:block;}'
       + '#respira-header .rh-icon-btn:hover{background:rgba(201,163,106,.16);border-color:rgba(201,163,106,.62);color:#f7efdd;}'
       + '#respira-header .rh-nowplaying{position:absolute;right:clamp(58px,10vw,88px);top:calc(100% + 6px);font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.06em;text-transform:lowercase;color:rgba(201,163,106,.72);white-space:nowrap;pointer-events:none;max-width:40vw;overflow:hidden;text-overflow:ellipsis;}'
-      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{display:none;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}#respira-header .rh-play-btn,#respira-header .rh-icon-btn{width:26px;height:26px;margin-left:3px;}#respira-header .rh-nowplaying{display:none;}}';
+      + '@media(max-width:640px){#respira-header{justify-content:space-between;padding:0 12px;height:44px;}#respira-header .rh-brand{font-size:1.2rem;}#respira-header .rh-beta{font-size:5.5px;margin-left:2px;}#respira-header .rh-right{position:static;transform:none;gap:5px;}#respira-header .rh-pill{font-size:8px;padding:5px 10px;}#respira-header .rh-play-btn,#respira-header .rh-icon-btn{width:26px;height:26px;margin-left:3px;}#respira-header .rh-nowplaying{display:none;}}';
     D.head.appendChild(st);
 
     var h = D.createElement('header');
@@ -79,12 +79,20 @@
       '<a href="/" class="rh-brand">res<em>pira</em><sup class="rh-beta">beta v2</sup></a>'
       + '<div class="rh-right">'
       +   '<div id="rh-wrap" style="position:relative;display:inline-flex;">'
-      +     '<button id="rhBtn" class="rh-pill rh-gold" onclick="rhToggle()" aria-haspopup="true" aria-expanded="false">visit rooms <span class="rh-caret">&#9662;</span></button>'
+      +     '<button id="rhBtn" class="rh-pill rh-gold" onclick="rhToggle()" aria-haspopup="true" aria-expanded="false"><span data-i18n="visit rooms">visit rooms</span> <span class="rh-caret">&#9662;</span></button>'
       +     '<div id="rhMenu" class="rh-menu" hidden>'
       +       _rhLink('/','breathe') + _rhLink('/#flow','flow') + _rhLink('/radio','radio') + _rhLink('/voices','voices') + _rhLink('/shelf','shelf') + _rhLink('/studio','studio') + _rhLink('/about','about') + _rhLink('/support','give')
       +     '</div>'
       +   '</div>'
       +   '<button class="rh-play-btn" onclick="respiraNavPlay()" aria-label="play respira radio">'+_playIcon()+'</button>'
+      +   '<div id="rh-lang-wrap" style="position:relative;display:inline-flex;">'
+      +     '<button id="rhLangBtn" class="rh-pill rh-gold rh-lang-btn" onclick="rhLangToggle()" aria-haspopup="true" aria-expanded="false"><span class="rh-lang-cur">EN</span> <span class="rh-caret">&#9662;</span></button>'
+      +     '<div id="rhLangMenu" class="rh-menu" hidden>'
+      +       '<a href="#" data-lang="en" onclick="respiraSetLang(\'en\');return false;">english</a>'
+      +       '<a href="#" data-lang="es" onclick="respiraSetLang(\'es\');return false;">español</a>'
+      +       '<a href="#" data-lang="sw" onclick="respiraSetLang(\'sw\');return false;">kiswahili</a>'
+      +     '</div>'
+      +   '</div>'
       +   '<button class="rh-icon-btn" onclick="respiraInstall()" aria-label="install respira" title="install">&#8681;</button>'
       +   '<button class="rh-icon-btn" onclick="respiraChromeShare()" aria-label="share respira" title="share">&#8599;</button>'
       + '</div>'
@@ -106,7 +114,7 @@
     D.body.insertBefore(h, D.body.firstChild);
   }
 
-  function _rhLink(href,label){ return '<a href="'+href+'">'+label+'</a>'; }
+  function _rhLink(href,label){ return '<a href="'+href+'" data-i18n="'+label+'">'+label+'</a>'; }
 
   window.rhToggle = function(){
     var m = D.getElementById('rhMenu'), b = D.getElementById('rhBtn');
@@ -114,7 +122,16 @@
     if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); }
     else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); }
   };
-  D.addEventListener('click', function(e){ if(!(e.target.closest && e.target.closest('#rh-wrap'))){ var m=D.getElementById('rhMenu'),b=D.getElementById('rhBtn'); if(m&&!m.hasAttribute('hidden')){m.setAttribute('hidden','');if(b)b.setAttribute('aria-expanded','false');} } });
+  window.rhLangToggle = function(){
+    var m = D.getElementById('rhLangMenu'), b = D.getElementById('rhLangBtn');
+    if(!m||!b) return;
+    if(m.hasAttribute('hidden')){ m.removeAttribute('hidden'); b.setAttribute('aria-expanded','true'); }
+    else { m.setAttribute('hidden',''); b.setAttribute('aria-expanded','false'); }
+  };
+  D.addEventListener('click', function(e){
+    if(!(e.target.closest && e.target.closest('#rh-wrap'))){ var m=D.getElementById('rhMenu'),b=D.getElementById('rhBtn'); if(m&&!m.hasAttribute('hidden')){m.setAttribute('hidden','');if(b)b.setAttribute('aria-expanded','false');} }
+    if(!(e.target.closest && e.target.closest('#rh-lang-wrap'))){ var lm=D.getElementById('rhLangMenu'),lb=D.getElementById('rhLangBtn'); if(lm&&!lm.hasAttribute('hidden')){lm.setAttribute('hidden','');if(lb)lb.setAttribute('aria-expanded','false');} }
+  });
   D.addEventListener('keydown', function(e){ if(e.key==='Escape'){ var m=D.getElementById('rhMenu'),b=D.getElementById('rhBtn'); if(m&&!m.hasAttribute('hidden')){m.setAttribute('hidden','');if(b)b.setAttribute('aria-expanded','false');} } });
 
   /* ────────────────────────────────────────────────────────
@@ -325,7 +342,7 @@
   function injectFooter(){
     if(D.querySelector('#respira-footer, footer, .site-footer, .rail, .st-rail, #door')) return;
     var fpill = 'font-family:\'IBM Plex Mono\',monospace;font-size:9px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.78);background:none;border:1px solid rgba(201,163,106,.3);border-radius:999px;padding:7px 14px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;';
-    function link(href,label){ return '<a href="'+href+'" style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.7);text-decoration:none;white-space:nowrap;">'+label+'</a>'; }
+    function link(href,label){ return '<a href="'+href+'" data-i18n="'+label+'" style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.7);text-decoration:none;white-space:nowrap;">'+label+'</a>'; }
     var f = D.createElement('footer'); f.id = 'respira-footer';
     f.style.cssText = 'background:linear-gradient(180deg,#241a13,#150e07);color:rgba(240,228,207,.7);padding:24px clamp(18px,5vw,44px);border-top:1px solid rgba(201,163,106,.16);position:relative;z-index:40;';
     f.innerHTML =
@@ -335,9 +352,9 @@
       +    link('/','breathe') + link('/radio','radio') + link('/voices','voices') + link('/shelf','shelf') + link('/studio','studio') + link('/about','about')
       +  '</nav>'
       +  '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">'
-      +    '<button onclick="respiraInstall()" style="'+fpill+'">&#8681; install</button>'
-      +    '<button onclick="respiraChromeShare()" style="'+fpill+'">&#8599; share</button>'
-      +    '<a href="/support" style="'+fpill+'">give</a>'
+      +    '<button onclick="respiraInstall()" style="'+fpill+'" data-i18n="install">&#8681; install</button>'
+      +    '<button onclick="respiraChromeShare()" style="'+fpill+'" data-i18n="share">&#8599; share</button>'
+      +    '<a href="/support" style="'+fpill+'" data-i18n="give">give</a>'
       +  '</div>'
       + '</div>'
       + '<p style="max-width:1140px;margin:16px auto 0;font-family:\'IBM Plex Mono\',monospace;font-size:8.5px;letter-spacing:.05em;line-height:1.8;color:rgba(240,228,207,.5);text-transform:lowercase;">by <a href="https://www.wearehappysunday.org" target="_blank" rel="noopener" style="color:rgba(201,163,106,.85);text-decoration:none;">happy sunday</a> — the everyday-wellbeing collective of the <a href="https://www.thebirthrightproject.org" target="_blank" rel="noopener" style="color:rgba(201,163,106,.85);text-decoration:none;">birthright project</a>, building economic dignity across culture, care &amp; finance.</p>';
@@ -349,6 +366,10 @@
     injectFooter();
     npUpdateBtn();
     npAutoResume();
+    if(window.respiraSetLang && window.respiraLang){
+      var lang = window.respiraLang();
+      if(lang === 'es') window.respiraSetLang('es');
+    }
   }
   if(D.readyState === 'loading') D.addEventListener('DOMContentLoaded', init); else init();
 })();
