@@ -250,7 +250,7 @@ function playStation(cat){
 function playCur(){
   var t=queue[qi]; if(!t) return;
   if(audio){ try{audio.pause();}catch(e){} }
-  audio=new Audio(RADIO_BASE+t.file); audio.volume=vol;
+  audio=new Audio(/^https?:|^\//.test(t.file)?t.file:(RADIO_BASE+t.file)); audio.volume=vol;
   audio.addEventListener('ended', radioNext);
   audio.addEventListener('timeupdate', paintTime);
   audio.play().then(function(){ playing=true; paint(); }).catch(function(){ playing=false; paint(); });
@@ -258,7 +258,7 @@ function playCur(){
   document.getElementById('plSub').textContent=(catLabel(t.cat))+' · respira radio';
   renderTracks();
 }
-function catLabel(c){return c==='drift'?'drift':c==='groove'?'groove':c==='dust'?'dust':c;}
+function catLabel(c){if(c&&c.indexOf('album:')===0){return ALBUM_NAMES[c.slice(6)]||'album';}return c==='drift'?'drift':c==='groove'?'groove':c==='dust'?'dust':c;}
 function radioToggle(){
   if(!audio){ playStation(curCat||'all'); return; }
   if(playing){ audio.pause(); playing=false; } else { audio.play().catch(function(){}); playing=true; }
@@ -295,22 +295,37 @@ function radioShareTrack(){
   if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){toast('track link copied — pass it on');}).catch(function(){toast(url);}); } else toast(url);
 }
 renderStations();
-var COLLECTIONS=[
-  {slug:'rasta-savasana',name:'rasta savasana',desc:'reggae &amp; deep rest'},
-  {slug:'sazon-con-asana',name:'sazón con asana',desc:'latin heat, slow flow'},
-  {slug:'siddartha-in-soweto',name:'siddartha in soweto',desc:'township soul &amp; stillness'},
-  {slug:'slow-arrival',name:'slow arrival',desc:'ambient landings'},
-  {slug:'southern-fried-downdogs',name:'southern fried downdogs',desc:'gospel &amp; groove'}
-];
+// albums (formerly a hardcoded "coming soon" list) now come from the no-code
+// admin panel via /api/radio-catalog — live albums with tracks are real,
+// playable collections; anything else still shows as "coming soon".
+var ALBUMS=[], ALBUM_TRACKS={}, ALBUM_NAMES={};
 function renderCollections(){
   var el=document.getElementById('collections'); if(!el) return;
-  el.innerHTML=COLLECTIONS.map(function(c){
-    return '<button class="station soon" onclick="toast(\''+esc(c.name)+' — coming soon\')" aria-label="'+esc(c.name)+' — coming soon">'
-      +'<div class="station-cover" style="background:#2a1f18 url(\'/radio/collections/'+c.slug+'.jpg\') center/cover no-repeat;"><span class="soon-chip">soon</span></div>'
-      +'<div class="station-name">'+c.name+'</div><div class="station-desc">'+c.desc+'</div></button>';
+  el.innerHTML=ALBUMS.map(function(a){
+    var live=a.status==='live' && a.tracks && a.tracks.length;
+    var cover=a.cover?('url(\''+a.cover+'\') center/cover no-repeat'):'none';
+    if(live){
+      return '<button class="station" data-cat="album:'+a.id+'" onclick="playAlbum(\''+a.id+'\')">'
+        +'<div class="station-cover" style="background:#2a1f18 '+cover+';"><div class="station-eq"><span></span><span></span><span></span></div><div class="station-play">&#9655;</div></div>'
+        +'<div class="station-name">'+esc(a.name)+'</div><div class="station-desc">'+(a.description||'')+'</div></button>';
+    }
+    return '<button class="station soon" onclick="toast(\''+esc(a.name)+' — coming soon\')" aria-label="'+esc(a.name)+' — coming soon">'
+      +'<div class="station-cover" style="background:#2a1f18 '+cover+';"><span class="soon-chip">soon</span></div>'
+      +'<div class="station-name">'+esc(a.name)+'</div><div class="station-desc">'+(a.description||'')+'</div></button>';
   }).join('');
 }
-renderCollections();
+function playAlbum(id){
+  var tracks=ALBUM_TRACKS[id]; if(!tracks||!tracks.length) return;
+  curCat='album:'+id; queue=shuffle(tracks.slice()); qi=0; playCur(); renderTracks();
+}
+fetch('/api/radio-catalog').then(function(r){return r.json();}).then(function(d){
+  ALBUMS=(d&&d.albums)||[];
+  ALBUMS.forEach(function(a){
+    ALBUM_NAMES[a.id]=a.name;
+    ALBUM_TRACKS[a.id]=(a.tracks||[]).map(function(t){return {slug:t.id,name:t.name,file:t.file,cat:'album:'+a.id};});
+  });
+  renderCollections();
+}).catch(function(){ renderCollections(); });
 // deep-link: ?t=<slug> opens straight to that track · ?play=1 shuffles the whole station
 (function(){
   try{
@@ -328,5 +343,6 @@ renderCollections();
   }catch(e){}
 })();
 </script>
+<script src="/i18n.js?v=4" defer></script>
 <script src="/chrome.js?v=11" defer></script>
 </body></html>

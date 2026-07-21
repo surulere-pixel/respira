@@ -48,6 +48,31 @@ td.saved{color:var(--sage);font-size:9px;}
 .empty{padding:30px;text-align:center;color:var(--faint);font-family:var(--serif);font-style:italic;font-size:1.1rem;}
 a.wlink{color:var(--soft);text-decoration:none;}
 a.wlink:hover{color:var(--gold);}
+/* radio admin */
+.r-new{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:20px;}
+.r-new h3{font-family:var(--serif);font-weight:300;font-size:1.2rem;margin-bottom:12px;}
+.r-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.r-row input[type=text],.r-row textarea,.r-row select{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;outline:none;flex:1;min-width:160px;}
+.r-row input[type=text]:focus,.r-row textarea:focus,.r-row select:focus{border-color:var(--gold);}
+.r-row input[type=file]{font-family:var(--mono);font-size:9px;color:var(--soft);flex:1;min-width:160px;}
+.r-btn{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:lowercase;padding:9px 16px;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;white-space:nowrap;}
+.r-btn:hover{background:rgba(201,163,106,.14);}
+.r-btn.solid{background:var(--gold);color:#211a13;border-color:var(--gold);}
+.r-btn.danger{border-color:var(--clay);color:var(--clay);}
+.r-btn.danger:hover{background:rgba(201,101,74,.14);}
+.r-msg{font-size:9px;color:var(--sage);margin-top:4px;min-height:12px;}
+.r-msg.err{color:var(--clay);}
+.r-album{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;display:flex;gap:16px;}
+.r-cover{width:84px;height:84px;border-radius:10px;background:#2a1f18 center/cover no-repeat;flex-shrink:0;}
+.r-body{flex:1;min-width:0;}
+.r-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.r-name{font-family:var(--serif);font-size:1.15rem;color:var(--ink);}
+.r-status{font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid var(--line);color:var(--faint);}
+.r-status.live{color:var(--sage);border-color:var(--sage);}
+.r-tracks{margin:10px 0;display:flex;flex-direction:column;gap:5px;}
+.r-track{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--soft);background:var(--bg);border-radius:8px;padding:7px 10px;}
+.r-track button{font-family:var(--mono);font-size:9px;color:var(--clay);background:none;border:none;cursor:pointer;}
+.r-empty-tracks{font-size:9px;color:var(--faint);font-style:italic;padding:4px 0;}
 </style>
 </head>
 <body>
@@ -61,16 +86,18 @@ a.wlink:hover{color:var(--gold);}
 
 <div class="wrap" id="app" hidden>
   <div class="top">
-    <div><h1>respira <em>studio · admin</em></h1><div class="sub">room requests · open floor · directory</div></div>
+    <div><h1>respira <em>studio · admin</em></h1><div class="sub">room requests · open floor · directory · radio</div></div>
     <div style="display:flex;gap:16px;align-items:center;"><a class="back" href="/studio">← studio</a><a class="back" href="#" onclick="lock();return false;">lock</a></div>
   </div>
   <div class="tabs" id="tabs">
     <button class="tab on" data-res="rooms" onclick="switchTab('rooms',this)">room requests</button>
     <button class="tab" data-res="open_floor" onclick="switchTab('open_floor',this)">open floor</button>
     <button class="tab" data-res="directory" onclick="switchTab('directory',this)">directory</button>
+    <button class="tab" data-res="radio" onclick="switchTab('radio',this)">radio</button>
   </div>
   <div class="meta" id="meta"></div>
-  <div class="tbl-wrap"><table id="tbl"><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+  <div class="tbl-wrap" id="tblWrap"><table id="tbl"><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+  <div id="radioApp" hidden></div>
 </div>
 
 <script>
@@ -101,7 +128,12 @@ function unlock(){
   });
 }
 function lock(){ TOKEN=''; try{ sessionStorage.removeItem('respira_admin_token'); }catch(e){} document.getElementById('app').hidden=true; document.getElementById('gate').style.display='block'; document.getElementById('tok').value=''; }
-function switchTab(res,btn){ cur=res; [].forEach.call(document.querySelectorAll('.tab'),function(b){b.classList.toggle('on',b===btn);}); load(res); }
+function switchTab(res,btn){
+  cur=res; [].forEach.call(document.querySelectorAll('.tab'),function(b){b.classList.toggle('on',b===btn);});
+  document.getElementById('tblWrap').hidden = (res==='radio');
+  document.getElementById('radioApp').hidden = (res!=='radio');
+  if(res==='radio'){ loadRadio(); } else { load(res); }
+}
 function load(res, cb){
   fetch('/api/admin?resource='+res,{headers:{'x-admin-token':TOKEN}})
     .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,status:r.status,d:d}; }); })
@@ -111,6 +143,102 @@ function load(res, cb){
       render(res, x.d);
     })
     .catch(function(){ if(cb) cb(false); });
+}
+/* ── radio: albums + tracks (no-code upload panel) ── */
+function loadRadio(cb){
+  fetch('/api/admin/radio-albums',{headers:{'x-admin-token':TOKEN}})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,status:r.status,d:d}; }); })
+    .then(function(x){
+      if(!x.ok){ if(cb) cb(false); if(x.status===401&&!cb) lock(); return; }
+      if(cb) cb(true);
+      document.getElementById('meta').textContent=(x.d.count||0)+' albums';
+      renderRadio(x.d.albums||[]);
+    })
+    .catch(function(){ if(cb) cb(false); });
+}
+function radioForm(a){
+  var id=a?a.id:'';
+  return '<div class="r-album" data-id="'+esc(id)+'">'
+    +'<div class="r-cover" id="cov-'+esc(id||'new')+'" style="'+(a&&a.cover_key?"background-image:url('/media/"+esc(a.cover_key)+"')":(a&&a.cover_fallback?"background-image:url('"+esc(a.cover_fallback)+"')":''))+'"></div>'
+    +'<div class="r-body">'
+    +'<div class="r-head"><input type="text" class="rf-name" placeholder="album name" value="'+esc(a?a.name:'')+'" style="font-family:var(--serif);font-size:1.1rem;background:none;border:none;color:var(--ink);outline:none;flex:1;min-width:140px;">'
+    +(a?('<span class="r-status'+(a.status==='live'?' live':'')+'">'+esc(a.status)+'</span>'):'')+'</div>'
+    +'<div class="r-row"><textarea class="rf-desc" placeholder="description" rows="1" style="min-height:36px;">'+esc(a?a.description:'')+'</textarea></div>'
+    +'<div class="r-row">'
+    +'<select class="rf-status">'
+      +'<option value="coming_soon"'+(a&&a.status==='coming_soon'?' selected':'')+'>coming soon</option>'
+      +'<option value="live"'+(a&&a.status==='live'?' selected':'')+'>live</option>'
+    +'</select>'
+    +'<input type="file" class="rf-cover" accept="image/*">'
+    +'<button class="r-btn solid" onclick="saveAlbum(this,'+(a?("'"+esc(id)+"'"):'null')+')">'+(a?'save':'create album →')+'</button>'
+    +(a?'<button class="r-btn danger" onclick="deleteAlbum(\''+esc(id)+'\')">delete album</button>':'')
+    +'</div><div class="r-msg" id="msg-'+esc(id||'new')+'"></div>'
+    +(a?(
+      '<div class="r-tracks" id="tracks-'+esc(id)+'">'
+      +((a.tracks&&a.tracks.length)?a.tracks.map(function(t){
+        return '<div class="r-track"><span>'+esc(t.name)+'</span><button onclick="deleteTrack(\''+esc(t.id)+'\',\''+esc(id)+'\')">remove</button></div>';
+      }).join(''):'<div class="r-empty-tracks">no tracks yet.</div>')
+      +'</div>'
+      +'<div class="r-row">'
+        +'<input type="text" class="tf-name" placeholder="track name">'
+        +'<input type="file" class="tf-audio" accept="audio/*">'
+        +'<button class="r-btn" onclick="addTrack(this,\''+esc(id)+'\')">add track</button>'
+      +'</div><div class="r-msg" id="tmsg-'+esc(id)+'"></div>'
+    ):'')
+    +'</div></div>';
+}
+function renderRadio(albums){
+  var el=document.getElementById('radioApp');
+  el.innerHTML='<div class="r-new">'+radioForm(null)+'</div>'
+    + (albums.length ? albums.map(radioForm).join('') : '<div class="empty">no albums yet.</div>');
+}
+function albumFormData(card){
+  var fd=new FormData();
+  fd.append('name', card.querySelector('.rf-name').value.trim());
+  fd.append('description', card.querySelector('.rf-desc').value.trim());
+  fd.append('status', card.querySelector('.rf-status').value);
+  var f=card.querySelector('.rf-cover').files[0];
+  if(f) fd.append('cover', f);
+  return fd;
+}
+function saveAlbum(btn,id){
+  var card=btn.closest('.r-album'); var msg=document.getElementById('msg-'+(id||'new'));
+  var fd=albumFormData(card);
+  if(id) fd.append('id', id);
+  if(!fd.get('name')){ if(msg){msg.textContent='name it first.'; msg.className='r-msg err';} return; }
+  if(msg){ msg.textContent='saving…'; msg.className='r-msg'; }
+  fetch('/api/admin/radio-albums',{method:'POST',headers:{'x-admin-token':TOKEN},body:fd})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
+    .then(function(x){
+      if(!x.ok){ if(msg){msg.textContent=(x.d&&x.d.error)||'failed'; msg.className='r-msg err';} return; }
+      loadRadio();
+    })
+    .catch(function(){ if(msg){msg.textContent='error'; msg.className='r-msg err';} });
+}
+function deleteAlbum(id){
+  if(!confirm('delete this album and all its tracks?')) return;
+  fetch('/api/admin/radio-albums?id='+encodeURIComponent(id),{method:'DELETE',headers:{'x-admin-token':TOKEN}})
+    .then(function(){ loadRadio(); });
+}
+function addTrack(btn,albumId){
+  var card=btn.closest('.r-album'); var msg=document.getElementById('tmsg-'+albumId);
+  var name=card.querySelector('.tf-name').value.trim();
+  var file=card.querySelector('.tf-audio').files[0];
+  if(!name){ if(msg){msg.textContent='name the track first.'; msg.className='r-msg err';} return; }
+  if(!file){ if(msg){msg.textContent='choose an audio file.'; msg.className='r-msg err';} return; }
+  var fd=new FormData(); fd.append('album_id',albumId); fd.append('name',name); fd.append('audio',file);
+  if(msg){ msg.textContent='uploading…'; msg.className='r-msg'; }
+  fetch('/api/admin/radio-tracks',{method:'POST',headers:{'x-admin-token':TOKEN},body:fd})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
+    .then(function(x){
+      if(!x.ok){ if(msg){msg.textContent=(x.d&&x.d.error)||'failed'; msg.className='r-msg err';} return; }
+      loadRadio();
+    })
+    .catch(function(){ if(msg){msg.textContent='error'; msg.className='r-msg err';} });
+}
+function deleteTrack(id,albumId){
+  fetch('/api/admin/radio-tracks?id='+encodeURIComponent(id),{method:'DELETE',headers:{'x-admin-token':TOKEN}})
+    .then(function(){ loadRadio(); });
 }
 function render(res, data){
   var cols=COLS[res], statuses=data.statuses||[];
