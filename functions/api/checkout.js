@@ -93,7 +93,10 @@ export async function onRequestPost(context) {
     line_items: [],
     metadata: {},
   };
-  if (email) params.customer_email = email;
+  if (email) {
+    params.customer_email = email;
+    params.payment_intent_data = { receipt_email: email };
+  }
 
   // ── donation path ───────────────────────────────────────────────
   if (body.donation !== undefined) {
