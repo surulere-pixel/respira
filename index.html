@@ -328,15 +328,13 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-menu a,.door-menu button{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:lowercase;color:rgba(240,228,207,.82);background:none;border:none;text-align:left;text-decoration:none;padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .13s,color .13s;}
 .door-menu a:hover,.door-menu button:hover,.door-menu a:focus-visible,.door-menu button:focus-visible{background:rgba(201,163,106,.15);color:#f7efdd;outline:none;}
 .door-panels{position:relative;flex:1;min-height:0;display:flex;}
-.door-half{position:relative;flex:1 1 25%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;text-decoration:none;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
+.door-half{position:relative;flex:1 1 50%;min-width:0;border:none;border-right:1px solid rgba(55,42,29,.08);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:clamp(1rem,2.4vw,2.4rem);font:inherit;color:inherit;text-align:left;text-decoration:none;transition:flex-basis .55s cubic-bezier(.4,0,.2,1),filter .5s ease;}
 .door-half:last-of-type{border-right:none;}
 .door-breathe{background:linear-gradient(180deg,#fefdfa,#f8f3ea 70%,#f1ebde);}
-.door-move{background:linear-gradient(165deg,#e0e9d3,#c8d9ad 70%,#b2c893);}
-.door-listen{background:linear-gradient(165deg,#eddce8,#dcc2d5 68%,#ccabc2);}
 .door-studio{background:linear-gradient(165deg,#e6d2ae,#cbad7e 62%,#b18e5f);}
 @media(hover:hover){
-  .door-panels:hover .door-half{flex-basis:16%;filter:brightness(.92) saturate(.92);}
-  .door-panels:hover .door-half:hover{flex-basis:52%;filter:brightness(1.02) saturate(1);}
+  .door-panels:hover .door-half{flex-basis:38%;filter:brightness(.96) saturate(.96);}
+  .door-panels:hover .door-half:hover{flex-basis:62%;filter:brightness(1.02) saturate(1);}
   .door-panels:hover .door-half:not(:hover) .door-cta{opacity:0;}
   .door-panels:hover .door-half:not(:hover) .door-inner{opacity:.6;transition:opacity .5s ease;}
 }
@@ -345,27 +343,19 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 .door-htext{display:flex;flex-direction:column;gap:9px;min-width:0;}
 .door-eye{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.22em;text-transform:lowercase;}
 .door-breathe .door-eye{color:rgba(154,118,58,.95);}
-.door-move .door-eye{color:#5e7a4a;}
-.door-listen .door-eye{color:#8a5f82;}
 .door-studio .door-eye{color:#7a4f22;}
 .door-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(2rem,3.4vw,3.1rem);letter-spacing:-.02em;line-height:1;color:var(--ink);}
 .door-studio .door-h{color:#3a2a17;}
 .door-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em;line-height:1.8;color:var(--soft);max-width:24ch;text-transform:lowercase;}
 .door-cta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:lowercase;margin-top:4px;transition:opacity .4s ease;}
 .door-breathe .door-cta{color:#7a3a22;}
-.door-move .door-cta{color:#47603a;}
-.door-listen .door-cta{color:#6f4a68;}
 .door-studio .door-cta{color:#6a3f1a;}
 .door-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(80vh,120%);height:min(80vh,120%);border-radius:50%;pointer-events:none;z-index:0;animation:heroOrb 7s ease-in-out infinite;}
 .door-breathe .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.18),transparent 66%);}
-.door-move .door-orb{background:radial-gradient(circle at 42% 40%,rgba(120,150,90,.16),transparent 66%);}
-.door-listen .door-orb{background:radial-gradient(circle at 42% 40%,rgba(150,110,150,.16),transparent 66%);}
 .door-studio .door-orb{background:radial-gradient(circle at 42% 40%,rgba(201,163,106,.22),transparent 66%);}
 .door-ico{margin-bottom:14px;line-height:0;}
 .door-ico svg{display:block;}
 .door-breathe .door-ico{color:#bb8b4c;}
-.door-move .door-ico{color:#5e7a4a;}
-.door-listen .door-ico{color:#8a5f82;}
 .door-studio .door-ico{color:#8a5a29;}
 .door-hint{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;pointer-events:none;}
 .door-credit{position:absolute;left:50%;bottom:11px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.08em;text-transform:lowercase;color:rgba(95,85,75,.5);z-index:3;text-align:center;white-space:nowrap;}
@@ -374,9 +364,9 @@ textarea.form-input{resize:none;min-height:90px;line-height:1.7;}
 @media(max-width:760px){.door-credit{display:none;}}
 @media(max-width:760px){
   .door-panels{flex-direction:column;}
-  .door-half{flex:1 1 25%;border-right:none;border-bottom:1px solid rgba(55,42,29,.08);padding:clamp(1rem,4vw,2rem);}
+  .door-half{flex:1 1 50%;border-right:none;border-bottom:1px solid rgba(55,42,29,.08);padding:clamp(1rem,4vw,2rem);}
   .door-half:last-of-type{border-bottom:none;}
-  .door-panels:hover .door-half,.door-panels:hover .door-half:hover{flex-basis:25%;filter:none;}
+  .door-panels:hover .door-half,.door-panels:hover .door-half:hover{flex-basis:50%;filter:none;}
   .door-panels:hover .door-half:not(:hover) .door-inner{opacity:1;}
   .door-panels:hover .door-half:not(:hover) .door-cta{opacity:1;}
   .door-inner{max-width:none;flex-direction:row;align-items:center;gap:14px;}
@@ -1177,30 +1167,6 @@ function toggleDoorLangMenu(e){ if(e){e.stopPropagation();} var m=document.getEl
       <span class="door-cta">enter &rarr;</span>
     </span>
   </button>
-  <button class="door-half door-move" id="doorMove" aria-label="move">
-    <span class="door-orb"></span>
-    <span class="door-inner">
-      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13q2.4-5 4.8 0t4.8 0 4.8 0 4.8 0"></path></svg></span>
-      <span class="door-htext">
-        <span class="door-eye">respira flow</span>
-        <span class="door-h">move.</span>
-        <span class="door-sub">movement = medicine</span>
-      </span>
-      <span class="door-cta">enter &rarr;</span>
-    </span>
-  </button>
-  <a class="door-half door-listen" href="/radio" aria-label="listen · respira radio">
-    <span class="door-orb"></span>
-    <span class="door-inner">
-      <span class="door-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"></path><circle cx="6.4" cy="18" r="2.6"></circle><circle cx="16.4" cy="16" r="2.6"></circle></svg></span>
-      <span class="door-htext">
-        <span class="door-eye">respira radio</span>
-        <span class="door-h">listen.</span>
-        <span class="door-sub">soundscapes + whispers</span>
-      </span>
-      <span class="door-cta">enter &rarr;</span>
-    </span>
-  </a>
   <button class="door-half door-studio" id="doorStudio" aria-label="respira studio">
     <span class="door-orb"></span>
     <span class="door-inner">
@@ -4619,9 +4585,9 @@ function stopPoseBreath(){
     try{ var a=new Audio((typeof radioBase!=='undefined'?radioBase:'')+'cue/en/breathe-in-slowly.mp3'); a.volume=.9; a.play().catch(function(){}); }catch(e){}
     dismiss(function(){ toProto(); var pb=document.getElementById('pathBreathe'); if(pb) pb.click(); });
   });
-  on('doorMove', function(){ dismiss(function(){ toProto(); var pm=document.getElementById('pathMove'); if(pm) pm.click(); }); });
   on('doorStudio', function(){ window.location.href='/studio'; });
-  // listen is a real link to /radio (its own room) — no JS needed
+  // move/flow and listen/radio are no longer their own door panels (§5/§6) — reached
+  // via /#flow and /radio from studio's resources tools instead.
   // deep-links from other rooms' rails: /#breathe /#flow open that panel directly
   (function(){
     var hash=(location.hash||'').replace('#','');
