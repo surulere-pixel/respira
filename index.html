@@ -64,10 +64,14 @@ button,input,textarea,select{font:inherit;}
 button{cursor:pointer;}
 
 /* nav — dark mocha strip (matches door-top exactly) */
+/* during an active breathing session: only the orb + timer should be on
+   screen — fade out the persistent site nav rather than let it sit on top. */
+body.session-active .nav{opacity:0;pointer-events:none;transition:opacity .4s ease;}
 .nav{
   position:sticky;
   top:0;
   z-index:100;
+  transition:opacity .4s ease;
   background:linear-gradient(180deg,#2a1f18,#221a12);
   padding:0 clamp(14px,3vw,28px);
   height:48px;
@@ -695,8 +699,8 @@ body{transition:background-color .7s ease;}
 .breath-word{
   font-family:"Cormorant Garamond",Georgia,serif;
   font-size:clamp(22px,3.5vw,38px);
-  line-height:1;letter-spacing:-.02em;font-weight:300;
-  color:rgba(255,252,246,.82);
+  line-height:1;letter-spacing:-.02em;font-weight:500;
+  color:rgba(43,31,20,.92);
   transition:opacity .5s ease, font-size 4s ease-in-out, color 4s ease-in-out;
   user-select:none;
   position:absolute;z-index:4;
@@ -704,11 +708,11 @@ body{transition:background-color .7s ease;}
   white-space:nowrap;
   text-align:center;
   pointer-events:none;
-  text-shadow:0 1px 8px rgba(72,56,38,.25);
+  text-shadow:0 1px 3px rgba(255,255,255,.5), 0 1px 12px rgba(255,255,255,.35);
 }
-.breath-word.inhale{font-size:clamp(24px,4vw,42px);color:rgba(255,252,246,.88);}
-.breath-word.exhale{font-size:clamp(18px,3vw,32px);color:rgba(255,252,246,.65);}
-.breath-word.hold{font-size:clamp(22px,3.5vw,38px);color:rgba(255,252,246,.75);}
+.breath-word.inhale{font-size:clamp(24px,4vw,42px);color:rgba(35,24,14,.96);}
+.breath-word.exhale{font-size:clamp(18px,3vw,32px);color:rgba(43,31,20,.82);}
+.breath-word.hold{font-size:clamp(22px,3.5vw,38px);color:rgba(43,31,20,.88);}
 .breath-note{
   font-family:"IBM Plex Mono",monospace;
   font-size:clamp(8px,1vw,10px);
@@ -1296,7 +1300,6 @@ function toggleDoorLangMenu(e){ if(e){e.stopPropagation();} var m=document.getEl
                         <option value="steady-rainfall">steady rainfall</option>
                         <option value="wakanda-waves">wakanda waves</option>
                         <option value="zanzibar-shallows">zanzibar shallows</option>
-                        <option value="respiraradio">respira radio</option>
                       </select>
                     </label>
                     <label class="pre-set-item"><span>rhythm</span>
@@ -1398,7 +1401,6 @@ function toggleDoorLangMenu(e){ if(e){e.stopPropagation();} var m=document.getEl
                       <option value="steady-rainfall">steady rainfall</option>
                       <option value="wakanda-waves">wakanda waves</option>
                       <option value="zanzibar-shallows">zanzibar shallows</option>
-                      <option value="respiraradio">respira radio</option>
                     </select>
                   </div><div class="footer-select-group">
                     <span class="footer-select-label">chime</span>
@@ -3170,6 +3172,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function showScreen(name){
     Object.values(screens).forEach(s => { if(s) s.classList.remove("active"); });
     if(screens[name]) screens[name].classList.add("active");
+    document.body.classList.toggle("session-active", name === "breathing");
   }
 
 
@@ -3365,7 +3368,6 @@ document.addEventListener("DOMContentLoaded", function() {
     startBreathLoop();
     startBreatheScript(minutes);
     startTimer();
-    startAmbientSound(pillVal('soundPills') || (document.getElementById('slowMoSoundSelect')||{value:'ocean'}).value);
   }
 
   function startTimer(){
@@ -4157,23 +4159,60 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // ── ambient soundscapes: real looping beds from the repo ────────────────────
+  // played via Web Audio API (decoded buffer + AudioBufferSourceNode) instead of
+  // an <audio loop> element — HTMLMediaElement looping re-buffers at the seam and
+  // audibly clicks/gaps; a decoded AudioBufferSourceNode loops sample-accurately.
   var AMBIENT_BASE = 'https://raw.githubusercontent.com/surulere-pixel/respira/main/sounds/';
   var AMBIENT_SLUGS = ['kingston-raindrops','lagos-downpour','steady-rainfall','calm-shore','zanzibar-shallows','wakanda-waves','cartagena-breeze','ancestor-hum'];
-  var _ambientAudio = null;
+  var _ambientSource = null;   // AudioBufferSourceNode currently playing (also exposed as _ambientAudio for compat)
+  var _ambientGain = null;
+  var _ambientBufferCache = {};
+  var _ambientAudio = null;    // legacy alias other code (duckAudio/visibilitychange) reads — kept as a thin shim
+  var _ambientPlayToken = 0;
 
   function stopAmbientFile(){
-    if(_ambientAudio){ try{ _ambientAudio.pause(); _ambientAudio.src=''; }catch(e){} _ambientAudio = null; }
+    _ambientPlayToken++;       // invalidate any in-flight fetch/decode for a stale selection
+    if(_ambientSource){ try{ _ambientSource.stop(); _ambientSource.disconnect(); }catch(e){} _ambientSource = null; }
+    if(_ambientGain){ try{ _ambientGain.disconnect(); }catch(e){} _ambientGain = null; }
+    _ambientAudio = null;
   }
   function playAmbientFile(slug){
     stopAmbientFile();
-    var a = new Audio(AMBIENT_BASE + slug + '.mp3');
-    a.loop = true;
-    a.volume = 0.6;
-    _ambientAudio = a;
-    a.addEventListener('error', function(){       // on error just go quiet — never the synth
-      if(_ambientAudio === a) _ambientAudio = null;
-    });
-    a.play().catch(function(){});
+    var myToken = _ambientPlayToken;
+    var ctx = getAudioContext();
+    if(!ctx) return;
+    if(ctx.state === 'suspended') ctx.resume().catch(function(){});
+
+    function startBuffer(buf){
+      if(myToken !== _ambientPlayToken) return;   // a newer selection already took over
+      var gain = ctx.createGain(); gain.gain.value = 0.6;
+      gain.connect(ctx.destination);
+      var src = ctx.createBufferSource();
+      src.buffer = buf; src.loop = true;
+      src.connect(gain);
+      src.start(0);
+      _ambientSource = src; _ambientGain = gain;
+      // thin shim so existing volume/state reads (duckAudio, visibilitychange) keep working
+      _ambientAudio = {
+        get volume(){ return gain.gain.value; },
+        set volume(v){ gain.gain.value = v; },
+        play: function(){ if(ctx.state === 'suspended') return ctx.resume(); return Promise.resolve(); },
+        paused: false
+      };
+    }
+
+    if(_ambientBufferCache[slug]){
+      startBuffer(_ambientBufferCache[slug]);
+      return;
+    }
+    fetch(AMBIENT_BASE + slug + '.mp3')
+      .then(function(r){ return r.arrayBuffer(); })
+      .then(function(ab){ return ctx.decodeAudioData(ab); })
+      .then(function(buf){
+        _ambientBufferCache[slug] = buf;
+        startBuffer(buf);
+      })
+      .catch(function(){ /* on error just go quiet — never the synth */ });
   }
 
   function startAmbientSound(type){
@@ -4272,12 +4311,9 @@ document.addEventListener("DOMContentLoaded", function() {
     afroLofiIdx++;
     soundNodes.push({ stop: stopRadioPlayer, disconnect: function(){} });
   }
-  // lower ambient + radio while the guide speaks, so the voice sits clearly on top
-  function duckAudio(on){
-    _radioDuck = on ? 0.28 : 1;
-    if(_radioCur){ try{ _radioCur.volume = radioVol(); }catch(e){} }
-    if(_ambientAudio){ _rampVol(_ambientAudio, on ? 0.15 : 0.6, 240); }
-  }
+  // the soundscape stays at its own constant volume — the voice is a sub,
+  // mixed in on top rather than ducking the bed underneath it.
+  function duckAudio(on){}
   window.__duckAudio = duckAudio;
 
 

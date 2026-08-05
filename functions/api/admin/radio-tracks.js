@@ -36,6 +36,19 @@ function slugify(s) {
     .slice(0, 60);
 }
 
+const AUDIO_EXT_FROM_TYPE = {
+  'audio/mpeg': 'mp3', 'audio/mp3': 'mp3',
+  'audio/mp4': 'm4a', 'audio/x-m4a': 'm4a', 'audio/aac': 'm4a',
+  'audio/wav': 'wav', 'audio/x-wav': 'wav',
+  'audio/ogg': 'ogg',
+};
+function audioExt(file) {
+  const fromType = AUDIO_EXT_FROM_TYPE[(file.type || '').toLowerCase()];
+  if (fromType) return fromType;
+  const m = /\.([a-z0-9]+)$/i.exec(file.name || '');
+  return m ? m[1].toLowerCase() : 'mp3';
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
   const g = gate(request, env); if (g) return g;
@@ -58,7 +71,7 @@ export async function onRequestPost(context) {
 
   const baseSlug = slugify(name) || 'track';
   const id = albumId + '--' + baseSlug + '-' + Date.now().toString(36);
-  const audioKey = 'tracks/' + albumId + '/' + id + '.mp3';
+  const audioKey = 'tracks/' + albumId + '/' + id + '.' + audioExt(audio);
 
   try {
     await env.MEDIA.put(audioKey, await audio.arrayBuffer(), { httpMetadata: { contentType: audio.type || 'audio/mpeg' } });
